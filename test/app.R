@@ -95,7 +95,7 @@ ui <- navbarPage(
   
   #Project Overview--------------------------------------------------
   navbarMenu(
-    title = "Overview",
+    title = "verview",
     tabPanel(
       "Project Introduction",
       value = "overview",
