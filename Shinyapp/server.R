@@ -1476,41 +1476,40 @@ server <- function(input, output, session) {
     input$teacherRaceBreakdown
   })
   
-  
   output$teacherRacePlots <- renderPlotly({
     if (var_teacherRaces() == "Black") {
-      teacherByRace <- read.csv("data/teacherByRacesBreakdown.csv")
-      #renaming column names to make division name to name for readability purposes and also made sure it was consistent mapping of columns to the excel spreadsheet
-      #original column names for reference: Division No.	Division Name	Total Counts	American Indian	Asian	Black	Hispanic	White	Hawaiian	Two or More Races	Not Specified	BlackProportions	AsianProportions	HispanicProportions	WhiteProportions	AmericanIndianProportions	TwoOrMoreRacesProportions	HawaiianProportions
-      colnames(teacherByRace) <-
-        c(
-          "Division Number",
-          "Name",
-          "Total Counts",
-          "American Indian",
-          "Asian",
-          "Black",
-          "Hispanic",
-          "White",
-          "Hawaiian",
-          "Two or More Races",
-          "Not Specified",
-          "% of Black Teachers",
-          "% of Asian Teachers",
-          "% of Hispanic Teachers",
-          "% of White Teachers",
-          "% of American Indian Teachers",
-          "% of Two Or More Races Teachers",
-          "% of Hawaiian Teachers"
-        )
-      teacherByRace <- teacherByRace  %>%
-        ggplot(aes(x = Name, y = `% of Black Teachers`, fill = Name)) + geom_col() +
-        labs(title = "", y = "Percentage (%)", x = "") + theme(axis.text.x = element_text(angle = 40))  +
-        scale_fill_viridis_d()
-      #adding caption from ggplot does not transfer to plotly so have to load in with plotly separately
-      hide_legend(ggplotly(teacherByRace, tooltip = c("x", "y")))
-    }
-    
+    teacherByRace <- read.csv("data/teacherByRacesBreakdown.csv")
+    #renaming column names to make division name to name for readability purposes and also made sure it was consistent mapping of columns to the excel spreadsheet
+    #original column names for reference: Division No.	Division Name	Total Counts	American Indian	Asian	Black	Hispanic	White	Hawaiian	Two or More Races	Not Specified	BlackProportions	AsianProportions	HispanicProportions	WhiteProportions	AmericanIndianProportions	TwoOrMoreRacesProportions	HawaiianProportions
+    colnames(teacherByRace) <-
+      c(
+        "Division Number",
+        "Name",
+        "Total Counts",
+        "American Indian",
+        "Asian",
+        "Black",
+        "Hispanic",
+        "White",
+        "Hawaiian",
+        "Two or More Races",
+        "Not Specified",
+        "% of Black Teachers",
+        "% of Asian Teachers",
+        "% of Hispanic Teachers",
+        "% of White Teachers",
+        "% of American Indian Teachers",
+        "% of Two Or More Races Teachers",
+        "% of Hawaiian Teachers"
+      )
+    teacherByRace <- teacherByRace  %>%
+      ggplot(aes(x = Name, y = `% of Black Teachers`, fill = Name)) + geom_col() +
+      labs(title = "", y = "Percentage (%)", x = "") + theme(axis.text.x = element_text(angle = 40))  +
+      scale_fill_viridis_d()
+    #adding caption from ggplot does not transfer to plotly so have to load in with plotly separately
+    hide_legend(ggplotly(teacherByRace, tooltip = c("x", "y")))
+  }
+
     else if (var_teacherRaces() == "Asian") {
       teacherByRace <- read.csv("data/teacherByRacesBreakdown.csv")
       #renaming column names to make division name to name for readability purposes and also made sure it was consistent mapping of columns to the excel spreadsheet
@@ -1542,7 +1541,7 @@ server <- function(input, output, session) {
       #adding caption from ggplot does not transfer to plotly so have to load in with plotly separately
       hide_legend(ggplotly(teacherByRace, tooltip = c("x", "y")))
     }
-    
+
     else if (var_teacherRaces() == "White") {
       teacherByRace <- read.csv("data/teacherByRacesBreakdown.csv")
       #renaming column names to make division name to name for readability purposes and also made sure it was consistent mapping of columns to the excel spreadsheet
@@ -1570,11 +1569,11 @@ server <- function(input, output, session) {
         )
       teacherByRace <- teacherByRace  %>%
         ggplot(aes(x = Name, y = `% of White Teachers`, fill = Name)) + geom_col() +
-        labs(title = "White Teacher Breakdown", y = "Percentage (%)", x = "") + theme(axis.text.x = element_text(angle = 40))   + scale_fill_viridis_d()
+        labs(title = "White Teacher Breakdown", y = "Percentage (%)", x = "") + theme(axis.text.x = element_text(angle = 40)) + scale_fill_viridis_d()
       #adding caption from ggplot does not transfer to plotly so have to load in with plotly separately
       hide_legend(ggplotly(teacherByRace, tooltip = c("x", "y")))
     }
-    
+
     else if (var_teacherRaces() == "Hispanic") {
       teacherByRace <- read.csv("data/teacherByRacesBreakdown.csv")
       #renaming column names to make division name to name for readability purposes and also made sure it was consistent mapping of columns to the excel spreadsheet
@@ -1602,11 +1601,11 @@ server <- function(input, output, session) {
         )
       teacherByRace <- teacherByRace  %>%
         ggplot(aes(x = Name, y = `% of Hispanic Teachers`, fill = Name)) + geom_col() +
-        labs(title = "Hispanic Teacher Breakdown", y = "Percentage (%)", x = "") + theme(axis.text.x = element_text(angle = 40))   + scale_fill_viridis_d()
+        labs(title = "Hispanic Teacher Breakdown", y = "Percentage (%)", x = "") + theme(axis.text.x = element_text(angle = 40)) + scale_fill_viridis_d()
       #adding caption from ggplot does not transfer to plotly so have to load in with plotly separately
       hide_legend(ggplotly(teacherByRace, tooltip = c("x", "y")))
     }
-    
+
     else if (var_teacherRaces() == "American Indian") {
       teacherByRace <- read.csv("data/teacherByRacesBreakdown.csv")
       #renaming column names to make division name to name for readability purposes and also made sure it was consistent mapping of columns to the excel spreadsheet
@@ -1638,7 +1637,7 @@ server <- function(input, output, session) {
       #adding caption from ggplot does not transfer to plotly so have to load in with plotly separately
       hide_legend(ggplotly(teacherByRace, tooltip = c("x", "y")))
     }
-    
+
     else if (var_teacherRaces() == "Two or More Races") {
       teacherByRace <- read.csv("data/teacherByRacesBreakdown.csv")
       #renaming column names to make division name to name for readability purposes and also made sure it was consistent mapping of columns to the excel spreadsheet
@@ -1669,9 +1668,9 @@ server <- function(input, output, session) {
         labs(title = "Two or More Races Teacher Breakdown", y = "Percentage (%)", x = "") + theme(axis.text.x = element_text(angle = 40)) + scale_fill_viridis_d()
       #adding caption from ggplot does not transfer to plotly so have to load in with plotly separately
       hide_legend(ggplotly(teacherByRace, tooltip = c("x", "y")))
-      
+
     }
-    
+
     else if (var_teacherRaces() == "Hawaiian") {
       teacherByRace <- read.csv("data/teacherByRacesBreakdown.csv")
       #renaming column names to make division name to name for readability purposes and also made sure it was consistent mapping of columns to the excel spreadsheet
@@ -1703,10 +1702,10 @@ server <- function(input, output, session) {
       #adding caption from ggplot does not transfer to plotly so have to load in with plotly separately
       hide_legend(ggplotly(teacherByRace, tooltip = c("x", "y")))
     }
-    
+
   })
-  
-  
+
+
   
   # suspension line graph-------------------------------------------------------
   

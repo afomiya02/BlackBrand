@@ -47,6 +47,7 @@ library(forcats)
 library(plotly)
 library(formattable)
 library(hrbrthemes)
+library(bslib)
 #library(devtools)
 
 
@@ -76,22 +77,67 @@ colors <-
 
 # user -------------------------------------------------------------
 ui <- navbarPage(
-  title = "Hampton Roads",
+  title = img(src="logo_WIDE.png"),
+  theme = shinytheme("cosmo"),
   selected = "overview",
-  theme = shinytheme("lumen"),
-  tags$head(tags$style('.selectize-dropdown {z-index: 10000}')),
+  tags$head(
+    # Note the wrapping of the string in HTML()
+    # incode CSS styling to customize border, navbar and navbar dropdown colors
+    tags$style(HTML("
+      .navbar {
+        border-width: 0px 0px 4px 0px;
+      }
+      .navbar-brand {
+        float: left;
+        padding: 8px 8px;
+        font-size: 19px;
+        line-height: 21px;
+        height: 50px;
+      }
+      .navbar-inverse {
+        background-color: #800404;
+        border-color: #450000;
+      }
+      .navbar-inverse .navbar-nav>.active>a,.navbar-inverse .navbar-nav>.active>a:hover,.navbar-inverse .navbar-nav>.active>a:focus {
+        color: #ffffff;
+        background-color: #450000;
+      }
+      .navbar-inverse .navbar-nav>.open>a, .navbar-inverse 
+      .navbar-nav>.open>a:hover, .navbar-inverse .navbar-nav>.open>a:focus {
+        background-color: #450000;
+        color: white;
+      }
+      .navbar-inverse .navbar-nav>.active>a, .navbar-inverse 
+      .navbar-nav>.active>a:hover, .navbar-inverse .navbar-nav>.active>a:focus {
+        color: #ffffff;
+        background-color: #450000;
+      }
+      .navbar-inverse .navbar-nav>li>a:hover,.navbar-inverse .navbar-nav>li>a:focus {
+        color: #ffffff;
+        background-color: #450000;
+      }
+      .nav-pills>li.active>a,.nav-pills>li.active>a:hover,
+      .nav-pills>li.active>a:focus {
+        color: #ffffff;
+        background-color: #450000;
+      }
+      .selectize-dropdown {
+        z-index: 10000;
+      }
+      .dropdown-menu>li>a:hover,.dropdown-menu>li>a:focus {
+        text-decoration: none;
+        color: #ffffff;
+        background-color: #450000;
+      }
+      .dropdown-menu>.active>a,.dropdown-menu>.active>a:hover,.dropdown-menu>.active>a:focus {
+        color: #ffffff;
+        text-decoration: none;
+        outline: 0;
+        background-color: #450000;
+      }
+    "))
+  ),
   useShinyjs(),
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   
   #Project Overview--------------------------------------------------
   navbarMenu(
@@ -117,33 +163,33 @@ ui <- navbarPage(
         column(
           4,
           h2(strong("The Setting")),
-          p(
+          p("The",
             a(href = "https://en.wikipedia.org/wiki/Hampton_Roads", "Hampton Roads", target = "_blank"),
-            "area consists of ten cities and six counties in the Southeastern region of Virginia. It is ranked as the 33rd largest MSA in the United States, the 8th largest metro area in the Southeast region, and the 2nd largest between Atlanta and Washington, DC."
+            "area consists of ten cities and six counties in the Southeastern region of Virginia. It is ranked as the 33rd largest metropolitan statistical srea (MSA) in the United States, the 8th largest metro area in the Southeast region, and the 2nd largest between Atlanta and Washington, DC."
           ),
           p(
             "The jurisdictions of Hampton Roads are the cities of Chesapeake, Franklin, Hampton, Newport News, Norfolk, Poquoson, Portsmouth, Suffolk, Virginia Beach, and Williamsburg, and the counties of Gloucester, Isle of Wright, James City, Mathews, Southampton, and York."
           ),
           p(
-            "The population of the Hampton Roads MSA has been growing over the last decade with an estimated population of approximately 1.7 million in 2020, a 3% increase from 2010. This region accounts for a large percentage – about 20% - of Virginia’s state population.  "
+            "The population of the Hampton Roads MSA has been growing over the last decade with an estimated population of approximately 1.7 million in 2020, a 3% increase from 2010. This region accounts for about 20% of Virginia’s state population."
           ),
           p(
-            "Each jurisdiction in Hampton Roads has a separate municipal government, unlike some other metro areas. While there are consultations on regional issues, there are more than 20 elected independent municipal governing bodies. As such, it is imperative for our project to examine not only differences with the Virginia population but also within the localities of Hampton Roads."
+            "Each jurisdiction in Hampton Roads has its own separate municipal government. While there are consultations on regional issues, there are more than 20 elected independent municipal governing bodies. As such, it is imperative for our project to examine not only differences with the Virginia population but also within the localities of Hampton Roads."
           ),
           p(
-            "Given its location, Hampton Roads has one of the world’s greatest natural harbors, with the ability to accommodate the largest cargo ships on the planet.  It is also known for its large military presence, shipping piers, and miles of waterfront property and beaches. Moreover, due to the diversity of the localities, Hampton Roads have a diverse set of natural resources assets ranging from 26 miles of Atlantic Ocean and Chesapeake Bay beaches, numerous state parks, wildlife refuges, Lake Drummond, and various rivers and waterways."
+            "Given its location, Hampton Roads has one of the world’s greatest natural harbors, with the ability to accommodate the largest cargo ships on the planet.  It is also known for its large military presence, shipping piers, and miles of waterfront property and beaches. Moreover, due to the diversity of the localities, Hampton Roads have a diverse set of natural resources assets including but not limited to 26 miles of Atlantic Ocean and Chesapeake Bay beaches, numerous state parks, wildlife refuges, Lake Drummond, and various rivers and waterways."
           )
         ),
         column(
           4,
           h2(strong("Project Background")),
           p(
-            "The Black Business Research Analytics Networking and Development (Black BRAND) is a non-profit organization operating in the Hampton Roads region. One goal of Black Brand, which was established in 2016, is to improve the values of the Black families and community within the region."
+            "The Black Business Research Analytics Networking and Development (Black BRAND) is a non-profit organization operating in the Hampton Roads region. Established in 2016, the primary goal of Black BRAND is to improve the values of the Black families and community within the region."
           ),
           p(
-            "Despite the overall economic growth in the United States, there is a significant Black-white wealth gap. In 2019, the median white household held $188,200 in wealth",
-            em("– 7.8 times"),
-            "that of the typical Black household ($24,100). As such, Black BRAND wants to investigate the economic well-being of the Black community in Hampton Roads.  Moreover, given the recent increase in support for black businesses, it is important to determine whether this has resulted in any economic improvement for the Black community."
+            "Despite the overall economic growth in the United States, there is a significant Black-white wealth gap. In 2019, the median white household was around $188,200 - 7.8",
+            em("times"),
+            "that of the typical Black household of $24,100. As such, Black BRAND wants to investigate the economic well-being of the Black community in Hampton Roads.  Moreover, given the recent increase in support for black businesses, it is important to determine whether this has resulted in any economic improvement for the Black community."
           ),
           p(
             "Guided by our meetings with the Black BRAND stakeholders and Claud Anderson's PowerNomics model, there are five main pillars to measure the overall economic and social progress of the Black community in Hampton Roads."
@@ -155,13 +201,13 @@ ui <- navbarPage(
           4,
           h2(strong("Project Goals")),
           p(
-            "Our team aims to create a dashboard that shows the state of the Black community in the Hampton Roads region.  This will enable stakeholders to understand the myriad of past and current factors that affect the economic and social progress of Black households in Hampton. As such, data-driven recommendations can be made to improve the well-being of residents of the region."
+            "Our team aims to create a dashboard that shows the state of the Black community in the Hampton Roads region. This will enable stakeholders to understand the myriad of past and current factors that affect the economic and social progress of Black households in Hampton Roads. As such, data-driven recommendations can be made to improve the well-being of our residents."
           ),
           p(
             "We identified, acquired, and used publicly available data to provide our stakeholders, Black BRAND, with a dashboard that shows a combined view of multiple indicators for the two pillars: Education and Economics."
           ),
           p(
-            "For the Education pillar, we utilized indicators across three main areas: "
+            "Under the Education pillar, we collected indicators across three distict issues: "
           ),
           tags$ul(
             tags$li("Educators"),
@@ -170,7 +216,7 @@ ui <- navbarPage(
           ),
           p(),
           p(
-            "Under the Economics pillar, we collected indicators for four distinct issues:"
+            "Under the Economics pillar, we collected indicators across five distinct issues:"
           ),
           tags$ul(
             tags$li("Income/Wealth"),
@@ -180,10 +226,10 @@ ui <- navbarPage(
             tags$li("Household Wellbeing")
           ),
           p(
-            "We conducted a cross-comparison analysis with our indicators across the counties and cities in Hampton Roads.  Our project also compares the Black population against general population in Hampton Roads to determine whether racial differences exist within each locality. Moreover, we also present information for the general population in Virginia."
+            "We conducted a cross-comparison analysis with our indicators across all counties and cities in Hampton Roads.  Our project also compares the Black population against the general population in Hampton Roads to determine whether racial differences exist within each locality. Moreover, we also present information for the general population in Virginia."
           ),
           p(
-            "The dashboard compiles our findings and allows our stakeholders, and other interested users to explore the information dynamically."
+            "This dashboard compiles our findings and allows our stakeholders, and other interested users to explore the information dynamically."
           )
         )
       ),
@@ -1283,7 +1329,7 @@ ui <- navbarPage(
   
   # Policy and Justice
   navbarMenu(
-    title = "Policy/Justice",
+    title = "Politics & Justice",
     tabPanel("Traffic Stops",
              fluidRow(
                p("", style = "padding-top:20px;"),
@@ -1457,7 +1503,7 @@ ui <- navbarPage(
   
   # Media and Entertainment
   navbarMenu(
-    title = "Media/Entertainment",
+    title = "Media & Entertainment",
     tabPanel("Internet Coverage",
              fluidRow(
                p("", style = "padding-top:20px;"),
@@ -1718,7 +1764,7 @@ ui <- navbarPage(
   
   #People and Values--------------------------------------------------
   navbarMenu(
-    title = "People/Values",
+    title = "People & Values",
     tabPanel("Family Dynamics",
              fluidRow(
                p("", style = "padding-top:20px;"),
