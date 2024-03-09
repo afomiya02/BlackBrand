@@ -1,0 +1,785 @@
+"","GEOID","NAME","variable","estimate","moe"
+"1","51550","Chesapeake city, Virginia","B01001_001",223233,NA
+"2","51550","Chesapeake city, Virginia","B01001_002",108598,105
+"3","51550","Chesapeake city, Virginia","B01001_003",7322,45
+"4","51550","Chesapeake city, Virginia","B01001_004",8105,373
+"5","51550","Chesapeake city, Virginia","B01001_005",8221,365
+"6","51550","Chesapeake city, Virginia","B01001_006",5521,45
+"7","51550","Chesapeake city, Virginia","B01001_007",3429,90
+"8","51550","Chesapeake city, Virginia","B01001_008",1659,262
+"9","51550","Chesapeake city, Virginia","B01001_009",1300,251
+"10","51550","Chesapeake city, Virginia","B01001_010",4446,314
+"11","51550","Chesapeake city, Virginia","B01001_011",7230,22
+"12","51550","Chesapeake city, Virginia","B01001_012",6804,40
+"13","51550","Chesapeake city, Virginia","B01001_013",7106,418
+"14","51550","Chesapeake city, Virginia","B01001_014",7871,426
+"15","51550","Chesapeake city, Virginia","B01001_015",9096,37
+"16","51550","Chesapeake city, Virginia","B01001_016",8637,56
+"17","51550","Chesapeake city, Virginia","B01001_017",6778,340
+"18","51550","Chesapeake city, Virginia","B01001_018",2271,270
+"19","51550","Chesapeake city, Virginia","B01001_019",2834,290
+"20","51550","Chesapeake city, Virginia","B01001_020",1572,244
+"21","51550","Chesapeake city, Virginia","B01001_021",2243,234
+"22","51550","Chesapeake city, Virginia","B01001_022",2450,246
+"23","51550","Chesapeake city, Virginia","B01001_023",1813,218
+"24","51550","Chesapeake city, Virginia","B01001_024",1031,176
+"25","51550","Chesapeake city, Virginia","B01001_025",859,146
+"26","51550","Chesapeake city, Virginia","B01001_026",114635,105
+"27","51550","Chesapeake city, Virginia","B01001_027",7030,51
+"28","51550","Chesapeake city, Virginia","B01001_028",7961,464
+"29","51550","Chesapeake city, Virginia","B01001_029",7904,462
+"30","51550","Chesapeake city, Virginia","B01001_030",5377,101
+"31","51550","Chesapeake city, Virginia","B01001_031",2782,115
+"32","51550","Chesapeake city, Virginia","B01001_032",1384,241
+"33","51550","Chesapeake city, Virginia","B01001_033",1499,264
+"34","51550","Chesapeake city, Virginia","B01001_034",4080,300
+"35","51550","Chesapeake city, Virginia","B01001_035",7209,59
+"36","51550","Chesapeake city, Virginia","B01001_036",7180,36
+"37","51550","Chesapeake city, Virginia","B01001_037",7291,509
+"38","51550","Chesapeake city, Virginia","B01001_038",8905,517
+"39","51550","Chesapeake city, Virginia","B01001_039",9814,44
+"40","51550","Chesapeake city, Virginia","B01001_040",9247,64
+"41","51550","Chesapeake city, Virginia","B01001_041",7241,328
+"42","51550","Chesapeake city, Virginia","B01001_042",2627,277
+"43","51550","Chesapeake city, Virginia","B01001_043",3533,305
+"44","51550","Chesapeake city, Virginia","B01001_044",1982,255
+"45","51550","Chesapeake city, Virginia","B01001_045",2270,234
+"46","51550","Chesapeake city, Virginia","B01001_046",3177,254
+"47","51550","Chesapeake city, Virginia","B01001_047",2498,242
+"48","51550","Chesapeake city, Virginia","B01001_048",1966,253
+"49","51550","Chesapeake city, Virginia","B01001_049",1678,240
+"50","51620","Franklin city, Virginia","B01001_001",8531,NA
+"51","51620","Franklin city, Virginia","B01001_002",3808,54
+"52","51620","Franklin city, Virginia","B01001_003",324,47
+"53","51620","Franklin city, Virginia","B01001_004",334,97
+"54","51620","Franklin city, Virginia","B01001_005",215,97
+"55","51620","Franklin city, Virginia","B01001_006",134,27
+"56","51620","Franklin city, Virginia","B01001_007",160,80
+"57","51620","Franklin city, Virginia","B01001_008",125,61
+"58","51620","Franklin city, Virginia","B01001_009",108,92
+"59","51620","Franklin city, Virginia","B01001_010",64,57
+"60","51620","Franklin city, Virginia","B01001_011",139,62
+"61","51620","Franklin city, Virginia","B01001_012",194,118
+"62","51620","Franklin city, Virginia","B01001_013",269,122
+"63","51620","Franklin city, Virginia","B01001_014",151,82
+"64","51620","Franklin city, Virginia","B01001_015",323,118
+"65","51620","Franklin city, Virginia","B01001_016",208,91
+"66","51620","Franklin city, Virginia","B01001_017",192,74
+"67","51620","Franklin city, Virginia","B01001_018",151,66
+"68","51620","Franklin city, Virginia","B01001_019",156,73
+"69","51620","Franklin city, Virginia","B01001_020",117,52
+"70","51620","Franklin city, Virginia","B01001_021",54,45
+"71","51620","Franklin city, Virginia","B01001_022",146,68
+"72","51620","Franklin city, Virginia","B01001_023",92,46
+"73","51620","Franklin city, Virginia","B01001_024",61,37
+"74","51620","Franklin city, Virginia","B01001_025",91,45
+"75","51620","Franklin city, Virginia","B01001_026",4723,54
+"76","51620","Franklin city, Virginia","B01001_027",315,47
+"77","51620","Franklin city, Virginia","B01001_028",304,76
+"78","51620","Franklin city, Virginia","B01001_029",267,69
+"79","51620","Franklin city, Virginia","B01001_030",140,31
+"80","51620","Franklin city, Virginia","B01001_031",168,95
+"81","51620","Franklin city, Virginia","B01001_032",98,61
+"82","51620","Franklin city, Virginia","B01001_033",50,53
+"83","51620","Franklin city, Virginia","B01001_034",70,72
+"84","51620","Franklin city, Virginia","B01001_035",219,28
+"85","51620","Franklin city, Virginia","B01001_036",327,95
+"86","51620","Franklin city, Virginia","B01001_037",231,86
+"87","51620","Franklin city, Virginia","B01001_038",297,89
+"88","51620","Franklin city, Virginia","B01001_039",411,99
+"89","51620","Franklin city, Virginia","B01001_040",307,99
+"90","51620","Franklin city, Virginia","B01001_041",338,79
+"91","51620","Franklin city, Virginia","B01001_042",138,64
+"92","51620","Franklin city, Virginia","B01001_043",146,61
+"93","51620","Franklin city, Virginia","B01001_044",117,78
+"94","51620","Franklin city, Virginia","B01001_045",101,68
+"95","51620","Franklin city, Virginia","B01001_046",193,55
+"96","51620","Franklin city, Virginia","B01001_047",106,60
+"97","51620","Franklin city, Virginia","B01001_048",208,68
+"98","51620","Franklin city, Virginia","B01001_049",172,63
+"99","51650","Hampton city, Virginia","B01001_001",137471,NA
+"100","51650","Hampton city, Virginia","B01001_002",66020,112
+"101","51650","Hampton city, Virginia","B01001_003",4474,49
+"102","51650","Hampton city, Virginia","B01001_004",4270,345
+"103","51650","Hampton city, Virginia","B01001_005",4449,350
+"104","51650","Hampton city, Virginia","B01001_006",2854,82
+"105","51650","Hampton city, Virginia","B01001_007",2146,59
+"106","51650","Hampton city, Virginia","B01001_008",1181,297
+"107","51650","Hampton city, Virginia","B01001_009",1357,265
+"108","51650","Hampton city, Virginia","B01001_010",4003,345
+"109","51650","Hampton city, Virginia","B01001_011",5327,75
+"110","51650","Hampton city, Virginia","B01001_012",4076,50
+"111","51650","Hampton city, Virginia","B01001_013",3623,396
+"112","51650","Hampton city, Virginia","B01001_014",4155,395
+"113","51650","Hampton city, Virginia","B01001_015",4801,116
+"114","51650","Hampton city, Virginia","B01001_016",4864,94
+"115","51650","Hampton city, Virginia","B01001_017",4349,279
+"116","51650","Hampton city, Virginia","B01001_018",1430,202
+"117","51650","Hampton city, Virginia","B01001_019",1700,227
+"118","51650","Hampton city, Virginia","B01001_020",883,184
+"119","51650","Hampton city, Virginia","B01001_021",1635,187
+"120","51650","Hampton city, Virginia","B01001_022",1686,202
+"121","51650","Hampton city, Virginia","B01001_023",1388,170
+"122","51650","Hampton city, Virginia","B01001_024",800,136
+"123","51650","Hampton city, Virginia","B01001_025",569,122
+"124","51650","Hampton city, Virginia","B01001_026",71451,112
+"125","51650","Hampton city, Virginia","B01001_027",4355,56
+"126","51650","Hampton city, Virginia","B01001_028",3730,304
+"127","51650","Hampton city, Virginia","B01001_029",4408,313
+"128","51650","Hampton city, Virginia","B01001_030",2691,94
+"129","51650","Hampton city, Virginia","B01001_031",2481,110
+"130","51650","Hampton city, Virginia","B01001_032",1815,315
+"131","51650","Hampton city, Virginia","B01001_033",1107,208
+"132","51650","Hampton city, Virginia","B01001_034",3403,361
+"133","51650","Hampton city, Virginia","B01001_035",5397,88
+"134","51650","Hampton city, Virginia","B01001_036",4460,58
+"135","51650","Hampton city, Virginia","B01001_037",4162,339
+"136","51650","Hampton city, Virginia","B01001_038",4367,348
+"137","51650","Hampton city, Virginia","B01001_039",5386,24
+"138","51650","Hampton city, Virginia","B01001_040",5433,46
+"139","51650","Hampton city, Virginia","B01001_041",4521,314
+"140","51650","Hampton city, Virginia","B01001_042",1805,265
+"141","51650","Hampton city, Virginia","B01001_043",2058,285
+"142","51650","Hampton city, Virginia","B01001_044",1383,192
+"143","51650","Hampton city, Virginia","B01001_045",1696,210
+"144","51650","Hampton city, Virginia","B01001_046",2180,186
+"145","51650","Hampton city, Virginia","B01001_047",1844,241
+"146","51650","Hampton city, Virginia","B01001_048",1450,201
+"147","51650","Hampton city, Virginia","B01001_049",1319,250
+"148","51700","Newport News city, Virginia","B01001_001",180831,NA
+"149","51700","Newport News city, Virginia","B01001_002",87134,88
+"150","51700","Newport News city, Virginia","B01001_003",6926,26
+"151","51700","Newport News city, Virginia","B01001_004",6020,413
+"152","51700","Newport News city, Virginia","B01001_005",5701,410
+"153","51700","Newport News city, Virginia","B01001_006",3625,62
+"154","51700","Newport News city, Virginia","B01001_007",3254,64
+"155","51700","Newport News city, Virginia","B01001_008",1541,295
+"156","51700","Newport News city, Virginia","B01001_009",1981,283
+"157","51700","Newport News city, Virginia","B01001_010",5575,403
+"158","51700","Newport News city, Virginia","B01001_011",7907,72
+"159","51700","Newport News city, Virginia","B01001_012",6150,22
+"160","51700","Newport News city, Virginia","B01001_013",4814,447
+"161","51700","Newport News city, Virginia","B01001_014",5624,446
+"162","51700","Newport News city, Virginia","B01001_015",6054,79
+"163","51700","Newport News city, Virginia","B01001_016",5841,90
+"164","51700","Newport News city, Virginia","B01001_017",4761,277
+"165","51700","Newport News city, Virginia","B01001_018",1541,204
+"166","51700","Newport News city, Virginia","B01001_019",2114,251
+"167","51700","Newport News city, Virginia","B01001_020",1150,191
+"168","51700","Newport News city, Virginia","B01001_021",1543,175
+"169","51700","Newport News city, Virginia","B01001_022",1919,196
+"170","51700","Newport News city, Virginia","B01001_023",1609,149
+"171","51700","Newport News city, Virginia","B01001_024",827,152
+"172","51700","Newport News city, Virginia","B01001_025",657,139
+"173","51700","Newport News city, Virginia","B01001_026",93697,88
+"174","51700","Newport News city, Virginia","B01001_027",6575,50
+"175","51700","Newport News city, Virginia","B01001_028",6092,410
+"176","51700","Newport News city, Virginia","B01001_029",5501,397
+"177","51700","Newport News city, Virginia","B01001_030",3506,62
+"178","51700","Newport News city, Virginia","B01001_031",3236,96
+"179","51700","Newport News city, Virginia","B01001_032",1991,382
+"180","51700","Newport News city, Virginia","B01001_033",1669,347
+"181","51700","Newport News city, Virginia","B01001_034",5076,430
+"182","51700","Newport News city, Virginia","B01001_035",8003,28
+"183","51700","Newport News city, Virginia","B01001_036",6249,51
+"184","51700","Newport News city, Virginia","B01001_037",5624,464
+"185","51700","Newport News city, Virginia","B01001_038",5888,477
+"186","51700","Newport News city, Virginia","B01001_039",6554,26
+"187","51700","Newport News city, Virginia","B01001_040",6460,31
+"188","51700","Newport News city, Virginia","B01001_041",5161,327
+"189","51700","Newport News city, Virginia","B01001_042",2133,269
+"190","51700","Newport News city, Virginia","B01001_043",2340,268
+"191","51700","Newport News city, Virginia","B01001_044",1619,188
+"192","51700","Newport News city, Virginia","B01001_045",1766,215
+"193","51700","Newport News city, Virginia","B01001_046",2538,248
+"194","51700","Newport News city, Virginia","B01001_047",2215,199
+"195","51700","Newport News city, Virginia","B01001_048",1323,194
+"196","51700","Newport News city, Virginia","B01001_049",2178,225
+"197","51710","Norfolk city, Virginia","B01001_001",243056,NA
+"198","51710","Norfolk city, Virginia","B01001_002",125797,104
+"199","51710","Norfolk city, Virginia","B01001_003",8588,29
+"200","51710","Norfolk city, Virginia","B01001_004",7016,338
+"201","51710","Norfolk city, Virginia","B01001_005",6469,343
+"202","51710","Norfolk city, Virginia","B01001_006",3818,34
+"203","51710","Norfolk city, Virginia","B01001_007",5612,119
+"204","51710","Norfolk city, Virginia","B01001_008",4618,542
+"205","51710","Norfolk city, Virginia","B01001_009",5475,521
+"206","51710","Norfolk city, Virginia","B01001_010",12833,641
+"207","51710","Norfolk city, Virginia","B01001_011",13548,104
+"208","51710","Norfolk city, Virginia","B01001_012",9312,50
+"209","51710","Norfolk city, Virginia","B01001_013",7020,389
+"210","51710","Norfolk city, Virginia","B01001_014",7570,386
+"211","51710","Norfolk city, Virginia","B01001_015",7025,30
+"212","51710","Norfolk city, Virginia","B01001_016",7083,40
+"213","51710","Norfolk city, Virginia","B01001_017",5636,329
+"214","51710","Norfolk city, Virginia","B01001_018",2353,246
+"215","51710","Norfolk city, Virginia","B01001_019",2531,253
+"216","51710","Norfolk city, Virginia","B01001_020",1495,168
+"217","51710","Norfolk city, Virginia","B01001_021",1654,193
+"218","51710","Norfolk city, Virginia","B01001_022",1992,182
+"219","51710","Norfolk city, Virginia","B01001_023",1802,186
+"220","51710","Norfolk city, Virginia","B01001_024",1183,156
+"221","51710","Norfolk city, Virginia","B01001_025",1164,140
+"222","51710","Norfolk city, Virginia","B01001_026",117259,104
+"223","51710","Norfolk city, Virginia","B01001_027",8255,50
+"224","51710","Norfolk city, Virginia","B01001_028",7387,406
+"225","51710","Norfolk city, Virginia","B01001_029",5897,423
+"226","51710","Norfolk city, Virginia","B01001_030",3803,35
+"227","51710","Norfolk city, Virginia","B01001_031",4838,53
+"228","51710","Norfolk city, Virginia","B01001_032",2975,334
+"229","51710","Norfolk city, Virginia","B01001_033",3143,409
+"230","51710","Norfolk city, Virginia","B01001_034",8269,496
+"231","51710","Norfolk city, Virginia","B01001_035",10774,61
+"232","51710","Norfolk city, Virginia","B01001_036",8122,68
+"233","51710","Norfolk city, Virginia","B01001_037",6463,333
+"234","51710","Norfolk city, Virginia","B01001_038",6755,346
+"235","51710","Norfolk city, Virginia","B01001_039",7350,58
+"236","51710","Norfolk city, Virginia","B01001_040",7737,12
+"237","51710","Norfolk city, Virginia","B01001_041",6755,289
+"238","51710","Norfolk city, Virginia","B01001_042",2165,253
+"239","51710","Norfolk city, Virginia","B01001_043",2891,268
+"240","51710","Norfolk city, Virginia","B01001_044",1736,188
+"241","51710","Norfolk city, Virginia","B01001_045",2109,223
+"242","51710","Norfolk city, Virginia","B01001_046",2693,204
+"243","51710","Norfolk city, Virginia","B01001_047",2599,238
+"244","51710","Norfolk city, Virginia","B01001_048",2415,202
+"245","51710","Norfolk city, Virginia","B01001_049",2128,207
+"246","51735","Poquoson city, Virginia","B01001_001",12110,NA
+"247","51735","Poquoson city, Virginia","B01001_002",5910,58
+"248","51735","Poquoson city, Virginia","B01001_003",229,16
+"249","51735","Poquoson city, Virginia","B01001_004",367,105
+"250","51735","Poquoson city, Virginia","B01001_005",522,104
+"251","51735","Poquoson city, Virginia","B01001_006",330,12
+"252","51735","Poquoson city, Virginia","B01001_007",179,19
+"253","51735","Poquoson city, Virginia","B01001_008",110,61
+"254","51735","Poquoson city, Virginia","B01001_009",85,56
+"255","51735","Poquoson city, Virginia","B01001_010",99,53
+"256","51735","Poquoson city, Virginia","B01001_011",223,21
+"257","51735","Poquoson city, Virginia","B01001_012",267,17
+"258","51735","Poquoson city, Virginia","B01001_013",345,95
+"259","51735","Poquoson city, Virginia","B01001_014",414,88
+"260","51735","Poquoson city, Virginia","B01001_015",538,19
+"261","51735","Poquoson city, Virginia","B01001_016",484,35
+"262","51735","Poquoson city, Virginia","B01001_017",396,81
+"263","51735","Poquoson city, Virginia","B01001_018",111,54
+"264","51735","Poquoson city, Virginia","B01001_019",333,83
+"265","51735","Poquoson city, Virginia","B01001_020",164,70
+"266","51735","Poquoson city, Virginia","B01001_021",164,70
+"267","51735","Poquoson city, Virginia","B01001_022",225,70
+"268","51735","Poquoson city, Virginia","B01001_023",157,49
+"269","51735","Poquoson city, Virginia","B01001_024",133,50
+"270","51735","Poquoson city, Virginia","B01001_025",35,32
+"271","51735","Poquoson city, Virginia","B01001_026",6200,58
+"272","51735","Poquoson city, Virginia","B01001_027",256,20
+"273","51735","Poquoson city, Virginia","B01001_028",329,73
+"274","51735","Poquoson city, Virginia","B01001_029",540,74
+"275","51735","Poquoson city, Virginia","B01001_030",313,11
+"276","51735","Poquoson city, Virginia","B01001_031",143,19
+"277","51735","Poquoson city, Virginia","B01001_032",53,42
+"278","51735","Poquoson city, Virginia","B01001_033",78,63
+"279","51735","Poquoson city, Virginia","B01001_034",95,65
+"280","51735","Poquoson city, Virginia","B01001_035",211,21
+"281","51735","Poquoson city, Virginia","B01001_036",254,17
+"282","51735","Poquoson city, Virginia","B01001_037",406,105
+"283","51735","Poquoson city, Virginia","B01001_038",517,108
+"284","51735","Poquoson city, Virginia","B01001_039",573,35
+"285","51735","Poquoson city, Virginia","B01001_040",539,20
+"286","51735","Poquoson city, Virginia","B01001_041",490,91
+"287","51735","Poquoson city, Virginia","B01001_042",167,60
+"288","51735","Poquoson city, Virginia","B01001_043",214,69
+"289","51735","Poquoson city, Virginia","B01001_044",111,60
+"290","51735","Poquoson city, Virginia","B01001_045",169,51
+"291","51735","Poquoson city, Virginia","B01001_046",296,65
+"292","51735","Poquoson city, Virginia","B01001_047",224,76
+"293","51735","Poquoson city, Virginia","B01001_048",82,46
+"294","51735","Poquoson city, Virginia","B01001_049",140,63
+"295","51740","Portsmouth city, Virginia","B01001_001",95786,NA
+"296","51740","Portsmouth city, Virginia","B01001_002",46114,99
+"297","51740","Portsmouth city, Virginia","B01001_003",3694,64
+"298","51740","Portsmouth city, Virginia","B01001_004",3126,288
+"299","51740","Portsmouth city, Virginia","B01001_005",2983,292
+"300","51740","Portsmouth city, Virginia","B01001_006",1887,49
+"301","51740","Portsmouth city, Virginia","B01001_007",1357,74
+"302","51740","Portsmouth city, Virginia","B01001_008",794,140
+"303","51740","Portsmouth city, Virginia","B01001_009",958,308
+"304","51740","Portsmouth city, Virginia","B01001_010",2321,274
+"305","51740","Portsmouth city, Virginia","B01001_011",3656,83
+"306","51740","Portsmouth city, Virginia","B01001_012",3314,121
+"307","51740","Portsmouth city, Virginia","B01001_013",3003,293
+"308","51740","Portsmouth city, Virginia","B01001_014",2544,281
+"309","51740","Portsmouth city, Virginia","B01001_015",3074,38
+"310","51740","Portsmouth city, Virginia","B01001_016",3327,123
+"311","51740","Portsmouth city, Virginia","B01001_017",2822,248
+"312","51740","Portsmouth city, Virginia","B01001_018",980,176
+"313","51740","Portsmouth city, Virginia","B01001_019",1192,196
+"314","51740","Portsmouth city, Virginia","B01001_020",765,108
+"315","51740","Portsmouth city, Virginia","B01001_021",829,168
+"316","51740","Portsmouth city, Virginia","B01001_022",1247,149
+"317","51740","Portsmouth city, Virginia","B01001_023",970,147
+"318","51740","Portsmouth city, Virginia","B01001_024",769,128
+"319","51740","Portsmouth city, Virginia","B01001_025",502,106
+"320","51740","Portsmouth city, Virginia","B01001_026",49672,99
+"321","51740","Portsmouth city, Virginia","B01001_027",3375,60
+"322","51740","Portsmouth city, Virginia","B01001_028",2977,307
+"323","51740","Portsmouth city, Virginia","B01001_029",2998,307
+"324","51740","Portsmouth city, Virginia","B01001_030",1799,53
+"325","51740","Portsmouth city, Virginia","B01001_031",1168,43
+"326","51740","Portsmouth city, Virginia","B01001_032",598,161
+"327","51740","Portsmouth city, Virginia","B01001_033",860,191
+"328","51740","Portsmouth city, Virginia","B01001_034",2287,232
+"329","51740","Portsmouth city, Virginia","B01001_035",3897,84
+"330","51740","Portsmouth city, Virginia","B01001_036",3503,104
+"331","51740","Portsmouth city, Virginia","B01001_037",2965,281
+"332","51740","Portsmouth city, Virginia","B01001_038",2794,277
+"333","51740","Portsmouth city, Virginia","B01001_039",3287,54
+"334","51740","Portsmouth city, Virginia","B01001_040",3592,66
+"335","51740","Portsmouth city, Virginia","B01001_041",3217,208
+"336","51740","Portsmouth city, Virginia","B01001_042",1186,179
+"337","51740","Portsmouth city, Virginia","B01001_043",1500,181
+"338","51740","Portsmouth city, Virginia","B01001_044",1078,153
+"339","51740","Portsmouth city, Virginia","B01001_045",1048,150
+"340","51740","Portsmouth city, Virginia","B01001_046",1572,166
+"341","51740","Portsmouth city, Virginia","B01001_047",1474,148
+"342","51740","Portsmouth city, Virginia","B01001_048",1198,148
+"343","51740","Portsmouth city, Virginia","B01001_049",1299,139
+"344","51800","Suffolk city, Virginia","B01001_001",84216,NA
+"345","51800","Suffolk city, Virginia","B01001_002",40476,163
+"346","51800","Suffolk city, Virginia","B01001_003",2967,63
+"347","51800","Suffolk city, Virginia","B01001_004",3240,293
+"348","51800","Suffolk city, Virginia","B01001_005",2965,288
+"349","51800","Suffolk city, Virginia","B01001_006",1884,72
+"350","51800","Suffolk city, Virginia","B01001_007",1111,61
+"351","51800","Suffolk city, Virginia","B01001_008",617,150
+"352","51800","Suffolk city, Virginia","B01001_009",501,141
+"353","51800","Suffolk city, Virginia","B01001_010",1355,171
+"354","51800","Suffolk city, Virginia","B01001_011",2163,62
+"355","51800","Suffolk city, Virginia","B01001_012",2483,107
+"356","51800","Suffolk city, Virginia","B01001_013",2674,267
+"357","51800","Suffolk city, Virginia","B01001_014",3225,268
+"358","51800","Suffolk city, Virginia","B01001_015",3347,80
+"359","51800","Suffolk city, Virginia","B01001_016",3112,88
+"360","51800","Suffolk city, Virginia","B01001_017",2626,196
+"361","51800","Suffolk city, Virginia","B01001_018",891,194
+"362","51800","Suffolk city, Virginia","B01001_019",1131,156
+"363","51800","Suffolk city, Virginia","B01001_020",602,121
+"364","51800","Suffolk city, Virginia","B01001_021",786,141
+"365","51800","Suffolk city, Virginia","B01001_022",1194,154
+"366","51800","Suffolk city, Virginia","B01001_023",684,121
+"367","51800","Suffolk city, Virginia","B01001_024",486,103
+"368","51800","Suffolk city, Virginia","B01001_025",432,116
+"369","51800","Suffolk city, Virginia","B01001_026",43740,163
+"370","51800","Suffolk city, Virginia","B01001_027",2881,70
+"371","51800","Suffolk city, Virginia","B01001_028",3103,277
+"372","51800","Suffolk city, Virginia","B01001_029",3035,243
+"373","51800","Suffolk city, Virginia","B01001_030",1769,22
+"374","51800","Suffolk city, Virginia","B01001_031",950,7
+"375","51800","Suffolk city, Virginia","B01001_032",634,152
+"376","51800","Suffolk city, Virginia","B01001_033",361,134
+"377","51800","Suffolk city, Virginia","B01001_034",1473,184
+"378","51800","Suffolk city, Virginia","B01001_035",2431,57
+"379","51800","Suffolk city, Virginia","B01001_036",2749,73
+"380","51800","Suffolk city, Virginia","B01001_037",2917,295
+"381","51800","Suffolk city, Virginia","B01001_038",3733,300
+"382","51800","Suffolk city, Virginia","B01001_039",3786,101
+"383","51800","Suffolk city, Virginia","B01001_040",3312,68
+"384","51800","Suffolk city, Virginia","B01001_041",2451,220
+"385","51800","Suffolk city, Virginia","B01001_042",1170,178
+"386","51800","Suffolk city, Virginia","B01001_043",1354,202
+"387","51800","Suffolk city, Virginia","B01001_044",783,169
+"388","51800","Suffolk city, Virginia","B01001_045",1169,171
+"389","51800","Suffolk city, Virginia","B01001_046",1153,156
+"390","51800","Suffolk city, Virginia","B01001_047",964,169
+"391","51800","Suffolk city, Virginia","B01001_048",765,128
+"392","51800","Suffolk city, Virginia","B01001_049",797,153
+"393","51810","Virginia Beach city, Virginia","B01001_001",439528,NA
+"394","51810","Virginia Beach city, Virginia","B01001_002",215485,121
+"395","51810","Virginia Beach city, Virginia","B01001_003",15015,68
+"396","51810","Virginia Beach city, Virginia","B01001_004",14187,555
+"397","51810","Virginia Beach city, Virginia","B01001_005",15109,554
+"398","51810","Virginia Beach city, Virginia","B01001_006",9433,62
+"399","51810","Virginia Beach city, Virginia","B01001_007",6285,53
+"400","51810","Virginia Beach city, Virginia","B01001_008",3962,397
+"401","51810","Virginia Beach city, Virginia","B01001_009",3769,404
+"402","51810","Virginia Beach city, Virginia","B01001_010",11148,498
+"403","51810","Virginia Beach city, Virginia","B01001_011",18869,75
+"404","51810","Virginia Beach city, Virginia","B01001_012",15794,80
+"405","51810","Virginia Beach city, Virginia","B01001_013",14447,599
+"406","51810","Virginia Beach city, Virginia","B01001_014",14846,596
+"407","51810","Virginia Beach city, Virginia","B01001_015",15792,73
+"408","51810","Virginia Beach city, Virginia","B01001_016",14987,2
+"409","51810","Virginia Beach city, Virginia","B01001_017",11988,522
+"410","51810","Virginia Beach city, Virginia","B01001_018",4454,356
+"411","51810","Virginia Beach city, Virginia","B01001_019",5531,397
+"412","51810","Virginia Beach city, Virginia","B01001_020",3337,308
+"413","51810","Virginia Beach city, Virginia","B01001_021",4110,326
+"414","51810","Virginia Beach city, Virginia","B01001_022",4432,365
+"415","51810","Virginia Beach city, Virginia","B01001_023",3595,288
+"416","51810","Virginia Beach city, Virginia","B01001_024",2496,263
+"417","51810","Virginia Beach city, Virginia","B01001_025",1899,241
+"418","51810","Virginia Beach city, Virginia","B01001_026",224043,121
+"419","51810","Virginia Beach city, Virginia","B01001_027",14191,22
+"420","51810","Virginia Beach city, Virginia","B01001_028",13060,528
+"421","51810","Virginia Beach city, Virginia","B01001_029",15012,513
+"422","51810","Virginia Beach city, Virginia","B01001_030",8958,65
+"423","51810","Virginia Beach city, Virginia","B01001_031",5460,42
+"424","51810","Virginia Beach city, Virginia","B01001_032",3373,402
+"425","51810","Virginia Beach city, Virginia","B01001_033",2819,352
+"426","51810","Virginia Beach city, Virginia","B01001_034",10754,527
+"427","51810","Virginia Beach city, Virginia","B01001_035",18109,4
+"428","51810","Virginia Beach city, Virginia","B01001_036",15462,85
+"429","51810","Virginia Beach city, Virginia","B01001_037",14749,589
+"430","51810","Virginia Beach city, Virginia","B01001_038",15842,588
+"431","51810","Virginia Beach city, Virginia","B01001_039",17315,85
+"432","51810","Virginia Beach city, Virginia","B01001_040",16210,60
+"433","51810","Virginia Beach city, Virginia","B01001_041",13916,591
+"434","51810","Virginia Beach city, Virginia","B01001_042",4850,429
+"435","51810","Virginia Beach city, Virginia","B01001_043",6798,443
+"436","51810","Virginia Beach city, Virginia","B01001_044",3200,281
+"437","51810","Virginia Beach city, Virginia","B01001_045",4622,345
+"438","51810","Virginia Beach city, Virginia","B01001_046",6646,333
+"439","51810","Virginia Beach city, Virginia","B01001_047",5204,306
+"440","51810","Virginia Beach city, Virginia","B01001_048",3874,346
+"441","51810","Virginia Beach city, Virginia","B01001_049",3619,335
+"442","51830","Williamsburg city, Virginia","B01001_001",14207,NA
+"443","51830","Williamsburg city, Virginia","B01001_002",6620,125
+"444","51830","Williamsburg city, Virginia","B01001_003",159,91
+"445","51830","Williamsburg city, Virginia","B01001_004",327,116
+"446","51830","Williamsburg city, Virginia","B01001_005",213,85
+"447","51830","Williamsburg city, Virginia","B01001_006",138,70
+"448","51830","Williamsburg city, Virginia","B01001_007",793,230
+"449","51830","Williamsburg city, Virginia","B01001_008",435,119
+"450","51830","Williamsburg city, Virginia","B01001_009",633,171
+"451","51830","Williamsburg city, Virginia","B01001_010",744,248
+"452","51830","Williamsburg city, Virginia","B01001_011",589,133
+"453","51830","Williamsburg city, Virginia","B01001_012",338,100
+"454","51830","Williamsburg city, Virginia","B01001_013",92,63
+"455","51830","Williamsburg city, Virginia","B01001_014",272,63
+"456","51830","Williamsburg city, Virginia","B01001_015",203,62
+"457","51830","Williamsburg city, Virginia","B01001_016",267,65
+"458","51830","Williamsburg city, Virginia","B01001_017",241,55
+"459","51830","Williamsburg city, Virginia","B01001_018",129,62
+"460","51830","Williamsburg city, Virginia","B01001_019",187,62
+"461","51830","Williamsburg city, Virginia","B01001_020",105,55
+"462","51830","Williamsburg city, Virginia","B01001_021",143,58
+"463","51830","Williamsburg city, Virginia","B01001_022",275,64
+"464","51830","Williamsburg city, Virginia","B01001_023",159,52
+"465","51830","Williamsburg city, Virginia","B01001_024",82,41
+"466","51830","Williamsburg city, Virginia","B01001_025",96,40
+"467","51830","Williamsburg city, Virginia","B01001_026",7587,125
+"468","51830","Williamsburg city, Virginia","B01001_027",86,65
+"469","51830","Williamsburg city, Virginia","B01001_028",183,96
+"470","51830","Williamsburg city, Virginia","B01001_029",214,84
+"471","51830","Williamsburg city, Virginia","B01001_030",156,87
+"472","51830","Williamsburg city, Virginia","B01001_031",1511,261
+"473","51830","Williamsburg city, Virginia","B01001_032",798,192
+"474","51830","Williamsburg city, Virginia","B01001_033",537,175
+"475","51830","Williamsburg city, Virginia","B01001_034",559,205
+"476","51830","Williamsburg city, Virginia","B01001_035",432,64
+"477","51830","Williamsburg city, Virginia","B01001_036",226,93
+"478","51830","Williamsburg city, Virginia","B01001_037",293,120
+"479","51830","Williamsburg city, Virginia","B01001_038",276,102
+"480","51830","Williamsburg city, Virginia","B01001_039",268,76
+"481","51830","Williamsburg city, Virginia","B01001_040",307,53
+"482","51830","Williamsburg city, Virginia","B01001_041",373,79
+"483","51830","Williamsburg city, Virginia","B01001_042",122,51
+"484","51830","Williamsburg city, Virginia","B01001_043",199,55
+"485","51830","Williamsburg city, Virginia","B01001_044",82,48
+"486","51830","Williamsburg city, Virginia","B01001_045",167,64
+"487","51830","Williamsburg city, Virginia","B01001_046",336,78
+"488","51830","Williamsburg city, Virginia","B01001_047",200,48
+"489","51830","Williamsburg city, Virginia","B01001_048",121,51
+"490","51830","Williamsburg city, Virginia","B01001_049",141,43
+"491","51073","Gloucester County, Virginia","B01001_001",36821,NA
+"492","51073","Gloucester County, Virginia","B01001_002",18083,139
+"493","51073","Gloucester County, Virginia","B01001_003",874,71
+"494","51073","Gloucester County, Virginia","B01001_004",949,148
+"495","51073","Gloucester County, Virginia","B01001_005",1408,158
+"496","51073","Gloucester County, Virginia","B01001_006",859,84
+"497","51073","Gloucester County, Virginia","B01001_007",521,59
+"498","51073","Gloucester County, Virginia","B01001_008",203,103
+"499","51073","Gloucester County, Virginia","B01001_009",124,75
+"500","51073","Gloucester County, Virginia","B01001_010",548,124
+"501","51073","Gloucester County, Virginia","B01001_011",1101,68
+"502","51073","Gloucester County, Virginia","B01001_012",1009,108
+"503","51073","Gloucester County, Virginia","B01001_013",1077,173
+"504","51073","Gloucester County, Virginia","B01001_014",1222,183
+"505","51073","Gloucester County, Virginia","B01001_015",1544,68
+"506","51073","Gloucester County, Virginia","B01001_016",1624,52
+"507","51073","Gloucester County, Virginia","B01001_017",1409,175
+"508","51073","Gloucester County, Virginia","B01001_018",415,107
+"509","51073","Gloucester County, Virginia","B01001_019",703,161
+"510","51073","Gloucester County, Virginia","B01001_020",303,91
+"511","51073","Gloucester County, Virginia","B01001_021",591,130
+"512","51073","Gloucester County, Virginia","B01001_022",737,129
+"513","51073","Gloucester County, Virginia","B01001_023",433,114
+"514","51073","Gloucester County, Virginia","B01001_024",279,93
+"515","51073","Gloucester County, Virginia","B01001_025",150,76
+"516","51073","Gloucester County, Virginia","B01001_026",18738,139
+"517","51073","Gloucester County, Virginia","B01001_027",976,107
+"518","51073","Gloucester County, Virginia","B01001_028",945,190
+"519","51073","Gloucester County, Virginia","B01001_029",1252,187
+"520","51073","Gloucester County, Virginia","B01001_030",810,63
+"521","51073","Gloucester County, Virginia","B01001_031",431,52
+"522","51073","Gloucester County, Virginia","B01001_032",278,104
+"523","51073","Gloucester County, Virginia","B01001_033",252,102
+"524","51073","Gloucester County, Virginia","B01001_034",528,127
+"525","51073","Gloucester County, Virginia","B01001_035",937,60
+"526","51073","Gloucester County, Virginia","B01001_036",1047,86
+"527","51073","Gloucester County, Virginia","B01001_037",1320,221
+"528","51073","Gloucester County, Virginia","B01001_038",1107,195
+"529","51073","Gloucester County, Virginia","B01001_039",1545,68
+"530","51073","Gloucester County, Virginia","B01001_040",1694,44
+"531","51073","Gloucester County, Virginia","B01001_041",1320,203
+"532","51073","Gloucester County, Virginia","B01001_042",586,171
+"533","51073","Gloucester County, Virginia","B01001_043",692,183
+"534","51073","Gloucester County, Virginia","B01001_044",325,99
+"535","51073","Gloucester County, Virginia","B01001_045",675,146
+"536","51073","Gloucester County, Virginia","B01001_046",696,150
+"537","51073","Gloucester County, Virginia","B01001_047",622,141
+"538","51073","Gloucester County, Virginia","B01001_048",299,101
+"539","51073","Gloucester County, Virginia","B01001_049",401,113
+"540","51093","Isle of Wight County, Virginia","B01001_001",35240,NA
+"541","51093","Isle of Wight County, Virginia","B01001_002",17201,106
+"542","51093","Isle of Wight County, Virginia","B01001_003",928,38
+"543","51093","Isle of Wight County, Virginia","B01001_004",1382,150
+"544","51093","Isle of Wight County, Virginia","B01001_005",945,159
+"545","51093","Isle of Wight County, Virginia","B01001_006",812,34
+"546","51093","Isle of Wight County, Virginia","B01001_007",416,2
+"547","51093","Isle of Wight County, Virginia","B01001_008",259,87
+"548","51093","Isle of Wight County, Virginia","B01001_009",176,81
+"549","51093","Isle of Wight County, Virginia","B01001_010",509,100
+"550","51093","Isle of Wight County, Virginia","B01001_011",770,7
+"551","51093","Isle of Wight County, Virginia","B01001_012",785,27
+"552","51093","Isle of Wight County, Virginia","B01001_013",957,161
+"553","51093","Isle of Wight County, Virginia","B01001_014",1204,166
+"554","51093","Isle of Wight County, Virginia","B01001_015",1573,29
+"555","51093","Isle of Wight County, Virginia","B01001_016",1630,44
+"556","51093","Isle of Wight County, Virginia","B01001_017",1354,150
+"557","51093","Isle of Wight County, Virginia","B01001_018",495,120
+"558","51093","Isle of Wight County, Virginia","B01001_019",715,132
+"559","51093","Isle of Wight County, Virginia","B01001_020",372,107
+"560","51093","Isle of Wight County, Virginia","B01001_021",594,97
+"561","51093","Isle of Wight County, Virginia","B01001_022",510,93
+"562","51093","Isle of Wight County, Virginia","B01001_023",434,107
+"563","51093","Isle of Wight County, Virginia","B01001_024",215,82
+"564","51093","Isle of Wight County, Virginia","B01001_025",166,67
+"565","51093","Isle of Wight County, Virginia","B01001_026",18039,106
+"566","51093","Isle of Wight County, Virginia","B01001_027",884,34
+"567","51093","Isle of Wight County, Virginia","B01001_028",1076,162
+"568","51093","Isle of Wight County, Virginia","B01001_029",1170,137
+"569","51093","Isle of Wight County, Virginia","B01001_030",753,30
+"570","51093","Isle of Wight County, Virginia","B01001_031",329,51
+"571","51093","Isle of Wight County, Virginia","B01001_032",210,71
+"572","51093","Isle of Wight County, Virginia","B01001_033",232,89
+"573","51093","Isle of Wight County, Virginia","B01001_034",354,94
+"574","51093","Isle of Wight County, Virginia","B01001_035",804,33
+"575","51093","Isle of Wight County, Virginia","B01001_036",927,58
+"576","51093","Isle of Wight County, Virginia","B01001_037",1122,175
+"577","51093","Isle of Wight County, Virginia","B01001_038",1318,161
+"578","51093","Isle of Wight County, Virginia","B01001_039",1694,60
+"579","51093","Isle of Wight County, Virginia","B01001_040",1637,47
+"580","51093","Isle of Wight County, Virginia","B01001_041",1264,140
+"581","51093","Isle of Wight County, Virginia","B01001_042",510,109
+"582","51093","Isle of Wight County, Virginia","B01001_043",859,142
+"583","51093","Isle of Wight County, Virginia","B01001_044",528,114
+"584","51093","Isle of Wight County, Virginia","B01001_045",439,106
+"585","51093","Isle of Wight County, Virginia","B01001_046",658,120
+"586","51093","Isle of Wight County, Virginia","B01001_047",531,111
+"587","51093","Isle of Wight County, Virginia","B01001_048",329,98
+"588","51093","Isle of Wight County, Virginia","B01001_049",411,94
+"589","51095","James City County, Virginia","B01001_001",66939,NA
+"590","51095","James City County, Virginia","B01001_002",32396,148
+"591","51095","James City County, Virginia","B01001_003",1736,60
+"592","51095","James City County, Virginia","B01001_004",1835,225
+"593","51095","James City County, Virginia","B01001_005",2353,219
+"594","51095","James City County, Virginia","B01001_006",1438,85
+"595","51095","James City County, Virginia","B01001_007",832,158
+"596","51095","James City County, Virginia","B01001_008",188,101
+"597","51095","James City County, Virginia","B01001_009",273,102
+"598","51095","James City County, Virginia","B01001_010",1186,173
+"599","51095","James City County, Virginia","B01001_011",1612,105
+"600","51095","James City County, Virginia","B01001_012",1537,121
+"601","51095","James City County, Virginia","B01001_013",1552,222
+"602","51095","James City County, Virginia","B01001_014",2222,236
+"603","51095","James City County, Virginia","B01001_015",2362,93
+"604","51095","James City County, Virginia","B01001_016",2416,83
+"605","51095","James City County, Virginia","B01001_017",2010,238
+"606","51095","James City County, Virginia","B01001_018",1214,223
+"607","51095","James City County, Virginia","B01001_019",1268,247
+"608","51095","James City County, Virginia","B01001_020",937,192
+"609","51095","James City County, Virginia","B01001_021",1175,181
+"610","51095","James City County, Virginia","B01001_022",1578,214
+"611","51095","James City County, Virginia","B01001_023",1297,176
+"612","51095","James City County, Virginia","B01001_024",809,170
+"613","51095","James City County, Virginia","B01001_025",566,154
+"614","51095","James City County, Virginia","B01001_026",34543,148
+"615","51095","James City County, Virginia","B01001_027",1664,60
+"616","51095","James City County, Virginia","B01001_028",2026,230
+"617","51095","James City County, Virginia","B01001_029",2000,224
+"618","51095","James City County, Virginia","B01001_030",1270,49
+"619","51095","James City County, Virginia","B01001_031",620,112
+"620","51095","James City County, Virginia","B01001_032",268,130
+"621","51095","James City County, Virginia","B01001_033",138,89
+"622","51095","James City County, Virginia","B01001_034",1131,194
+"623","51095","James City County, Virginia","B01001_035",1817,240
+"624","51095","James City County, Virginia","B01001_036",1757,193
+"625","51095","James City County, Virginia","B01001_037",1966,274
+"626","51095","James City County, Virginia","B01001_038",2127,260
+"627","51095","James City County, Virginia","B01001_039",2585,64
+"628","51095","James City County, Virginia","B01001_040",2555,87
+"629","51095","James City County, Virginia","B01001_041",2666,316
+"630","51095","James City County, Virginia","B01001_042",1030,207
+"631","51095","James City County, Virginia","B01001_043",1446,263
+"632","51095","James City County, Virginia","B01001_044",708,156
+"633","51095","James City County, Virginia","B01001_045",1681,185
+"634","51095","James City County, Virginia","B01001_046",1654,197
+"635","51095","James City County, Virginia","B01001_047",1331,198
+"636","51095","James City County, Virginia","B01001_048",1230,188
+"637","51095","James City County, Virginia","B01001_049",873,209
+"638","51115","Mathews County, Virginia","B01001_001",8965,NA
+"639","51115","Mathews County, Virginia","B01001_002",4239,151
+"640","51115","Mathews County, Virginia","B01001_003",84,70
+"641","51115","Mathews County, Virginia","B01001_004",266,94
+"642","51115","Mathews County, Virginia","B01001_005",226,122
+"643","51115","Mathews County, Virginia","B01001_006",194,96
+"644","51115","Mathews County, Virginia","B01001_007",42,56
+"645","51115","Mathews County, Virginia","B01001_008",105,80
+"646","51115","Mathews County, Virginia","B01001_009",40,38
+"647","51115","Mathews County, Virginia","B01001_010",168,72
+"648","51115","Mathews County, Virginia","B01001_011",85,62
+"649","51115","Mathews County, Virginia","B01001_012",75,57
+"650","51115","Mathews County, Virginia","B01001_013",323,101
+"651","51115","Mathews County, Virginia","B01001_014",231,84
+"652","51115","Mathews County, Virginia","B01001_015",327,38
+"653","51115","Mathews County, Virginia","B01001_016",340,34
+"654","51115","Mathews County, Virginia","B01001_017",259,88
+"655","51115","Mathews County, Virginia","B01001_018",106,65
+"656","51115","Mathews County, Virginia","B01001_019",276,89
+"657","51115","Mathews County, Virginia","B01001_020",132,73
+"658","51115","Mathews County, Virginia","B01001_021",137,67
+"659","51115","Mathews County, Virginia","B01001_022",431,97
+"660","51115","Mathews County, Virginia","B01001_023",163,68
+"661","51115","Mathews County, Virginia","B01001_024",60,47
+"662","51115","Mathews County, Virginia","B01001_025",169,74
+"663","51115","Mathews County, Virginia","B01001_026",4726,151
+"664","51115","Mathews County, Virginia","B01001_027",167,111
+"665","51115","Mathews County, Virginia","B01001_028",222,66
+"666","51115","Mathews County, Virginia","B01001_029",212,74
+"667","51115","Mathews County, Virginia","B01001_030",289,107
+"668","51115","Mathews County, Virginia","B01001_031",23,36
+"669","51115","Mathews County, Virginia","B01001_032",48,55
+"670","51115","Mathews County, Virginia","B01001_033",22,36
+"671","51115","Mathews County, Virginia","B01001_034",83,58
+"672","51115","Mathews County, Virginia","B01001_035",213,94
+"673","51115","Mathews County, Virginia","B01001_036",228,89
+"674","51115","Mathews County, Virginia","B01001_037",145,67
+"675","51115","Mathews County, Virginia","B01001_038",241,99
+"676","51115","Mathews County, Virginia","B01001_039",377,71
+"677","51115","Mathews County, Virginia","B01001_040",367,48
+"678","51115","Mathews County, Virginia","B01001_041",293,129
+"679","51115","Mathews County, Virginia","B01001_042",224,116
+"680","51115","Mathews County, Virginia","B01001_043",321,101
+"681","51115","Mathews County, Virginia","B01001_044",158,87
+"682","51115","Mathews County, Virginia","B01001_045",280,77
+"683","51115","Mathews County, Virginia","B01001_046",223,89
+"684","51115","Mathews County, Virginia","B01001_047",189,77
+"685","51115","Mathews County, Virginia","B01001_048",190,107
+"686","51115","Mathews County, Virginia","B01001_049",211,102
+"687","51175","Southampton County, Virginia","B01001_001",18576,NA
+"688","51175","Southampton County, Virginia","B01001_002",9705,47
+"689","51175","Southampton County, Virginia","B01001_003",486,19
+"690","51175","Southampton County, Virginia","B01001_004",425,132
+"691","51175","Southampton County, Virginia","B01001_005",665,130
+"692","51175","Southampton County, Virginia","B01001_006",367,10
+"693","51175","Southampton County, Virginia","B01001_007",242,63
+"694","51175","Southampton County, Virginia","B01001_008",160,67
+"695","51175","Southampton County, Virginia","B01001_009",95,65
+"696","51175","Southampton County, Virginia","B01001_010",344,93
+"697","51175","Southampton County, Virginia","B01001_011",450,82
+"698","51175","Southampton County, Virginia","B01001_012",501,69
+"699","51175","Southampton County, Virginia","B01001_013",512,107
+"700","51175","Southampton County, Virginia","B01001_014",649,132
+"701","51175","Southampton County, Virginia","B01001_015",987,24
+"702","51175","Southampton County, Virginia","B01001_016",1001,19
+"703","51175","Southampton County, Virginia","B01001_017",640,106
+"704","51175","Southampton County, Virginia","B01001_018",324,96
+"705","51175","Southampton County, Virginia","B01001_019",501,107
+"706","51175","Southampton County, Virginia","B01001_020",221,61
+"707","51175","Southampton County, Virginia","B01001_021",288,61
+"708","51175","Southampton County, Virginia","B01001_022",342,75
+"709","51175","Southampton County, Virginia","B01001_023",245,58
+"710","51175","Southampton County, Virginia","B01001_024",169,51
+"711","51175","Southampton County, Virginia","B01001_025",91,44
+"712","51175","Southampton County, Virginia","B01001_026",8871,47
+"713","51175","Southampton County, Virginia","B01001_027",464,27
+"714","51175","Southampton County, Virginia","B01001_028",675,70
+"715","51175","Southampton County, Virginia","B01001_029",383,74
+"716","51175","Southampton County, Virginia","B01001_030",375,19
+"717","51175","Southampton County, Virginia","B01001_031",143,63
+"718","51175","Southampton County, Virginia","B01001_032",111,59
+"719","51175","Southampton County, Virginia","B01001_033",133,65
+"720","51175","Southampton County, Virginia","B01001_034",252,83
+"721","51175","Southampton County, Virginia","B01001_035",439,19
+"722","51175","Southampton County, Virginia","B01001_036",489,91
+"723","51175","Southampton County, Virginia","B01001_037",553,126
+"724","51175","Southampton County, Virginia","B01001_038",594,119
+"725","51175","Southampton County, Virginia","B01001_039",775,17
+"726","51175","Southampton County, Virginia","B01001_040",729,2
+"727","51175","Southampton County, Virginia","B01001_041",580,91
+"728","51175","Southampton County, Virginia","B01001_042",262,82
+"729","51175","Southampton County, Virginia","B01001_043",343,71
+"730","51175","Southampton County, Virginia","B01001_044",251,84
+"731","51175","Southampton County, Virginia","B01001_045",253,62
+"732","51175","Southampton County, Virginia","B01001_046",351,80
+"733","51175","Southampton County, Virginia","B01001_047",348,68
+"734","51175","Southampton County, Virginia","B01001_048",226,66
+"735","51175","Southampton County, Virginia","B01001_049",142,45
+"736","51199","York County, Virginia","B01001_001",65503,NA
+"737","51199","York County, Virginia","B01001_002",32027,115
+"738","51199","York County, Virginia","B01001_003",1658,50
+"739","51199","York County, Virginia","B01001_004",2361,265
+"740","51199","York County, Virginia","B01001_005",2676,272
+"741","51199","York County, Virginia","B01001_006",1806,62
+"742","51199","York County, Virginia","B01001_007",1024,127
+"743","51199","York County, Virginia","B01001_008",652,159
+"744","51199","York County, Virginia","B01001_009",432,124
+"745","51199","York County, Virginia","B01001_010",974,174
+"746","51199","York County, Virginia","B01001_011",1742,90
+"747","51199","York County, Virginia","B01001_012",1693,117
+"748","51199","York County, Virginia","B01001_013",1562,247
+"749","51199","York County, Virginia","B01001_014",2560,269
+"750","51199","York County, Virginia","B01001_015",2778,118
+"751","51199","York County, Virginia","B01001_016",2627,45
+"752","51199","York County, Virginia","B01001_017",2081,210
+"753","51199","York County, Virginia","B01001_018",870,178
+"754","51199","York County, Virginia","B01001_019",987,184
+"755","51199","York County, Virginia","B01001_020",476,116
+"756","51199","York County, Virginia","B01001_021",876,145
+"757","51199","York County, Virginia","B01001_022",910,147
+"758","51199","York County, Virginia","B01001_023",724,91
+"759","51199","York County, Virginia","B01001_024",343,84
+"760","51199","York County, Virginia","B01001_025",215,72
+"761","51199","York County, Virginia","B01001_026",33476,115
+"762","51199","York County, Virginia","B01001_027",2013,50
+"763","51199","York County, Virginia","B01001_028",2385,253
+"764","51199","York County, Virginia","B01001_029",2424,245
+"765","51199","York County, Virginia","B01001_030",1576,61
+"766","51199","York County, Virginia","B01001_031",842,95
+"767","51199","York County, Virginia","B01001_032",224,94
+"768","51199","York County, Virginia","B01001_033",357,109
+"769","51199","York County, Virginia","B01001_034",1136,141
+"770","51199","York County, Virginia","B01001_035",1689,100
+"771","51199","York County, Virginia","B01001_036",1718,105
+"772","51199","York County, Virginia","B01001_037",2093,245
+"773","51199","York County, Virginia","B01001_038",2640,237
+"774","51199","York County, Virginia","B01001_039",3086,67
+"775","51199","York County, Virginia","B01001_040",2779,77
+"776","51199","York County, Virginia","B01001_041",2269,204
+"777","51199","York County, Virginia","B01001_042",833,138
+"778","51199","York County, Virginia","B01001_043",990,176
+"779","51199","York County, Virginia","B01001_044",507,133
+"780","51199","York County, Virginia","B01001_045",964,155
+"781","51199","York County, Virginia","B01001_046",1020,157
+"782","51199","York County, Virginia","B01001_047",819,158
+"783","51199","York County, Virginia","B01001_048",629,138
+"784","51199","York County, Virginia","B01001_049",483,120
