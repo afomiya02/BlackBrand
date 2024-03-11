@@ -1280,6 +1280,122 @@ ui <- navbarPage(
                       ),)
              )),
     
+    # Merging business dashboard
+    tabPanel("Business",
+             fluidRow(
+               p("", style = "padding-top:50px;"),
+               column(
+                 4,
+                 h4(strong("Building Supportive Ecosystems For Black-owned US Businesses [1]")),
+                 p("The article explores the challenges and opportunities for Black-owned businesses in the US, especially in the context of the COVID-19 pandemic and the racial wealth gap. Some of the key findings and recommendations from the report are:
+"),
+                 HTML("<ul>
+                         <li>The article argues that building supportive ecosystems for Black-owned businesses can help them overcome structural barriers, such as access to capital, markets, talent, and networks, and achieve revenue parity with their white-owned counterparts.
+</li>
+                         <li>The article estimates that achieving revenue parity between Black- and white-owned businesses could add $290 billion in business equity and $190 billion in GDP annually.
+</li>
+                         <li>The article also suggests that providing additional liquidity to Black-owned SMBs during the pandemic could preserve up to 815,000 jobs and reduce the racial unemployment gap by 10 percent.
+</li>
+                        <li>The article highlights some examples of successful ecosystems that support Black-owned businesses, such as Atlanta, Georgia; Durham, North Carolina; and Detroit, Michigan. It also identifies some best practices and recommendations for ecosystem builders, such as governments, corporations, philanthropies, and community organizations.
+</li>
+                                            </ul>"),
+                 
+               ),
+               
+               
+               
+               column(8,
+                      h1(strong("Black Business Trend Tracker"), align = "center"),
+                      p("", style = "padding-top:50px;"),
+                      tabItem(
+                        tabName = "metric_trend_tracker",
+                        sidebarLayout(
+                          sidebarPanel(
+                            radioButtons("selectionType", "Choose your selection type:",
+                                         choices = c("Select by State" = "state", 
+                                                     "Select by Metropolitan Area" = "metro")),
+                            uiOutput("dynamicSelectInput"),
+                            selectInput("metrics", "Select Metrics:", 
+                                        choices = c("Total Average Annual Pay (Total)" = "Total_Avg_Annual_Pay_Total",
+                                                    "Total Average Annual Pay (Black Business)" = "Total_Avg_Annual_Pay_Black_Business",
+                                                    "Total Average Employees (Total)" = "Total_Avg_Employees_Total",
+                                                    "Total Average Employees (Black Business)" = "Total_Avg_Employees_Black_Business",
+                                                    "Total Sum of Firms (Total)" = "Total_Sum_of_Firms_Total",
+                                                    "Total Sum of Firms (Black Business)" = "Total_Sum_of_Firms_Black_Business",
+                                                    "Average Pay Annual Per Employee (Total)" = "Pay_Annual_Per_Employee_Total",
+                                                    "Average Pay Annual Per Employee (Black Business)" = "Pay_Annual_Per_Employee_Black_Business",
+                                                    "Percent of Total Average Annual Pay (Black Business)" = "Percent_Total_Avg_Annual_Pay_BB",
+                                                    "Percent of Total Average Employees (Black Business)" = "Percent_Total_Avg_Employees_BB",
+                                                    "Percent of Total Sum of Firms (Black Business)" = "Percent_Total_Sum_of_Firms_BB")),
+                          ),
+                          mainPanel(
+                            tabPanel("Plot and Table", 
+                                     plotOutput("plot"),
+                                     dataTableOutput("table")
+                            )
+                          )
+                        )
+                      ),),
+               
+               column(5,
+                      
+                      h4(strong("Building Supportive Ecosystems For Black-owned US Businesses [2]")),
+                      p("The report highlights the strong entrepreneurial spirit among Black Americans, which has spurred the creation of numerous Black-owned businesses. However, it also notes that Black-owned businesses on the whole lag behind the average U.S. firm in terms of size and revenue. The report identifies three persistent barriers that impede the establishment and growth of Black-owned firms:
+"),
+                      HTML("<ul>
+                         <li>Wealth Gap: Fewer assets and less disposable income to invest in business</li>
+                         <li>Credit Gap: Decreased access to formal credit and high denial rates</li>
+                         <li>Trust Gap: Institutional bias that Blacks have experienced, inhibiting them from actions such as applying to financial institutions for more capital, joining networks, creating valuable partnerships, and more</li>
+                                            </ul>"),
+                      p("It is stated that of the Black business owners surveyed, 48 percent reported not trusting institutions that provide business education and training, and 45 percent reported not trusting institutions that finance businesses. Moreover, 29 percent of respondents reported deciding not to approach lenders or investors for capital, even when their business needed it. The report’s authors calculated that if Black-owned firms were able to reach employment parity with all privately-held U.S. firms, 600,000 new jobs could be created and $55 billion would be added to the U.S. economy. This could also reduce unemployment in the Black community down to 5 percent.
+"),
+               ),
+               
+               
+               column(6,
+                      h4(strong("Equitable Growth In Hampton Roads [3]")),
+                      p("The paper argues that Hampton Roads has the potential to become a hub for equitable growth and innovation, but it needs to address some key issues, such as:"),
+                      HTML("<ul>
+                         <li>Diversifying its economy beyond defense and tourism, which are vulnerable to federal budget cuts and environmental shocks.</li>
+                         <li>Investing in human capital and workforce development, especially for low-income and minority residents who face barriers to education and employment opportunities.</li>
+                         <li>Fostering a culture of entrepreneurship and civic engagement, by supporting local startups, nonprofits, and community organizations that can create social impact and economic value.</li>
+                         <li>Leveraging its unique assets and strengths, such as its strategic location, rich history, diverse population, and military presence.</li>
+                         <li>Bridging gaps in educational attainment by investing in human capital and workforce development, with a focus on overcoming barriers for low-income and minority residents.</li>
+                             </ul>"),
+                      p("The paper also provides some recommendations and best practices for policymakers, business leaders, philanthropists, and community members who want to promote equitable growth in Hampton Roads. Some of these include:"),
+                      HTML("<ul>
+                       <li>Creating a regional economic development authority that can coordinate and align the efforts of different stakeholders and jurisdictions.</li>
+                       <li>Establishing a regional innovation fund that can provide seed capital and mentorship to entrepreneurs and innovators from underrepresented backgrounds.</li>
+                       <li>Developing a regional talent pipeline that can connect local students and workers with high-demand skills and industries.</li>
+                      <li>Building a regional identity and brand that can attract and retain talent, investment, and visitors.</li>
+                            </ul>"),
+               ),
+               column(10,
+                      p("", style = "padding-top:40px;"),
+                      
+                      p(
+                        tags$small(
+                          "[1] Building supportive ecosystems for Black-owned US businesses, 2020. Retrieved from:",
+                          HTML('<a href="https://www.mckinsey.com/industries/public-sector/our-insights/building-supportive-ecosystems-for-black-owned-us-businesses" target="_blank" style="color: #0066cc; text-decoration: underline;">Read Full Paper</a>'),
+                          
+                        )
+                      ),
+                      p(
+                        tags$small(
+                          "[2] The Tapestry of Black Business Ownership In America. Retrieved from:",
+                          HTML('<a href="https://aeoworks.org/wp-content/uploads/2019/03/AEO_Black_Owned_Business_Report_02_16_17_FOR_WEB-1.pdf" target="_blank" style="color: #0066cc; text-decoration: underline;">Read Full Paper</a>'),
+                        )
+                      ),
+                      p(
+                        tags$small(
+                          "[3] Equitable Growth In Hampton Roads. Retrieved from:",
+                          HTML('<a href="https://github.com/blackbrand-dashboard/article/blob/main/ar3.pdf" target="_blank" style="color: #0066cc; text-decoration: underline;">Read Full Paper</a>'),                        )
+                      ),
+               ),
+               
+               
+             )),
+	  
     tabPanel("Household Wellbeing",
              fluidRow(
                p("", style = "padding-top:20px;"),
