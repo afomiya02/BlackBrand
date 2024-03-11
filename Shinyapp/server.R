@@ -4601,7 +4601,141 @@ server <- function(input, output, session) {
     
   })
   
+  # Combine two dashboards ----------------------------------------------------------
+  state_summary_metrics <- read_csv("success_summary_metrics_state.csv")
+  metro_summary_metrics <- read_csv("success_summary_metrics_metro.csv")
+  state_names <- unique(state_summary_metrics$NAME)
+  metro_names <- unique(metro_summary_metrics$NAME)
+  # Mapping of metrics to titles
+  metric_titles <- c(
+    "Total_Avg_Annual_Pay_Total" = "Total Average Annual Pay (Total)",
+    "Total_Avg_Annual_Pay_Black_Business" = "Total Average Annual Pay (Black Business)",
+    "Total_Avg_Employees_Total" = "Total Average Employees (Total)",
+    "Total_Avg_Employees_Black_Business" = "Total Average Employees (Black Business)",
+    "Total_Sum_of_Firms_Total" = "Total Sum of Firms (Total)",
+    "Total_Sum_of_Firms_Black_Business" = "Total Sum of Firms (Black Business)",
+    "Pay_Annual_Per_Employee_Total" = "Pay Annual Per Employee (Total)",
+    "Pay_Annual_Per_Employee_Black_Business" = "Pay Annual Per Employee (Black Business)",
+    "Percent_Total_Avg_Annual_Pay_BB" = "Percent of Total Average Annual Pay made up by Black Buisness",
+    "Percent_Total_Avg_Employees_BB" = "Percent of Total Average Employees made up by Black Buisness",
+    "Percent_Total_Sum_of_Firms_BB" = "Percent of Total Sum of Firms made up by Black Buisness"
+  )
   
+  # Dynamic UI for state or metro selection
+  output$dynamicSelectInput <- renderUI({
+    if(input$selectionType == "state") {
+      selectInput("state", "Select State:", choices = state_names)
+    } else {
+      selectInput("metroArea", "Select Metropolitan Area:", choices = metro_names)
+    }
+  })
+  
+  # Reactive expression to filter data based on selection
+  filtered_data <- reactive({
+    if(input$selectionType == "state") {
+      selected_state <- input$state
+      state_summary_metrics %>% filter(NAME == selected_state)
+    } else {
+      selected_metro <- input$metroArea
+      metro_summary_metrics %>% filter(NAME == selected_metro)
+    }
+  })
+  
+  output$plot <- renderPlot({
+    req(input$metrics)  # Ensure that a metric is selected
+    data_to_plot <- filtered_data()
+    
+    selected_metric <- input$metrics
+    
+    # Define y-axis labels based on the selected metric
+    y_label <- switch(selected_metric,
+                      "Total_Avg_Annual_Pay_Total" = "Average Annual payroll ($1,000) per a firm",
+                      "Total_Avg_Annual_Pay_Black_Business" = "Average Annual payroll ($1,000) per a firm",
+                      "Total_Avg_Employees_Total" = "Average Employee per a firm",
+                      "Total_Avg_Employees_Black_Business" = "Average Employee per a firm",
+                      "Total_Sum_of_Firms_Total" = "Number of firms",
+                      "Total_Sum_of_Firms_Black_Business" = "Number of firms",
+                      "Pay_Annual_Per_Employee_Total" = "Average take home pay for an employee",
+                      "Pay_Annual_Per_Employee_Black_Business" = "Average take home pay for an employee",
+                      "Percent_Total_Avg_Annual_Pay_BB" = "Percent Black Business in Total Statistic",
+                      "Percent_Total_Avg_Employees_BB" = "Percent Black Business in Total Statistic",
+                      "Percent_Total_Sum_of_Firms_BB" = "Percent Black Business in Total Statistic")
+    
+    
+    title <- metric_titles[selected_metric]  # Get the title from the mapping
+    if(selected_metric %in% c("Pay_Annual_Per_Employee_Total", "Pay_Annual_Per_Employee_Black_Business")) {
+      data_to_plot <- data_to_plot %>%
+        mutate(Pay_Annual_Per_Employee_Total = Total_Avg_Annual_Pay_Total / Total_Avg_Employees_Total,
+               Pay_Annual_Per_Employee_Black_Business = Total_Avg_Annual_Pay_Black_Business / Total_Avg_Employees_Black_Business)
+      
+    }
+    # Handle new percentage metrics
+    if(selected_metric == "Percent_Total_Avg_Annual_Pay_BB") {
+      data_to_plot <- data_to_plot %>%
+        mutate(Percent_Total_Avg_Annual_Pay_BB = (Total_Avg_Annual_Pay_Black_Business / Total_Avg_Annual_Pay_Total) * 100)
+    } else if(selected_metric == "Percent_Total_Avg_Employees_BB") {
+      data_to_plot <- data_to_plot %>%
+        mutate(Percent_Total_Avg_Employees_BB = (Total_Avg_Employees_Black_Business / Total_Avg_Employees_Total) * 100)
+    } else if(selected_metric == "Percent_Total_Sum_of_Firms_BB") {
+      data_to_plot <- data_to_plot %>%
+        mutate(Percent_Total_Sum_of_Firms_BB = (Total_Sum_of_Firms_Black_Business / Total_Sum_of_Firms_Total) * 100)
+    }
+    
+    # # Check if rate of change is selected
+    # if(input$rateOfChange) {
+    #   # Calculate rate of change
+    #   data_to_plot <- data_to_plot %>%
+    #     arrange(Year) %>%
+    #     mutate(RateOfChange = c(NA, diff(get(selected_metric))))
+    #   
+    #   plot_title <- paste(title, "- Rate of Change")
+    #   y_label <- "Rate of Change"
+    #   plot_metric <- "RateOfChange"
+    # } else {
+    #   plot_title <- title
+    #   y_label <- selected_metric
+    #   plot_metric <- selected_metric
+    # }
+    selected_area <- if(input$selectionType == "state") input$state else input$metroArea
+    plot_title <- paste(title, "\nin", selected_area)
+    
+    # Calculate the slope (difference) between consecutive points
+    data_to_plot <- data_to_plot %>%
+      arrange(Year) %>%
+      mutate(Slope = c(NA, diff(as.numeric(get(selected_metric)))),
+             SlopeType = ifelse(Slope > 0, "Positive", ifelse(Slope < 0, "Negative", "Flat")))
+    
+    # Shift the SlopeType column up by one row
+    data_to_plot$SlopeType <- c(data_to_plot$SlopeType[-1], NA)
+    
+    # Create the plot with trend line
+    p <- ggplot(data_to_plot, aes_string(x = "Year", y = selected_metric, group = "1")) +
+      geom_line(aes(color = SlopeType)) +  # Color lines based on slope type
+      scale_color_manual(values = c("Positive" = "green", "Negative" = "red", "Flat" = "blue")) +
+      labs(title = plot_title, x = "Year", y = y_label) +
+      theme_minimal() +
+      theme(plot.title = element_text(hjust = 0.5),  # Center the title
+            plot.margin = margin(10, 10, 10, 10),  # Adjust margins if needed
+            legend.position = "bottom")  # Position the legend at the bottom
+    
+    
+    # Custom function to format y-axis as percentages
+    percent_format <- function(x) {
+      paste0(format(x, nsmall = 1), "%")
+    }
+    
+    # Apply custom percent format to y-axis for percentage metrics
+    if(selected_metric %in% c("Percent_Total_Avg_Annual_Pay_BB", "Percent_Total_Avg_Employees_BB", "Percent_Total_Sum_of_Firms_BB")) {
+      p <- p + scale_y_continuous(labels = percent_format)
+    }
+    
+    
+    
+    
+    # Render the plot
+    p
+  })
+
   # Home Ownership Map -------------------------------------------------------
   var_hmown <- reactive({
     input$HomeOwnSlider
