@@ -2056,7 +2056,7 @@ ui <- navbarPage(
              ),
     
     
-    tabPanel("Food Insecurity: Distance from nearest market", 
+    tabPanel("Food Insecurity", 
              fluidRow(
                p("", style = "padding-top:20px;"),
                column(

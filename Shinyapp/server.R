@@ -4602,8 +4602,8 @@ server <- function(input, output, session) {
   })
   
   # Combine two dashboards ----------------------------------------------------------
-  state_summary_metrics <- read_csv("success_summary_metrics_state.csv")
-  metro_summary_metrics <- read_csv("success_summary_metrics_metro.csv")
+  state_summary_metrics <- read_csv("data/success_summary_metrics_state.csv")
+  metro_summary_metrics <- read_csv("data/success_summary_metrics_metro.csv")
   state_names <- unique(state_summary_metrics$NAME)
   metro_names <- unique(metro_summary_metrics$NAME)
   # Mapping of metrics to titles
