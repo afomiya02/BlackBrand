@@ -903,27 +903,27 @@ ui <- navbarPage(
             "Data Source: ACS 5 Year Estimates Table S1903"
           )),
           
-          selectInput(
-            "MedianIncomeYearDrop",
-            "Select Year:",
-            width = "100%",
-            choices = c(
-              "2019",
-              "2018",
-              "2017",
-              "2016",
-              "2015",
-              "2014",
-              "2013",
-              "2012",
-              "2011",
-              "2010"
-            )
-          ),
-          withSpinner(plotOutput("income_plot")),
-          p(tags$small(
-            "Data Source: ACS 5 Year Estimates Table S1903"
-          ))
+          # selectInput(
+          #   "MedianIncomeYearDrop",
+          #   "Select Year:",
+          #   width = "100%",
+          #   choices = c(
+          #     "2019",
+          #     "2018",
+          #     "2017",
+          #     "2016",
+          #     "2015",
+          #     "2014",
+          #     "2013",
+          #     "2012",
+          #     "2011",
+          #     "2010"
+          #   )
+          # ),
+          # withSpinner(plotOutput("income_plot")),
+          # p(tags$small(
+          #   "Data Source: ACS 5 Year Estimates Table S1903"
+          # ))
         )
       )
     ),

@@ -2205,219 +2205,219 @@ server <- function(input, output, session) {
   # })
   
   # Median Income plots: Working on it --------------------------------
-  var_medianIncome <- reactive({
-    input$MedianIncomeYearDrop
-  })
-  
-  output$income_plot <- renderPlot({
-    if (var_medianIncome() %in% c("2019", "2018", "2017")) {
-      if (var_medianIncome() == "2019") {
-        va_yr <- read.csv("data/income/va_income2019.csv")
-        hamp_yr <- read.csv("data/income/hampton_income2019.csv")
-      }
-      else if (var_medianIncome() == "2018") {
-        va_yr <- read.csv("data/income/va_income2018.csv")
-        hamp_yr <- read.csv("data/income/hampton_income2018.csv")
-      }
-      else if (var_medianIncome() == "2017") {
-        va_yr <- read.csv("data/income/va_income2017.csv")
-        hamp_yr <- read.csv("data/income/hampton_income2017.csv")
-      }
-      va_yr <- va_yr[2:6]
-      race_names <- c("Total", "Black")
-      #VA income
-      va_race_income_median <- data.frame(va_yr[c(81, 83), 4])
-      va_race_income <-
-        data.frame(cbind(race_names, va_race_income_median))
-      colnames(va_race_income) <- c("Race", "Median Income")
-      #Hampton Income
-      hamp_yr <- hamp_yr[2:6]
-      #getting the name, variable and estimate
-      hamp_income2 <- hamp_yr[, 2:4]
-      hamp_income3 <- hamp_income2 %>%
-        group_by(NAME) %>%
-        slice(c(81, 83))
-      variable <-
-        sample(c("S1903_C03_001", "S1903_C03_003"), 32, replace = TRUE)
-      hamp_race_income_median <-
-        hamp_income3 %>% group_by(variable) %>% summarize(median(estimate, na.rm = TRUE))
-      #Putting them together
-      median_income <-
-        cbind(va_race_income, hamp_race_income_median)
-      median_income <- median_income[, c(2, 4)]
-      #having all the estimates in the same column
-      median_income2 <-
-        data.frame(median = c(median_income[, 1], median_income[, 2]))
-      #labeling
-      median_income2 <-
-        mutate(median_income2, location = c(rep("Virginia", 2), rep("Hampton Roads", 2)))
-      median_income2 <-
-        mutate(median_income2, demo = rep(c(
-          "Total Population", "Black Population"
-        ), 2))
-      colnames(median_income2) <-
-        c("Median Income (US Dollars)", "Location", "Demographic")
-      #making them all numeric
-      median_income2 <-
-        transform(median_income2,
-                  `Median Income (US Dollars)` = as.numeric(`Median Income (US Dollars)`))
-      colnames(median_income2) <-
-        c("Median Income (US Dollars)", "Location", "Demographic")
-      median_income2$Location <-
-        factor(median_income2$Location,
-               levels = c("Hampton Roads", "Virginia"))
-      #Graph
-      income_plot <-
-        ggplot(
-          median_income2,
-          aes(x = Location, y = `Median Income (US Dollars)`, fill = Demographic)
-        ) +
-        geom_bar(stat = "identity", position = position_dodge()) +
-        geom_text(
-          aes(label = paste0(round(
-            `Median Income (US Dollars)`
-          ))),
-          vjust = 1.5,
-          color = "white",
-          position = position_dodge(0.9),
-          size = 5
-        ) +
-        theme_minimal() +
-        theme(
-          plot.title = element_text(hjust = 0.5, size = 25),
-          legend.key.size = unit(1, 'cm'),
-          legend.title = element_blank(),
-          legend.key.height = unit(1, 'cm'),
-          legend.key.width = unit(1, 'cm'),
-          legend.text = element_text(size = 14),
-          axis.text = element_text(size = 15),
-          axis.title = element_text(size = 17),
-          axis.title.x = element_blank(),
-          axis.title.y = element_text(margin = margin(
-            t = 0,
-            r = 20,
-            b = 0,
-            l = 0
-          ))
-        ) +
-        scale_fill_manual(values = c("#D55E00", "#0072B2"))
-      #plot
-      income_plot
-    }
-    else if (var_medianIncome() %in% c("2016", "2015", "2014", "2013", "2012", "2011", "2010")) {
-      if (var_medianIncome() == "2016") {
-        va_yr <- read.csv("data/income/va_income2016.csv")
-        hamp_yr <- read.csv("data/income/hampton_income2016.csv")
-      }
-      else if (var_medianIncome() == "2015") {
-        va_yr <- read.csv("data/income/va_income2015.csv")
-        hamp_yr <- read.csv("data/income/hampton_income2015.csv")
-      }
-      else if (var_medianIncome() == "2014") {
-        va_yr <- read.csv("data/income/va_income2014.csv")
-        hamp_yr <- read.csv("data/income/hampton_income2014.csv")
-      }
-      else if (var_medianIncome() == "2013") {
-        va_yr <- read.csv("data/income/va_income2013.csv")
-        hamp_yr <- read.csv("data/income/hampton_income2013.csv")
-      }
-      else if (var_medianIncome() == "2012") {
-        va_yr <- read.csv("data/income/va_income2012.csv")
-        hamp_yr <- read.csv("data/income/hampton_income2012.csv")
-      }
-      else if (var_medianIncome() == "2011") {
-        va_yr <- read.csv("data/income/va_income2011.csv")
-        hamp_yr <- read.csv("data/income/hampton_income2011.csv")
-      }
-      else if (var_medianIncome() == "2010") {
-        va_yr <- read.csv("data/income/va_income2010.csv")
-        hamp_yr <- read.csv("data/income/hampton_income2010.csv")
-      }
-      
-      va_yr <- read.csv("data/income/va_income2016.csv")
-      va_yr <- va_yr[, 2:6]
-      #income by Race
-      race_names <- c("Total", "Black")
-      #median income
-      va_race_income_median <- data.frame(va_yr[c(31, 33), 4])
-      va_race_income <-
-        data.frame(cbind(race_names, va_race_income_median))
-      colnames(va_race_income) <- c("Race", "Median Income")
-      #Hampton Income
-      #getting the name, variable and estimate
-      hamp_income2 <- hamp_yr[, 2:6]
-      hamp_income3 <- hamp_income2 %>%
-        group_by(NAME) %>%
-        slice(c(31, 33))
-      variable <-
-        sample(c("S1903_C02_001", "S1903_C02_003"), 32, replace = TRUE)
-      hamp_race_income_median <-
-        hamp_income3 %>% group_by(variable) %>% summarize(median(estimate, na.rm = TRUE))
-      #Putting them in the same dataset
-      median_income <-
-        cbind(va_race_income, hamp_race_income_median)
-      median_income <- median_income[, c(2, 4)]
-      #having all the estimates in the same column
-      median_income2 <-
-        data.frame(median = c(median_income[, 1], median_income[, 2]))
-      median_income2 <-
-        mutate(median_income2, location = c(rep("Virginia", 2), rep("Hampton Roads", 2)))
-      median_income2 <-
-        mutate(median_income2, demo = rep(c(
-          "Total Population", "Black Population"
-        ), 2))
-      colnames(median_income2) <-
-        c("Median Income (US Dollars)", "Location", "Demographic")
-      #making them all numeric
-      median_income2 <-
-        transform(median_income2,
-                  `Median Income (US Dollars)` = as.numeric(`Median Income (US Dollars)`))
-      colnames(median_income2) <-
-        c("Median Income (US Dollars)", "Location", "Demographic")
-      median_income2$Location <-
-        factor(median_income2$Location,
-               levels = c("Hampton Roads", "Virginia"))
-      #Hampton and VA graph
-      income_plot <-
-        ggplot(
-          median_income2,
-          aes(x = Location, y = `Median Income (US Dollars)`, fill = Demographic)
-        ) +
-        geom_bar(stat = "identity", position = position_dodge()) +
-        geom_text(
-          aes(label = paste0(round(
-            `Median Income (US Dollars)`
-          ))),
-          vjust = 1.5,
-          color = "white",
-          position = position_dodge(0.9),
-          size = 5
-        ) +
-        theme_minimal() +
-        theme(
-          plot.title = element_text(hjust = 0.5, size = 25),
-          legend.key.size = unit(1, 'cm'),
-          legend.title = element_blank(),
-          legend.key.height = unit(1, 'cm'),
-          legend.key.width = unit(1, 'cm'),
-          legend.text = element_text(size = 14),
-          axis.text = element_text(size = 15),
-          axis.title = element_text(size = 17),
-          axis.title.x = element_blank(),
-          axis.title.y = element_text(margin = margin(
-            t = 0,
-            r = 20,
-            b = 0,
-            l = 0
-          ))
-        ) +
-        scale_fill_manual(values = c("#D55E00", "#0072B2"))
-      #plot
-      income_plot
-    }
-    
-    
-  })
+  # var_medianIncome <- reactive({
+  #   input$MedianIncomeYearDrop
+  # })
+  # 
+  # output$income_plot <- renderPlot({
+  #   if (var_medianIncome() %in% c("2019", "2018", "2017")) {
+  #     if (var_medianIncome() == "2019") {
+  #       va_yr <- read.csv("data/income/va_income2019.csv")
+  #       hamp_yr <- read.csv("data/income/hampton_income2019.csv")
+  #     }
+  #     else if (var_medianIncome() == "2018") {
+  #       va_yr <- read.csv("data/income/va_income2018.csv")
+  #       hamp_yr <- read.csv("data/income/hampton_income2018.csv")
+  #     }
+  #     else if (var_medianIncome() == "2017") {
+  #       va_yr <- read.csv("data/income/va_income2017.csv")
+  #       hamp_yr <- read.csv("data/income/hampton_income2017.csv")
+  #     }
+  #     va_yr <- va_yr[2:6]
+  #     race_names <- c("Total", "Black")
+  #     #VA income
+  #     va_race_income_median <- data.frame(va_yr[c(81, 83), 4])
+  #     va_race_income <-
+  #       data.frame(cbind(race_names, va_race_income_median))
+  #     colnames(va_race_income) <- c("Race", "Median Income")
+  #     #Hampton Income
+  #     hamp_yr <- hamp_yr[2:6]
+  #     #getting the name, variable and estimate
+  #     hamp_income2 <- hamp_yr[, 2:4]
+  #     hamp_income3 <- hamp_income2 %>%
+  #       group_by(NAME) %>%
+  #       slice(c(81, 83))
+  #     variable <-
+  #       sample(c("S1903_C03_001", "S1903_C03_003"), 32, replace = TRUE)
+  #     hamp_race_income_median <-
+  #       hamp_income3 %>% group_by(variable) %>% summarize(median(estimate, na.rm = TRUE))
+  #     #Putting them together
+  #     median_income <-
+  #       cbind(va_race_income, hamp_race_income_median)
+  #     median_income <- median_income[, c(2, 4)]
+  #     #having all the estimates in the same column
+  #     median_income2 <-
+  #       data.frame(median = c(median_income[, 1], median_income[, 2]))
+  #     #labeling
+  #     median_income2 <-
+  #       mutate(median_income2, location = c(rep("Virginia", 2), rep("Hampton Roads", 2)))
+  #     median_income2 <-
+  #       mutate(median_income2, demo = rep(c(
+  #         "Total Population", "Black Population"
+  #       ), 2))
+  #     colnames(median_income2) <-
+  #       c("Median Income (US Dollars)", "Location", "Demographic")
+  #     #making them all numeric
+  #     median_income2 <-
+  #       transform(median_income2,
+  #                 `Median Income (US Dollars)` = as.numeric(`Median Income (US Dollars)`))
+  #     colnames(median_income2) <-
+  #       c("Median Income (US Dollars)", "Location", "Demographic")
+  #     median_income2$Location <-
+  #       factor(median_income2$Location,
+  #              levels = c("Hampton Roads", "Virginia"))
+  #     #Graph
+  #     income_plot <-
+  #       ggplot(
+  #         median_income2,
+  #         aes(x = Location, y = `Median Income (US Dollars)`, fill = Demographic)
+  #       ) +
+  #       geom_bar(stat = "identity", position = position_dodge()) +
+  #       geom_text(
+  #         aes(label = paste0(round(
+  #           `Median Income (US Dollars)`
+  #         ))),
+  #         vjust = 1.5,
+  #         color = "white",
+  #         position = position_dodge(0.9),
+  #         size = 5
+  #       ) +
+  #       theme_minimal() +
+  #       theme(
+  #         plot.title = element_text(hjust = 0.5, size = 25),
+  #         legend.key.size = unit(1, 'cm'),
+  #         legend.title = element_blank(),
+  #         legend.key.height = unit(1, 'cm'),
+  #         legend.key.width = unit(1, 'cm'),
+  #         legend.text = element_text(size = 14),
+  #         axis.text = element_text(size = 15),
+  #         axis.title = element_text(size = 17),
+  #         axis.title.x = element_blank(),
+  #         axis.title.y = element_text(margin = margin(
+  #           t = 0,
+  #           r = 20,
+  #           b = 0,
+  #           l = 0
+  #         ))
+  #       ) +
+  #       scale_fill_manual(values = c("#D55E00", "#0072B2"))
+  #     #plot
+  #     income_plot
+  #   }
+  #   else if (var_medianIncome() %in% c("2016", "2015", "2014", "2013", "2012", "2011", "2010")) {
+  #     if (var_medianIncome() == "2016") {
+  #       va_yr <- read.csv("data/income/va_income2016.csv")
+  #       hamp_yr <- read.csv("data/income/hampton_income2016.csv")
+  #     }
+  #     else if (var_medianIncome() == "2015") {
+  #       va_yr <- read.csv("data/income/va_income2015.csv")
+  #       hamp_yr <- read.csv("data/income/hampton_income2015.csv")
+  #     }
+  #     else if (var_medianIncome() == "2014") {
+  #       va_yr <- read.csv("data/income/va_income2014.csv")
+  #       hamp_yr <- read.csv("data/income/hampton_income2014.csv")
+  #     }
+  #     else if (var_medianIncome() == "2013") {
+  #       va_yr <- read.csv("data/income/va_income2013.csv")
+  #       hamp_yr <- read.csv("data/income/hampton_income2013.csv")
+  #     }
+  #     else if (var_medianIncome() == "2012") {
+  #       va_yr <- read.csv("data/income/va_income2012.csv")
+  #       hamp_yr <- read.csv("data/income/hampton_income2012.csv")
+  #     }
+  #     else if (var_medianIncome() == "2011") {
+  #       va_yr <- read.csv("data/income/va_income2011.csv")
+  #       hamp_yr <- read.csv("data/income/hampton_income2011.csv")
+  #     }
+  #     else if (var_medianIncome() == "2010") {
+  #       va_yr <- read.csv("data/income/va_income2010.csv")
+  #       hamp_yr <- read.csv("data/income/hampton_income2010.csv")
+  #     }
+  #     
+  #     va_yr <- read.csv("data/income/va_income2016.csv")
+  #     va_yr <- va_yr[, 2:6]
+  #     #income by Race
+  #     race_names <- c("Total", "Black")
+  #     #median income
+  #     va_race_income_median <- data.frame(va_yr[c(31, 33), 4])
+  #     va_race_income <-
+  #       data.frame(cbind(race_names, va_race_income_median))
+  #     colnames(va_race_income) <- c("Race", "Median Income")
+  #     #Hampton Income
+  #     #getting the name, variable and estimate
+  #     hamp_income2 <- hamp_yr[, 2:6]
+  #     hamp_income3 <- hamp_income2 %>%
+  #       group_by(NAME) %>%
+  #       slice(c(31, 33))
+  #     variable <-
+  #       sample(c("S1903_C02_001", "S1903_C02_003"), 32, replace = TRUE)
+  #     hamp_race_income_median <-
+  #       hamp_income3 %>% group_by(variable) %>% summarize(median(estimate, na.rm = TRUE))
+  #     #Putting them in the same dataset
+  #     median_income <-
+  #       cbind(va_race_income, hamp_race_income_median)
+  #     median_income <- median_income[, c(2, 4)]
+  #     #having all the estimates in the same column
+  #     median_income2 <-
+  #       data.frame(median = c(median_income[, 1], median_income[, 2]))
+  #     median_income2 <-
+  #       mutate(median_income2, location = c(rep("Virginia", 2), rep("Hampton Roads", 2)))
+  #     median_income2 <-
+  #       mutate(median_income2, demo = rep(c(
+  #         "Total Population", "Black Population"
+  #       ), 2))
+  #     colnames(median_income2) <-
+  #       c("Median Income (US Dollars)", "Location", "Demographic")
+  #     #making them all numeric
+  #     median_income2 <-
+  #       transform(median_income2,
+  #                 `Median Income (US Dollars)` = as.numeric(`Median Income (US Dollars)`))
+  #     colnames(median_income2) <-
+  #       c("Median Income (US Dollars)", "Location", "Demographic")
+  #     median_income2$Location <-
+  #       factor(median_income2$Location,
+  #              levels = c("Hampton Roads", "Virginia"))
+  #     #Hampton and VA graph
+  #     income_plot <-
+  #       ggplot(
+  #         median_income2,
+  #         aes(x = Location, y = `Median Income (US Dollars)`, fill = Demographic)
+  #       ) +
+  #       geom_bar(stat = "identity", position = position_dodge()) +
+  #       geom_text(
+  #         aes(label = paste0(round(
+  #           `Median Income (US Dollars)`
+  #         ))),
+  #         vjust = 1.5,
+  #         color = "white",
+  #         position = position_dodge(0.9),
+  #         size = 5
+  #       ) +
+  #       theme_minimal() +
+  #       theme(
+  #         plot.title = element_text(hjust = 0.5, size = 25),
+  #         legend.key.size = unit(1, 'cm'),
+  #         legend.title = element_blank(),
+  #         legend.key.height = unit(1, 'cm'),
+  #         legend.key.width = unit(1, 'cm'),
+  #         legend.text = element_text(size = 14),
+  #         axis.text = element_text(size = 15),
+  #         axis.title = element_text(size = 17),
+  #         axis.title.x = element_blank(),
+  #         axis.title.y = element_text(margin = margin(
+  #           t = 0,
+  #           r = 20,
+  #           b = 0,
+  #           l = 0
+  #         ))
+  #       ) +
+  #       scale_fill_manual(values = c("#D55E00", "#0072B2"))
+  #     #plot
+  #     income_plot
+  #   }
+  #   
+  #   
+  # })
   
   # Median Income line plots -------------------------------------------------
   
@@ -2847,7 +2847,9 @@ server <- function(input, output, session) {
     colnames(median_income10) <-
       c("Median Income (US Dollars)", "Location", "Demographic")
     median_income10 <- mutate(median_income10, Year = "2010")
+    
     ###############################################################################Combined
+    
     income_years <-
       rbind(
         median_income19,
@@ -2861,53 +2863,23 @@ server <- function(input, output, session) {
         median_income11,
         median_income10
       )
-    #VA line graph
-    va_years <- income_years %>% filter(Location == "Virginia")
-    #graph
-    va_line <-
-      ggplot(
-        va_years,
-        aes(
-          x = Year,
-          y = `Median Income (US Dollars)`,
-          group = Demographic,
-          color = Demographic
-        )
-      ) +
-      geom_line(position = "identity", size = 1.3) +
-      theme_minimal() +
-      ggtitle("Virginia") +
-      theme(plot.title = element_text(hjust = 0.5),
-            axis.title.x = element_blank()) +
-      theme(
-        legend.title = element_blank(),
-        axis.title.y = element_text(size = 12),
-        legend.text = element_text(size = 12),
-        axis.text = element_text(size = 12)
-      ) +
-      labs(y = "Median Income (US Dollars)") +
-      scale_color_manual(values = c("#D55E00", "#0072B2")) +
-      ylim(35000, 75000)
     
-    #hamp line graph
-    hamp_years <-
-      income_years %>% filter(Location == "Hampton Roads")
-    #graph
-    hamp_line <-
-      ggplot(
-        hamp_years,
-        aes(
-          x = Year,
-          y = `Median Income (US Dollars)`,
-          group = Demographic,
-          color = Demographic
-        )
-      ) +
-      geom_line(position = "identity", size = 1.3) +
-      scale_color_manual(values = c("#D55E00", "#0072B2")) +
-      theme_minimal() +
-      ggtitle("Hampton Roads") +
-      theme(
+    ### CREATE BIG GRAPH SHOWCASING TRENDS IN MEDIAN INCOME ####################
+    
+    va_total <- income_years %>% filter(Location == "Virginia" & Demographic == "Total Population")
+    hr_total <- income_years %>% filter(Location == "Hampton Roads" & Demographic == "Total Population")
+    va_black <- income_years %>% filter(Location == "Virginia" & Demographic == "Black Population")
+    hr_black <- income_years %>% filter(Location == "Hampton Roads" & Demographic == "Black Population")
+    LINES <- c("Virginia" = "dashed", "Hampton Roads" = "solid")
+    
+    incomeGraph <- ggplot(income_years, aes(x = Year, y = `Median Income (US Dollars)`, color = Demographic, group = Location, linetype = Location)) + 
+      geom_line(data = va_total, size = 1.3, aes(linetype = Location)) +
+      geom_line(data = va_black, size = 1.3, aes(linetype = Location)) +
+      geom_line(data = hr_total, size = 1.3, aes(linetype = Location)) +
+      geom_line(data = hr_black, size = 1.3, aes(linetype = Location)) +
+      scale_color_manual(name = "Population", values = c("black", "#800404")) +
+      scale_linetype_manual(name = "Location", values = c("dashed", "solid")) +
+      theme_minimal() + theme(
         plot.title = element_text(hjust = 0.5),
         axis.title.x = element_blank(),
         axis.title.y = element_text(size = 12),
@@ -2915,11 +2887,9 @@ server <- function(input, output, session) {
         legend.text = element_text(size = 12),
         axis.text = element_text(size = 12)
       ) +
-      labs(y = "Median Income (US Dollars)") +
-      ylim(35000, 75000)
-    
-    medianTimeGraph  <- grid.arrange(hamp_line, va_line, ncol = 2)
-    medianTimeGraph
+      labs(x = "Year", y = "Median Income (US Dollars)")
+    incomeGraph
+
   })
   # Employment By Sector ----------------------------------------------------
   var_sectorEmployment <- reactive({
