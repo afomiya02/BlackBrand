@@ -109,36 +109,7 @@ server <- function(input, output, session) {
         "#73D055FF",
         "#FDE725FF")
     
-    if (var_hampRace() == 2019) {
-      hamp_data <- read.csv("data/race/hamp_race2019.csv")
-    }
-    if (var_hampRace() == 2018) {
-      hamp_data <- read.csv("data/race/hamp_race2018.csv")
-    }
-    if (var_hampRace() == 2017) {
-      hamp_data <- read.csv("data/race/hamp_race2017.csv")
-    }
-    if (var_hampRace() == 2016) {
-      hamp_data <- read.csv("data/race/hamp_race2016.csv")
-    }
-    if (var_hampRace() == 2015) {
-      hamp_data <- read.csv("data/race/hamp_race2015.csv")
-    }
-    if (var_hampRace() == 2014) {
-      hamp_data <- read.csv("data/race/hamp_race2014.csv")
-    }
-    if (var_hampRace() == 2013) {
-      hamp_data <- read.csv("data/race/hamp_race2013.csv")
-    }
-    if (var_hampRace() == 2012) {
-      hamp_data <- read.csv("data/race/hamp_race2012.csv")
-    }
-    if (var_hampRace() == 2011) {
-      hamp_data <- read.csv("data/race/hamp_race2011.csv")
-    }
-    if (var_hampRace() == 2010) {
-      hamp_data <- read.csv("data/race/hamp_race2010.csv")
-    }
+    hamp_data <- read.csv(paste0("data/race/hamp_race", var_hampRace(), ".csv"))
     hamp_data <- hamp_data[, 2:6]
     #combining data from counties
     variable <-
@@ -225,36 +196,8 @@ server <- function(input, output, session) {
         "#29AF7FFF",
         "#73D055FF",
         "#FDE725FF")
-    if (var_VaRace() == 2019) {
-      races <- read.csv("data/race/va_race2019.csv")
-    }
-    if (var_VaRace() == 2018) {
-      races <- read.csv("data/race/va_race2018.csv")
-    }
-    if (var_VaRace() == 2017) {
-      races <- read.csv("data/race/va_race2017.csv")
-    }
-    if (var_VaRace() == 2016) {
-      races <- read.csv("data/race/va_race2016.csv")
-    }
-    if (var_VaRace() == 2015) {
-      races <- read.csv("data/race/va_race2015.csv")
-    }
-    if (var_VaRace() == 2014) {
-      races <- read.csv("data/race/va_race2014.csv")
-    }
-    if (var_VaRace() == 2013) {
-      races <- read.csv("data/race/va_race2013.csv")
-    }
-    if (var_VaRace() == 2012) {
-      races <- read.csv("data/race/va_race2012.csv")
-    }
-    if (var_VaRace() == 2011) {
-      races <- read.csv("data/race/va_race2011.csv")
-    }
-    if (var_VaRace() == 2010) {
-      races <- read.csv("data/race/va_race2010.csv")
-    }
+    
+    races <- read.csv(paste0("data/race/va_race", var_vaRace(), ".csv"))
     races <- races[, 2:6]
     total <- races[1, 4]
     #Now graphing with other = hawaiin/pi, america/alask naive. other
@@ -311,36 +254,7 @@ server <- function(input, output, session) {
         "#29AF7FFF",
         "#73D055FF",
         "#FDE725FF")
-    if (var_hampAge() == 2019) {
-      hamp_ages  <- read.csv("data/age/hamp_age2019.csv")
-    }
-    if (var_hampAge() == 2018) {
-      hamp_ages  <- read.csv("data/age/hamp_age2018.csv")
-    }
-    if (var_hampAge() == 2017) {
-      hamp_ages  <- read.csv("data/age/hamp_age2017.csv")
-    }
-    if (var_hampAge() == 2016) {
-      hamp_ages  <- read.csv("data/age/hamp_age2016.csv")
-    }
-    if (var_hampAge() == 2015) {
-      hamp_ages  <- read.csv("data/age/hamp_age2015.csv")
-    }
-    if (var_hampAge() == 2014) {
-      hamp_ages  <- read.csv("data/age/hamp_age2014.csv")
-    }
-    if (var_hampAge() == 2013) {
-      hamp_ages  <- read.csv("data/age/hamp_age2013.csv")
-    }
-    if (var_hampAge() == 2012) {
-      hamp_ages  <- read.csv("data/age/hamp_age2012.csv")
-    }
-    if (var_hampAge() == 2011) {
-      hamp_ages  <- read.csv("data/age/hamp_age2011.csv")
-    }
-    if (var_hampAge() == 2010) {
-      hamp_ages  <- read.csv("data/age/hamp_age2010.csv")
-    }
+    hamp_ages <- read.csv(paste0("data/age/hamp_age", var_hampAge(), ".csv"))
     hamp_ages <- hamp_ages[, 2:6]
     #total population in hampton Roads (1713267)
     hamp_pop_tbl <- hamp_ages %>%
@@ -439,36 +353,7 @@ server <- function(input, output, session) {
         "#29AF7FFF",
         "#73D055FF",
         "#FDE725FF")
-    if (var_VaAge() == 2019) {
-      age1  <- read.csv("data/age/va_age2019.csv")
-    }
-    if (var_VaAge() == 2018) {
-      age1  <- read.csv("data/age/va_age2018.csv")
-    }
-    if (var_VaAge() == 2017) {
-      age1  <- read.csv("data/age/va_age2017.csv")
-    }
-    if (var_VaAge() == 2016) {
-      age1  <- read.csv("data/age/va_age2016.csv")
-    }
-    if (var_VaAge() == 2015) {
-      age1  <- read.csv("data/age/va_age2015.csv")
-    }
-    if (var_VaAge() == 2014) {
-      age1  <- read.csv("data/age/va_age2014.csv")
-    }
-    if (var_VaAge() == 2013) {
-      age1  <- read.csv("data/age/va_age2013.csv")
-    }
-    if (var_VaAge() == 2012) {
-      age1  <- read.csv("data/age/va_age2012.csv")
-    }
-    if (var_VaAge() == 2011) {
-      age1  <- read.csv("data/age/va_age2011.csv")
-    }
-    if (var_VaAge() == 2010) {
-      age1  <- read.csv("data/age/va_age2010.csv")
-    }
+    age1 <- read.csv(paste0("data/age/va_age", var_VaAge(), ".csv"))
     age1 <- age1[, 2:6]
     va_total_pop <- age1[1, 4]
     #Adds the female and male data together to get the population for each age group
@@ -551,36 +436,7 @@ server <- function(input, output, session) {
   })
   
   output$age_map <- renderPlot({
-    if (var_hampCountiesAge() == 2019) {
-      hamp_ages  <- read.csv("data/age/hamp_age2019.csv")
-    }
-    if (var_hampCountiesAge() == 2018) {
-      hamp_ages  <- read.csv("data/age/hamp_age2018.csv")
-    }
-    if (var_hampCountiesAge() == 2017) {
-      hamp_ages  <- read.csv("data/age/hamp_age2017.csv")
-    }
-    if (var_hampCountiesAge() == 2016) {
-      hamp_ages  <- read.csv("data/age/hamp_age2016.csv")
-    }
-    if (var_hampCountiesAge() == 2015) {
-      hamp_ages  <- read.csv("data/age/hamp_age2015.csv")
-    }
-    if (var_hampCountiesAge() == 2014) {
-      hamp_ages  <- read.csv("data/age/hamp_age2014.csv")
-    }
-    if (var_hampCountiesAge() == 2013) {
-      hamp_ages  <- read.csv("data/age/hamp_age2013.csv")
-    }
-    if (var_hampCountiesAge() == 2012) {
-      hamp_ages  <- read.csv("data/age/hamp_age2012.csv")
-    }
-    if (var_hampCountiesAge() == 2011) {
-      hamp_ages  <- read.csv("data/age/hamp_age2011.csv")
-    }
-    if (var_hampCountiesAge() == 2010) {
-      hamp_ages  <- read.csv("data/age/hamp_age2010.csv")
-    }
+    hamp_ages <- read.csv(paste0("data/age/hamp_age", var_hampCountiesAge(), ".csv"))
     hamp_ages <- hamp_ages[, 2:6]
     county_pop <- hamp_ages %>% group_by(NAME) %>%
       slice(1)
@@ -2184,6 +2040,7 @@ server <- function(input, output, session) {
         colorPalette = colors,
       )
   })
+  
   # var_dropoutrate <- reactive({
   #   input$DropoutDropdown
   # })
