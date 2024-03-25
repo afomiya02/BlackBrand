@@ -2,7 +2,8 @@ library(tidyverse)
 library(sf)
 library(leaflet)
 library(RColorBrewer)
-# setwd("C:/Users/Tim/Desktop/School/cmda4864/testrepo/prototype")
+# set working directory in 
+# RStudio > Session > Set Working Directory > To Source File Location
 
 ## ALL RACE & AGE DEMOGRAPHICS FOUND IN THE 5-YEAR DP05 TABLE 
 ## IN THE AMERICAN CENSUS SURVEY TABLES
@@ -24,7 +25,7 @@ get_demographics <- function(filename) {
     slice(c(1, 2, 6)) %>% # duplicate 
     mutate(loc = str_extract(filename, "(?<=/)[^.]+(?=\\.)"), .before = 1) %>%
     select(-c(moe, pct_estimate, pct_moe)) %>% # Remove unnecessary columns 
-    mutate(estimate = as.numeric(estimate)) %>% # make numeric data numeric
+    mutate(estimate = as.numeric(estimate)) # make numeric data numeric
   
   # Reshape the data
   df <- pivot_wider(data = df, names_from = label, values_from = estimate)
@@ -51,7 +52,7 @@ preprocess_geo_data <- function() {
 
 # Test the function
 filenames <- list.files("data", pattern = "*.csv", full.names = TRUE)
-race_age_data <- lapply(filenames, get_demographics)
+race_age_data <- lapply(filenames, get_demographics) # ????
 race_age_data <- bind_rows(race_age_data)
 
 # Print the result
