@@ -43,33 +43,26 @@ server <- function(input, output, session) {
   # runjs(jscode)
   
   #hampton roads map of counties -------------------------------------------
-  output$hampton_counties_map <- renderPlot({
+  #function to load and preprocess data
+  preprocess_data <- function() {
     coord_data <- read_rds("data/age/coordinates.rds")
     coord_data <- st_transform(coord_data)
     coordinates1 <- coord_data %>% group_by(NAME) %>% slice(1)
     coordinates2 <- coordinates1[, 6]
-    city <-
-      c(
-        "Chesapeake",
-        "Franklin",
-        "Gloucester",
-        "Hampton",
-        "Isle of Wight",
-        "James City",
-        "Mathews",
-        "Newport News",
-        "Norfolk",
-        "Poquoson",
-        "Portsmouth",
-        "Southampton",
-        "Suffolk",
-        "Virginia Beach",
-        "Williamsburg",
-        "York"
-      )
-    coordinates2 <- mutate(coordinates2, Loc = city)
-    coordinates2$Loc[coordinates2$Loc == "Franklin"] <-
-      "Franklin City"
+    city_names <- c(
+      "Chesapeake", "Franklin", "Gloucester", "Hampton", "Isle of Wight",
+      "James City", "Mathews", "Newport News", "Norfolk", "Poquoson",
+      "Portsmouth", "Southampton", "Suffolk", "Virginia Beach",
+      "Williamsburg", "York"
+    )
+    coordinates2 <- mutate(coordinates2, Loc = city_names)
+    coordinates2$Loc[coordinates2$Loc == "Franklin"] <- "Franklin City"
+    return(coordinates2)
+  }
+  
+  #render the Hampton counties map
+  output$hampton_counties_map <- renderPlot({
+    coordinates2 <- preprocess_data()
     #Graph
     hampton_counties_map <- ggplot(coordinates2) +
       geom_sf() +
