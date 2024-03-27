@@ -9,7 +9,7 @@ source("functions.r")
 ui <- page_navbar(
   title = "phaceholder",
   selected = "overview",
-  theme = bs_theme(preset = "lux"),
+  theme = bs_theme(preset = "journal"),
   nav_menu(
     title = "Overview",
     nav_panel(
