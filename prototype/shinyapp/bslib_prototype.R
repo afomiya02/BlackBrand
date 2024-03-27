@@ -51,7 +51,7 @@ ui <- page_navbar(
           ),
           layout_columns(
             col_widths = 12,
-            row_heights = c(1, 5),
+            row_heights = c(1, 6),
             #value boxes
             layout_columns(
               uiOutput("median_age_box"),
@@ -144,15 +144,10 @@ server <- function(input, output) {
         weight = 1,
         fillOpacity = 0.75,
         popup = paste(
-          "<h1>",
-          heatmap_data$loc,
-          "</h1>",
-          "<b>Median Age (years):</b>",
-          heatmap_data$median_age_years,
-          "<br><b>Black Population (%):</b>",
-          heatmap_data$pct_black,
-          "<br><b>Total Population:</b>",
-          heatmap_data$total_population
+            "<h1>", heatmap_data$loc,"</h1>",
+            "<b>Median Age (years):</b>", heatmap_data$median_age_years,
+            "<br><b>Black Population (%):</b>", heatmap_data$pct_black,
+            "<br><b>Total Population:</b>", heatmap_data$total_population
         )
       ) %>%
       addLegend(
@@ -176,15 +171,10 @@ server <- function(input, output) {
         weight = 1,
         fillOpacity = 0.75,
         popup = paste(
-          "<h1>",
-          heatmap_data$loc,
-          "</h1>",
-          "<b>Median Age (years):</b>",
-          heatmap_data$median_age_years,
-          "<br><b>Black Population (%):</b>",
-          heatmap_data$pct_black,
-          "<br><b>Total Population:</b>",
-          heatmap_data$total_population
+          "<h1>", heatmap_data$loc,"</h1>",
+          "<b>Median Age (years):</b>", heatmap_data$median_age_years,
+          "<br><b>Black Population (%):</b>", heatmap_data$pct_black,
+          "<br><b>Total Population:</b>", heatmap_data$total_population
         )
       ) %>%
       addLegend(

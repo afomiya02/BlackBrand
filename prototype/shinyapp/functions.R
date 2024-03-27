@@ -15,10 +15,10 @@ library(sf)
 preprocess_sodem_data <- function(filename) {
   df <- read.csv(filename) %>%
     `colnames<-`(c("label", "estimate", "moe", "pct_estimate", "pct_moe")) %>%
+    mutate_all(str_trim) %>%# trim whitespace (tolower gave off weird symbols to whitespace)
     mutate(., across(.cols = everything(), tolower)) %>%
     mutate_all(str_replace_all, " ", "_") %>%
     mutate_all(str_replace_all, " |[()]|,", "") %>%
-    mutate_all(str_trim) %>%
     filter(label %in% c("total_population", "median_age_years", "black_or_african_american")) %>%
     slice(c(1, 2, 6)) %>% # duplicate 
     mutate(loc = gsub("\\..*", "", basename(filename)), .before = 1) %>%
