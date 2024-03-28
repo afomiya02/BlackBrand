@@ -79,6 +79,10 @@ ui <- page_navbar(
         )
       )
     )
+  ),
+  nav_panel(
+    title = "Education",
+    layout_sidebar()
   )
 )
 
