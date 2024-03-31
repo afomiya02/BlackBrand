@@ -47,7 +47,8 @@ ui <- page_navbar(
           col_widths = c(4, 8),
           card(
             card_header("Demographic Characteristics"),
-            card_body(includeMarkdown("markdown/sodem/sodem_characteristics.md"))
+            card_body(includeMarkdown("markdown/sodem/sodem_characteristics.md")),
+            card_footer("Data: 2022 ACS 5-Year DP05 Table")
           ),
           layout_columns(
             col_widths = 12,
@@ -62,7 +63,6 @@ ui <- page_navbar(
               full_screen = TRUE,
               wrapper = card_body(),
               title = "Hampton Roads Demographics",
-              footer = "Source: 2022 ACS 5-Year DP05 Table",
               id = "demographic",
               nav_panel(
                 title = "Median Age",
@@ -74,7 +74,7 @@ ui <- page_navbar(
                 value = "pop",
                 leafletOutput("pop_choropleth")
               )
-            )
+            ),
           )
         )
       )
@@ -82,7 +82,25 @@ ui <- page_navbar(
   ),
   nav_panel(
     title = "Education",
-    layout_sidebar()
+    layout_sidebar(
+      sidebar = sidebar(
+        title = "asdf",
+        width = validateCssUnit("25%"), # sidebar takes up 25% of page
+        "Click to select"
+      ),
+      layout_columns(
+        col_widths = 12,
+        card("teacher-student ratios"),
+        card("high school graduation rate"),
+        card("% of college students"),
+        layout_column_wrap(
+          width = 1/3,
+          card("meow"),
+          card("meow"),
+          card("meow")
+        )
+      )
+    )
   )
 )
 
