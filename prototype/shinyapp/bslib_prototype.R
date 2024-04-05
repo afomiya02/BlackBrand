@@ -4,8 +4,10 @@ library(bsicons)
 library(markdown)
 library(leaflet)
 library(RColorBrewer)
+library(tidyverse)
 
 source("sodem.r")
+source("education.r")
 ui <- page_navbar(
     title = "phaceholder",
     selected = "overview",
@@ -84,27 +86,40 @@ ui <- page_navbar(
         title = "Education",
         layout_sidebar(
             sidebar = sidebar(
-                title = "asdf",
-                width = validateCssUnit("25%"), # sidebar takes up 25% of page
-                "Click to select"
+                title = "Standardized Testing Tracker",
+                width = validateCssUnit("25%"), # sidebar takes up x% of page
+                varSelectInput(
+                    inputId = "loc",
+                    label = "Select locality:",
+                    selected = "hampton",
+                    data = iris
+                )
             ),
             layout_columns(
                 col_widths = 12,
-                card("teacher-student ratios"),
-                card("high school graduation rate"),
-                card("% of college students"),
+                row_heights = c(1, 3, 2),
                 layout_column_wrap(
-                    width = 1/3,
-                    card("meow"),
-                    card("meow"),
-                    card("meow")
-                )
+                    width = 1 / 3,
+                    card("value box 1"),
+                    card("value box 2"),
+                    card("value box 3")
+                ),
+                card(
+                    card_header("2022-2023 Standardized Testing Comparison Radar Plot"),
+                    card_body(
+                        layout_column_wrap(width = 1 / 3,
+                                           "plot goes here",
+                                           "metadata goes here")
+                    ),
+                    card_footer("Source: VDOE Annual Pass Rates (Division Subject Area)")
+                ),
+                card("lollipop plot"),
             )
         )
     )
 )
 
-server <- function(input, output) {
+server <- function(input, output, session) {
     ### --- SOCIODEMOGRAPHICS ---
     
     ## VALUE BOXES

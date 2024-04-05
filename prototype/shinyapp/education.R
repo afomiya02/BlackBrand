@@ -1,6 +1,5 @@
 library(readxl)
 library(tidyverse)
-library(sf)
 # set working directory in 
 # RStudio > Session > Set Working Directory > To Source File Location
 
@@ -80,3 +79,68 @@ preprocess_student_count_data <- function(path) {
     filter(division_name %in% hampton_roads_localities)
   return(df)
 }
+
+preprocess_subject_pass_rates <- function() {
+    # this df will keep all the subgroups together
+    df1 <- read_excel("data/VDOE/subject/subject_pass_rates_2013-2016.xlsx") %>%
+        set_names(unlist(.[1,])) %>% slice(-1) %>%
+        mutate_at("Div Num", as.numeric) %>%
+        filter(!grepl("Limited", Subgroup)) # limited english proficient only exists here
+    
+    # will only keep the pass rates
+    df2 <- read_excel("data/VDOE/subject/subject_pass_rates_2016-2019.xlsx") %>%
+        mutate_at("Div Num", as.numeric)
+    
+    # only keeps pass rates and drops 
+    df3 <- read_excel("data/VDOE/subject/subject_pass_rates_2020-2023.xlsx") %>%
+        filter(!grepl("Remote", Subject)) %>%
+        mutate_at("Div Num", as.numeric)
+    
+    # create inner join that matches all division numbers, subgroups and subjects
+    # div num = county name
+    df <- inner_join(df1, df2, by = c("Div Num", "Subgroup", "Subject")) %>%
+        inner_join(., df3, by = c("Div Num", "Subgroup", "Subject")) %>%
+        select_at(vars(-ends_with(c("x", "y", "Level")))) %>%
+        mutate_at(vars(ends_with("Pass Rate")), as.numeric) %>%
+        # make strings tolower with underscores and no colons
+        mutate_if(is.character, tolower) %>%
+        mutate_if(is.character, str_replace_all, " ", "_") %>%
+        mutate_if(is.character, str_replace_all, "_city", "") %>%
+        # rename column names
+        rename_with(tolower) %>%
+        rename_with(~str_replace_all(., " ", "_")) %>%
+        
+        # filter everything under hampton roads localities
+        filter(division_name %in% hampton_roads_edu_localities) %>%
+        drop_na()  
+    return(df)
+}
+
+education_data <- preprocess_subject_pass_rates()
+
+library(plotly)
+
+radar_data <- education_data %>% 
+    filter(division_name %in% "chesapeake") %>%
+    filter(subgroup %in% c("black", "white")) %>%
+    select(c(subject, subgroup, `2022-2023_pass_rate`)) %>%
+    # pivot dataset such that subjects are columns and
+    # subjects are row names
+    pivot_wider(names_from = subject, values_from = `2022-2023_pass_rate`) %>%
+    column_to_rownames(., "subgroup")
+
+fig <- plot_ly(
+    type = "scatterpolar",
+    mode = "lines+markers",
+) %>%
+    # when adding traces for radar plots data frame has to wrap back around to first entry
+    # so i unlisted entire row + 1st value in row
+    add_trace(r = as.numeric(unlist(c(radar_data[1, ], radar_data[1, 1]))), 
+              theta = unlist(c(colnames(radar_data), colnames(radar_data)[1])),
+              name = "Black Students") %>%
+    add_trace(r = as.numeric(unlist(c(radar_data[2, ], radar_data[2, 1]))), 
+              theta = unlist(c(colnames(radar_data), colnames(radar_data)[1])),
+              name = "White Students") %>%
+    layout(polar = list(radialaxis = list(visible = TRUE, range = c(0, 100))))
+
+fig
