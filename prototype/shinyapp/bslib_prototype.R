@@ -86,30 +86,24 @@ ui <- page_navbar(
         title = "Education",
         layout_sidebar(
             sidebar = sidebar(
-                title = "Standardized Testing Tracker",
-                width = validateCssUnit("25%"), # sidebar takes up x% of page
-                varSelectInput(
+                title = "Standardized Testing",
+                width = validateCssUnit("20%"), # sidebar takes up x% of page
+                selectInput(
                     inputId = "loc",
                     label = "Select locality:",
-                    selected = "hampton",
-                    data = iris
+                    selected = "Chesapeake",
+                    choices = unique(education_data$division_name)
                 )
             ),
             layout_columns(
                 col_widths = 12,
-                row_heights = c(1, 3, 2),
-                layout_column_wrap(
-                    width = 1 / 3,
-                    card("value box 1"),
-                    card("value box 2"),
-                    card("value box 3")
-                ),
+                row_heights = c(5, 2),
                 card(
                     card_header("2022-2023 Standardized Testing Comparison Radar Plot"),
                     card_body(
-                        layout_column_wrap(width = 1 / 3,
-                                           "plot goes here",
-                                           "metadata goes here")
+                        layout_column_wrap(
+                            plotlyOutput("radio_plot"),
+                            uiOutput("metadata"))
                     ),
                     card_footer("Source: VDOE Annual Pass Rates (Division Subject Area)")
                 ),
@@ -206,6 +200,43 @@ server <- function(input, output, session) {
             addTiles()
 
         sodem_choropleth
+    })
+    
+    ### --- EDUCATION ---
+    ## subset standardized testing data
+    st_subsetted <- reactive({
+        df <- education_data %>% 
+            filter(division_name %in% input$loc) %>%
+            filter(subgroup %in% c("Black", "White")) %>%
+            select(c(subject, subgroup, `2022-2023_pass_rate`)) %>%
+            # pivot dataset such that subjects are columns and
+            # subjects are row names
+            pivot_wider(names_from = subject, values_from = `2022-2023_pass_rate`) %>%
+            column_to_rownames(., "subgroup")
+        df
+    })
+    
+    output$metadata <- renderUI({
+        p(h2(input$loc), "number of students:", 2 * 10)
+    })
+    
+    # grab radio plot and thingy metadata
+    output$radio_plot <- renderPlotly({
+        fig <- plot_ly(
+            type = "scatterpolar",
+            mode = "lines+markers",
+        ) %>%
+            # when adding traces for radar plots data frame has to wrap back around to first entry
+            # so i unlisted entire row + 1st value in row
+            add_trace(r = as.numeric(unlist(c(st_subsetted()[1, ], st_subsetted()[1, 1]))), 
+                      theta = unlist(c(colnames(st_subsetted()), colnames(st_subsetted())[1])),
+                      name = "Black Students") %>%
+            add_trace(r = as.numeric(unlist(c(st_subsetted()[2, ], st_subsetted()[2, 1]))), 
+                      theta = unlist(c(colnames(st_subsetted()), colnames(st_subsetted())[1])),
+                      name = "White Students") %>%
+            layout(polar = list(radialaxis = list(visible = TRUE, range = c(0, 100))))
+        
+        fig
     })
 }
 

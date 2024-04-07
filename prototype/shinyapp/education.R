@@ -112,17 +112,20 @@ preprocess_subject_pass_rates <- function() {
         
         # filter everything under hampton roads localities
         filter(division_name %in% hampton_roads_edu_localities) %>%
+        select(-div_num) %>%
         drop_na()  
     return(df)
 }
 
-education_data <- preprocess_subject_pass_rates()
+education_data <- preprocess_subject_pass_rates() %>%
+    mutate_if(is.character, str_replace_all, "_", " ") %>%
+    mutate_if(is.character, str_to_title)
 
 library(plotly)
 
 radar_data <- education_data %>% 
-    filter(division_name %in% "chesapeake") %>%
-    filter(subgroup %in% c("black", "white")) %>%
+    dplyr::filter(division_name %in% "Chesapeake") %>%
+    dplyr::filter(subgroup %in% c("Black", "White")) %>%
     select(c(subject, subgroup, `2022-2023_pass_rate`)) %>%
     # pivot dataset such that subjects are columns and
     # subjects are row names
@@ -144,3 +147,16 @@ fig <- plot_ly(
     layout(polar = list(radialaxis = list(visible = TRUE, range = c(0, 100))))
 
 fig
+
+# fig <- plot_ly(
+#     data = radar_data,
+#     type = "scatterpolar",
+#     mode = "lines+markers",
+# ) %>%
+#     add_trace(r = ~)
+
+
+
+
+
+
