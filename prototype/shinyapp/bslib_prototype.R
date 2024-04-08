@@ -1,9 +1,11 @@
 library(shiny)
+library(shinyjs)
 library(bslib)
 library(bsicons)
 library(markdown)
 library(leaflet)
 library(RColorBrewer)
+library(plotly)
 library(tidyverse)
 
 source("sodem.r")
@@ -11,7 +13,8 @@ source("education.r")
 ui <- page_navbar(
     title = "phaceholder",
     selected = "overview",
-    theme = bs_theme(preset = "journal"),
+    theme = bs_theme(preset = "cosmo"),
+    useShinyjs(),
     nav_menu(
         title = "Overview",
         nav_panel(
@@ -44,39 +47,74 @@ ui <- page_navbar(
     ),
     nav_panel(title = "Sociodemographics",
               page_fillable(
-                  layout_columns(
-                      layout_columns(
-                          col_widths = c(4, 8),
-                          card(
-                              card_header("Demographic Characteristics"),
-                              card_body(includeMarkdown("markdown/sodem/sodem_characteristics.md")),
-                              card_footer("Data: 2022 ACS 5-Year DP05 Table")
+                  # layout_columns(
+                  #     col_widths = c(4, 8),
+                  #     card(
+                  #         card_header("Demographic Characteristics"),
+                  #         card_body(includeMarkdown("markdown/sodem/sodem_characteristics.md")),
+                  #         card_footer("Data: 2022 ACS 5-Year DP05 Table")
+                  #     ),
+                  #     layout_columns(
+                  #         col_widths = 12,
+                  #         row_heights = c(1, 6),
+                  #         #value boxes
+                  #         layout_columns(
+                  #             col_widths = 6,
+                  #             row_heights = c(1, 1),
+                  #             uiOutput("age_value_box"),
+                  #             uiOutput("pop_value_box"),
+                  #         ),
+                  #         # tabs between median age and race
+                  #         navset_card_tab(
+                  #             full_screen = TRUE,
+                  #             wrapper = card_body(),
+                  #             title = "Hampton Roads Demographics",
+                  #             id = "demographic",
+                  #             nav_panel(
+                  #                 title = "Median Age",
+                  #                 value = "age",
+                  #                 leafletOutput("age_choropleth")
+                  #             ),
+                  #             nav_panel(
+                  #                 title = "Black Population",
+                  #                 value = "pop",
+                  #                 leafletOutput("pop_choropleth")
+                  #             )
+                  #         )
+                  #     )
+                  # )
+                  layout_sidebar(
+                      sidebar = sidebar(
+                          width = validateCssUnit("33%"),
+                          title = "Demographic Characteristics",
+                          includeMarkdown("markdown/sodem/sodem_characteristics.md")
+                      ),
+                      layout_column_wrap(
+                          width = 1,
+                          heights_equal = "row",
+                          layout_column_wrap(
+                              width = 1/3,
+                              uiOutput("age_value_box"),
+                              uiOutput("pop_value_box"),
+                              uiOutput("total_pop_value_box")
                           ),
-                          layout_columns(
-                              col_widths = 12,
-                              row_heights = c(1, 6),
-                              #value boxes
-                              layout_columns(
-                                  uiOutput("median_age_box"),
-                                  uiOutput("race_box")
+                          p("hoping i can create a total pop scatterplot here"),
+                          navset_card_tab(
+                              full_screen = TRUE,
+                              wrapper = card_body(),
+                              title = "Hampton Roads Demographics",
+                              id = "demographic",
+                              nav_panel(
+                                  title = "Median Age",
+                                  value = "age",
+                                  leafletOutput("age_choropleth")
                               ),
-                              # tabs between median age and race
-                              navset_card_tab(
-                                  full_screen = TRUE,
-                                  wrapper = card_body(),
-                                  title = "Hampton Roads Demographics",
-                                  id = "demographic",
-                                  nav_panel(
-                                      title = "Median Age",
-                                      value = "age",
-                                      leafletOutput("age_choropleth")
-                                  ),
-                                  nav_panel(
-                                      title = "Black Population",
-                                      value = "pop",
-                                      leafletOutput("pop_choropleth")
-                                  )
-                              )
+                              nav_panel(
+                                  title = "Black Population",
+                                  value = "pop",
+                                  leafletOutput("pop_choropleth")
+                              ),
+                              card_footer("Data: 2022 ACS 5-Year DP05 Table")
                           )
                       )
                   )
@@ -92,23 +130,50 @@ ui <- page_navbar(
                     inputId = "loc",
                     label = "Select locality:",
                     selected = "Chesapeake",
-                    choices = unique(education_data$division_name)
+                    choices = unique(st_data$division_name)
                 )
             ),
-            layout_columns(
-                col_widths = 12,
-                row_heights = c(5, 2),
-                card(
-                    card_header("2022-2023 Standardized Testing Comparison Radar Plot"),
-                    card_body(
-                        layout_column_wrap(
-                            plotlyOutput("radio_plot"),
-                            uiOutput("metadata"))
+            accordion(
+                multiple = FALSE,
+                accordion_panel(
+                    title = "Standardized Testing",
+                    navset_card_tab(
+                        nav_panel(
+                            title = "2022-2023 Testing Results",
+                            layout_column_wrap(
+                                plotlyOutput("radio_plot"),
+                                layout_column_wrap(
+                                    uiOutput("st_value_boxes")
+                                ))
+                        ),
+                        nav_panel(
+                            title = "Race Comparison",
+                            card_body(plotOutput("lollipop_plot")),
+                        ),
+                        card_footer("Source: VDOE Annual Pass Rates (Division Subject Area)")
                     ),
-                    card_footer("Source: VDOE Annual Pass Rates (Division Subject Area)")
+                
                 ),
-                card("lollipop plot"),
+                accordion_panel(
+                    title = "Educators?",
+                    "meow"
+                )
             )
+        )
+    ),
+    nav_spacer(),
+    nav_menu(
+        title = "Links",
+        align = "right",
+        nav_item(
+            tags$a("GitHub", 
+                   href = "https://github.com/afomiya02/testrepo", 
+                   target = "_blank")
+        ),
+        nav_item(
+            tags$a("Black BRAND", 
+                   href = "https://blackbrand.biz/", 
+                   target = "_blank")
         )
     )
 )
@@ -118,7 +183,7 @@ server <- function(input, output, session) {
     
     ## VALUE BOXES
     # black population value box
-    output$race_box <- renderUI({
+    output$pop_value_box <- renderUI({
         black_pop <- round(sum(sodem_data$black_or_african_american) / 
                                sum(sodem_data$total_population), 2) * 100
         box <- value_box(
@@ -130,8 +195,7 @@ server <- function(input, output, session) {
         box
     })
     
-    # median age value box
-    output$median_age_box <- renderUI({
+    output$age_value_box <- renderUI({
         median_age <- round(mean(sodem_data$median_age_years), 1)
         box <- value_box(
             title = "Median Age (years):",
@@ -142,8 +206,14 @@ server <- function(input, output, session) {
         box
     })
     
-    output$choropleth <- renderLeaflet({
-        leaflet(heatmap_data) %>% addTiles()
+    output$total_pop_value_box <- renderUI({
+        box <- value_box(
+            title = "Total Population Across Hampton Roads:",
+            value = sum(sodem_data$total_population),
+            showcase = bs_icon("check2-all"),
+            theme = "primary"
+        )
+        box
     })
     
     ## LEAFLET OUTPUT
@@ -203,9 +273,11 @@ server <- function(input, output, session) {
     })
     
     ### --- EDUCATION ---
-    ## subset standardized testing data
-    st_subsetted <- reactive({
-        df <- education_data %>% 
+    ## subset standardized testing radar data
+    
+    # reactive that gets all necessary info for radar plot
+    st_radar <- reactive({
+        df <- st_data %>%
             filter(division_name %in% input$loc) %>%
             filter(subgroup %in% c("Black", "White")) %>%
             select(c(subject, subgroup, `2022-2023_pass_rate`)) %>%
@@ -215,12 +287,57 @@ server <- function(input, output, session) {
             column_to_rownames(., "subgroup")
         df
     })
-    
-    output$metadata <- renderUI({
-        p(h2(input$loc), "number of students:", 2 * 10)
+
+    # reactive that gets all necessary info for lollipop plot
+    st_lollipop <- reactive({
+        df <- st_data %>%
+            dplyr::filter(division_name %in% input$loc) %>%
+            dplyr::filter(subgroup %in% c("Black", "White")) %>%
+            group_by(subgroup) %>% dplyr::summarise(
+                across(ends_with("pass_rate"), mean)
+            ) %>%
+            pivot_longer(!subgroup, names_to = "year", values_to = "pass_rate") %>%
+            dplyr::mutate(year = str_remove(year, "_pass_rate")) %>%
+            pivot_wider(names_from = subgroup, values_from = pass_rate)
+        df
     })
     
-    # grab radio plot and thingy metadata
+    st_meta <- reactive({
+        df <- student_count_data %>%
+            filter(division_name %in% input$loc)
+        df
+    })
+    
+    # just a header
+    output$metadata <- renderUI({
+        HTML(h2(input$loc))
+    })
+    
+    # create value boxes
+    output$st_value_boxes <- renderUI({
+        prop <- st_meta() %>% filter(race == "Black") %>% select(total_count) /
+            sum(st_meta()$total_count)
+        vbs <- list(
+            value_box(
+                title = "# of Black students:",
+                value = st_meta() %>% filter(race == "Black") %>% select(total_count),
+                theme = "primary"
+            ),
+            value_box(
+                title = "Total # of students:",
+                value = sum(st_meta()$total_count),
+                theme = "primary"
+            ),
+            value_box(
+                title = "Percentage of Black students:",
+                value = paste0(round(prop * 100, 2), "%"),
+                theme = "info"
+            )
+        )
+        vbs
+    })
+    
+    # create radio plot with subetted data
     output$radio_plot <- renderPlotly({
         fig <- plot_ly(
             type = "scatterpolar",
@@ -228,15 +345,26 @@ server <- function(input, output, session) {
         ) %>%
             # when adding traces for radar plots data frame has to wrap back around to first entry
             # so i unlisted entire row + 1st value in row
-            add_trace(r = as.numeric(unlist(c(st_subsetted()[1, ], st_subsetted()[1, 1]))), 
-                      theta = unlist(c(colnames(st_subsetted()), colnames(st_subsetted())[1])),
+            add_trace(r = as.numeric(unlist(c(st_radar()[1, ], st_radar()[1, 1]))), 
+                      theta = unlist(c(colnames(st_radar()), colnames(st_radar())[1])),
                       name = "Black Students") %>%
-            add_trace(r = as.numeric(unlist(c(st_subsetted()[2, ], st_subsetted()[2, 1]))), 
-                      theta = unlist(c(colnames(st_subsetted()), colnames(st_subsetted())[1])),
+            add_trace(r = as.numeric(unlist(c(st_radar()[2, ], st_radar()[2, 1]))), 
+                      theta = unlist(c(colnames(st_radar()), colnames(st_radar())[1])),
                       name = "White Students") %>%
             layout(polar = list(radialaxis = list(visible = TRUE, range = c(0, 100))))
         
         fig
+    })
+    
+    # create lollipop plot
+    output$lollipop_plot <- renderPlot({
+        p <- ggplot(st_lollipop()) + 
+            geom_segment(aes(x = year, xend = year, y = Black, yend = White), color = "grey") +
+            geom_point(aes(x = year, y = Black), color = "black", size = 3) +
+            geom_point(aes(x = year, y = White), color = "orange", size = 3) +
+            theme_minimal() + labs(x = "School Year", y = "Testing Pass Rate (%)") +
+            ylim(0, 100)
+        p
     })
 }
 
