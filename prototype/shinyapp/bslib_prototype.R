@@ -13,7 +13,7 @@ source("education.r")
 ui <- page_navbar(
     title = "phaceholder",
     selected = "overview",
-    theme = bs_theme(preset = "cosmo"),
+    theme = bs_theme(preset = "flatly"),
     useShinyjs(),
     nav_menu(
         title = "Overview",
@@ -45,80 +45,44 @@ ui <- page_navbar(
         ),
         nav_panel(title = "Data & Methodology",)
     ),
-    nav_panel(title = "Sociodemographics",
-              page_fillable(
-                  # layout_columns(
-                  #     col_widths = c(4, 8),
-                  #     card(
-                  #         card_header("Demographic Characteristics"),
-                  #         card_body(includeMarkdown("markdown/sodem/sodem_characteristics.md")),
-                  #         card_footer("Data: 2022 ACS 5-Year DP05 Table")
-                  #     ),
-                  #     layout_columns(
-                  #         col_widths = 12,
-                  #         row_heights = c(1, 6),
-                  #         #value boxes
-                  #         layout_columns(
-                  #             col_widths = 6,
-                  #             row_heights = c(1, 1),
-                  #             uiOutput("age_value_box"),
-                  #             uiOutput("pop_value_box"),
-                  #         ),
-                  #         # tabs between median age and race
-                  #         navset_card_tab(
-                  #             full_screen = TRUE,
-                  #             wrapper = card_body(),
-                  #             title = "Hampton Roads Demographics",
-                  #             id = "demographic",
-                  #             nav_panel(
-                  #                 title = "Median Age",
-                  #                 value = "age",
-                  #                 leafletOutput("age_choropleth")
-                  #             ),
-                  #             nav_panel(
-                  #                 title = "Black Population",
-                  #                 value = "pop",
-                  #                 leafletOutput("pop_choropleth")
-                  #             )
-                  #         )
-                  #     )
-                  # )
-                  layout_sidebar(
-                      sidebar = sidebar(
-                          width = validateCssUnit("33%"),
-                          title = "Demographic Characteristics",
-                          includeMarkdown("markdown/sodem/sodem_characteristics.md")
-                      ),
-                      layout_column_wrap(
-                          width = 1,
-                          heights_equal = "row",
-                          layout_column_wrap(
-                              width = 1/3,
-                              uiOutput("age_value_box"),
-                              uiOutput("pop_value_box"),
-                              uiOutput("total_pop_value_box")
-                          ),
-                          p("hoping i can create a total pop scatterplot here"),
-                          navset_card_tab(
-                              full_screen = TRUE,
-                              wrapper = card_body(),
-                              title = "Hampton Roads Demographics",
-                              id = "demographic",
-                              nav_panel(
-                                  title = "Median Age",
-                                  value = "age",
-                                  leafletOutput("age_choropleth")
-                              ),
-                              nav_panel(
-                                  title = "Black Population",
-                                  value = "pop",
-                                  leafletOutput("pop_choropleth")
-                              ),
-                              card_footer("Data: 2022 ACS 5-Year DP05 Table")
-                          )
-                      )
-                  )
-              )
+    nav_panel(
+        title = "Sociodemographics",
+        layout_sidebar(
+            sidebar = sidebar(
+                width = validateCssUnit("33%"),
+                title = "Demographic Characteristics",
+                includeMarkdown("markdown/sodem/sodem_characteristics.md")
+            ),
+            layout_column_wrap(
+                width = 1,
+                heights_equal = "row",
+                layout_column_wrap(
+                    width = 1/3,
+                    uiOutput("age_value_box"),
+                    uiOutput("pop_value_box"),
+                    uiOutput("total_pop_value_box")
+                ),
+                # p("hoping i can create a total pop scatterplot here"),
+                navset_card_tab(
+                    height = validateCssUnit("1000px"),
+                    full_screen = TRUE,
+                    wrapper = card_body(),
+                    title = "Hampton Roads Demographics",
+                    id = "demographic",
+                    nav_panel(
+                        title = "Median Age",
+                        value = "age",
+                        leafletOutput("age_choropleth")
+                    ),
+                    nav_panel(
+                        title = "Black Population",
+                        value = "pop",
+                        leafletOutput("pop_choropleth")
+                    ),
+                    card_footer("Data: 2022 ACS 5-Year DP05 Table")
+                )
+            )
+        )
     ),
     nav_panel(
         title = "Education",
@@ -152,7 +116,7 @@ ui <- page_navbar(
                         ),
                         card_footer("Source: VDOE Annual Pass Rates (Division Subject Area)")
                     ),
-                
+                    
                 ),
                 accordion_panel(
                     title = "Educators?",
@@ -187,8 +151,8 @@ server <- function(input, output, session) {
         black_pop <- round(sum(sodem_data$black_or_african_american) / 
                                sum(sodem_data$total_population), 2) * 100
         box <- value_box(
-            title = "Black Population (%):",
-            value = black_pop,
+            title = p("Black Population (%):", style = "font-size: 20px"),
+            value = shiny::p(black_pop, style = "font-size: 36px"),
             showcase = bs_icon("pie-chart-fill"),
             theme = "info"
         )
@@ -198,8 +162,8 @@ server <- function(input, output, session) {
     output$age_value_box <- renderUI({
         median_age <- round(mean(sodem_data$median_age_years), 1)
         box <- value_box(
-            title = "Median Age (years):",
-            value = median_age,
+            title = shiny::p("Median Age:", style = "font-size: 20px"),
+            value = shiny::p(median_age, "years", style = "font-size: 36px"),
             showcase = bs_icon("cake"),
             theme = "primary"
         )
@@ -208,12 +172,13 @@ server <- function(input, output, session) {
     
     output$total_pop_value_box <- renderUI({
         box <- value_box(
-            title = "Total Population Across Hampton Roads:",
-            value = sum(sodem_data$total_population),
+            title = shiny::p("Total Population:", style = "font-size: 20px"),
+            value = shiny::p(sum(sodem_data$total_population), style = "font-size: 36px"),
             showcase = bs_icon("check2-all"),
             theme = "primary"
         )
         box
+        
     })
     
     ## LEAFLET OUTPUT
@@ -241,10 +206,10 @@ server <- function(input, output, session) {
                 title = "Black Population (%)"
             ) %>%
             addTiles()
-
+        
         sodem_choropleth
     })
-
+    
     output$age_choropleth <- renderLeaflet({
         pal <- colorBin("YlOrRd", heatmap_data$median_age_years)
         sodem_choropleth <- leaflet() %>%
@@ -268,7 +233,7 @@ server <- function(input, output, session) {
                 title = "Median Age (years)"
             ) %>%
             addTiles()
-
+        
         sodem_choropleth
     })
     
@@ -287,7 +252,7 @@ server <- function(input, output, session) {
             column_to_rownames(., "subgroup")
         df
     })
-
+    
     # reactive that gets all necessary info for lollipop plot
     st_lollipop <- reactive({
         df <- st_data %>%
