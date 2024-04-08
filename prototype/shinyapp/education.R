@@ -7,19 +7,19 @@ library(tidyverse)
 # lowercase and with underscores for data cleaning purposes
 # williamsburg and james city county merged together for VDOE data only
 hampton_roads_edu_localities <- c(
-  "chesapeake",
-  "franklin",
+  "chesapeake_city",
+  "franklin_city",
   "gloucester_county",
-  "hampton",
+  "hampton_city",
   "isle_of_wight_county",
   "mathews_county",
-  "newport_news",
-  "norfolk",
-  "poquoson",
-  "portsmouth",
+  "newport_news_city",
+  "norfolk_city",
+  "poquoson_city",
+  "portsmouth_city",
   "southampton_county",
-  "suffolk",
-  "virginia_beach",
+  "suffolk_city",
+  "virginia_beach_city",
   "williamsburg-james_city_county",
   "york_county"
 )
@@ -27,59 +27,58 @@ hampton_roads_edu_localities <- c(
 ## ALL EDUCATIONAL DATA FOUND IN THE VDOE STATISTICS TAB
 ## https://p1pe.doe.virginia.gov/apex_captcha/home.do?apexTypeId=304 FOR STUDENT DATA
 ## https://www.doe.virginia.gov/teaching-learning-assessment/teaching-in-virginia/education-workforce-data-reports FOR EDUCATOR DATA
-
+## https://www.doe.virginia.gov/teaching-learning-assessment/student-assessment/state-assessment-results FOR ST DATA
 
 # Preprocesses educator count data for grouping purposes
-# 
-# Params: 
-#   path - .xlsx file to be processed
-# Returns: 
-#   small dataframe with the locality, age and race estimates/percentages
-preprocess_educator_count_data <- function(path) {
-  df <- read_excel(path) %>%
+educator_count_data <- read_excel("data/VDOE/educator_count.xlsx") %>%
+    # clean dataframe body for easier cleaning
     slice(-c(1:2, 138:140)) %>% # slice first two and last two rows containing no data
     set_names(unlist(.[1,])) %>% slice(-1) %>% # rename column names with first row
+    # clean column and value names
     rename_all(tolower) %>% rename_all(str_replace_all, " ", "_") %>% # rename all COLUMNS to lower
     mutate(across(total_counts:not_specified, as.numeric)) %>% # make numeric columns numeric
-    mutate(across(where(is.numeric), ~ replace_na(., 0))) %>% # replace NA with zero
+    mutate(across(where(is.numeric), ~replace_na(., 0))) %>% # replace NA with zero
     mutate(across(everything(), tolower)) %>% # make string columns to lower
     mutate(across(everything(), str_replace_all, " ", "_")) %>% # replace spaces w/ underscores for data cleaning
     mutate(division_name = str_replace(division_name, "_public_schools", "")) %>% # remove public schools from div name
+    filter(division_name %in% hampton_roads_edu_localities) %>% # filter only hampton roads
     mutate(division_name = str_replace(division_name, "_city", "")) %>% # remove city if in name
-    # for whatever reason williamsburg and james city county are merged together so
-    # rename williamsburg-james city county to williamsburg for data grouping purposes
-    mutate(division_name = ifelse( 
-      division_name == "williamsburg-james_county", "james_city_county", division_name
-    )) %>% 
-    filter(division_name %in% hampton_roads_localities) %>% # filter only hampton roads
     select(-division_no.)
-  return(df)
-}
 
 # Preprocesses student count data for grouping purposes
-# 
-# Params: 
-#   path - .csv file to be processed
-# Returns: 
-#   small dataframe with the locality and total count
-preprocess_student_count_data <- function(path) {
-  df <- read.csv(path) %>%
-    mutate(across(everything(), str_trim)) %>% # trim whitespace
-    select(c(3, 7)) %>% # select division name, and total count of division
-    `colnames<-`(c("division_name", "total_count")) %>%
-    mutate(across(everything(), tolower)) %>% # make everything lowercase
-    mutate(across(everything(), str_replace_all, ",", "")) %>%
-    mutate(across(total_count, as.numeric)) %>% # name numeric columns numeric
-    mutate(across(division_name, str_replace_all, " ", "_")) %>% # replace spaces w/ underscores for data cleaning
-    # rename williamsburg-james city county to williamsburg for data grouping purposes
-    mutate(division_name = str_replace(division_name, "_city", "")) %>% # remove city if in name
-    mutate(division_name = ifelse( 
-      division_name == "williamsburg-james_county", "williamsburg", division_name
-    )) %>% 
-    filter(division_name %in% hampton_roads_localities)
-  return(df)
-}
-
+student_count_data <- read.csv("data/VDOE/student_count.csv") %>%
+    # clean string names
+    mutate_if(is.character, trimws) %>%
+    mutate_if(is.character, str_replace_all, ",", "") %>%
+    # rename column names to match lowerscore and underscores (column_name)
+    rename_with(~str_replace_all(., fixed(".."), fixed("."))) %>%
+    rename_with(~str_replace_all(., fixed("."), "_")) %>%
+    rename_with(~str_replace(., "_$", ""), ends_with("_")) %>% # regex specifies last instance of _
+    rename_all(tolower) %>%
+    # rename column VALUES to match above naming convention
+    mutate(across(everything(), tolower)) %>%
+    mutate(across(everything(), str_replace_all, " ", "_")) %>%
+    mutate_at(vars(contains("count")), as.numeric) %>%
+    replace(is.na(.), 0) %>%
+    filter(division_name %in% hampton_roads_edu_localities) %>%
+    mutate(race = case_when(
+        race == "black_not_of_hispanic_origin" ~ "black",
+        race == "native_hawaiian__or_pacific_islander" ~ "pacific_islander",
+        race == "non-hispanic_two_or_more_races" ~ "multiracial",
+        race == "white_not_of_hispanic_origin" ~ "white",
+        race == "american_indian_or_alaska_native" ~ "native_american",
+        TRUE ~ as.character(race) # default
+    )) %>%
+    # post-process character strings to title
+    mutate_if(is.character, str_replace_all, "_city", "") %>%
+    mutate_if(is.character, str_replace_all, "_", " ") %>%
+    mutate_if(is.character, str_to_title)
+    
+    
+# Function to assist inner joining several standardized testing pass rates
+#
+# Returns:
+#   inner-joined data frame
 preprocess_subject_pass_rates <- function() {
     # this df will keep all the subgroups together
     df1 <- read_excel("data/VDOE/subject/subject_pass_rates_2013-2016.xlsx") %>%
@@ -105,7 +104,6 @@ preprocess_subject_pass_rates <- function() {
         # make strings tolower with underscores and no colons
         mutate_if(is.character, tolower) %>%
         mutate_if(is.character, str_replace_all, " ", "_") %>%
-        mutate_if(is.character, str_replace_all, "_city", "") %>%
         # rename column names
         rename_with(tolower) %>%
         rename_with(~str_replace_all(., " ", "_")) %>%
@@ -113,50 +111,15 @@ preprocess_subject_pass_rates <- function() {
         # filter everything under hampton roads localities
         filter(division_name %in% hampton_roads_edu_localities) %>%
         select(-div_num) %>%
-        drop_na()  
+        drop_na()
+    
+        # there is NO asian people data in mathews county
+        # instead of dropping missing values, group like rows by subject and take the mean
+        
     return(df)
 }
 
-education_data <- preprocess_subject_pass_rates() %>%
+st_data <- preprocess_subject_pass_rates() %>%
+    mutate_if(is.character, str_replace_all, "_city", "") %>%
     mutate_if(is.character, str_replace_all, "_", " ") %>%
     mutate_if(is.character, str_to_title)
-
-library(plotly)
-
-radar_data <- education_data %>% 
-    dplyr::filter(division_name %in% "Chesapeake") %>%
-    dplyr::filter(subgroup %in% c("Black", "White")) %>%
-    select(c(subject, subgroup, `2022-2023_pass_rate`)) %>%
-    # pivot dataset such that subjects are columns and
-    # subjects are row names
-    pivot_wider(names_from = subject, values_from = `2022-2023_pass_rate`) %>%
-    column_to_rownames(., "subgroup")
-
-fig <- plot_ly(
-    type = "scatterpolar",
-    mode = "lines+markers",
-) %>%
-    # when adding traces for radar plots data frame has to wrap back around to first entry
-    # so i unlisted entire row + 1st value in row
-    add_trace(r = as.numeric(unlist(c(radar_data[1, ], radar_data[1, 1]))), 
-              theta = unlist(c(colnames(radar_data), colnames(radar_data)[1])),
-              name = "Black Students") %>%
-    add_trace(r = as.numeric(unlist(c(radar_data[2, ], radar_data[2, 1]))), 
-              theta = unlist(c(colnames(radar_data), colnames(radar_data)[1])),
-              name = "White Students") %>%
-    layout(polar = list(radialaxis = list(visible = TRUE, range = c(0, 100))))
-
-fig
-
-# fig <- plot_ly(
-#     data = radar_data,
-#     type = "scatterpolar",
-#     mode = "lines+markers",
-# ) %>%
-#     add_trace(r = ~)
-
-
-
-
-
-
