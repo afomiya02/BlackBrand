@@ -58,25 +58,6 @@ preprocess_sodem_data <- function(path) {
   df <- pivot_wider(data = df, names_from = label, values_from = estimate)
 }
 
-# Preprocesses geographic data for grouping
-#
-# Params: 
-#   path - .rds file to be processed
-#
-# Returns:
-#   Preprocessed Hampton Roads grographical data
-preprocess_geo_data <- function(path) {
-  df <- readRDS(path) %>%
-    # preprocess column data for merging
-    mutate(loc_name = str_replace_all(loc_name, ", Virginia", "")) %>%
-    mutate(loc_name = str_replace_all(loc_name, "city", "")) %>%
-    mutate(loc_name = tolower(loc_name)) %>%
-    mutate(loc_name = str_trim(loc_name)) %>%
-    mutate(loc_name = str_replace_all(loc_name, " ", "_")) %>%
-    st_transform(st_crs("WGS84")) # warning popped up asking for this transformation so KEEP it
-  return(df)
-}
-
 # gets all 2022 ACS DP05 data for median age + black population choropleth
 # check functions.R for more info
 filenames <- list.files("data/ACS_DP05", pattern = "*.csv", full.names = TRUE)
@@ -85,11 +66,17 @@ sodem_data <- bind_rows(sodem_data)
 
 # gets preprocessed geo data for hampton roads
 # check functions.R for more info
-geo_data <- preprocess_geo_data("data/geo_data.rds")
+geo_data <- readRDS("data/geo_data.rds") %>%
+    # preprocess column data for merging
+    mutate(loc_name = str_replace_all(loc_name, ", Virginia", "")) %>%
+    mutate(loc_name = str_replace_all(loc_name, "city", "")) %>%
+    mutate(loc_name = tolower(loc_name)) %>%
+    mutate(loc_name = str_trim(loc_name)) %>%
+    mutate(loc_name = str_replace_all(loc_name, " ", "_")) %>%
+    st_transform(st_crs("WGS84")) # warning popped up asking for this transformation so KEEP it
 
 # create choropleth data for leaflet creation
-heatmap_data <-
-    merge(geo_data, sodem_data, by.x = "loc_name", by.y = "loc") %>%
+heatmap_data <- merge(geo_data, sodem_data, by.x = "loc_name", by.y = "loc") %>%
     # postprocess merged data on heatmap
     mutate(loc_name = str_replace_all(loc_name, "_", " ")) %>%
     mutate(loc_name = str_to_title(loc_name)) %>%
