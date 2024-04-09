@@ -62,7 +62,6 @@ ui <- page_navbar(
                     uiOutput("pop_value_box"),
                     uiOutput("total_pop_value_box")
                 ),
-                # p("hoping i can create a total pop scatterplot here"),
                 navset_card_tab(
                     height = validateCssUnit("1000px"),
                     full_screen = TRUE,
@@ -95,6 +94,15 @@ ui <- page_navbar(
                     label = "Select locality:",
                     selected = "Chesapeake",
                     choices = unique(st_data$division_name)
+                ),
+                checkboxGroupInput(
+                    inputId = "races",
+                    label = "Select races:",
+                    choices = c("Black" = "black",
+                      "White" = "white",
+                      "Asian" = "asian",
+                      "Hispanic" = "hispanic"),
+                    selected = "black"
                 )
             ),
             accordion(
@@ -243,8 +251,9 @@ server <- function(input, output, session) {
     # reactive that gets all necessary info for radar plot
     st_radar <- reactive({
         df <- st_data %>%
-            filter(division_name %in% input$loc) %>%
-            filter(subgroup %in% c("Black", "White")) %>%
+            dplyr::filter(division_name %in% input$loc) %>%
+            # dplyr::filter(subgroup %in% input$races) %>%
+            dplyr::filter(subgroup %in% c("Black", "White")) %>%
             select(c(subject, subgroup, `2022-2023_pass_rate`)) %>%
             # pivot dataset such that subjects are columns and
             # subjects are row names
@@ -257,6 +266,7 @@ server <- function(input, output, session) {
     st_lollipop <- reactive({
         df <- st_data %>%
             dplyr::filter(division_name %in% input$loc) %>%
+            # dplyr::filter(subgroup %in% input$races) %>%
             dplyr::filter(subgroup %in% c("Black", "White")) %>%
             group_by(subgroup) %>% dplyr::summarise(
                 across(ends_with("pass_rate"), mean)
@@ -304,6 +314,7 @@ server <- function(input, output, session) {
     
     # create radio plot with subetted data
     output$radio_plot <- renderPlotly({
+        req(input$races)
         fig <- plot_ly(
             type = "scatterpolar",
             mode = "lines+markers",
@@ -323,6 +334,7 @@ server <- function(input, output, session) {
     
     # create lollipop plot
     output$lollipop_plot <- renderPlot({
+        req(input$races)
         p <- ggplot(st_lollipop()) + 
             geom_segment(aes(x = year, xend = year, y = Black, yend = White), color = "grey") +
             geom_point(aes(x = year, y = Black), color = "black", size = 3) +
