@@ -98,11 +98,11 @@ ui <- page_navbar(
                 checkboxGroupInput(
                     inputId = "races",
                     label = "Select races:",
-                    choices = c("Black" = "black",
-                      "White" = "white",
-                      "Asian" = "asian",
-                      "Hispanic" = "hispanic"),
-                    selected = "black"
+                    choices = c("Black" = "Black",
+                                "White" = "White",
+                                "Asian" = "Asian",
+                                "Hispanic" = "Hispanic"),
+                    selected = "Black"
                 )
             ),
             accordion(
@@ -159,8 +159,8 @@ server <- function(input, output, session) {
         black_pop <- round(sum(sodem_data$black_or_african_american) / 
                                sum(sodem_data$total_population), 2) * 100
         box <- value_box(
-            title = p("Black Population (%):", style = "font-size: 20px"),
-            value = shiny::p(black_pop, style = "font-size: 36px"),
+            title = "Black Population (%):",
+            value = black_pop,
             showcase = bs_icon("pie-chart-fill"),
             theme = "info"
         )
@@ -170,8 +170,8 @@ server <- function(input, output, session) {
     output$age_value_box <- renderUI({
         median_age <- round(mean(sodem_data$median_age_years), 1)
         box <- value_box(
-            title = shiny::p("Median Age:", style = "font-size: 20px"),
-            value = shiny::p(median_age, "years", style = "font-size: 36px"),
+            title = "Median Age:",
+            value = shiny::p(median_age, "years"),
             showcase = bs_icon("cake"),
             theme = "primary"
         )
@@ -180,8 +180,8 @@ server <- function(input, output, session) {
     
     output$total_pop_value_box <- renderUI({
         box <- value_box(
-            title = shiny::p("Total Population:", style = "font-size: 20px"),
-            value = shiny::p(sum(sodem_data$total_population), style = "font-size: 36px"),
+            title = "Total Population",
+            value = sum(sodem_data$total_population),
             showcase = bs_icon("check2-all"),
             theme = "primary"
         )
@@ -252,8 +252,7 @@ server <- function(input, output, session) {
     st_radar <- reactive({
         df <- st_data %>%
             dplyr::filter(division_name %in% input$loc) %>%
-            # dplyr::filter(subgroup %in% input$races) %>%
-            dplyr::filter(subgroup %in% c("Black", "White")) %>%
+            dplyr::filter(subgroup %in% input$races) %>%
             select(c(subject, subgroup, `2022-2023_pass_rate`)) %>%
             # pivot dataset such that subjects are columns and
             # subjects are row names
@@ -261,7 +260,7 @@ server <- function(input, output, session) {
             column_to_rownames(., "subgroup")
         df
     })
-    
+
     # reactive that gets all necessary info for lollipop plot
     st_lollipop <- reactive({
         df <- st_data %>%
@@ -312,24 +311,35 @@ server <- function(input, output, session) {
         vbs
     })
     
+    # observe({
+    #     updateCheckboxGroupInput(
+    #         session = session,
+    #         inputId = "races",
+    #         label = "Select races:"
+    #     )
+    # })
+    
     # create radio plot with subetted data
     output$radio_plot <- renderPlotly({
         req(input$races)
-        fig <- plot_ly(
-            type = "scatterpolar",
-            mode = "lines+markers",
-        ) %>%
-            # when adding traces for radar plots data frame has to wrap back around to first entry
-            # so i unlisted entire row + 1st value in row
-            add_trace(r = as.numeric(unlist(c(st_radar()[1, ], st_radar()[1, 1]))), 
-                      theta = unlist(c(colnames(st_radar()), colnames(st_radar())[1])),
-                      name = "Black Students") %>%
-            add_trace(r = as.numeric(unlist(c(st_radar()[2, ], st_radar()[2, 1]))), 
-                      theta = unlist(c(colnames(st_radar()), colnames(st_radar())[1])),
-                      name = "White Students") %>%
-            layout(polar = list(radialaxis = list(visible = TRUE, range = c(0, 100))))
         
-        fig
+        # Dark2
+        pal <- c("Black" = "#1b9e77", "White" = "#d95f02", "Asian" = "#7570b3", "Hispanic" = "#e7298a")
+        fig <- plot_ly(
+            data = st_radar(),
+            type = "scatterpolar",
+            mode = "markers+lines"
+        )
+        
+        for (i in 1:length(input$races)) {
+            fig <- fig %>%
+                add_trace(r = as.numeric(unlist(c(st_radar()[input$races[i], ], st_radar()[input$races[i], 1]))),
+                          theta = unlist(c(colnames(st_radar()), colnames(st_radar())[1])),
+                          name = paste(input$races[i], "Students"),
+                          color = pal[i])
+        }
+        
+        fig %>% layout(polar = list(radialaxis = list(visible = TRUE, range = c(0, 100))))
     })
     
     # create lollipop plot
