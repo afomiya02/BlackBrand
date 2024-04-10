@@ -1294,465 +1294,91 @@ server <- function(input, output, session) {
   # })
   
   # Median Income line plots -------------------------------------------------
-  
-  output$medianTimeGraph <- renderPlot ({
-    va_yr <- read.csv("data/income/va_income2019.csv")
+  process_income_data <- function(year) {
+    # VA file paths based on the year
+    va_yr <- read.csv(sprintf("data/income/va_income%d.csv", year))
     va_yr <- va_yr[2:6]
     race_names <- c("Total", "Black")
-    #median income
-    va_race_income_median <- data.frame(va_yr[c(81, 83), 4])
-    va_race_income <-
-      data.frame(cbind(race_names, va_race_income_median))
-    colnames(va_race_income) <- c("Race", "Median Income")
-    #Hampton Income
-    hamp_yr <- read.csv("data/income/hampton_income2019.csv")
-    hamp_yr <- hamp_yr[2:6]
-    #getting the name, variable and estimate
-    hamp_income2 <- hamp_yr[, 2:4]
-    hamp_income3 <- hamp_income2 %>%
-      group_by(NAME) %>%
-      slice(c(81, 83))
-    #This give us overall hampton overall and black median income
-    variable <-
-      sample(c("S1903_C03_001", "S1903_C03_003"), 32, replace = TRUE)
-    hamp_race_income_median <-
-      hamp_income3 %>% group_by(variable) %>% summarize(median(estimate, na.rm = TRUE))
-    #Va and Hampton Roads
-    median_income <- cbind(va_race_income, hamp_race_income_median)
-    median_income <- median_income[, c(2, 4)]
-    #having all the estimates in the same column
-    median_income19 <-
-      data.frame(median = c(median_income[, 1], median_income[, 2]))
-    #labeling
-    median_income19 <-
-      mutate(median_income19, location = c(rep("Virginia", 2), rep("Hampton Roads", 2)))
-    median_income19 <-
-      mutate(median_income19, demo = rep(c(
-        "Total Population", "Black Population"
-      ), 2))
-    colnames(median_income19) <-
-      c("Median Income (US Dollars)", "Location", "Demographic")
-    #making them all numeric
-    median_income19 <-
-      transform(median_income19,
-                `Median Income (US Dollars)` = as.numeric(`Median Income (US Dollars)`))
-    colnames(median_income19) <-
-      c("Median Income (US Dollars)", "Location", "Demographic")
-    median_income19 <- mutate(median_income19, Year = "2019")
-    ############################################################################2018
-    va_yr <- read.csv("data/income/va_income2018.csv")
-    va_yr <- va_yr[2:6]
-    race_names <- c("Total", "Black")
-    #median income
-    va_race_income_median <- data.frame(va_yr[c(81, 83), 4])
-    va_race_income <-
-      data.frame(cbind(race_names, va_race_income_median))
-    colnames(va_race_income) <- c("Race", "Median Income")
-    #Hampton Income
-    hamp_yr <- read.csv("data/income/hampton_income2018.csv")
-    hamp_yr <- hamp_yr[2:6]
-    #getting the name, variable and estimate
-    hamp_income2 <- hamp_yr[, 2:4]
-    hamp_income3 <- hamp_income2 %>%
-      group_by(NAME) %>%
-      slice(c(81, 83))
-    #This give us overall hampton overall and black median income
-    variable <-
-      sample(c("S1903_C03_001", "S1903_C03_003"), 32, replace = TRUE)
-    hamp_race_income_median <-
-      hamp_income3 %>% group_by(variable) %>% summarize(median(estimate, na.rm = TRUE))
-    #Va and Hampton Roads
-    median_income <- cbind(va_race_income, hamp_race_income_median)
-    median_income <- median_income[, c(2, 4)]
-    #having all the estimates in the same column
-    median_income18 <-
-      data.frame(median = c(median_income[, 1], median_income[, 2]))
-    #labeling
-    median_income18 <-
-      mutate(median_income18, location = c(rep("Virginia", 2), rep("Hampton Roads", 2)))
-    median_income18 <-
-      mutate(median_income18, demo = rep(c(
-        "Total Population", "Black Population"
-      ), 2))
-    colnames(median_income18) <-
-      c("Median Income (US Dollars)", "Location", "Demographic")
-    #making them all numeric
-    median_income18 <-
-      transform(median_income18,
-                `Median Income (US Dollars)` = as.numeric(`Median Income (US Dollars)`))
-    colnames(median_income18) <-
-      c("Median Income (US Dollars)", "Location", "Demographic")
-    median_income18 <- mutate(median_income18, Year = "2018")
-    ############################################################################2017
-    va_yr <- read.csv("data/income/va_income2017.csv")
-    va_yr <- va_yr[2:6]
-    race_names <- c("Total", "Black")
-    #median income
-    va_race_income_median <- data.frame(va_yr[c(81, 83), 4])
-    va_race_income <-
-      data.frame(cbind(race_names, va_race_income_median))
-    colnames(va_race_income) <- c("Race", "Median Income")
-    #Hampton Income
-    hamp_yr <- read.csv("data/income/hampton_income2017.csv")
-    hamp_yr <- hamp_yr[2:6]
-    #getting the name, variable and estimate
-    hamp_income2 <- hamp_yr[, 2:4]
-    hamp_income3 <- hamp_income2 %>%
-      group_by(NAME) %>%
-      slice(c(81, 83))
-    #This give us overall hampton overall and black median income
-    variable <-
-      sample(c("S1903_C03_001", "S1903_C03_003"), 32, replace = TRUE)
-    hamp_race_income_median <-
-      hamp_income3 %>% group_by(variable) %>% summarize(median(estimate, na.rm = TRUE))
-    #Va and Hampton Roads
-    median_income <- cbind(va_race_income, hamp_race_income_median)
-    median_income <- median_income[, c(2, 4)]
-    #having all the estimates in the same column
-    median_income17 <-
-      data.frame(median = c(median_income[, 1], median_income[, 2]))
-    #labeling
-    median_income17 <-
-      mutate(median_income17, location = c(rep("Virginia", 2), rep("Hampton Roads", 2)))
-    median_income17 <-
-      mutate(median_income17, demo = rep(c(
-        "Total Population", "Black Population"
-      ), 2))
-    colnames(median_income17) <-
-      c("Median Income (US Dollars)", "Location", "Demographic")
-    #making them all numeric
-    median_income17 <-
-      transform(median_income17,
-                `Median Income (US Dollars)` = as.numeric(`Median Income (US Dollars)`))
-    colnames(median_income17) <-
-      c("Median Income (US Dollars)", "Location", "Demographic")
-    median_income17 <- mutate(median_income17, Year = "2017")
-    ###########################################################################2016
-    va_yr <- read.csv("data/income/va_income2016.csv")
-    va_yr <- va_yr[, 2:6]
-    race_names <- c("Total", "Black")
-    va_race_income_median <- data.frame(va_yr[c(31, 33), 4])
-    va_race_income <-
-      data.frame(cbind(race_names, va_race_income_median))
-    colnames(va_race_income) <- c("Race", "Median Income")
-    #Hampton Income
-    hamp_yr <- read.csv("data/income/hampton_income2016.csv")
-    hamp_yr <- hamp_yr[, 2:6]
-    #getting the name, variable and estimate
-    hamp_income2 <- hamp_yr[, 2:4]
-    hamp_income3 <- hamp_income2 %>%
-      group_by(NAME) %>%
-      slice(c(31, 33))
-    variable <-
-      sample(c("S1903_C02_001", "S1903_C02_003"), 32, replace = TRUE)
-    hamp_race_income_median <-
-      hamp_income3 %>% group_by(variable) %>% summarize(median(estimate, na.rm = TRUE))
-    #Va and Hampton Roads
-    median_income <- cbind(va_race_income, hamp_race_income_median)
-    median_income <- median_income[, c(2, 4)]
-    #having all the estimates in the same column
-    median_income16 <-
-      data.frame(median = c(median_income[, 1], median_income[, 2]))
-    #labeling
-    median_income16 <-
-      mutate(median_income16, location = c(rep("Virginia", 2), rep("Hampton Roads", 2)))
-    median_income16 <-
-      mutate(median_income16, demo = rep(c(
-        "Total Population", "Black Population"
-      ), 2))
-    colnames(median_income16) <-
-      c("Median Income (US Dollars)", "Location", "Demographic")
-    #making them all numeric
-    median_income16 <-
-      transform(median_income16,
-                `Median Income (US Dollars)` = as.numeric(`Median Income (US Dollars)`))
-    colnames(median_income16) <-
-      c("Median Income (US Dollars)", "Location", "Demographic")
-    median_income16 <- mutate(median_income16, Year = "2016")
-    ###########################################################################2016
-    va_yr <- read.csv("data/income/va_income2015.csv")
-    va_yr <- va_yr[, 2:6]
-    race_names <- c("Total", "Black")
-    va_race_income_median <- data.frame(va_yr[c(31, 33), 4])
-    va_race_income <-
-      data.frame(cbind(race_names, va_race_income_median))
-    colnames(va_race_income) <- c("Race", "Median Income")
-    #Hampton Income
-    hamp_yr <- read.csv("data/income/hampton_income2015.csv")
-    hamp_yr <- hamp_yr[, 2:6]
-    #getting the name, variable and estimate
-    hamp_income2 <- hamp_yr[, 2:4]
-    hamp_income3 <- hamp_income2 %>%
-      group_by(NAME) %>%
-      slice(c(31, 33))
-    variable <-
-      sample(c("S1903_C02_001", "S1903_C02_003"), 32, replace = TRUE)
-    hamp_race_income_median <-
-      hamp_income3 %>% group_by(variable) %>% summarize(median(estimate, na.rm = TRUE))
-    #Va and Hampton Roads
-    median_income <- cbind(va_race_income, hamp_race_income_median)
-    median_income <- median_income[, c(2, 4)]
-    #having all the estimates in the same column
-    median_income15 <-
-      data.frame(median = c(median_income[, 1], median_income[, 2]))
-    #labeling
-    median_income15 <-
-      mutate(median_income15, location = c(rep("Virginia", 2), rep("Hampton Roads", 2)))
-    median_income15 <-
-      mutate(median_income15, demo = rep(c(
-        "Total Population", "Black Population"
-      ), 2))
-    colnames(median_income15) <-
-      c("Median Income (US Dollars)", "Location", "Demographic")
-    #making them all numeric
-    median_income15 <-
-      transform(median_income15,
-                `Median Income (US Dollars)` = as.numeric(`Median Income (US Dollars)`))
-    colnames(median_income15) <-
-      c("Median Income (US Dollars)", "Location", "Demographic")
-    median_income15 <- mutate(median_income15, Year = "2015")
-    ###########################################################################2014
-    va_yr <- read.csv("data/income/va_income2014.csv")
-    va_yr <- va_yr[, 2:6]
-    race_names <- c("Total", "Black")
-    va_race_income_median <- data.frame(va_yr[c(31, 33), 4])
-    va_race_income <-
-      data.frame(cbind(race_names, va_race_income_median))
-    colnames(va_race_income) <- c("Race", "Median Income")
-    #Hampton Income
-    hamp_yr <- read.csv("data/income/hampton_income2014.csv")
-    hamp_yr <- hamp_yr[, 2:6]
-    #getting the name, variable and estimate
-    hamp_income2 <- hamp_yr[, 2:4]
-    hamp_income3 <- hamp_income2 %>%
-      group_by(NAME) %>%
-      slice(c(31, 33))
-    variable <-
-      sample(c("S1903_C02_001", "S1903_C02_003"), 32, replace = TRUE)
-    hamp_race_income_median <-
-      hamp_income3 %>% group_by(variable) %>% summarize(median(estimate, na.rm = TRUE))
-    #Va and Hampton Roads
-    median_income <- cbind(va_race_income, hamp_race_income_median)
-    median_income <- median_income[, c(2, 4)]
-    #having all the estimates in the same column
-    median_income14 <-
-      data.frame(median = c(median_income[, 1], median_income[, 2]))
-    #labeling
-    median_income14 <-
-      mutate(median_income14, location = c(rep("Virginia", 2), rep("Hampton Roads", 2)))
-    median_income14 <-
-      mutate(median_income14, demo = rep(c(
-        "Total Population", "Black Population"
-      ), 2))
-    colnames(median_income14) <-
-      c("Median Income (US Dollars)", "Location", "Demographic")
-    #making them all numeric
-    median_income14 <-
-      transform(median_income14,
-                `Median Income (US Dollars)` = as.numeric(`Median Income (US Dollars)`))
-    colnames(median_income14) <-
-      c("Median Income (US Dollars)", "Location", "Demographic")
-    median_income14 <- mutate(median_income14, Year = "2014")
-    ###########################################################################2013
-    va_yr <- read.csv("data/income/va_income2013.csv")
-    va_yr <- va_yr[, 2:6]
-    race_names <- c("Total", "Black")
-    va_race_income_median <- data.frame(va_yr[c(31, 33), 4])
-    va_race_income <-
-      data.frame(cbind(race_names, va_race_income_median))
-    colnames(va_race_income) <- c("Race", "Median Income")
-    #Hampton Income
-    hamp_yr <- read.csv("data/income/hampton_income2013.csv")
-    hamp_yr <- hamp_yr[, 2:6]
-    #getting the name, variable and estimate
-    hamp_income2 <- hamp_yr[, 2:4]
-    hamp_income3 <- hamp_income2 %>%
-      group_by(NAME) %>%
-      slice(c(31, 33))
-    variable <-
-      sample(c("S1903_C02_001", "S1903_C02_003"), 32, replace = TRUE)
-    hamp_race_income_median <-
-      hamp_income3 %>% group_by(variable) %>% summarize(median(estimate, na.rm = TRUE))
-    #Va and Hampton Roads
-    median_income <- cbind(va_race_income, hamp_race_income_median)
-    median_income <- median_income[, c(2, 4)]
-    #having all the estimates in the same column
-    median_income13 <-
-      data.frame(median = c(median_income[, 1], median_income[, 2]))
-    #labeling
-    median_income13 <-
-      mutate(median_income13, location = c(rep("Virginia", 2), rep("Hampton Roads", 2)))
-    median_income13 <-
-      mutate(median_income13, demo = rep(c(
-        "Total Population", "Black Population"
-      ), 2))
-    colnames(median_income13) <-
-      c("Median Income (US Dollars)", "Location", "Demographic")
-    #making them all numeric
-    median_income13 <-
-      transform(median_income13,
-                `Median Income (US Dollars)` = as.numeric(`Median Income (US Dollars)`))
-    colnames(median_income13) <-
-      c("Median Income (US Dollars)", "Location", "Demographic")
-    median_income13 <- mutate(median_income13, Year = "2013")
-    ############################################################################2012
-    va_yr <- read.csv("data/income/va_income2012.csv")
-    va_yr <- va_yr[, 2:6]
-    race_names <- c("Total", "Black")
-    va_race_income_median <- data.frame(va_yr[c(31, 33), 4])
-    va_race_income <-
-      data.frame(cbind(race_names, va_race_income_median))
-    colnames(va_race_income) <- c("Race", "Median Income")
-    #Hampton Income
-    hamp_yr <- read.csv("data/income/hampton_income2012.csv")
-    hamp_yr <- hamp_yr[, 2:6]
-    #getting the name, variable and estimate
-    hamp_income2 <- hamp_yr[, 2:4]
-    hamp_income3 <- hamp_income2 %>%
-      group_by(NAME) %>%
-      slice(c(31, 33))
-    variable <-
-      sample(c("S1903_C02_001", "S1903_C02_003"), 32, replace = TRUE)
-    hamp_race_income_median <-
-      hamp_income3 %>% group_by(variable) %>% summarize(median(estimate, na.rm = TRUE))
-    #Va and Hampton Roads
-    median_income <- cbind(va_race_income, hamp_race_income_median)
-    median_income <- median_income[, c(2, 4)]
-    #having all the estimates in the same column
-    median_income12 <-
-      data.frame(median = c(median_income[, 1], median_income[, 2]))
-    #labeling
-    median_income12 <-
-      mutate(median_income12, location = c(rep("Virginia", 2), rep("Hampton Roads", 2)))
-    median_income12 <-
-      mutate(median_income12, demo = rep(c(
-        "Total Population", "Black Population"
-      ), 2))
-    colnames(median_income12) <-
-      c("Median Income (US Dollars)", "Location", "Demographic")
-    #making them all numeric
-    median_income12 <-
-      transform(median_income12,
-                `Median Income (US Dollars)` = as.numeric(`Median Income (US Dollars)`))
-    colnames(median_income12) <-
-      c("Median Income (US Dollars)", "Location", "Demographic")
-    median_income12 <- mutate(median_income12, Year = "2012")
-    ###########################################################################2011
-    va_yr <- read.csv("data/income/va_income2011.csv")
-    va_yr <- va_yr[, 2:6]
-    race_names <- c("Total", "Black")
-    va_race_income_median <- data.frame(va_yr[c(31, 33), 4])
-    va_race_income <-
-      data.frame(cbind(race_names, va_race_income_median))
-    colnames(va_race_income) <- c("Race", "Median Income")
-    #Hampton Income
-    hamp_yr <- read.csv("data/income/hampton_income2011.csv")
-    hamp_yr <- hamp_yr[, 2:6]
-    #getting the name, variable and estimate
-    hamp_income2 <- hamp_yr[, 2:4]
-    hamp_income3 <- hamp_income2 %>%
-      group_by(NAME) %>%
-      slice(c(31, 33))
-    variable <-
-      sample(c("S1903_C02_001", "S1903_C02_003"), 32, replace = TRUE)
-    hamp_race_income_median <-
-      hamp_income3 %>% group_by(variable) %>% summarize(median(estimate, na.rm = TRUE))
-    #Va and Hampton Roads
-    median_income <- cbind(va_race_income, hamp_race_income_median)
-    median_income <- median_income[, c(2, 4)]
-    #having all the estimates in the same column
-    median_income11 <-
-      data.frame(median = c(median_income[, 1], median_income[, 2]))
-    #labeling
-    median_income11 <-
-      mutate(median_income11, location = c(rep("Virginia", 2), rep("Hampton Roads", 2)))
-    median_income11 <-
-      mutate(median_income11, demo = rep(c(
-        "Total Population", "Black Population"
-      ), 2))
-    colnames(median_income11) <-
-      c("Median Income (US Dollars)", "Location", "Demographic")
-    #making them all numeric
-    median_income11 <-
-      transform(median_income11,
-                `Median Income (US Dollars)` = as.numeric(`Median Income (US Dollars)`))
-    colnames(median_income11) <-
-      c("Median Income (US Dollars)", "Location", "Demographic")
-    median_income11 <- mutate(median_income11, Year = "2011")
-    ###########################################################################2010
-    va_yr <- read.csv("data/income/va_income2010.csv")
-    va_yr <- va_yr[, 2:6]
-    race_names <- c("Total", "Black")
-    va_race_income_median <- data.frame(va_yr[c(31, 33), 4])
-    va_race_income <-
-      data.frame(cbind(race_names, va_race_income_median))
-    colnames(va_race_income) <- c("Race", "Median Income")
-    #Hampton Income
-    hamp_yr <- read.csv("data/income/hampton_income2010.csv")
-    hamp_yr <- hamp_yr[, 2:6]
-    #getting the name, variable and estimate
-    hamp_income2 <- hamp_yr[, 2:4]
-    hamp_income3 <- hamp_income2 %>%
-      group_by(NAME) %>%
-      slice(c(31, 33))
-    variable <-
-      sample(c("S1903_C02_001", "S1903_C02_003"), 32, replace = TRUE)
-    hamp_race_income_median <-
-      hamp_income3 %>% group_by(variable) %>% summarize(median(estimate, na.rm = TRUE))
-    #Va and Hampton Roads
-    median_income <- cbind(va_race_income, hamp_race_income_median)
-    median_income <- median_income[, c(2, 4)]
-    #having all the estimates in the same column
-    median_income10 <-
-      data.frame(median = c(median_income[, 1], median_income[, 2]))
-    #labeling
-    median_income10 <-
-      mutate(median_income10, location = c(rep("Virginia", 2), rep("Hampton Roads", 2)))
-    median_income10 <-
-      mutate(median_income10, demo = rep(c(
-        "Total Population", "Black Population"
-      ), 2))
-    colnames(median_income10) <-
-      c("Median Income (US Dollars)", "Location", "Demographic")
-    #making them all numeric
-    median_income10 <-
-      transform(median_income10,
-                `Median Income (US Dollars)` = as.numeric(`Median Income (US Dollars)`))
-    colnames(median_income10) <-
-      c("Median Income (US Dollars)", "Location", "Demographic")
-    median_income10 <- mutate(median_income10, Year = "2010")
     
-    ###############################################################################Combined
+    #median income
+    if(year == "2016" || year == "2015" || year == "2014" || year == "2013" || 
+       year == "2012" || year == "2011" || year == "2010") {
+      va_race_income_median <- data.frame(va_yr[c(31, 33), 4])
+    }else {
+      va_race_income_median <- data.frame(va_yr[c(81, 83), 4])
+    }
+    va_race_income <-
+      data.frame(cbind(race_names, va_race_income_median))
+    colnames(va_race_income) <- c("Race", "Median Income")
     
-    income_years <-
-      rbind(
-        median_income19,
-        median_income18,
-        median_income17,
-        median_income16,
-        median_income15,
-        median_income14,
-        median_income13,
-        median_income12,
-        median_income11,
-        median_income10
-      )
+    #Hampton Income
+    hamp_yr <- read.csv(sprintf("data/income/hampton_income%d.csv", year))
+    hamp_yr <- hamp_yr[2:6]
+    #getting the name, variable and estimate
+    hamp_income2 <- hamp_yr[, 2:4]
+    if(year == "2016" || year == "2015" || year == "2014"|| year == "2013" 
+       || year == "2012" || year == "2011" || year == "2010") {
+      hamp_income3 <- hamp_income2 %>% group_by(NAME) %>% slice(c(31, 33))
+    }else {
+      hamp_income3 <- hamp_income2 %>% group_by(NAME) %>% slice(c(81, 83))
+    }
+    #This give us overall hampton overall and black median income
+    variable <- sample(c("S1903_C03_001", "S1903_C03_003"), 32, replace = TRUE)
+    hamp_race_income_median <- hamp_income3 %>% group_by(variable) %>% 
+      summarize(median(estimate, na.rm = TRUE))
+    
+    #Va and Hampton Roads
+    median_income <- cbind(va_race_income, hamp_race_income_median)
+    median_income <- median_income[, c(2, 4)]
+    
+    #having all the estimates in the same column
+    median_income_year <-
+      data.frame(median = c(median_income[, 1], median_income[, 2]))
+    #labeling
+    median_income_year <-
+      mutate(median_income_year, location = c(rep("Virginia", 2), rep("Hampton Roads", 2)))
+    median_income_year <-
+      mutate(median_income_year, demo = rep(c(
+        "Total Population", "Black Population"
+      ), 2))
+    colnames(median_income_year) <-
+      c("Median Income (US Dollars)", "Location", "Demographic")
+    #making them all numeric
+    median_income_year <-
+      transform(median_income_year,
+                `Median Income (US Dollars)` = as.numeric(`Median Income (US Dollars)`))
+    colnames(median_income_year) <-
+      c("Median Income (US Dollars)", "Location", "Demographic")
+    median_income_year <- mutate(median_income_year, Year = year)
+  }
     
     ### CREATE BIG GRAPH SHOWCASING TRENDS IN MEDIAN INCOME ####################
+  output$medianTimeGraph <- renderPlot ({
+    income_data_list <- list()
+    years <- 2010:2019
+    # loop through the years from 2010 to 2019
+    for(year in years) {
+      income_data_list[[as.character(year)]] <- process_income_data(year)
+    }
+    # combine all the data frames from the list into one data frame
+    income_years <- do.call(rbind, income_data_list)
     
+    ### CREATE BIG GRAPH SHOWCASING TRENDS IN MEDIAN INCOME ####################
     va_total <- income_years %>% filter(Location == "Virginia" & Demographic == "Total Population")
     hr_total <- income_years %>% filter(Location == "Hampton Roads" & Demographic == "Total Population")
     va_black <- income_years %>% filter(Location == "Virginia" & Demographic == "Black Population")
     hr_black <- income_years %>% filter(Location == "Hampton Roads" & Demographic == "Black Population")
-    LINES <- c("Virginia" = "dashed", "Hampton Roads" = "solid")
+    LINES <- c("Virginia" = "solid", "Hampton Roads" = "dashed")
     
     incomeGraph <- ggplot(income_years, aes(x = Year, y = `Median Income (US Dollars)`, color = Demographic, group = Location, linetype = Location)) + 
       geom_line(data = va_total, size = 1.3, aes(linetype = Location)) +
       geom_line(data = va_black, size = 1.3, aes(linetype = Location)) +
       geom_line(data = hr_total, size = 1.3, aes(linetype = Location)) +
       geom_line(data = hr_black, size = 1.3, aes(linetype = Location)) +
-      scale_color_manual(name = "Population", values = c("#A9A9A9", "#8B0000")) +
+      scale_color_manual(name = "Population", values = c("black", "#800404")) +
       scale_linetype_manual(name = "Location", values = c("dashed", "solid")) +
+      scale_x_continuous(breaks = unique(income_years$Year), 
+                         labels = unique(as.integer(income_years$Year))) +
       theme_minimal() + theme(
         plot.title = element_text(hjust = 0.5),
         axis.title.x = element_blank(),
@@ -1763,7 +1389,6 @@ server <- function(input, output, session) {
       ) +
       labs(x = "Year", y = "Median Income (US Dollars)")
     incomeGraph
-
   })
   
   # Home Ownership Map -------------------------------------------------------
@@ -2398,93 +2023,48 @@ server <- function(input, output, session) {
 
   
   # People & Values ---------------------------------------------------------
+  #Family Dynamic ---------------------------------------------------------
+  generateMap <- function(data, title, labelSuffix = "%") {
+    pal <- colorNumeric(palette = "viridis", domain = data$Percent, reverse = TRUE)
+    data %>% 
+      leaflet(options = leafletOptions(minZoom = 5, maxZoom = 15, drag = FALSE)) %>%
+      addProviderTiles("CartoDB.PositronNoLabels") %>%
+      addPolygons(color = ~ pal(Percent), weight = 0.5, fillOpacity = 0.7, smoothFactor = 0,
+                  highlightOptions = highlightOptions(bringToFront = TRUE, opacity = 1.5, weight = 3),
+                  label = ~ paste0(NAME, " - ", title, ": ", Percent, labelSuffix)) %>%
+      addLegend("topleft",pal = pal,values = ~ Percent,title = title,
+                labFormat = labelFormat(suffix = labelSuffix),opacity = 1)
+  }
+  
+  # use reactive for selected family
   var_fam <- reactive({
     input$select_family
   })
   
-  
+  # render the map based on the selected family
   output$family_maps <- renderLeaflet({
-    if(var_fam() == "Percent of Black Children under 18 in Female Head of Household") {
+    req(var_fam()) # ensure that var_fam is not NULL
+    # define a list to map selection values to file names
+    fileMap <- list(
+      "Percent of Black Children under 18 in Female Head of Household" = "fml.rds",
+      "Percent of Black Grandparents who are Guardians" = "grand.rds",
+      "Percent of Married Black Population 15 years and over" = "married.rds"
+    )
+    # get the file name based on the selection
+    fileName <- fileMap[[var_fam()]]
+    if (!is.null(fileName)) {
+      data <- read_rds(paste0("data/", fileName))
+      data <- na.omit(data)
+      colnames(data)[4] <- "Percent"
       
-      fml <- read_rds("data/fml.rds")
-      fml <- fml %>%
-        na.omit(fml)
-      colnames(fml)[4] <- "Percent"
-      fempal <-
-        colorNumeric(
-          palette = "viridis",
-          domain = fml$Percent,
-          reverse = TRUE
-        )
-      
-      fml_map <- fml %>%
-        leaflet(options = leafletOptions(
-          minZoom = 5,
-          maxZoom = 15,
-          drag = FALSE
-        )) %>%
-        addProviderTiles("CartoDB.PositronNoLabels") %>%
-        addPolygons(
-          color = ~ fempal(Percent),
-          weight = 0.5,
-          fillOpacity = 0.7,
-          smoothFactor = 0,
-          highlightOptions = highlightOptions(
-            bringToFront = TRUE,
-            opacity = 1.5,
-            weight = 3
-          ),
-          label = ~ paste0(NAME, " - ", variable, ": ", Percent, "%")
-        ) %>%
-        addLegend(
-          "topleft",
-          pal = fempal,
-          values = ~ Percent,
-          title = "Female HOH",
-          labFormat = labelFormat(suffix = "%"),
-          opacity = 1
-        )
-    }
-    
-    
-    else if(var_fam() == "Percent of Black Grandparents who are Guardians"){
-      
-      grand <- read_rds("data/grand.rds")
-      colnames(grand)[4] <- "Percent"
-      colnames(grand)[3] <- "Grandparent Guardian"
-      grandpal <- colorNumeric(palette = "viridis", domain = grand$Percent, reverse = TRUE)
-      
-      grand_map <- grand %>% 
-        leaflet(options = leafletOptions(minZoom = 5, maxZoom = 15, drag = FALSE)) %>% 
-        addProviderTiles("CartoDB.PositronNoLabels") %>% 
-        addPolygons(color = ~ grandpal(Percent), weight = 0.5, fillOpacity = 0.7, smoothFactor = 0,
-                    highlightOptions = highlightOptions(bringToFront = TRUE, opacity = 1.5, weight = 3),
-                    label = ~paste0(NAME, " - ", "Grandparent Guardian: ", Percent, "%")) %>% 
-        addLegend("topleft",
-                  pal = grandpal,
-                  values = ~ Percent,
-                  title = "Grandparent Guardian",
-                  labFormat = labelFormat(suffix = "%"),
-                  opacity = 1)
-    }
-    
-    else if(var_fam() == "Percent of Married Black Population 15 years and over"){
-      married <- read_rds("data/married.rds")
-      colnames(married)[4] <- "Percent"
-      marriedpal <- colorNumeric(palette = "viridis", domain = married$Percent, reverse = TRUE)
-      
-      married_map <- married %>% 
-        leaflet(options = leafletOptions(minZoom = 5, maxZoom = 15, drag = FALSE)) %>% 
-        addProviderTiles("CartoDB.PositronNoLabels") %>% 
-        addPolygons(color = ~ marriedpal(Percent), weight = 0.5, fillOpacity = 0.7, smoothFactor = 0,
-                    highlightOptions = highlightOptions(bringToFront = TRUE, opacity = 1.5, weight = 3),
-                    label = ~paste0(NAME, " - ", "Married: ", Percent, "%")) %>% 
-        addLegend("topleft",
-                  pal = marriedpal,
-                  values = ~ Percent,
-                  title = "Married",
-                  labFormat = labelFormat(suffix = "%"),
-                  opacity = 1)
+      # set title based on the variable chosen
+      title <- ifelse(var_fam() == "Percent of Black Children under 18 in Female Head of Household",
+                      "Female HOH",
+                      ifelse(var_fam() == "Percent of Black Grandparents who are Guardians",
+                             "Grandparent Guardian",
+                             "Married"))
+      # generate the map
+      generateMap(data, title)
     }
   })
   
@@ -2514,8 +2094,9 @@ server <- function(input, output, session) {
       
     }
   })
+  # End Family Dynamic ---------------------------------------------------------
   
-  # Religion
+  # Religion ---------------------------------------------------------
   var_religion <- reactive({
     input$select_rel
   })
@@ -2527,7 +2108,6 @@ server <- function(input, output, session) {
     geo_data$loc_name <- str_to_lower(geo_data$loc_name)
     geo_data$loc_name <- word(geo_data$loc_name, 1) 
     
-    
     religion_data <- read.csv('./data/capstone_religious_adh.csv') 
     colnames(religion_data)[1] <- 'loc_name' 
     
@@ -2536,11 +2116,9 @@ server <- function(input, output, session) {
              loc_name = str_to_lower(loc_name),
              loc_name = word(loc_name, 1)
       ) 
-    
     merged_data2 <- merge(religion_data, geo_data, by = 'loc_name') %>%
       pivot_longer(cols = 2:6, names_to = 'religion', values_to = 'value')
     # merged_data2$geometry <- st_transform(merged_data2$geometry)
-    
     
     # Filter by a Religion
     plot_data <- merged_data2 %>%
@@ -2565,8 +2143,9 @@ server <- function(input, output, session) {
       addLegend(pal = pal2, values = ~plot_data$value, title = 'Percent Adherence', opacity = .75)
     religion
   })
+  # End of Religion section ---------------------------------------------------------
   
-  # Food Banks
+  # Food Banks ---------------------------------------------------------
   output$foodBanksLeaflet <- renderLeaflet({
     foodBankLoc <- read.csv("./data/foodBank/FoodBanks.csv")
     countyOutlines <- read_sf(dsn = "./data/countyOutlines/countyOutlines.shp")
@@ -2590,92 +2169,61 @@ server <- function(input, output, session) {
     gg.table <- rbind(gg.table, c(Locality = "Poquoson", `Food Banks` = 0))
     gg.table <- rbind(gg.table, c(Locality = "Southampton", `Food Banks` = 0))
     gg.table$`Food Banks` <- as.numeric(gg.table$`Food Banks`)
-    gg.table <- gg.table %>% arrange(Locality)
+    gg.table$Locality <- factor(gg.table$Locality, levels = gg.table$Locality[order(-gg.table$`Food Banks`)])
     
-    foodBank.ggplot <- ggplot(gg.table, aes(x = Locality, y = `Food Banks`)) + ggtitle("# of Food Banks in Locality", ) + 
-      geom_col() + theme(legend.position="none", axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=1, size = 15)) + 
-      geom_text(
-        aes(label = `Food Banks`), 
-        position = position_dodge(width = 1),
-        vjust = -1.5, color = 'black') +
-      scale_fill_viridis_d() + 
-      ylim(0, 12)
-      
-    
+    # Then, use this reordered factor in your ggplot call without using reorder()
+    foodBank.ggplot <- ggplot(gg.table, aes(x = Locality, y = `Food Banks`)) + 
+      ggtitle("# of Food Banks in Locality") + 
+      geom_col() + 
+      theme(legend.position="none", 
+            axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=1, size = 15)) + 
+      geom_text(aes(label = `Food Banks`), 
+                vjust = 0.5, # Adjust this value as needed to prevent overlap
+                color = 'black') + ylim(0, 12)
     ggplotly(foodBank.ggplot)
   })
+  # End of Food Banks section ---------------------------------------------------------
   
   
-  # Low Access to Food -----------------------------------------------------
+  # Food Insecurity -----------------------------------------------------
+  # function to generate a leaflet map
+  generateFoodAccessMap <- function(data, valueColumn, titleSuffix) {
+    value <- round(as.numeric(data[[valueColumn]]), 2)
+    county <- word(data$County, 1, -2)
+    pal <- colorNumeric(palette = "magma", domain = as.double(value), reverse = TRUE)
+    
+    foodAccessMap <- leaflet(data, options = leafletOptions(minZoom = 5, maxZoom = 15, drag = FALSE)) %>%
+      addProviderTiles("CartoDB.Positron") %>%
+      addPolygons(color = ~pal(as.double(value)), weight = 0.5, fillOpacity = 0.7, smoothFactor = 0,
+                  highlightOptions = highlightOptions(bringToFront = TRUE, sendToBack = TRUE, opacity = 1.5, weight = 3),
+                  label = paste0(county, ": ", value, "%")) %>%
+      addPolylines(data = countyOutlines, color = "black", weight = 1.2, smoothFactor = .5,
+                   fillOpacity = 0, fillColor = "transparent") %>%
+      addLegend(position = "topright", pal = pal, values = as.double(value), opacity = .9, title = paste(titleSuffix, "(%)"))
+    foodAccessMap
+  }
+  # reactive value for input
   var_LowAcc <- reactive({
     input$LowAccIn
   })
-
+  
+  # data and outlines
+  lowAccDF <- read_sf("./data/foodAtlas/masterData.shp") %>% filter(year == 2019)
+  countyOutlines <- read_sf(dsn = "./data/countyOutlines/countyOutlines.shp")
+  
+  # render the maps for each output
   output$povertyRateMap <- renderLeaflet({
-    lowAccDF <- read_sf("./data/foodAtlas/masterData.shp") %>% filter(year == 2019)
-    countyOutlines <- read_sf(dsn = "./data/countyOutlines/countyOutlines.shp")
-    
-    pvrtyRate <- round(lowAccDF$PvrtyRt, 2)
-    county <- word(lowAccDF$County, 1, -2)
-    pal1 <- colorNumeric(palette = "magma", 
-                         domain = as.double(pvrtyRate), reverse = TRUE)
-
-    foodAccessMap <- leaflet(lowAccDF, options = leafletOptions(minZoom = 5, maxZoom = 15, drag = FALSE)) %>%
-      addProviderTiles("CartoDB.Positron") %>%
-    addPolygons(color = ~pal1(as.double(pvrtyRate)), weight = 0.5, fillOpacity = 0.7, smoothFactor = 0,
-                highlightOptions = highlightOptions(bringToFront = TRUE, sendToBack = TRUE, opacity = 1.5, weight = 3),
-                label = paste0(county, ": ", pvrtyRate, "%")) %>%
-    addPolylines(data = countyOutlines, color = "black", weight = 1.2, smoothFactor = .5,
-                 fillOpacity = 0, fillColor = "transparent") %>%
-    addLegend(position = "topright", pal = pal1, values = as.double(pvrtyRate), opacity = .9, title = "Poverty Rate (%)")
-    
-    foodAccessMap
+    generateFoodAccessMap(lowAccDF, "PvrtyRt", "Poverty Rate")
   })
-  
   output$lowAccessAF1 <- renderLeaflet({
-    lowAccDF <- read_sf("./data/foodAtlas/masterData.shp") %>% filter(year == 2019)
-    countyOutlines <- read_sf(dsn = "./data/countyOutlines/countyOutlines.shp")
-    
-    lowAccessAF1Mile <- round(as.numeric(lowAccDF$lblck1s), 2)
-    county <- word(lowAccDF$County, 1, -2)
-    pal1 <- colorNumeric(palette = "magma", 
-                         domain = as.double(lowAccessAF1Mile), reverse = TRUE)
-    
-    foodAccessMap <- leaflet(lowAccDF, options = leafletOptions(minZoom = 5, maxZoom = 15, drag = FALSE)) %>%
-      addProviderTiles("CartoDB.Positron") %>%
-      addPolygons(color = ~pal1(as.double(lowAccessAF1Mile)), weight = 0.5, fillOpacity = 0.7, smoothFactor = 0,
-                  highlightOptions = highlightOptions(bringToFront = TRUE, sendToBack = TRUE, opacity = 1.5, weight = 3),
-                  label = paste0(county, ": ", lowAccessAF1Mile, "%")) %>%
-      addPolylines(data = countyOutlines, color = "black", weight = 1.2, smoothFactor = .5,
-                   fillOpacity = 0, fillColor = "transparent") %>%
-      addLegend(position = "topright", pal = pal1, values = as.double(lowAccessAF1Mile), opacity = .9, title = "Low Market Access (%)")
-    
-    foodAccessMap
+    generateFoodAccessMap(lowAccDF, "lblck1s", "Low Market Access 1 Mile")
   })
-  
   output$lowAccessAF <- renderLeaflet({
-    lowAccDF <- read_sf("./data/foodAtlas/masterData.shp") %>% filter(year == 2019)
-    countyOutlines <- read_sf(dsn = "./data/countyOutlines/countyOutlines.shp")
-    
-    lowAccessAFHalfMile <- round(as.numeric(lowAccDF$lblckhlfs), 2)
-    county <- word(lowAccDF$County, 1, -2)
-    pal1 <- colorNumeric(palette = "magma", 
-                         domain = as.double(lowAccessAFHalfMile), reverse = TRUE)
-    
-    foodAccessMap <- leaflet(lowAccDF, options = leafletOptions(minZoom = 5, maxZoom = 15, drag = FALSE)) %>%
-      addProviderTiles("CartoDB.Positron") %>%
-      addPolygons(color = ~pal1(as.double(lowAccessAFHalfMile)), weight = 0.5, fillOpacity = 0.7, smoothFactor = 0,
-                  highlightOptions = highlightOptions(bringToFront = TRUE, sendToBack = TRUE, opacity = 1.5, weight = 3),
-                  label = paste0(county, ": ", lowAccessAFHalfMile, "%")) %>%
-      addPolylines(data = countyOutlines, color = "black", weight = 1.2, smoothFactor = .5,
-                   fillOpacity = 0, fillColor = "transparent") %>%
-      addLegend(position = "topright", pal = pal1, values = as.double(lowAccessAFHalfMile), opacity = .9, title = "Low Market Access (%)")
-    
-    foodAccessMap
+    generateFoodAccessMap(lowAccDF, "lblckhlfs", "Low Market Access 1/2 Mile")
   })
+  # End of Food Insecurity to Food section -----------------------------------------------------
   
-  # Financial Literacy
-  
+  # Financial Literacy -----------------------------------------------------
   output$financial_literacy <- renderPlot({
     # load financial literacy data 
     df <- read.csv("./data/public2020.csv")
@@ -2684,7 +2232,6 @@ server <- function(input, output, session) {
                 "pprent", "CFPB_score", "atleast_okay", "DOV_FL","K20", "EF1", "ppcm0062")]
     df[df==""] <- NA
     df <- na.omit(df)
-    
     
     positions <- c("2+ races", "Asian", "Black or African American", "White")
     my_xlab <- paste(positions,"\n(N=",table(df$ppracem),")",sep="")
@@ -2744,6 +2291,7 @@ server <- function(input, output, session) {
       labs(fill = "Race")
     dont_know <- ggplotly(dont_know)
   })
+  # end of Financial Literacy section -----------------------------------------------------
   
   # Media and Entertainment graphs ------------------------------------------
   # Internet Coverage 2015 VS 2020
