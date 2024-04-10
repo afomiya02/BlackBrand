@@ -13,7 +13,7 @@ source("education.r")
 ui <- page_navbar(
     title = "phaceholder",
     selected = "overview",
-    theme = bs_theme(preset = "flatly"),
+    theme = bs_theme(preset = "journal"),
     useShinyjs(),
     nav_menu(
         title = "Overview",
@@ -162,7 +162,8 @@ server <- function(input, output, session) {
             title = "Black Population (%):",
             value = black_pop,
             showcase = bs_icon("pie-chart-fill"),
-            theme = "info"
+            theme = "info",
+            showcase_layout = "top right"
         )
         box
     })
@@ -173,7 +174,8 @@ server <- function(input, output, session) {
             title = "Median Age:",
             value = shiny::p(median_age, "years"),
             showcase = bs_icon("cake"),
-            theme = "primary"
+            theme = "primary",
+            showcase_layout = "top right"
         )
         box
     })
@@ -183,7 +185,8 @@ server <- function(input, output, session) {
             title = "Total Population",
             value = sum(sodem_data$total_population),
             showcase = bs_icon("check2-all"),
-            theme = "primary"
+            theme = "primary",
+            showcase_layout = "top right"
         )
         box
         
@@ -322,9 +325,6 @@ server <- function(input, output, session) {
     # create radio plot with subetted data
     output$radio_plot <- renderPlotly({
         req(input$races)
-        
-        # Dark2
-        pal <- c("Black" = "#1b9e77", "White" = "#d95f02", "Asian" = "#7570b3", "Hispanic" = "#e7298a")
         fig <- plot_ly(
             data = st_radar(),
             type = "scatterpolar",
@@ -335,8 +335,7 @@ server <- function(input, output, session) {
             fig <- fig %>%
                 add_trace(r = as.numeric(unlist(c(st_radar()[input$races[i], ], st_radar()[input$races[i], 1]))),
                           theta = unlist(c(colnames(st_radar()), colnames(st_radar())[1])),
-                          name = paste(input$races[i], "Students"),
-                          color = pal[i])
+                          name = paste(input$races[i], "Students"))
         }
         
         fig %>% layout(polar = list(radialaxis = list(visible = TRUE, range = c(0, 100))))
