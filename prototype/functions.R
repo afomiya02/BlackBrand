@@ -2,7 +2,7 @@ library(tidyverse)
 library(sf)
 library(leaflet)
 library(RColorBrewer)
-# setwd("C:/Users/Tim/Desktop/School/cmda4864/testrepo/prototype")
+# setwd("C:/Users/afomiyaa/Desktop/testrepo/prototype")
 
 ## ALL RACE & AGE DEMOGRAPHICS FOUND IN THE 5-YEAR DP05 TABLE 
 ## IN THE AMERICAN CENSUS SURVEY TABLES
