@@ -13,7 +13,7 @@ source("education.r")
 ui <- page_navbar(
     title = "phaceholder",
     selected = "overview",
-    theme = bs_theme(preset = "flatly"),
+    theme = bs_theme(preset = "journal"),
     useShinyjs(),
     nav_menu(
         title = "Overview",
@@ -98,11 +98,11 @@ ui <- page_navbar(
                 checkboxGroupInput(
                     inputId = "races",
                     label = "Select races:",
-                    choices = c("Black" = "black",
-                      "White" = "white",
-                      "Asian" = "asian",
-                      "Hispanic" = "hispanic"),
-                    selected = "black"
+                    choices = c("Black" = "Black",
+                      "White" = "White",
+                      "Asian" = "Asian",
+                      "Hispanic" = "Hispanic"),
+                    selected = "Black"
                 )
             ),
             accordion(
@@ -252,8 +252,7 @@ server <- function(input, output, session) {
     st_radar <- reactive({
         df <- st_data %>%
             dplyr::filter(division_name %in% input$loc) %>%
-            # dplyr::filter(subgroup %in% input$races) %>%
-            dplyr::filter(subgroup %in% c("Black", "White")) %>%
+            dplyr::filter(subgroup %in% input$races) %>%
             select(c(subject, subgroup, `2022-2023_pass_rate`)) %>%
             # pivot dataset such that subjects are columns and
             # subjects are row names
@@ -266,8 +265,7 @@ server <- function(input, output, session) {
     st_lollipop <- reactive({
         df <- st_data %>%
             dplyr::filter(division_name %in% input$loc) %>%
-            # dplyr::filter(subgroup %in% input$races) %>%
-            dplyr::filter(subgroup %in% c("Black", "White")) %>%
+            dplyr::filter(subgroup %in% input$races) %>%
             group_by(subgroup) %>% dplyr::summarise(
                 across(ends_with("pass_rate"), mean)
             ) %>%
@@ -315,33 +313,59 @@ server <- function(input, output, session) {
     # create radio plot with subetted data
     output$radio_plot <- renderPlotly({
         req(input$races)
-        fig <- plot_ly(
-            type = "scatterpolar",
-            mode = "lines+markers",
-        ) %>%
-            # when adding traces for radar plots data frame has to wrap back around to first entry
-            # so i unlisted entire row + 1st value in row
-            add_trace(r = as.numeric(unlist(c(st_radar()[1, ], st_radar()[1, 1]))), 
-                      theta = unlist(c(colnames(st_radar()), colnames(st_radar())[1])),
-                      name = "Black Students") %>%
-            add_trace(r = as.numeric(unlist(c(st_radar()[2, ], st_radar()[2, 1]))), 
-                      theta = unlist(c(colnames(st_radar()), colnames(st_radar())[1])),
-                      name = "White Students") %>%
-            layout(polar = list(radialaxis = list(visible = TRUE, range = c(0, 100))))
         
-        fig
+        pal <- c("Black" = "black",
+                 "White" = "orange",
+                 "Asian" = "darkgreen",
+                 "Hispanic" = "violet")
+        
+        fig <- plot_ly(
+            data = st_radar(),
+            type = "scatterpolar",
+            mode = "lines+markers"
+        )
+        
+        # TODO: CREATE PROPER FIXED COLOR PALETTE THAT MATCHES
+        # CHECKBOX INPUTS WITH ITS RESPECTIVE COLOR
+        
+        # iterate thru input$races to get line for each race in plot
+        # have to wrap r and theta such that the values iterate like a circle
+        # (e.g [Black, White, Asian, Black])
+        for (i in 1:length(input$races)) {
+            fig <- fig %>%
+                add_trace(r = as.numeric(unlist(c(st_radar()[input$races[i], ], 
+                                                  st_radar()[input$races[i], 1]))), 
+                          theta = unlist(c(colnames(st_radar()), colnames(st_radar())[1])),
+                          name = paste(input$races[i], "Students"))
+        }
+        
+        fig %>% layout(polar = list(radialaxis = list(visible = TRUE, range = c(0, 100))))
     })
     
     # create lollipop plot
     output$lollipop_plot <- renderPlot({
         req(input$races)
-        p <- ggplot(st_lollipop()) + 
-            geom_segment(aes(x = year, xend = year, y = Black, yend = White), color = "grey") +
-            geom_point(aes(x = year, y = Black), color = "black", size = 3) +
-            geom_point(aes(x = year, y = White), color = "orange", size = 3) +
-            theme_minimal() + labs(x = "School Year", y = "Testing Pass Rate (%)") +
-            ylim(0, 100)
-        p
+        
+        # TODO create separate legend w/ colors
+        pal <- c("Black" = "black",
+                 "White" = "orange",
+                 "Asian" = "darkgreen",
+                 "Hispanic" = "violet")
+        
+        # apply(df, 1, min or max) gets both mins and maxes from each row
+        p <- ggplot(st_lollipop(), aes(x = year)) + 
+            geom_segment(aes(x = year, xend = year, y = apply(st_lollipop() %>% select(-year), 1, min), 
+                             yend = apply(st_lollipop() %>% select(-year), 1, max)), color = "grey", linewidth = 1.5) +
+            theme_minimal() + labs(x = "School Year", y = "Testing Pass Rate (%)")
+        
+        for (i in 1:length(input$races)) {
+            p <- p +
+                # sym() turns a string into a variable, i.e "Asian" becomes Asian and therefore
+                # becomes readable and fetches Asian from data frame
+                geom_point(aes(x = year, y = !!sym(input$races[i])), colour = pal[input$races[i]], size = 5)
+        }
+        
+        p + ylim(0, 100)
     })
 }
 
