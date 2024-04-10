@@ -3758,38 +3758,39 @@ server <- function(input, output, session) {
   
   
  
-
   # Radio stations
   output$radio <- renderLeaflet({
+    # Read geo data
     geo_data <- readRDS('./data/geo_data.rds')
     geo_data <- st_transform(geo_data)
     
+    # Convert loc_name to lowercase and extract the first word
     geo_data$loc_name <- str_to_lower(geo_data$loc_name)
     geo_data$loc_name <- word(geo_data$loc_name, 1) 
     
-    
-    radio_df <- read.csv('./data/radio_stations.csv')  %>%
+    # Read radio station data, filter by VA, and preprocess
+    radio_df <- read.csv('./data/radio_stations.csv') %>%
       filter(State == 'VA') %>%
       mutate(loc_name = str_to_lower(Community.of.License),
              loc_name = word(loc_name, 1),
-             city_name = Community.of.License)%>%
+             city_name = Community.of.License) %>%
       group_by(loc_name) %>%
       summarise(formats = paste0(Format, collapse = ', '), count = n(),
                 city_name = city_name) %>%
       distinct(loc_name, .keep_all = TRUE) %>%
       mutate(formats1 = ifelse(loc_name == 'norfolk', 
-                               'religious, urban/variety contemporary, Rhythmic/urban Adult Contemporary' , formats))%>%
-      mutate(formats2 =ifelse(loc_name == 'norfolk', 
-                              'new/public affairs/npr, classical, country, active rock, christian chr', '')) %>%
+                               'religious, urban/variety contemporary, Rhythmic/urban Adult Contemporary' , formats)) %>%
+      mutate(formats2 = ifelse(loc_name == 'norfolk', 
+                               'new/public affairs/npr, classical, country, active rock, christian chr', '')) %>%
       mutate(formats1 = ifelse(loc_name == 'virginia', 
-                               'modern adult contemporary, big band/ nostalgia/old time radio,' , formats1))%>%
-      mutate(formats2 =ifelse(loc_name == 'virginia', 
-                              'christian contemporaty/preaching, album adult alternative, Christian contemporary hit radio', ''))
+                               'modern adult contemporary, big band/ nostalgia/old time radio,' , formats1)) %>%
+      mutate(formats2 = ifelse(loc_name == 'virginia', 
+                               'christian contemporaty/preaching, album adult alternative, Christian contemporary hit radio', ''))
     
-    
+    # Merge geo data with radio station data
     merged_data2 <- merge(radio_df, geo_data, by = 'loc_name')
-    # merged_data2$geometry <- st_transform(merged_data2$geometry)
     
+    # Create labels for popups
     labs <- lapply(seq(nrow(merged_data2)), function(i) {
       paste0( '<p>', merged_data2[i, "city_name"], '<p></p>', 'Count of Stations: ', 
               merged_data2[i, "count"], '</p>', 'Type/Formats: ', '</p>',
@@ -3797,13 +3798,13 @@ server <- function(input, output, session) {
               merged_data2[i, "formats2"], '</p>' ) 
     })
     
-    # pal2 <- colorNumeric(palette = "viridis", domain = 1:2, reverse = TRUE)
-    # show_col(viridis_pal()(11))
+    # Define color palette for legend
     pal2 <- viridis_pal()(11)
     pal2 <- colorNumeric(viridis_pal()(11), merged_data2$count)
     
+    # Create leaflet map
     radio <- merged_data2 %>%
-      leaflet( options = leafletOptions(minZoom = 5, maxZoom = 15, drag = FALSE)) %>% 
+      leaflet(options = leafletOptions(minZoom = 5, maxZoom = 15, drag = FALSE)) %>% 
       addProviderTiles("CartoDB.PositronNoLabels") %>%
       addPolygons(data = merged_data2$geometry, color= viridis_pal()(11)[merged_data2$count],
                   weight = 0.5,
@@ -3811,8 +3812,11 @@ server <- function(input, output, session) {
                   highlightOptions = highlightOptions(bringToFront = TRUE, opacity = 1.5, weight = 3),
                   label = lapply(labs, htmltools::HTML)) %>%
       addLegend(pal = pal2, values = ~merged_data2$count, title = 'Number of Stations', opacity = .75)
+    
+    # Return the leaflet map
     radio
   })
+  
   
   # Household Wellbeing -----------------------------------------------------
   var_well <- reactive({
@@ -3820,214 +3824,50 @@ server <- function(input, output, session) {
   })
   
   output$wellbeing_maps <- renderLeaflet({
-    if(var_well() == "Percent of Black Households Receiving Foodstamps/SNAP Benefits"){
+    # Function to create leaflet map for each variable
+    create_leaflet_map <- function(data_file, col_names, legend_title) {
+      data <- read_rds(data_file)
+      colnames(data)[4] <- "Percent"
+      colnames(data)[3] <- col_names
+      data_pal <- colorNumeric(palette = "viridis", domain = data$Percent, reverse = TRUE)
       
-      foodstmp <- read_rds("data/foodstmp.rds")
-      colnames(foodstmp)[4] <- "Percent"
-      foodpal <- colorNumeric(palette = "viridis", domain = foodstmp$Percent, reverse = TRUE)
-      
-      foodstmp_map <- foodstmp %>% 
+      map <- data %>%
         leaflet(options = leafletOptions(minZoom = 5, maxZoom = 15, drag = FALSE)) %>% 
         addProviderTiles("CartoDB.PositronNoLabels") %>% 
-        addPolygons(color = ~ foodpal(Percent), weight = 0.5, fillOpacity = 0.7, smoothFactor = 0,
+        addPolygons(color = ~ data_pal(Percent), weight = 0.5, fillOpacity = 0.7, smoothFactor = 0,
                     highlightOptions = highlightOptions(bringToFront = TRUE, opacity = 1.5, weight = 3),
-                    label = ~paste0(NAME, " - ", variable, ": ", Percent, "%")) %>% 
+                    label = ~paste0(NAME, " - ", col_names, ": ", Percent, "%")) %>% 
         addLegend("topleft",
-                  pal = foodpal,
+                  pal = data_pal,
                   values = ~ Percent,
-                  title = "Food Stamps",
-                  labFormat = labelFormat(suffix = "%"),
-                  opacity = 1)
-    }
-    
-    else if(var_well() == "Percent of Black County Migration"){
-      
-      mobile <- read_rds("data/mobile.rds")
-      colnames(mobile)[4] <- "Percent"
-      colnames(mobile)[3] <- "Intra-County Migration"
-      mobpal <- colorNumeric(palette = "viridis", domain = mobile$Percent, reverse = TRUE)
-      
-      mobile_map <- mobile %>% 
-        leaflet(options = leafletOptions(minZoom = 5, maxZoom = 15, drag = FALSE)) %>% 
-        addProviderTiles("CartoDB.PositronNoLabels") %>% 
-        addPolygons(color = ~ mobpal(Percent), weight = 0.5, fillOpacity = 0.7, smoothFactor = 0,
-                    highlightOptions = highlightOptions(bringToFront = TRUE, opacity = 1.5, weight = 3),
-                    label = ~paste0(NAME, "", "Intra-County Migration: ", Percent, "%")) %>% 
-        addLegend("topleft",
-                  pal = mobpal,
-                  values = ~ Percent,
-                  title = "County Migration",
+                  title = legend_title,
                   labFormat = labelFormat(suffix = "%"),
                   opacity = 1)
       
+      return(map)
     }
     
-    else if(var_well() == "Percent of Black Population that uses car/truck/van to get to work"){
-      
-      priv_trans <- read_rds("data/priv_trans.rds")
-      priv_trans <- priv_trans %>%
-        na.omit(priv_trans)
-      colnames(priv_trans)[4] <- "Percent"
-      colnames(priv_trans)[3] <- "Private Transport"
-      priv_transpal <-
-        colorNumeric(
-          palette = "viridis",
-          domain = priv_trans$Percent,
-          reverse = TRUE
-        )
-      
-      priv_trans_map <- priv_trans %>%
-        leaflet(options = leafletOptions(
-          minZoom = 5,
-          maxZoom = 15,
-          drag = FALSE
-        )) %>%
-        addProviderTiles("CartoDB.PositronNoLabels") %>%
-        addPolygons(
-          color = ~ priv_transpal(Percent),
-          weight = 0.5,
-          fillOpacity = 0.7,
-          smoothFactor = 0,
-          highlightOptions = highlightOptions(
-            bringToFront = TRUE,
-            opacity = 1.5,
-            weight = 3
-          ),
-          label = ~ paste0(NAME, " - ", "Private Transport: ", Percent, "%")
-        ) %>%
-        addLegend(
-          "topleft",
-          pal = priv_transpal,
-          values = ~ Percent,
-          title = "Private Transportation",
-          labFormat = labelFormat(suffix = "%"),
-          opacity = 1
-        )
+    # Get selected variable
+    selected_variable <- var_welltext()
+    
+    # Create leaflet map based on selected variable
+    if (selected_variable == "Percent of Black Households Receiving Foodstamps/SNAP Benefits") {
+      map <- create_leaflet_map("data/foodstmp.rds", "Food Stamps", "Food Stamps")
+    } else if (selected_variable == "Percent of Black County Migration") {
+      map <- create_leaflet_map("data/mobile.rds", "Intra-County Migration", "County Migration")
+    } else if (selected_variable == "Percent of Black Population that uses car/truck/van to get to work") {
+      map <- create_leaflet_map("data/priv_trans.rds", "Private Transport", "Private Transportation")
+    } else if (selected_variable == "Percent of Black Population that uses public transportation to get to work") {
+      map <- create_leaflet_map("data/pub_trans.rds", "Public Transport", "Public Transportation")
+    } else if (selected_variable == "Percent of Black Households with a computer with broadband internet") {
+      map <- create_leaflet_map("data/compin.rds", "Computer and Internet", "Computer with Internet Access")
+    } else if (selected_variable == "Percent of Black Households without a computer") {
+      map <- create_leaflet_map("data/nocomp.rds", "No Computer", "No Computer Access")
     }
     
-    else if (var_well() == "Percent of Black Population that uses public transportation to get to work") {
-      pub_trans <- read_rds("data/pub_trans.rds")
-      pub_trans <- pub_trans %>%
-        na.omit(pub_trans)
-      colnames(pub_trans)[4] <- "Percent"
-      colnames(pub_trans)[3] <- "Public Transport"
-      pub_transpal <-
-        colorNumeric(
-          palette = "viridis",
-          domain = pub_trans$Percent,
-          reverse = TRUE
-        )
-      
-      pub_trans_map <- pub_trans %>%
-        leaflet(options = leafletOptions(
-          minZoom = 5,
-          maxZoom = 15,
-          drag = FALSE
-        )) %>%
-        addProviderTiles("CartoDB.PositronNoLabels") %>%
-        addPolygons(
-          color = ~ pub_transpal(Percent),
-          weight = 0.5,
-          fillOpacity = 0.7,
-          smoothFactor = 0,
-          highlightOptions = highlightOptions(
-            bringToFront = TRUE,
-            opacity = 1.5,
-            weight = 3
-          ),
-          label = ~ paste0(NAME, " - ", "Public Transport: ", Percent, "%")
-        ) %>%
-        addLegend(
-          "topleft",
-          pal = pub_transpal,
-          values = ~ Percent,
-          title = "Public Transportation",
-          labFormat = labelFormat(suffix = "%"),
-          opacity = 1
-        )
-      
-    }
-    
-    else if (var_well() == "Percent of Black Households with a computer with broadband internet") {
-      compin <- read_rds("data/compin.rds")
-      colnames(compin)[4] <- "Percent"
-      colnames(compin)[3] <- "Computer and Internet"
-      compinpal <-
-        colorNumeric(
-          palette = "viridis",
-          domain = compin$Percent,
-          reverse = TRUE
-        )
-      
-      compin_map <- compin %>%
-        leaflet(options = leafletOptions(
-          minZoom = 5,
-          maxZoom = 15,
-          drag = FALSE
-        )) %>%
-        addProviderTiles("CartoDB.PositronNoLabels") %>%
-        addPolygons(
-          color = ~ compinpal(Percent),
-          weight = 0.5,
-          fillOpacity = 0.7,
-          smoothFactor = 0,
-          highlightOptions = highlightOptions(
-            bringToFront = TRUE,
-            opacity = 1.5,
-            weight = 3
-          ),
-          label = ~ paste0(NAME, " - ", "Computer and Internet: ", Percent, "%")
-        ) %>%
-        addLegend(
-          "topleft",
-          pal = compinpal,
-          values = ~ Percent,
-          title = "Computer with Internet Access",
-          labFormat = labelFormat(suffix = "%"),
-          opacity = 1
-        )
-    }
-    
-    else if (var_well() == "Percent of Black Households without a computer") {
-      nocomp <- read_rds("data/nocomp.rds")
-      colnames(nocomp)[4] <- "Percent"
-      colnames(nocomp)[3] <- "No Computer"
-      nocomppal <-
-        colorNumeric(
-          palette = "viridis",
-          domain = nocomp$Percent,
-          reverse = TRUE
-        )
-      
-      nocomp_map <- nocomp %>%
-        leaflet(options = leafletOptions(
-          minZoom = 5,
-          maxZoom = 15,
-          drag = FALSE
-        )) %>%
-        addProviderTiles("CartoDB.PositronNoLabels") %>%
-        addPolygons(
-          color = ~ nocomppal(Percent),
-          weight = 0.5,
-          fillOpacity = 0.7,
-          smoothFactor = 0,
-          highlightOptions = highlightOptions(
-            bringToFront = TRUE,
-            opacity = 1.5,
-            weight = 3
-          ),
-          label = ~ paste0(NAME, " - ", "No Computer: ", Percent, "%")
-        ) %>%
-        addLegend(
-          "topleft",
-          pal = nocomppal,
-          values = ~ Percent,
-          title = "No Computer Access",
-          labFormat = labelFormat(suffix = "%"),
-          opacity = 1
-        )
-    }
+    return(map)
   })
+  
   
   var_welltext <- reactive({
     input$select_wellbeing
