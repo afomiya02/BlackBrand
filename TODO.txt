@@ -1,0 +1,24 @@
+covid children -- starting from kindergarten after pandemic
+show data before and after covid
+
+lack of technical support? -> internet coverage?
+
+TASKS TO DO:
+
+Education:
+
+- Visualize differences between standardized testing scores before and after pandemic
+	- value boxes before and after pandemic
+	- lollipop plots between 2013-2019 and 2021-2024
+	- include metadata for each locality
+		- median TOTAL household vs. median BLACK household
+		- internet coverage per zip code in each locality
+		- food deserts
+
+
+INTERNET COVERAGE:
+find data of companies w/ internet coverage per zip code
+find costs of each provider
+
+ECONOMIC DATA:
+find data of family household income of ALL families vs. BLACK families

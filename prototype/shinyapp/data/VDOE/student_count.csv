@@ -1,0 +1,870 @@
+School Year,Division Number,Division Name,Race,Full Time Count (All Grades),Part Time Count (All Grades),Total Count
+2022-2023,1,Accomack County,American Indian or Alaska Native,               5,,               5
+2022-2023,1,Accomack County,Asian,              27,,              27
+2022-2023,1,Accomack County,"Black, not of Hispanic origin","           1,703",,"           1,703"
+2022-2023,1,Accomack County,Hispanic,"           1,179",,"           1,179"
+2022-2023,1,Accomack County,Native Hawaiian  or Pacific Islander,               3,,               3
+2022-2023,1,Accomack County,"Non-Hispanic, two or more races",              95,,              95
+2022-2023,1,Accomack County,"White, not of Hispanic origin","           1,714",               1,"           1,715"
+2022-2023,2,Albemarle County,American Indian or Alaska Native,              12,,              12
+2022-2023,2,Albemarle County,Asian,             808,,             808
+2022-2023,2,Albemarle County,"Black, not of Hispanic origin","           1,667",,"           1,667"
+2022-2023,2,Albemarle County,Hispanic,"           2,212",               1,"           2,213"
+2022-2023,2,Albemarle County,Native Hawaiian  or Pacific Islander,              10,,              10
+2022-2023,2,Albemarle County,"Non-Hispanic, two or more races","           1,000",               3,"           1,003"
+2022-2023,2,Albemarle County,"White, not of Hispanic origin","           8,243",              14,"           8,257"
+2022-2023,101,Alexandria City,American Indian or Alaska Native,              19,,              19
+2022-2023,101,Alexandria City,Asian,"           1,050",,"           1,050"
+2022-2023,101,Alexandria City,"Black, not of Hispanic origin","           4,068",               2,"           4,070"
+2022-2023,101,Alexandria City,Hispanic,"           6,050",               6,"           6,056"
+2022-2023,101,Alexandria City,Native Hawaiian  or Pacific Islander,              47,,              47
+2022-2023,101,Alexandria City,"Non-Hispanic, two or more races",             586,               1,             587
+2022-2023,101,Alexandria City,"White, not of Hispanic origin","           4,226",              34,"           4,260"
+2022-2023,3,Alleghany Highlands,American Indian or Alaska Native,               2,,               2
+2022-2023,3,Alleghany Highlands,Asian,              18,,              18
+2022-2023,3,Alleghany Highlands,"Black, not of Hispanic origin",             202,               1,             203
+2022-2023,3,Alleghany Highlands,Hispanic,             109,               1,             110
+2022-2023,3,Alleghany Highlands,"Non-Hispanic, two or more races",             158,,             158
+2022-2023,3,Alleghany Highlands,"White, not of Hispanic origin","           2,389",,"           2,389"
+2022-2023,4,Amelia County,American Indian or Alaska Native,               3,,               3
+2022-2023,4,Amelia County,"Black, not of Hispanic origin",             280,,             280
+2022-2023,4,Amelia County,Hispanic,             130,,             130
+2022-2023,4,Amelia County,"Non-Hispanic, two or more races",             149,,             149
+2022-2023,4,Amelia County,"White, not of Hispanic origin","           1,101",,"           1,101"
+2022-2023,5,Amherst County,American Indian or Alaska Native,              43,,              43
+2022-2023,5,Amherst County,Asian,              19,,              19
+2022-2023,5,Amherst County,"Black, not of Hispanic origin",             750,,             750
+2022-2023,5,Amherst County,Hispanic,             217,,             217
+2022-2023,5,Amherst County,Native Hawaiian  or Pacific Islander,               3,,               3
+2022-2023,5,Amherst County,"Non-Hispanic, two or more races",             393,,             393
+2022-2023,5,Amherst County,"White, not of Hispanic origin","           2,562",,"           2,562"
+2022-2023,6,Appomattox County,Asian,               4,,               4
+2022-2023,6,Appomattox County,"Black, not of Hispanic origin",             503,,             503
+2022-2023,6,Appomattox County,Hispanic,             105,,             105
+2022-2023,6,Appomattox County,"Non-Hispanic, two or more races",             233,,             233
+2022-2023,6,Appomattox County,"White, not of Hispanic origin","           1,516",,"           1,516"
+2022-2023,7,Arlington County,American Indian or Alaska Native,              47,,              47
+2022-2023,7,Arlington County,Asian,"           2,419",,"           2,419"
+2022-2023,7,Arlington County,"Black, not of Hispanic origin","           2,927",,"           2,927"
+2022-2023,7,Arlington County,Hispanic,"           8,204",,"           8,204"
+2022-2023,7,Arlington County,Native Hawaiian  or Pacific Islander,              10,,              10
+2022-2023,7,Arlington County,"Non-Hispanic, two or more races","           2,213",,"           2,213"
+2022-2023,7,Arlington County,"White, not of Hispanic origin","          11,762",,"          11,762"
+2022-2023,8,Augusta County,American Indian or Alaska Native,              27,,              27
+2022-2023,8,Augusta County,Asian,             100,,             100
+2022-2023,8,Augusta County,"Black, not of Hispanic origin",             362,,             362
+2022-2023,8,Augusta County,Hispanic,             704,,             704
+2022-2023,8,Augusta County,Native Hawaiian  or Pacific Islander,               9,,               9
+2022-2023,8,Augusta County,"Non-Hispanic, two or more races",             534,,             534
+2022-2023,8,Augusta County,"White, not of Hispanic origin","           8,340",               1,"           8,341"
+2022-2023,9,Bath County,Asian,               4,,               4
+2022-2023,9,Bath County,"Black, not of Hispanic origin",              17,,              17
+2022-2023,9,Bath County,Hispanic,              13,,              13
+2022-2023,9,Bath County,"Non-Hispanic, two or more races",              12,,              12
+2022-2023,9,Bath County,"White, not of Hispanic origin",             458,,             458
+2022-2023,10,Bedford County,American Indian or Alaska Native,              17,,              17
+2022-2023,10,Bedford County,Asian,             157,,             157
+2022-2023,10,Bedford County,"Black, not of Hispanic origin",             706,,             706
+2022-2023,10,Bedford County,Hispanic,             449,,             449
+2022-2023,10,Bedford County,Native Hawaiian  or Pacific Islander,               8,,               8
+2022-2023,10,Bedford County,"Non-Hispanic, two or more races",             588,,             588
+2022-2023,10,Bedford County,"White, not of Hispanic origin","           7,164",               1,"           7,165"
+2022-2023,11,Bland County,American Indian or Alaska Native,               1,,               1
+2022-2023,11,Bland County,Asian,               8,,               8
+2022-2023,11,Bland County,"Black, not of Hispanic origin",              18,,              18
+2022-2023,11,Bland County,Hispanic,              20,,              20
+2022-2023,11,Bland County,"Non-Hispanic, two or more races",              36,,              36
+2022-2023,11,Bland County,"White, not of Hispanic origin",             713,,             713
+2022-2023,12,Botetourt County,American Indian or Alaska Native,               4,,               4
+2022-2023,12,Botetourt County,Asian,              48,,              48
+2022-2023,12,Botetourt County,"Black, not of Hispanic origin",              84,,              84
+2022-2023,12,Botetourt County,Hispanic,             252,,             252
+2022-2023,12,Botetourt County,Native Hawaiian  or Pacific Islander,               1,,               1
+2022-2023,12,Botetourt County,"Non-Hispanic, two or more races",             218,,             218
+2022-2023,12,Botetourt County,"White, not of Hispanic origin","           3,887",,"           3,887"
+2022-2023,102,Bristol City,American Indian or Alaska Native,               5,,               5
+2022-2023,102,Bristol City,Asian,              30,,              30
+2022-2023,102,Bristol City,"Black, not of Hispanic origin",             193,,             193
+2022-2023,102,Bristol City,Hispanic,             113,,             113
+2022-2023,102,Bristol City,Native Hawaiian  or Pacific Islander,               1,,               1
+2022-2023,102,Bristol City,"Non-Hispanic, two or more races",             216,,             216
+2022-2023,102,Bristol City,"White, not of Hispanic origin","           1,637",,"           1,637"
+2022-2023,13,Brunswick County,American Indian or Alaska Native,               1,,               1
+2022-2023,13,Brunswick County,Asian,               5,,               5
+2022-2023,13,Brunswick County,"Black, not of Hispanic origin","           1,079",,"           1,079"
+2022-2023,13,Brunswick County,Hispanic,              76,,              76
+2022-2023,13,Brunswick County,Native Hawaiian  or Pacific Islander,               1,,               1
+2022-2023,13,Brunswick County,"Non-Hispanic, two or more races",              37,,              37
+2022-2023,13,Brunswick County,"White, not of Hispanic origin",             206,,             206
+2022-2023,14,Buchanan County,Asian,               6,,               6
+2022-2023,14,Buchanan County,"Black, not of Hispanic origin",              10,,              10
+2022-2023,14,Buchanan County,Hispanic,              36,,              36
+2022-2023,14,Buchanan County,Native Hawaiian  or Pacific Islander,               1,,               1
+2022-2023,14,Buchanan County,"Non-Hispanic, two or more races",              14,,              14
+2022-2023,14,Buchanan County,"White, not of Hispanic origin","           2,395",,"           2,395"
+2022-2023,15,Buckingham County,American Indian or Alaska Native,               3,,               3
+2022-2023,15,Buckingham County,Asian,               4,,               4
+2022-2023,15,Buckingham County,"Black, not of Hispanic origin",             672,,             672
+2022-2023,15,Buckingham County,Hispanic,              96,,              96
+2022-2023,15,Buckingham County,"Non-Hispanic, two or more races",             180,,             180
+2022-2023,15,Buckingham County,"White, not of Hispanic origin","           1,037",,"           1,037"
+2022-2023,103,Buena Vista City,American Indian or Alaska Native,               6,,               6
+2022-2023,103,Buena Vista City,Asian,               2,,               2
+2022-2023,103,Buena Vista City,"Black, not of Hispanic origin",              40,,              40
+2022-2023,103,Buena Vista City,Hispanic,              37,,              37
+2022-2023,103,Buena Vista City,Native Hawaiian  or Pacific Islander,               1,,               1
+2022-2023,103,Buena Vista City,"Non-Hispanic, two or more races",              50,,              50
+2022-2023,103,Buena Vista City,"White, not of Hispanic origin",             754,,             754
+2022-2023,16,Campbell County,American Indian or Alaska Native,              26,,              26
+2022-2023,16,Campbell County,Asian,              92,,              92
+2022-2023,16,Campbell County,"Black, not of Hispanic origin","           1,292",,"           1,292"
+2022-2023,16,Campbell County,Hispanic,             516,,             516
+2022-2023,16,Campbell County,Native Hawaiian  or Pacific Islander,              13,,              13
+2022-2023,16,Campbell County,"Non-Hispanic, two or more races",             550,,             550
+2022-2023,16,Campbell County,"White, not of Hispanic origin","           5,384",,"           5,384"
+2022-2023,17,Caroline County,American Indian or Alaska Native,              15,,              15
+2022-2023,17,Caroline County,Asian,              35,,              35
+2022-2023,17,Caroline County,"Black, not of Hispanic origin","           1,113",,"           1,113"
+2022-2023,17,Caroline County,Hispanic,             549,,             549
+2022-2023,17,Caroline County,Native Hawaiian  or Pacific Islander,               8,,               8
+2022-2023,17,Caroline County,"Non-Hispanic, two or more races",             424,,             424
+2022-2023,17,Caroline County,"White, not of Hispanic origin","           2,193",,"           2,193"
+2022-2023,18,Carroll County,American Indian or Alaska Native,               7,,               7
+2022-2023,18,Carroll County,Asian,               7,,               7
+2022-2023,18,Carroll County,"Black, not of Hispanic origin",              25,,              25
+2022-2023,18,Carroll County,Hispanic,             210,,             210
+2022-2023,18,Carroll County,"Non-Hispanic, two or more races",              88,,              88
+2022-2023,18,Carroll County,"White, not of Hispanic origin","           3,168",               2,"           3,170"
+2022-2023,19,Charles City County,American Indian or Alaska Native,              23,,              23
+2022-2023,19,Charles City County,Asian,               3,,               3
+2022-2023,19,Charles City County,"Black, not of Hispanic origin",             261,,             261
+2022-2023,19,Charles City County,Hispanic,              14,,              14
+2022-2023,19,Charles City County,Native Hawaiian  or Pacific Islander,               3,,               3
+2022-2023,19,Charles City County,"Non-Hispanic, two or more races",              71,,              71
+2022-2023,19,Charles City County,"White, not of Hispanic origin",             187,,             187
+2022-2023,20,Charlotte County,Asian,               1,,               1
+2022-2023,20,Charlotte County,"Black, not of Hispanic origin",             439,,             439
+2022-2023,20,Charlotte County,Hispanic,              46,,              46
+2022-2023,20,Charlotte County,"Non-Hispanic, two or more races",             133,,             133
+2022-2023,20,Charlotte County,"White, not of Hispanic origin","           1,049",,"           1,049"
+2022-2023,104,Charlottesville City,American Indian or Alaska Native,               3,,               3
+2022-2023,104,Charlottesville City,Asian,             238,,             238
+2022-2023,104,Charlottesville City,"Black, not of Hispanic origin","           1,256",,"           1,256"
+2022-2023,104,Charlottesville City,Hispanic,             587,,             587
+2022-2023,104,Charlottesville City,Native Hawaiian  or Pacific Islander,               1,,               1
+2022-2023,104,Charlottesville City,"Non-Hispanic, two or more races",             611,,             611
+2022-2023,104,Charlottesville City,"White, not of Hispanic origin","           1,789",               6,"           1,795"
+2022-2023,136,Chesapeake City,American Indian or Alaska Native,             116,,             116
+2022-2023,136,Chesapeake City,Asian,"           1,244",,"           1,244"
+2022-2023,136,Chesapeake City,"Black, not of Hispanic origin","          12,807",,"          12,807"
+2022-2023,136,Chesapeake City,Hispanic,"           5,016",,"           5,016"
+2022-2023,136,Chesapeake City,Native Hawaiian  or Pacific Islander,              90,,              90
+2022-2023,136,Chesapeake City,"Non-Hispanic, two or more races","           3,701",,"           3,701"
+2022-2023,136,Chesapeake City,"White, not of Hispanic origin","          17,847",,"          17,847"
+2022-2023,21,Chesterfield County,American Indian or Alaska Native,             108,,             108
+2022-2023,21,Chesterfield County,Asian,"           2,064",               1,"           2,065"
+2022-2023,21,Chesterfield County,"Black, not of Hispanic origin","          16,885",               8,"          16,893"
+2022-2023,21,Chesterfield County,Hispanic,"          13,221",               1,"          13,222"
+2022-2023,21,Chesterfield County,Native Hawaiian  or Pacific Islander,             110,               1,             111
+2022-2023,21,Chesterfield County,"Non-Hispanic, two or more races","           3,460",               2,"           3,462"
+2022-2023,21,Chesterfield County,"White, not of Hispanic origin","          28,068",              33,"          28,101"
+2022-2023,22,Clarke County,Asian,              13,,              13
+2022-2023,22,Clarke County,"Black, not of Hispanic origin",              59,,              59
+2022-2023,22,Clarke County,Hispanic,             272,,             272
+2022-2023,22,Clarke County,Native Hawaiian  or Pacific Islander,               5,,               5
+2022-2023,22,Clarke County,"Non-Hispanic, two or more races",             137,,             137
+2022-2023,22,Clarke County,"White, not of Hispanic origin","           1,406",               2,"           1,408"
+2022-2023,202,Colonial Beach,American Indian or Alaska Native,               4,,               4
+2022-2023,202,Colonial Beach,Asian,               3,,               3
+2022-2023,202,Colonial Beach,"Black, not of Hispanic origin",             123,,             123
+2022-2023,202,Colonial Beach,Hispanic,              29,,              29
+2022-2023,202,Colonial Beach,Native Hawaiian  or Pacific Islander,               1,,               1
+2022-2023,202,Colonial Beach,"Non-Hispanic, two or more races",              73,,              73
+2022-2023,202,Colonial Beach,"White, not of Hispanic origin",             341,,             341
+2022-2023,106,Colonial Heights City,American Indian or Alaska Native,               2,,               2
+2022-2023,106,Colonial Heights City,Asian,              84,,              84
+2022-2023,106,Colonial Heights City,"Black, not of Hispanic origin",             676,,             676
+2022-2023,106,Colonial Heights City,Hispanic,             395,,             395
+2022-2023,106,Colonial Heights City,Native Hawaiian  or Pacific Islander,               5,,               5
+2022-2023,106,Colonial Heights City,"Non-Hispanic, two or more races",             269,,             269
+2022-2023,106,Colonial Heights City,"White, not of Hispanic origin","           1,412",,"           1,412"
+2022-2023,23,Craig County,Asian,               1,,               1
+2022-2023,23,Craig County,Hispanic,               3,,               3
+2022-2023,23,Craig County,"Non-Hispanic, two or more races",               2,,               2
+2022-2023,23,Craig County,"White, not of Hispanic origin",             470,,             470
+2022-2023,24,Culpeper County,American Indian or Alaska Native,              23,,              23
+2022-2023,24,Culpeper County,Asian,             122,,             122
+2022-2023,24,Culpeper County,"Black, not of Hispanic origin","           1,083",,"           1,083"
+2022-2023,24,Culpeper County,Hispanic,"           2,463",,"           2,463"
+2022-2023,24,Culpeper County,Native Hawaiian  or Pacific Islander,               2,,               2
+2022-2023,24,Culpeper County,"Non-Hispanic, two or more races",             700,,             700
+2022-2023,24,Culpeper County,"White, not of Hispanic origin","           3,960",,"           3,960"
+2022-2023,25,Cumberland County,Asian,               6,,               6
+2022-2023,25,Cumberland County,"Black, not of Hispanic origin",             457,,             457
+2022-2023,25,Cumberland County,Hispanic,              62,,              62
+2022-2023,25,Cumberland County,Native Hawaiian  or Pacific Islander,               1,,               1
+2022-2023,25,Cumberland County,"Non-Hispanic, two or more races",             111,,             111
+2022-2023,25,Cumberland County,"White, not of Hispanic origin",             646,,             646
+2022-2023,108,Danville City,American Indian or Alaska Native,              15,,              15
+2022-2023,108,Danville City,Asian,              64,,              64
+2022-2023,108,Danville City,"Black, not of Hispanic origin","           3,934",,"           3,934"
+2022-2023,108,Danville City,Hispanic,             536,,             536
+2022-2023,108,Danville City,Native Hawaiian  or Pacific Islander,               3,,               3
+2022-2023,108,Danville City,"Non-Hispanic, two or more races",             205,,             205
+2022-2023,108,Danville City,"White, not of Hispanic origin",             928,,             928
+2022-2023,26,Dickenson County,Asian,               3,,               3
+2022-2023,26,Dickenson County,"Black, not of Hispanic origin",              15,,              15
+2022-2023,26,Dickenson County,Hispanic,              14,,              14
+2022-2023,26,Dickenson County,"Non-Hispanic, two or more races",              16,,              16
+2022-2023,26,Dickenson County,"White, not of Hispanic origin","           1,898",,"           1,898"
+2022-2023,27,Dinwiddie County,American Indian or Alaska Native,              13,,              13
+2022-2023,27,Dinwiddie County,Asian,              16,,              16
+2022-2023,27,Dinwiddie County,"Black, not of Hispanic origin","           1,373",,"           1,373"
+2022-2023,27,Dinwiddie County,Hispanic,             358,,             358
+2022-2023,27,Dinwiddie County,Native Hawaiian  or Pacific Islander,               5,,               5
+2022-2023,27,Dinwiddie County,"Non-Hispanic, two or more races",             271,,             271
+2022-2023,27,Dinwiddie County,"White, not of Hispanic origin","           2,221",,"           2,221"
+2022-2023,28,Essex County,American Indian or Alaska Native,               9,,               9
+2022-2023,28,Essex County,Asian,              19,,              19
+2022-2023,28,Essex County,"Black, not of Hispanic origin",             606,,             606
+2022-2023,28,Essex County,Hispanic,              65,,              65
+2022-2023,28,Essex County,"Non-Hispanic, two or more races",             116,,             116
+2022-2023,28,Essex County,"White, not of Hispanic origin",             341,,             341
+2022-2023,29,Fairfax County,American Indian or Alaska Native,             494,,             494
+2022-2023,29,Fairfax County,Asian,"          34,159",               2,"          34,161"
+2022-2023,29,Fairfax County,"Black, not of Hispanic origin","          17,617",               2,"          17,619"
+2022-2023,29,Fairfax County,Hispanic,"          50,563",,"          50,563"
+2022-2023,29,Fairfax County,Native Hawaiian  or Pacific Islander,             206,,             206
+2022-2023,29,Fairfax County,"Non-Hispanic, two or more races","          11,221",               8,"          11,229"
+2022-2023,29,Fairfax County,"White, not of Hispanic origin","          65,840",              15,"          65,855"
+2022-2023,109,Falls Church City,American Indian or Alaska Native,               2,,               2
+2022-2023,109,Falls Church City,Asian,             180,,             180
+2022-2023,109,Falls Church City,"Black, not of Hispanic origin",              79,,              79
+2022-2023,109,Falls Church City,Hispanic,             309,,             309
+2022-2023,109,Falls Church City,Native Hawaiian  or Pacific Islander,               1,,               1
+2022-2023,109,Falls Church City,"Non-Hispanic, two or more races",             322,,             322
+2022-2023,109,Falls Church City,"White, not of Hispanic origin","           1,614",,"           1,614"
+2022-2023,30,Fauquier County,American Indian or Alaska Native,              12,,              12
+2022-2023,30,Fauquier County,Asian,             152,,             152
+2022-2023,30,Fauquier County,"Black, not of Hispanic origin",             771,,             771
+2022-2023,30,Fauquier County,Hispanic,"           2,397",,"           2,397"
+2022-2023,30,Fauquier County,Native Hawaiian  or Pacific Islander,              10,,              10
+2022-2023,30,Fauquier County,"Non-Hispanic, two or more races",             728,,             728
+2022-2023,30,Fauquier County,"White, not of Hispanic origin","           6,769",,"           6,769"
+2022-2023,31,Floyd County,American Indian or Alaska Native,               5,,               5
+2022-2023,31,Floyd County,Asian,              11,,              11
+2022-2023,31,Floyd County,"Black, not of Hispanic origin",              18,,              18
+2022-2023,31,Floyd County,Hispanic,              88,,              88
+2022-2023,31,Floyd County,"Non-Hispanic, two or more races",              78,,              78
+2022-2023,31,Floyd County,"White, not of Hispanic origin","           1,546",               4,"           1,550"
+2022-2023,32,Fluvanna County,American Indian or Alaska Native,               4,,               4
+2022-2023,32,Fluvanna County,Asian,              20,,              20
+2022-2023,32,Fluvanna County,"Black, not of Hispanic origin",             476,,             476
+2022-2023,32,Fluvanna County,Hispanic,             324,,             324
+2022-2023,32,Fluvanna County,Native Hawaiian  or Pacific Islander,               2,,               2
+2022-2023,32,Fluvanna County,"Non-Hispanic, two or more races",             318,,             318
+2022-2023,32,Fluvanna County,"White, not of Hispanic origin","           2,295",,"           2,295"
+2022-2023,135,Franklin City,Asian,               6,,               6
+2022-2023,135,Franklin City,"Black, not of Hispanic origin",             796,,             796
+2022-2023,135,Franklin City,Hispanic,              30,,              30
+2022-2023,135,Franklin City,"Non-Hispanic, two or more races",              41,,              41
+2022-2023,135,Franklin City,"White, not of Hispanic origin",             150,,             150
+2022-2023,33,Franklin County,American Indian or Alaska Native,               3,,               3
+2022-2023,33,Franklin County,Asian,              31,,              31
+2022-2023,33,Franklin County,"Black, not of Hispanic origin",             507,,             507
+2022-2023,33,Franklin County,Hispanic,             501,,             501
+2022-2023,33,Franklin County,"Non-Hispanic, two or more races",             545,,             545
+2022-2023,33,Franklin County,"White, not of Hispanic origin","           4,665",,"           4,665"
+2022-2023,34,Frederick County,American Indian or Alaska Native,              29,,              29
+2022-2023,34,Frederick County,Asian,             293,,             293
+2022-2023,34,Frederick County,"Black, not of Hispanic origin",             608,,             608
+2022-2023,34,Frederick County,Hispanic,"           3,214",,"           3,214"
+2022-2023,34,Frederick County,Native Hawaiian  or Pacific Islander,              18,,              18
+2022-2023,34,Frederick County,"Non-Hispanic, two or more races",             750,,             750
+2022-2023,34,Frederick County,"White, not of Hispanic origin","           9,048",               2,"           9,050"
+2022-2023,110,Fredericksburg City,American Indian or Alaska Native,              10,,              10
+2022-2023,110,Fredericksburg City,Asian,             350,,             350
+2022-2023,110,Fredericksburg City,"Black, not of Hispanic origin","           1,241",,"           1,241"
+2022-2023,110,Fredericksburg City,Hispanic,             833,,             833
+2022-2023,110,Fredericksburg City,Native Hawaiian  or Pacific Islander,              15,,              15
+2022-2023,110,Fredericksburg City,"Non-Hispanic, two or more races",             346,,             346
+2022-2023,110,Fredericksburg City,"White, not of Hispanic origin",             967,,             967
+2022-2023,111,Galax City,American Indian or Alaska Native,               2,,               2
+2022-2023,111,Galax City,Asian,               7,,               7
+2022-2023,111,Galax City,"Black, not of Hispanic origin",              63,,              63
+2022-2023,111,Galax City,Hispanic,             452,,             452
+2022-2023,111,Galax City,Native Hawaiian  or Pacific Islander,               1,,               1
+2022-2023,111,Galax City,"Non-Hispanic, two or more races",              54,,              54
+2022-2023,111,Galax City,"White, not of Hispanic origin",             814,               1,             815
+2022-2023,35,Giles County,American Indian or Alaska Native,              51,,              51
+2022-2023,35,Giles County,Asian,              90,,              90
+2022-2023,35,Giles County,"Black, not of Hispanic origin",             327,,             327
+2022-2023,35,Giles County,Hispanic,             126,,             126
+2022-2023,35,Giles County,Native Hawaiian  or Pacific Islander,               1,,               1
+2022-2023,35,Giles County,"Non-Hispanic, two or more races",             181,,             181
+2022-2023,35,Giles County,"White, not of Hispanic origin","           2,684",               2,"           2,686"
+2022-2023,36,Gloucester County,American Indian or Alaska Native,              24,,              24
+2022-2023,36,Gloucester County,Asian,              39,               1,              40
+2022-2023,36,Gloucester County,"Black, not of Hispanic origin",             315,               1,             316
+2022-2023,36,Gloucester County,Hispanic,             389,               3,             392
+2022-2023,36,Gloucester County,Native Hawaiian  or Pacific Islander,               6,,               6
+2022-2023,36,Gloucester County,"Non-Hispanic, two or more races",             387,               3,             390
+2022-2023,36,Gloucester County,"White, not of Hispanic origin","           3,899",              26,"           3,925"
+2022-2023,37,Goochland County,American Indian or Alaska Native,               3,,               3
+2022-2023,37,Goochland County,Asian,              27,,              27
+2022-2023,37,Goochland County,"Black, not of Hispanic origin",             349,,             349
+2022-2023,37,Goochland County,Hispanic,             225,,             225
+2022-2023,37,Goochland County,Native Hawaiian  or Pacific Islander,               2,,               2
+2022-2023,37,Goochland County,"Non-Hispanic, two or more races",             158,,             158
+2022-2023,37,Goochland County,"White, not of Hispanic origin","           1,879",,"           1,879"
+2022-2023,38,Grayson County,American Indian or Alaska Native,               1,,               1
+2022-2023,38,Grayson County,Asian,               1,,               1
+2022-2023,38,Grayson County,"Black, not of Hispanic origin",              36,,              36
+2022-2023,38,Grayson County,Hispanic,             133,,             133
+2022-2023,38,Grayson County,"Non-Hispanic, two or more races",              28,,              28
+2022-2023,38,Grayson County,"White, not of Hispanic origin","           1,362",,"           1,362"
+2022-2023,39,Greene County,American Indian or Alaska Native,               3,,               3
+2022-2023,39,Greene County,Asian,              46,,              46
+2022-2023,39,Greene County,"Black, not of Hispanic origin",             183,,             183
+2022-2023,39,Greene County,Hispanic,             383,,             383
+2022-2023,39,Greene County,Native Hawaiian  or Pacific Islander,               2,,               2
+2022-2023,39,Greene County,"Non-Hispanic, two or more races",             266,,             266
+2022-2023,39,Greene County,"White, not of Hispanic origin","           1,955",,"           1,955"
+2022-2023,40,Greensville County,American Indian or Alaska Native,               1,,               1
+2022-2023,40,Greensville County,Asian,              40,,              40
+2022-2023,40,Greensville County,"Black, not of Hispanic origin","           1,535",,"           1,535"
+2022-2023,40,Greensville County,Hispanic,             128,,             128
+2022-2023,40,Greensville County,Native Hawaiian  or Pacific Islander,               1,,               1
+2022-2023,40,Greensville County,"Non-Hispanic, two or more races",              49,,              49
+2022-2023,40,Greensville County,"White, not of Hispanic origin",             280,,             280
+2022-2023,41,Halifax County,American Indian or Alaska Native,               7,,               7
+2022-2023,41,Halifax County,Asian,              35,,              35
+2022-2023,41,Halifax County,"Black, not of Hispanic origin","           1,926",               1,"           1,927"
+2022-2023,41,Halifax County,Hispanic,             233,,             233
+2022-2023,41,Halifax County,Native Hawaiian  or Pacific Islander,               7,,               7
+2022-2023,41,Halifax County,"Non-Hispanic, two or more races",             230,,             230
+2022-2023,41,Halifax County,"White, not of Hispanic origin","           2,183",               3,"           2,186"
+2022-2023,112,Hampton City,American Indian or Alaska Native,              61,,              61
+2022-2023,112,Hampton City,Asian,             298,,             298
+2022-2023,112,Hampton City,"Black, not of Hispanic origin","          11,897",,"          11,897"
+2022-2023,112,Hampton City,Hispanic,"           1,409",,"           1,409"
+2022-2023,112,Hampton City,Native Hawaiian  or Pacific Islander,              56,,              56
+2022-2023,112,Hampton City,"Non-Hispanic, two or more races","           1,891",,"           1,891"
+2022-2023,112,Hampton City,"White, not of Hispanic origin","           4,184",,"           4,184"
+2022-2023,42,Hanover County,American Indian or Alaska Native,              41,,              41
+2022-2023,42,Hanover County,Asian,             510,,             510
+2022-2023,42,Hanover County,"Black, not of Hispanic origin","           1,545",,"           1,545"
+2022-2023,42,Hanover County,Hispanic,"           1,252",,"           1,252"
+2022-2023,42,Hanover County,Native Hawaiian  or Pacific Islander,               6,,               6
+2022-2023,42,Hanover County,"Non-Hispanic, two or more races","           1,039",,"           1,039"
+2022-2023,42,Hanover County,"White, not of Hispanic origin","          12,673",,"          12,673"
+2022-2023,113,Harrisonburg City,American Indian or Alaska Native,               6,,               6
+2022-2023,113,Harrisonburg City,Asian,             162,,             162
+2022-2023,113,Harrisonburg City,"Black, not of Hispanic origin",             687,,             687
+2022-2023,113,Harrisonburg City,Hispanic,"           3,533",,"           3,533"
+2022-2023,113,Harrisonburg City,Native Hawaiian  or Pacific Islander,               4,,               4
+2022-2023,113,Harrisonburg City,"Non-Hispanic, two or more races",             301,,             301
+2022-2023,113,Harrisonburg City,"White, not of Hispanic origin","           1,989",               2,"           1,991"
+2022-2023,43,Henrico County,American Indian or Alaska Native,             130,,             130
+2022-2023,43,Henrico County,Asian,"           6,585",,"           6,585"
+2022-2023,43,Henrico County,"Black, not of Hispanic origin","          18,009",,"          18,009"
+2022-2023,43,Henrico County,Hispanic,"           6,283",,"           6,283"
+2022-2023,43,Henrico County,Native Hawaiian  or Pacific Islander,              51,,              51
+2022-2023,43,Henrico County,"Non-Hispanic, two or more races","           2,620",,"           2,620"
+2022-2023,43,Henrico County,"White, not of Hispanic origin","          16,711",,"          16,711"
+2022-2023,44,Henry County,American Indian or Alaska Native,               9,,               9
+2022-2023,44,Henry County,Asian,              25,,              25
+2022-2023,44,Henry County,"Black, not of Hispanic origin","           1,579",,"           1,579"
+2022-2023,44,Henry County,Hispanic,"           1,173",,"           1,173"
+2022-2023,44,Henry County,Native Hawaiian  or Pacific Islander,               2,,               2
+2022-2023,44,Henry County,"Non-Hispanic, two or more races",             601,,             601
+2022-2023,44,Henry County,"White, not of Hispanic origin","           3,621",,"           3,621"
+2022-2023,45,Highland County,Asian,               2,,               2
+2022-2023,45,Highland County,"Black, not of Hispanic origin",               1,,               1
+2022-2023,45,Highland County,"Non-Hispanic, two or more races",               5,,               5
+2022-2023,45,Highland County,"White, not of Hispanic origin",             192,,             192
+2022-2023,114,Hopewell City,American Indian or Alaska Native,              17,,              17
+2022-2023,114,Hopewell City,Asian,              29,,              29
+2022-2023,114,Hopewell City,"Black, not of Hispanic origin","           2,420",               1,"           2,421"
+2022-2023,114,Hopewell City,Hispanic,             498,,             498
+2022-2023,114,Hopewell City,Native Hawaiian  or Pacific Islander,               3,,               3
+2022-2023,114,Hopewell City,"Non-Hispanic, two or more races",             188,,             188
+2022-2023,114,Hopewell City,"White, not of Hispanic origin",             829,,             829
+2022-2023,46,Isle of Wight County,American Indian or Alaska Native,              17,,              17
+2022-2023,46,Isle of Wight County,Asian,              64,,              64
+2022-2023,46,Isle of Wight County,"Black, not of Hispanic origin","           1,402",,"           1,402"
+2022-2023,46,Isle of Wight County,Hispanic,             362,               1,             363
+2022-2023,46,Isle of Wight County,Native Hawaiian  or Pacific Islander,               7,,               7
+2022-2023,46,Isle of Wight County,"Non-Hispanic, two or more races",             427,,             427
+2022-2023,46,Isle of Wight County,"White, not of Hispanic origin","           3,348",               1,"           3,349"
+2022-2023,48,King George County,American Indian or Alaska Native,              16,,              16
+2022-2023,48,King George County,Asian,              36,,              36
+2022-2023,48,King George County,"Black, not of Hispanic origin",             728,,             728
+2022-2023,48,King George County,Hispanic,             445,,             445
+2022-2023,48,King George County,Native Hawaiian  or Pacific Islander,               4,,               4
+2022-2023,48,King George County,"Non-Hispanic, two or more races",             499,,             499
+2022-2023,48,King George County,"White, not of Hispanic origin","           2,793",,"           2,793"
+2022-2023,50,King William County,American Indian or Alaska Native,              35,,              35
+2022-2023,50,King William County,Asian,               4,,               4
+2022-2023,50,King William County,"Black, not of Hispanic origin",             312,,             312
+2022-2023,50,King William County,Hispanic,              71,,              71
+2022-2023,50,King William County,"Non-Hispanic, two or more races",              99,,              99
+2022-2023,50,King William County,"White, not of Hispanic origin","           1,563",,"           1,563"
+2022-2023,49,King and Queen County,American Indian or Alaska Native,               6,,               6
+2022-2023,49,King and Queen County,Asian,              13,,              13
+2022-2023,49,King and Queen County,"Black, not of Hispanic origin",             264,,             264
+2022-2023,49,King and Queen County,Hispanic,              74,,              74
+2022-2023,49,King and Queen County,Native Hawaiian  or Pacific Islander,               1,,               1
+2022-2023,49,King and Queen County,"Non-Hispanic, two or more races",             108,,             108
+2022-2023,49,King and Queen County,"White, not of Hispanic origin",             392,,             392
+2022-2023,51,Lancaster County,American Indian or Alaska Native,               1,,               1
+2022-2023,51,Lancaster County,Asian,               5,,               5
+2022-2023,51,Lancaster County,"Black, not of Hispanic origin",             549,,             549
+2022-2023,51,Lancaster County,Hispanic,              20,,              20
+2022-2023,51,Lancaster County,Native Hawaiian  or Pacific Islander,               1,,               1
+2022-2023,51,Lancaster County,"Non-Hispanic, two or more races",              66,,              66
+2022-2023,51,Lancaster County,"White, not of Hispanic origin",             397,,             397
+2022-2023,52,Lee County,American Indian or Alaska Native,               1,,               1
+2022-2023,52,Lee County,Asian,               4,,               4
+2022-2023,52,Lee County,"Black, not of Hispanic origin",              16,,              16
+2022-2023,52,Lee County,Hispanic,              46,,              46
+2022-2023,52,Lee County,"Non-Hispanic, two or more races",              39,,              39
+2022-2023,52,Lee County,"White, not of Hispanic origin","           2,843",,"           2,843"
+2022-2023,137,Lexington City,American Indian or Alaska Native,               4,,               4
+2022-2023,137,Lexington City,Asian,              13,,              13
+2022-2023,137,Lexington City,"Black, not of Hispanic origin",              31,,              31
+2022-2023,137,Lexington City,Hispanic,              31,,              31
+2022-2023,137,Lexington City,Native Hawaiian  or Pacific Islander,               3,,               3
+2022-2023,137,Lexington City,"Non-Hispanic, two or more races",              24,,              24
+2022-2023,137,Lexington City,"White, not of Hispanic origin",             381,,             381
+2022-2023,53,Loudoun County,American Indian or Alaska Native,             533,               2,             535
+2022-2023,53,Loudoun County,Asian,"          20,867",              46,"          20,913"
+2022-2023,53,Loudoun County,"Black, not of Hispanic origin","           5,898",              54,"           5,952"
+2022-2023,53,Loudoun County,Hispanic,"          15,498",             123,"          15,621"
+2022-2023,53,Loudoun County,Native Hawaiian  or Pacific Islander,             103,,             103
+2022-2023,53,Loudoun County,"Non-Hispanic, two or more races","           4,822",              15,"           4,837"
+2022-2023,53,Loudoun County,"White, not of Hispanic origin","          34,025",              96,"          34,121"
+2022-2023,54,Louisa County,American Indian or Alaska Native,               8,,               8
+2022-2023,54,Louisa County,Asian,              37,,              37
+2022-2023,54,Louisa County,"Black, not of Hispanic origin",             757,,             757
+2022-2023,54,Louisa County,Hispanic,             373,,             373
+2022-2023,54,Louisa County,Native Hawaiian  or Pacific Islander,               4,,               4
+2022-2023,54,Louisa County,"Non-Hispanic, two or more races",             434,,             434
+2022-2023,54,Louisa County,"White, not of Hispanic origin","           3,560",,"           3,560"
+2022-2023,55,Lunenburg County,American Indian or Alaska Native,               6,,               6
+2022-2023,55,Lunenburg County,Asian,               3,,               3
+2022-2023,55,Lunenburg County,"Black, not of Hispanic origin",             492,,             492
+2022-2023,55,Lunenburg County,Hispanic,             241,,             241
+2022-2023,55,Lunenburg County,Native Hawaiian  or Pacific Islander,               3,,               3
+2022-2023,55,Lunenburg County,"Non-Hispanic, two or more races",              85,,              85
+2022-2023,55,Lunenburg County,"White, not of Hispanic origin",             745,,             745
+2022-2023,115,Lynchburg City,American Indian or Alaska Native,              19,,              19
+2022-2023,115,Lynchburg City,Asian,             103,,             103
+2022-2023,115,Lynchburg City,"Black, not of Hispanic origin","           3,861",              26,"           3,887"
+2022-2023,115,Lynchburg City,Hispanic,             628,               4,             632
+2022-2023,115,Lynchburg City,Native Hawaiian  or Pacific Islander,               2,,               2
+2022-2023,115,Lynchburg City,"Non-Hispanic, two or more races",             785,               1,             786
+2022-2023,115,Lynchburg City,"White, not of Hispanic origin","           2,458",              16,"           2,474"
+2022-2023,56,Madison County,American Indian or Alaska Native,               8,,               8
+2022-2023,56,Madison County,Asian,               3,,               3
+2022-2023,56,Madison County,"Black, not of Hispanic origin",             121,,             121
+2022-2023,56,Madison County,Hispanic,             115,,             115
+2022-2023,56,Madison County,"Non-Hispanic, two or more races",             137,,             137
+2022-2023,56,Madison County,"White, not of Hispanic origin","           1,296",               3,"           1,299"
+2022-2023,143,Manassas City,American Indian or Alaska Native,              17,,              17
+2022-2023,143,Manassas City,Asian,             245,              16,             261
+2022-2023,143,Manassas City,"Black, not of Hispanic origin",             681,              26,             707
+2022-2023,143,Manassas City,Hispanic,"           5,152",             193,"           5,345"
+2022-2023,143,Manassas City,Native Hawaiian  or Pacific Islander,               4,,               4
+2022-2023,143,Manassas City,"Non-Hispanic, two or more races",             394,              19,             413
+2022-2023,143,Manassas City,"White, not of Hispanic origin",             925,              39,             964
+2022-2023,144,Manassas Park City,American Indian or Alaska Native,               4,,               4
+2022-2023,144,Manassas Park City,Asian,             208,,             208
+2022-2023,144,Manassas Park City,"Black, not of Hispanic origin",             246,,             246
+2022-2023,144,Manassas Park City,Hispanic,"           2,390",,"           2,390"
+2022-2023,144,Manassas Park City,Native Hawaiian  or Pacific Islander,               1,,               1
+2022-2023,144,Manassas Park City,"Non-Hispanic, two or more races",             214,,             214
+2022-2023,144,Manassas Park City,"White, not of Hispanic origin",             371,,             371
+2022-2023,116,Martinsville City,American Indian or Alaska Native,               4,,               4
+2022-2023,116,Martinsville City,Asian,              18,,              18
+2022-2023,116,Martinsville City,"Black, not of Hispanic origin","           1,056",,"           1,056"
+2022-2023,116,Martinsville City,Hispanic,             269,,             269
+2022-2023,116,Martinsville City,Native Hawaiian  or Pacific Islander,               3,,               3
+2022-2023,116,Martinsville City,"Non-Hispanic, two or more races",             113,,             113
+2022-2023,116,Martinsville City,"White, not of Hispanic origin",             347,,             347
+2022-2023,57,Mathews County,American Indian or Alaska Native,               2,,               2
+2022-2023,57,Mathews County,Asian,               4,,               4
+2022-2023,57,Mathews County,"Black, not of Hispanic origin",              64,,              64
+2022-2023,57,Mathews County,Hispanic,              53,,              53
+2022-2023,57,Mathews County,"Non-Hispanic, two or more races",              53,,              53
+2022-2023,57,Mathews County,"White, not of Hispanic origin",             735,,             735
+2022-2023,58,Mecklenburg County,American Indian or Alaska Native,               4,,               4
+2022-2023,58,Mecklenburg County,Asian,              35,,              35
+2022-2023,58,Mecklenburg County,"Black, not of Hispanic origin","           1,648",,"           1,648"
+2022-2023,58,Mecklenburg County,Hispanic,             208,,             208
+2022-2023,58,Mecklenburg County,Native Hawaiian  or Pacific Islander,               2,,               2
+2022-2023,58,Mecklenburg County,"Non-Hispanic, two or more races",             243,,             243
+2022-2023,58,Mecklenburg County,"White, not of Hispanic origin","           1,832",               1,"           1,833"
+2022-2023,59,Middlesex County,American Indian or Alaska Native,               4,,               4
+2022-2023,59,Middlesex County,Asian,               4,,               4
+2022-2023,59,Middlesex County,"Black, not of Hispanic origin",             212,,             212
+2022-2023,59,Middlesex County,Hispanic,              79,,              79
+2022-2023,59,Middlesex County,"Non-Hispanic, two or more races",              88,,              88
+2022-2023,59,Middlesex County,"White, not of Hispanic origin",             857,,             857
+2022-2023,60,Montgomery County,American Indian or Alaska Native,              21,,              21
+2022-2023,60,Montgomery County,Asian,             402,,             402
+2022-2023,60,Montgomery County,"Black, not of Hispanic origin",             440,,             440
+2022-2023,60,Montgomery County,Hispanic,             715,,             715
+2022-2023,60,Montgomery County,Native Hawaiian  or Pacific Islander,               7,,               7
+2022-2023,60,Montgomery County,"Non-Hispanic, two or more races",             554,,             554
+2022-2023,60,Montgomery County,"White, not of Hispanic origin","           7,591",,"           7,591"
+2022-2023,62,Nelson County,American Indian or Alaska Native,               5,,               5
+2022-2023,62,Nelson County,Asian,               7,,               7
+2022-2023,62,Nelson County,"Black, not of Hispanic origin",             201,,             201
+2022-2023,62,Nelson County,Hispanic,             174,,             174
+2022-2023,62,Nelson County,"Non-Hispanic, two or more races",              68,,              68
+2022-2023,62,Nelson County,"White, not of Hispanic origin","           1,025",,"           1,025"
+2022-2023,63,New Kent County,American Indian or Alaska Native,              36,,              36
+2022-2023,63,New Kent County,Asian,              22,,              22
+2022-2023,63,New Kent County,"Black, not of Hispanic origin",             367,,             367
+2022-2023,63,New Kent County,Hispanic,             206,,             206
+2022-2023,63,New Kent County,Native Hawaiian  or Pacific Islander,               5,,               5
+2022-2023,63,New Kent County,"Non-Hispanic, two or more races",             222,,             222
+2022-2023,63,New Kent County,"White, not of Hispanic origin","           2,578",,"           2,578"
+2022-2023,117,Newport News City,American Indian or Alaska Native,              91,,              91
+2022-2023,117,Newport News City,Asian,             489,,             489
+2022-2023,117,Newport News City,"Black, not of Hispanic origin","          14,087",,"          14,087"
+2022-2023,117,Newport News City,Hispanic,"           4,354",               2,"           4,356"
+2022-2023,117,Newport News City,Native Hawaiian  or Pacific Islander,              78,,              78
+2022-2023,117,Newport News City,"Non-Hispanic, two or more races","           2,171",,"           2,171"
+2022-2023,117,Newport News City,"White, not of Hispanic origin","           5,288",               2,"           5,290"
+2022-2023,118,Norfolk City,American Indian or Alaska Native,              92,,              92
+2022-2023,118,Norfolk City,Asian,             502,,             502
+2022-2023,118,Norfolk City,"Black, not of Hispanic origin","          15,562",,"          15,562"
+2022-2023,118,Norfolk City,Hispanic,"           3,652",,"           3,652"
+2022-2023,118,Norfolk City,Native Hawaiian  or Pacific Islander,              72,,              72
+2022-2023,118,Norfolk City,"Non-Hispanic, two or more races","           1,864",,"           1,864"
+2022-2023,118,Norfolk City,"White, not of Hispanic origin","           5,565",,"           5,565"
+2022-2023,65,Northampton County,American Indian or Alaska Native,               2,,               2
+2022-2023,65,Northampton County,Asian,              13,,              13
+2022-2023,65,Northampton County,"Black, not of Hispanic origin",             570,,             570
+2022-2023,65,Northampton County,Hispanic,             307,,             307
+2022-2023,65,Northampton County,"Non-Hispanic, two or more races",              62,,              62
+2022-2023,65,Northampton County,"White, not of Hispanic origin",             405,,             405
+2022-2023,66,Northumberland County,Asian,               4,,               4
+2022-2023,66,Northumberland County,"Black, not of Hispanic origin",             464,,             464
+2022-2023,66,Northumberland County,Hispanic,              97,,              97
+2022-2023,66,Northumberland County,Native Hawaiian  or Pacific Islander,               1,,               1
+2022-2023,66,Northumberland County,"Non-Hispanic, two or more races",              67,,              67
+2022-2023,66,Northumberland County,"White, not of Hispanic origin",             567,,             567
+2022-2023,119,Norton City,American Indian or Alaska Native,               1,,               1
+2022-2023,119,Norton City,Asian,               2,,               2
+2022-2023,119,Norton City,"Black, not of Hispanic origin",              37,,              37
+2022-2023,119,Norton City,Hispanic,              18,,              18
+2022-2023,119,Norton City,"Non-Hispanic, two or more races",              46,,              46
+2022-2023,119,Norton City,"White, not of Hispanic origin",             711,,             711
+2022-2023,67,Nottoway County,American Indian or Alaska Native,               8,,               8
+2022-2023,67,Nottoway County,Asian,              14,,              14
+2022-2023,67,Nottoway County,"Black, not of Hispanic origin",             807,,             807
+2022-2023,67,Nottoway County,Hispanic,             170,,             170
+2022-2023,67,Nottoway County,"Non-Hispanic, two or more races",             120,,             120
+2022-2023,67,Nottoway County,"White, not of Hispanic origin",             692,,             692
+2022-2023,68,Orange County,American Indian or Alaska Native,               9,,               9
+2022-2023,68,Orange County,Asian,              48,,              48
+2022-2023,68,Orange County,"Black, not of Hispanic origin",             650,,             650
+2022-2023,68,Orange County,Hispanic,             680,,             680
+2022-2023,68,Orange County,Native Hawaiian  or Pacific Islander,              18,,              18
+2022-2023,68,Orange County,"Non-Hispanic, two or more races",             513,,             513
+2022-2023,68,Orange County,"White, not of Hispanic origin","           3,123",               1,"           3,124"
+2022-2023,69,Page County,American Indian or Alaska Native,               4,,               4
+2022-2023,69,Page County,Asian,              11,,              11
+2022-2023,69,Page County,"Black, not of Hispanic origin",              53,,              53
+2022-2023,69,Page County,Hispanic,             134,,             134
+2022-2023,69,Page County,Native Hawaiian  or Pacific Islander,               2,,               2
+2022-2023,69,Page County,"Non-Hispanic, two or more races",             104,,             104
+2022-2023,69,Page County,"White, not of Hispanic origin","           2,723",               2,"           2,725"
+2022-2023,70,Patrick County,American Indian or Alaska Native,               1,,               1
+2022-2023,70,Patrick County,Asian,              17,,              17
+2022-2023,70,Patrick County,"Black, not of Hispanic origin",             169,,             169
+2022-2023,70,Patrick County,Hispanic,             203,,             203
+2022-2023,70,Patrick County,Native Hawaiian  or Pacific Islander,               1,,               1
+2022-2023,70,Patrick County,"Non-Hispanic, two or more races",             148,,             148
+2022-2023,70,Patrick County,"White, not of Hispanic origin","           1,943",,"           1,943"
+2022-2023,120,Petersburg City,American Indian or Alaska Native,               8,,               8
+2022-2023,120,Petersburg City,Asian,              23,,              23
+2022-2023,120,Petersburg City,"Black, not of Hispanic origin","           3,676",,"           3,676"
+2022-2023,120,Petersburg City,Hispanic,             393,,             393
+2022-2023,120,Petersburg City,Native Hawaiian  or Pacific Islander,              10,,              10
+2022-2023,120,Petersburg City,"Non-Hispanic, two or more races",              32,,              32
+2022-2023,120,Petersburg City,"White, not of Hispanic origin",             130,,             130
+2022-2023,71,Pittsylvania County,American Indian or Alaska Native,               7,,               7
+2022-2023,71,Pittsylvania County,Asian,              43,,              43
+2022-2023,71,Pittsylvania County,"Black, not of Hispanic origin","           1,884",,"           1,884"
+2022-2023,71,Pittsylvania County,Hispanic,             464,,             464
+2022-2023,71,Pittsylvania County,Native Hawaiian  or Pacific Islander,               4,,               4
+2022-2023,71,Pittsylvania County,"Non-Hispanic, two or more races",             249,,             249
+2022-2023,71,Pittsylvania County,"White, not of Hispanic origin","           5,267",               1,"           5,268"
+2022-2023,142,Poquoson City,American Indian or Alaska Native,               5,,               5
+2022-2023,142,Poquoson City,Asian,              23,               2,              25
+2022-2023,142,Poquoson City,"Black, not of Hispanic origin",              26,               1,              27
+2022-2023,142,Poquoson City,Hispanic,              96,               3,              99
+2022-2023,142,Poquoson City,Native Hawaiian  or Pacific Islander,               1,,               1
+2022-2023,142,Poquoson City,"Non-Hispanic, two or more races",             107,,             107
+2022-2023,142,Poquoson City,"White, not of Hispanic origin","           1,797",              24,"           1,821"
+2022-2023,121,Portsmouth City,American Indian or Alaska Native,              49,,              49
+2022-2023,121,Portsmouth City,Asian,              76,,              76
+2022-2023,121,Portsmouth City,"Black, not of Hispanic origin","           9,450",,"           9,450"
+2022-2023,121,Portsmouth City,Hispanic,             819,,             819
+2022-2023,121,Portsmouth City,Native Hawaiian  or Pacific Islander,              29,,              29
+2022-2023,121,Portsmouth City,"Non-Hispanic, two or more races",             745,,             745
+2022-2023,121,Portsmouth City,"White, not of Hispanic origin","           2,202",,"           2,202"
+2022-2023,72,Powhatan County,American Indian or Alaska Native,              13,,              13
+2022-2023,72,Powhatan County,Asian,              15,,              15
+2022-2023,72,Powhatan County,"Black, not of Hispanic origin",             205,,             205
+2022-2023,72,Powhatan County,Hispanic,             206,,             206
+2022-2023,72,Powhatan County,Native Hawaiian  or Pacific Islander,               3,,               3
+2022-2023,72,Powhatan County,"Non-Hispanic, two or more races",             216,,             216
+2022-2023,72,Powhatan County,"White, not of Hispanic origin","           3,583",              10,"           3,593"
+2022-2023,73,Prince Edward County,American Indian or Alaska Native,               4,,               4
+2022-2023,73,Prince Edward County,Asian,              28,,              28
+2022-2023,73,Prince Edward County,"Black, not of Hispanic origin","           1,039",,"           1,039"
+2022-2023,73,Prince Edward County,Hispanic,              82,,              82
+2022-2023,73,Prince Edward County,Native Hawaiian  or Pacific Islander,               3,,               3
+2022-2023,73,Prince Edward County,"Non-Hispanic, two or more races",              87,,              87
+2022-2023,73,Prince Edward County,"White, not of Hispanic origin",             644,               2,             646
+2022-2023,74,Prince George County,American Indian or Alaska Native,              19,,              19
+2022-2023,74,Prince George County,Asian,              56,,              56
+2022-2023,74,Prince George County,"Black, not of Hispanic origin","           1,859",,"           1,859"
+2022-2023,74,Prince George County,Hispanic,             848,,             848
+2022-2023,74,Prince George County,Native Hawaiian  or Pacific Islander,              40,,              40
+2022-2023,74,Prince George County,"Non-Hispanic, two or more races",             460,,             460
+2022-2023,74,Prince George County,"White, not of Hispanic origin","           2,824",,"           2,824"
+2022-2023,75,Prince William County,American Indian or Alaska Native,             130,,             130
+2022-2023,75,Prince William County,Asian,"           9,684",               2,"           9,686"
+2022-2023,75,Prince William County,"Black, not of Hispanic origin","          17,671",               2,"          17,673"
+2022-2023,75,Prince William County,Hispanic,"          33,390",,"          33,390"
+2022-2023,75,Prince William County,Native Hawaiian  or Pacific Islander,             191,,             191
+2022-2023,75,Prince William County,"Non-Hispanic, two or more races","           5,599",               4,"           5,603"
+2022-2023,75,Prince William County,"White, not of Hispanic origin","          24,501",               6,"          24,507"
+2022-2023,77,Pulaski County,American Indian or Alaska Native,               4,,               4
+2022-2023,77,Pulaski County,Asian,              24,,              24
+2022-2023,77,Pulaski County,"Black, not of Hispanic origin",             195,,             195
+2022-2023,77,Pulaski County,Hispanic,             175,,             175
+2022-2023,77,Pulaski County,"Non-Hispanic, two or more races",             315,,             315
+2022-2023,77,Pulaski County,"White, not of Hispanic origin","           3,275",,"           3,275"
+2022-2023,122,Radford City,American Indian or Alaska Native,               3,,               3
+2022-2023,122,Radford City,Asian,             173,,             173
+2022-2023,122,Radford City,"Black, not of Hispanic origin",             665,,             665
+2022-2023,122,Radford City,Hispanic,             321,,             321
+2022-2023,122,Radford City,Native Hawaiian  or Pacific Islander,              14,,              14
+2022-2023,122,Radford City,"Non-Hispanic, two or more races",             241,,             241
+2022-2023,122,Radford City,"White, not of Hispanic origin","           2,273",,"           2,273"
+2022-2023,78,Rappahannock County,American Indian or Alaska Native,               1,,               1
+2022-2023,78,Rappahannock County,Asian,               1,,               1
+2022-2023,78,Rappahannock County,"Black, not of Hispanic origin",              13,,              13
+2022-2023,78,Rappahannock County,Hispanic,              81,,              81
+2022-2023,78,Rappahannock County,"Non-Hispanic, two or more races",              34,,              34
+2022-2023,78,Rappahannock County,"White, not of Hispanic origin",             605,               1,             606
+2022-2023,123,Richmond City,American Indian or Alaska Native,              47,,              47
+2022-2023,123,Richmond City,Asian,             168,,             168
+2022-2023,123,Richmond City,"Black, not of Hispanic origin","          13,132",,"          13,132"
+2022-2023,123,Richmond City,Hispanic,"           5,437",,"           5,437"
+2022-2023,123,Richmond City,Native Hawaiian  or Pacific Islander,              10,,              10
+2022-2023,123,Richmond City,"Non-Hispanic, two or more races",             594,,             594
+2022-2023,123,Richmond City,"White, not of Hispanic origin","           2,318",,"           2,318"
+2022-2023,79,Richmond County,American Indian or Alaska Native,               5,,               5
+2022-2023,79,Richmond County,Asian,               7,,               7
+2022-2023,79,Richmond County,"Black, not of Hispanic origin",             281,,             281
+2022-2023,79,Richmond County,Hispanic,             177,,             177
+2022-2023,79,Richmond County,"Non-Hispanic, two or more races",              75,,              75
+2022-2023,79,Richmond County,"White, not of Hispanic origin",             801,,             801
+2022-2023,124,Roanoke City,American Indian or Alaska Native,              35,,              35
+2022-2023,124,Roanoke City,Asian,             454,               3,             457
+2022-2023,124,Roanoke City,"Black, not of Hispanic origin","           5,484",              19,"           5,503"
+2022-2023,124,Roanoke City,Hispanic,"           2,595",              22,"           2,617"
+2022-2023,124,Roanoke City,Native Hawaiian  or Pacific Islander,              19,,              19
+2022-2023,124,Roanoke City,"Non-Hispanic, two or more races",             853,              10,             863
+2022-2023,124,Roanoke City,"White, not of Hispanic origin","           4,196",              17,"           4,213"
+2022-2023,80,Roanoke County,American Indian or Alaska Native,              17,,              17
+2022-2023,80,Roanoke County,Asian,             600,,             600
+2022-2023,80,Roanoke County,"Black, not of Hispanic origin","           1,135",,"           1,135"
+2022-2023,80,Roanoke County,Hispanic,"           1,111",,"           1,111"
+2022-2023,80,Roanoke County,Native Hawaiian  or Pacific Islander,               6,,               6
+2022-2023,80,Roanoke County,"Non-Hispanic, two or more races",             808,,             808
+2022-2023,80,Roanoke County,"White, not of Hispanic origin","          10,141",               1,"          10,142"
+2022-2023,81,Rockbridge County,American Indian or Alaska Native,               9,,               9
+2022-2023,81,Rockbridge County,Asian,              26,,              26
+2022-2023,81,Rockbridge County,"Black, not of Hispanic origin",              85,,              85
+2022-2023,81,Rockbridge County,Hispanic,             144,,             144
+2022-2023,81,Rockbridge County,Native Hawaiian  or Pacific Islander,               1,,               1
+2022-2023,81,Rockbridge County,"Non-Hispanic, two or more races",             138,,             138
+2022-2023,81,Rockbridge County,"White, not of Hispanic origin","           2,145",               2,"           2,147"
+2022-2023,82,Rockingham County,American Indian or Alaska Native,              28,,              28
+2022-2023,82,Rockingham County,Asian,             175,,             175
+2022-2023,82,Rockingham County,"Black, not of Hispanic origin",             274,,             274
+2022-2023,82,Rockingham County,Hispanic,"           2,116",               1,"           2,117"
+2022-2023,82,Rockingham County,Native Hawaiian  or Pacific Islander,               4,,               4
+2022-2023,82,Rockingham County,"Non-Hispanic, two or more races",             622,,             622
+2022-2023,82,Rockingham County,"White, not of Hispanic origin","           8,285",              11,"           8,296"
+2022-2023,83,Russell County,American Indian or Alaska Native,              10,,              10
+2022-2023,83,Russell County,Asian,               2,,               2
+2022-2023,83,Russell County,"Black, not of Hispanic origin",              25,,              25
+2022-2023,83,Russell County,Hispanic,              35,,              35
+2022-2023,83,Russell County,"Non-Hispanic, two or more races",              23,,              23
+2022-2023,83,Russell County,"White, not of Hispanic origin","           3,280",,"           3,280"
+2022-2023,139,Salem City,American Indian or Alaska Native,               2,,               2
+2022-2023,139,Salem City,Asian,              92,,              92
+2022-2023,139,Salem City,"Black, not of Hispanic origin",             557,,             557
+2022-2023,139,Salem City,Hispanic,             350,,             350
+2022-2023,139,Salem City,Native Hawaiian  or Pacific Islander,               4,,               4
+2022-2023,139,Salem City,"Non-Hispanic, two or more races",             188,,             188
+2022-2023,139,Salem City,"White, not of Hispanic origin","           2,557",,"           2,557"
+2022-2023,84,Scott County,American Indian or Alaska Native,               7,,               7
+2022-2023,84,Scott County,Asian,              22,               1,              23
+2022-2023,84,Scott County,"Black, not of Hispanic origin",             153,,             153
+2022-2023,84,Scott County,Hispanic,             165,,             165
+2022-2023,84,Scott County,"Non-Hispanic, two or more races",             111,,             111
+2022-2023,84,Scott County,"White, not of Hispanic origin","           3,568",               1,"           3,569"
+2022-2023,85,Shenandoah County,American Indian or Alaska Native,               7,,               7
+2022-2023,85,Shenandoah County,Asian,              47,,              47
+2022-2023,85,Shenandoah County,"Black, not of Hispanic origin",             175,,             175
+2022-2023,85,Shenandoah County,Hispanic,             946,,             946
+2022-2023,85,Shenandoah County,Native Hawaiian  or Pacific Islander,               6,,               6
+2022-2023,85,Shenandoah County,"Non-Hispanic, two or more races",             272,,             272
+2022-2023,85,Shenandoah County,"White, not of Hispanic origin","           4,177",,"           4,177"
+2022-2023,86,Smyth County,American Indian or Alaska Native,               2,,               2
+2022-2023,86,Smyth County,Asian,              14,,              14
+2022-2023,86,Smyth County,"Black, not of Hispanic origin",              77,,              77
+2022-2023,86,Smyth County,Hispanic,             122,,             122
+2022-2023,86,Smyth County,Native Hawaiian  or Pacific Islander,               3,,               3
+2022-2023,86,Smyth County,"Non-Hispanic, two or more races",              52,,              52
+2022-2023,86,Smyth County,"White, not of Hispanic origin","           3,713",,"           3,713"
+2022-2023,87,Southampton County,American Indian or Alaska Native,               5,,               5
+2022-2023,87,Southampton County,Asian,               4,,               4
+2022-2023,87,Southampton County,"Black, not of Hispanic origin",             986,,             986
+2022-2023,87,Southampton County,Hispanic,              64,,              64
+2022-2023,87,Southampton County,Native Hawaiian  or Pacific Islander,              11,,              11
+2022-2023,87,Southampton County,"Non-Hispanic, two or more races",              88,,              88
+2022-2023,87,Southampton County,"White, not of Hispanic origin","           1,421",,"           1,421"
+2022-2023,88,Spotsylvania County,American Indian or Alaska Native,              45,,              45
+2022-2023,88,Spotsylvania County,Asian,             800,               2,             802
+2022-2023,88,Spotsylvania County,"Black, not of Hispanic origin","           4,661",               7,"           4,668"
+2022-2023,88,Spotsylvania County,Hispanic,"           5,583",               7,"           5,590"
+2022-2023,88,Spotsylvania County,Native Hawaiian  or Pacific Islander,              51,,              51
+2022-2023,88,Spotsylvania County,"Non-Hispanic, two or more races","           2,034",               6,"           2,040"
+2022-2023,88,Spotsylvania County,"White, not of Hispanic origin","          11,042",              22,"          11,064"
+2022-2023,89,Stafford County,American Indian or Alaska Native,              65,,              65
+2022-2023,89,Stafford County,Asian,"           1,526",,"           1,526"
+2022-2023,89,Stafford County,"Black, not of Hispanic origin","           6,660",               2,"           6,662"
+2022-2023,89,Stafford County,Hispanic,"           7,505",               3,"           7,508"
+2022-2023,89,Stafford County,Native Hawaiian  or Pacific Islander,              82,,              82
+2022-2023,89,Stafford County,"Non-Hispanic, two or more races","           2,651",               2,"           2,653"
+2022-2023,89,Stafford County,"White, not of Hispanic origin","          12,656",               8,"          12,664"
+2022-2023,126,Staunton City,American Indian or Alaska Native,              11,,              11
+2022-2023,126,Staunton City,Asian,              36,,              36
+2022-2023,126,Staunton City,"Black, not of Hispanic origin",             358,,             358
+2022-2023,126,Staunton City,Hispanic,             233,,             233
+2022-2023,126,Staunton City,Native Hawaiian  or Pacific Islander,               1,,               1
+2022-2023,126,Staunton City,"Non-Hispanic, two or more races",             365,,             365
+2022-2023,126,Staunton City,"White, not of Hispanic origin","           1,691",,"           1,691"
+2022-2023,127,Suffolk City,American Indian or Alaska Native,              37,,              37
+2022-2023,127,Suffolk City,Asian,             209,,             209
+2022-2023,127,Suffolk City,"Black, not of Hispanic origin","           7,920",,"           7,920"
+2022-2023,127,Suffolk City,Hispanic,"           1,145",,"           1,145"
+2022-2023,127,Suffolk City,Native Hawaiian  or Pacific Islander,              20,,              20
+2022-2023,127,Suffolk City,"Non-Hispanic, two or more races",             992,,             992
+2022-2023,127,Suffolk City,"White, not of Hispanic origin","           4,167",,"           4,167"
+2022-2023,90,Surry County,American Indian or Alaska Native,               2,,               2
+2022-2023,90,Surry County,"Black, not of Hispanic origin",             317,,             317
+2022-2023,90,Surry County,Hispanic,              30,,              30
+2022-2023,90,Surry County,"Non-Hispanic, two or more races",              43,,              43
+2022-2023,90,Surry County,"White, not of Hispanic origin",             293,,             293
+2022-2023,91,Sussex County,American Indian or Alaska Native,               4,,               4
+2022-2023,91,Sussex County,Asian,               6,,               6
+2022-2023,91,Sussex County,"Black, not of Hispanic origin",             676,,             676
+2022-2023,91,Sussex County,Hispanic,              62,,              62
+2022-2023,91,Sussex County,Native Hawaiian  or Pacific Islander,               3,,               3
+2022-2023,91,Sussex County,"Non-Hispanic, two or more races",              29,,              29
+2022-2023,91,Sussex County,"White, not of Hispanic origin",             218,,             218
+2022-2023,92,Tazewell County,American Indian or Alaska Native,               4,,               4
+2022-2023,92,Tazewell County,Asian,              32,,              32
+2022-2023,92,Tazewell County,"Black, not of Hispanic origin",             143,,             143
+2022-2023,92,Tazewell County,Hispanic,              61,,              61
+2022-2023,92,Tazewell County,Native Hawaiian  or Pacific Islander,               1,,               1
+2022-2023,92,Tazewell County,"Non-Hispanic, two or more races",             192,,             192
+2022-2023,92,Tazewell County,"White, not of Hispanic origin","           4,989",,"           4,989"
+2022-2023,128,Virginia Beach City,American Indian or Alaska Native,             151,,             151
+2022-2023,128,Virginia Beach City,Asian,"           4,052",,"           4,052"
+2022-2023,128,Virginia Beach City,"Black, not of Hispanic origin","          15,076",,"          15,076"
+2022-2023,128,Virginia Beach City,Hispanic,"           8,919",,"           8,919"
+2022-2023,128,Virginia Beach City,Native Hawaiian  or Pacific Islander,             316,,             316
+2022-2023,128,Virginia Beach City,"Non-Hispanic, two or more races","           7,196",,"           7,196"
+2022-2023,128,Virginia Beach City,"White, not of Hispanic origin","          29,840",,"          29,840"
+2022-2023,93,Warren County,American Indian or Alaska Native,              18,,              18
+2022-2023,93,Warren County,Asian,              44,,              44
+2022-2023,93,Warren County,"Black, not of Hispanic origin",             273,,             273
+2022-2023,93,Warren County,Hispanic,             544,               1,             545
+2022-2023,93,Warren County,Native Hawaiian  or Pacific Islander,              10,,              10
+2022-2023,93,Warren County,"Non-Hispanic, two or more races",             410,,             410
+2022-2023,93,Warren County,"White, not of Hispanic origin","           3,869",               1,"           3,870"
+2022-2023,94,Washington County,American Indian or Alaska Native,               7,,               7
+2022-2023,94,Washington County,Asian,              64,,              64
+2022-2023,94,Washington County,"Black, not of Hispanic origin",              83,,              83
+2022-2023,94,Washington County,Hispanic,             219,,             219
+2022-2023,94,Washington County,Native Hawaiian  or Pacific Islander,               2,,               2
+2022-2023,94,Washington County,"Non-Hispanic, two or more races",             192,,             192
+2022-2023,94,Washington County,"White, not of Hispanic origin","           6,175",               3,"           6,178"
+2022-2023,130,Waynesboro City,American Indian or Alaska Native,               3,,               3
+2022-2023,130,Waynesboro City,Asian,              44,,              44
+2022-2023,130,Waynesboro City,"Black, not of Hispanic origin",             506,,             506
+2022-2023,130,Waynesboro City,Hispanic,             623,,             623
+2022-2023,130,Waynesboro City,Native Hawaiian  or Pacific Islander,               4,,               4
+2022-2023,130,Waynesboro City,"Non-Hispanic, two or more races",             354,,             354
+2022-2023,130,Waynesboro City,"White, not of Hispanic origin","           1,508",               1,"           1,509"
+2022-2023,207,West Point,American Indian or Alaska Native,               5,,               5
+2022-2023,207,West Point,Asian,              17,,              17
+2022-2023,207,West Point,"Black, not of Hispanic origin",              93,,              93
+2022-2023,207,West Point,Hispanic,              49,,              49
+2022-2023,207,West Point,Native Hawaiian  or Pacific Islander,               1,,               1
+2022-2023,207,West Point,"Non-Hispanic, two or more races",              72,,              72
+2022-2023,207,West Point,"White, not of Hispanic origin",             573,,             573
+2022-2023,95,Westmoreland County,American Indian or Alaska Native,               5,,               5
+2022-2023,95,Westmoreland County,Asian,               4,,               4
+2022-2023,95,Westmoreland County,"Black, not of Hispanic origin",             590,,             590
+2022-2023,95,Westmoreland County,Hispanic,             262,,             262
+2022-2023,95,Westmoreland County,"Non-Hispanic, two or more races",             117,,             117
+2022-2023,95,Westmoreland County,"White, not of Hispanic origin",             583,,             583
+2022-2023,131,Williamsburg-James City County,American Indian or Alaska Native,              33,,              33
+2022-2023,131,Williamsburg-James City County,Asian,             319,               8,             327
+2022-2023,131,Williamsburg-James City County,"Black, not of Hispanic origin","           2,018",              77,"           2,095"
+2022-2023,131,Williamsburg-James City County,Hispanic,"           1,737",              36,"           1,773"
+2022-2023,131,Williamsburg-James City County,Native Hawaiian  or Pacific Islander,              17,,              17
+2022-2023,131,Williamsburg-James City County,"Non-Hispanic, two or more races","           1,030",              37,"           1,067"
+2022-2023,131,Williamsburg-James City County,"White, not of Hispanic origin","           6,233",              97,"           6,330"
+2022-2023,132,Winchester City,American Indian or Alaska Native,              19,,              19
+2022-2023,132,Winchester City,Asian,             123,,             123
+2022-2023,132,Winchester City,"Black, not of Hispanic origin",             444,,             444
+2022-2023,132,Winchester City,Hispanic,"           1,814",,"           1,814"
+2022-2023,132,Winchester City,Native Hawaiian  or Pacific Islander,               7,,               7
+2022-2023,132,Winchester City,"Non-Hispanic, two or more races",             336,,             336
+2022-2023,132,Winchester City,"White, not of Hispanic origin","           1,525",,"           1,525"
+2022-2023,96,Wise County,American Indian or Alaska Native,               4,,               4
+2022-2023,96,Wise County,Asian,              28,,              28
+2022-2023,96,Wise County,"Black, not of Hispanic origin",             154,,             154
+2022-2023,96,Wise County,Hispanic,             123,,             123
+2022-2023,96,Wise County,Native Hawaiian  or Pacific Islander,               6,,               6
+2022-2023,96,Wise County,"Non-Hispanic, two or more races",             157,,             157
+2022-2023,96,Wise County,"White, not of Hispanic origin","           5,441",,"           5,441"
+2022-2023,97,Wythe County,Asian,              17,,              17
+2022-2023,97,Wythe County,"Black, not of Hispanic origin",             124,,             124
+2022-2023,97,Wythe County,Hispanic,              84,,              84
+2022-2023,97,Wythe County,Native Hawaiian  or Pacific Islander,               2,,               2
+2022-2023,97,Wythe County,"Non-Hispanic, two or more races",             102,,             102
+2022-2023,97,Wythe County,"White, not of Hispanic origin","           3,550",               1,"           3,551"
+2022-2023,98,York County,American Indian or Alaska Native,              26,               2,              28
+2022-2023,98,York County,Asian,             756,              26,             782
+2022-2023,98,York County,"Black, not of Hispanic origin","           1,656",              49,"           1,705"
+2022-2023,98,York County,Hispanic,"           1,596",              58,"           1,654"
+2022-2023,98,York County,Native Hawaiian  or Pacific Islander,              40,               1,              41
+2022-2023,98,York County,"Non-Hispanic, two or more races","           1,446",              38,"           1,484"
+2022-2023,98,York County,"White, not of Hispanic origin","           7,122",             141,"           7,263"
