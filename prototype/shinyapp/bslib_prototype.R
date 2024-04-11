@@ -99,9 +99,9 @@ ui <- page_navbar(
                     inputId = "races",
                     label = "Select races:",
                     choices = c("Black" = "Black",
-                                "White" = "White",
-                                "Asian" = "Asian",
-                                "Hispanic" = "Hispanic"),
+                      "White" = "White",
+                      "Asian" = "Asian",
+                      "Hispanic" = "Hispanic"),
                     selected = "Black"
                 )
             ),
@@ -159,11 +159,10 @@ server <- function(input, output, session) {
         black_pop <- round(sum(sodem_data$black_or_african_american) / 
                                sum(sodem_data$total_population), 2) * 100
         box <- value_box(
-            title = "Black Population (%):",
-            value = black_pop,
+            title = p("Black Population (%):", style = "font-size: 20px"),
+            value = shiny::p(black_pop, style = "font-size: 36px"),
             showcase = bs_icon("pie-chart-fill"),
-            theme = "info",
-            showcase_layout = "top right"
+            theme = "info"
         )
         box
     })
@@ -171,22 +170,20 @@ server <- function(input, output, session) {
     output$age_value_box <- renderUI({
         median_age <- round(mean(sodem_data$median_age_years), 1)
         box <- value_box(
-            title = "Median Age:",
-            value = shiny::p(median_age, "years"),
+            title = shiny::p("Median Age:", style = "font-size: 20px"),
+            value = shiny::p(median_age, "years", style = "font-size: 36px"),
             showcase = bs_icon("cake"),
-            theme = "primary",
-            showcase_layout = "top right"
+            theme = "primary"
         )
         box
     })
     
     output$total_pop_value_box <- renderUI({
         box <- value_box(
-            title = "Total Population",
-            value = sum(sodem_data$total_population),
+            title = shiny::p("Total Population:", style = "font-size: 20px"),
+            value = shiny::p(sum(sodem_data$total_population), style = "font-size: 36px"),
             showcase = bs_icon("check2-all"),
-            theme = "primary",
-            showcase_layout = "top right"
+            theme = "primary"
         )
         box
         
@@ -263,13 +260,12 @@ server <- function(input, output, session) {
             column_to_rownames(., "subgroup")
         df
     })
-
+    
     # reactive that gets all necessary info for lollipop plot
     st_lollipop <- reactive({
         df <- st_data %>%
             dplyr::filter(division_name %in% input$loc) %>%
-            # dplyr::filter(subgroup %in% input$races) %>%
-            dplyr::filter(subgroup %in% c("Black", "White")) %>%
+            dplyr::filter(subgroup %in% input$races) %>%
             group_by(subgroup) %>% dplyr::summarise(
                 across(ends_with("pass_rate"), mean)
             ) %>%
@@ -314,26 +310,31 @@ server <- function(input, output, session) {
         vbs
     })
     
-    # observe({
-    #     updateCheckboxGroupInput(
-    #         session = session,
-    #         inputId = "races",
-    #         label = "Select races:"
-    #     )
-    # })
-    
     # create radio plot with subetted data
     output$radio_plot <- renderPlotly({
         req(input$races)
+        
+        pal <- c("Black" = "black",
+                 "White" = "orange",
+                 "Asian" = "darkgreen",
+                 "Hispanic" = "violet")
+        
         fig <- plot_ly(
             data = st_radar(),
             type = "scatterpolar",
-            mode = "markers+lines"
+            mode = "lines+markers"
         )
         
+        # TODO: CREATE PROPER FIXED COLOR PALETTE THAT MATCHES
+        # CHECKBOX INPUTS WITH ITS RESPECTIVE COLOR
+        
+        # iterate thru input$races to get line for each race in plot
+        # have to wrap r and theta such that the values iterate like a circle
+        # (e.g [Black, White, Asian, Black])
         for (i in 1:length(input$races)) {
             fig <- fig %>%
-                add_trace(r = as.numeric(unlist(c(st_radar()[input$races[i], ], st_radar()[input$races[i], 1]))),
+                add_trace(r = as.numeric(unlist(c(st_radar()[input$races[i], ], 
+                                                  st_radar()[input$races[i], 1]))), 
                           theta = unlist(c(colnames(st_radar()), colnames(st_radar())[1])),
                           name = paste(input$races[i], "Students"))
         }
@@ -344,13 +345,27 @@ server <- function(input, output, session) {
     # create lollipop plot
     output$lollipop_plot <- renderPlot({
         req(input$races)
-        p <- ggplot(st_lollipop()) + 
-            geom_segment(aes(x = year, xend = year, y = Black, yend = White), color = "grey") +
-            geom_point(aes(x = year, y = Black), color = "black", size = 3) +
-            geom_point(aes(x = year, y = White), color = "orange", size = 3) +
-            theme_minimal() + labs(x = "School Year", y = "Testing Pass Rate (%)") +
-            ylim(0, 100)
-        p
+        
+        # TODO create separate legend w/ colors
+        pal <- c("Black" = "black",
+                 "White" = "orange",
+                 "Asian" = "darkgreen",
+                 "Hispanic" = "violet")
+        
+        # apply(df, 1, min or max) gets both mins and maxes from each row
+        p <- ggplot(st_lollipop(), aes(x = year)) + 
+            geom_segment(aes(x = year, xend = year, y = apply(st_lollipop() %>% select(-year), 1, min), 
+                             yend = apply(st_lollipop() %>% select(-year), 1, max)), color = "grey", linewidth = 1.5) +
+            theme_minimal() + labs(x = "School Year", y = "Testing Pass Rate (%)")
+        
+        for (i in 1:length(input$races)) {
+            p <- p +
+                # sym() turns a string into a variable, i.e "Asian" becomes Asian and therefore
+                # becomes readable and fetches Asian from data frame
+                geom_point(aes(x = year, y = !!sym(input$races[i])), colour = pal[input$races[i]], size = 5)
+        }
+        
+        p + ylim(0, 100)
     })
 }
 
