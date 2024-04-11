@@ -33,17 +33,22 @@ hampton_roads_edu_localities <- c(
 educator_count_data <- read_excel("data/VDOE/educator_count.xlsx") %>%
     # clean dataframe body for easier cleaning
     slice(-c(1:2, 138:140)) %>% # slice first two and last two rows containing no data
-    set_names(unlist(.[1,])) %>% slice(-1) %>% # rename column names with first row
+    set_names(unlist(.[1,])) %>% slice(-c(1, 135)) %>% # rename column names with first row
     # clean column and value names
     rename_all(tolower) %>% rename_all(str_replace_all, " ", "_") %>% # rename all COLUMNS to lower
     mutate(across(total_counts:not_specified, as.numeric)) %>% # make numeric columns numeric
-    mutate(across(where(is.numeric), ~replace_na(., 0))) %>% # replace NA with zero
+    mutate_all(~tidyr::replace_na(., 0)) %>% # replace NA with zero
     mutate(across(everything(), tolower)) %>% # make string columns to lower
     mutate(across(everything(), str_replace_all, " ", "_")) %>% # replace spaces w/ underscores for data cleaning
+    select(-division_no.) %>%
+    # postprocess data for legibility
     mutate(division_name = str_replace(division_name, "_public_schools", "")) %>% # remove public schools from div name
     filter(division_name %in% hampton_roads_edu_localities) %>% # filter only hampton roads
-    mutate(division_name = str_replace(division_name, "_city", "")) %>% # remove city if in name
-    select(-division_no.)
+    mutate(division_name = case_when(str_detect(division_name, "^w") ~ division_name,
+                                     TRUE ~ str_replace(division_name, "_city", ""))) %>%
+    mutate_if(is.character, str_replace_all, "_", " ") %>%
+    mutate_if(is.character, str_to_title)
+    
 
 # Preprocesses student count data for grouping purposes
 student_count_data <- read.csv("data/VDOE/student_count.csv") %>%
@@ -70,7 +75,8 @@ student_count_data <- read.csv("data/VDOE/student_count.csv") %>%
         TRUE ~ as.character(race) # default
     )) %>%
     # post-process character strings to title
-    mutate_if(is.character, str_replace_all, "_city", "") %>%
+    mutate(division_name = case_when(str_detect(division_name, "^w") ~ division_name,
+                                     TRUE ~ str_replace(division_name, "_city", ""))) %>%
     mutate_if(is.character, str_replace_all, "_", " ") %>%
     mutate_if(is.character, str_to_title)
     
@@ -120,6 +126,7 @@ preprocess_subject_pass_rates <- function() {
 }
 
 st_data <- preprocess_subject_pass_rates() %>%
-    mutate_if(is.character, str_replace_all, "_city", "") %>%
+    mutate(division_name = case_when(str_detect(division_name, "^w") ~ division_name,
+                                     TRUE ~ str_replace(division_name, "_city", ""))) %>%
     mutate_if(is.character, str_replace_all, "_", " ") %>%
     mutate_if(is.character, str_to_title)

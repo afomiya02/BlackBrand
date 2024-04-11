@@ -113,7 +113,7 @@ ui <- page_navbar(
                         nav_panel(
                             title = "2022-2023 Testing Results",
                             layout_column_wrap(
-                                plotlyOutput("radio_plot"),
+                                plotlyOutput("radar_plot"),
                                 layout_column_wrap(
                                     uiOutput("st_value_boxes")
                                 ))
@@ -127,8 +127,8 @@ ui <- page_navbar(
                     
                 ),
                 accordion_panel(
-                    title = "Educators?",
-                    "meow"
+                    title = "Educators",
+                    plotOutput("educator_race_plot")
                 )
             )
         )
@@ -248,34 +248,8 @@ server <- function(input, output, session) {
     ### --- EDUCATION ---
     ## subset standardized testing radar data
     
-    # reactive that gets all necessary info for radar plot
-    st_radar <- reactive({
-        df <- st_data %>%
-            dplyr::filter(division_name %in% input$loc) %>%
-            dplyr::filter(subgroup %in% input$races) %>%
-            select(c(subject, subgroup, `2022-2023_pass_rate`)) %>%
-            # pivot dataset such that subjects are columns and
-            # subjects are row names
-            pivot_wider(names_from = subject, values_from = `2022-2023_pass_rate`) %>%
-            column_to_rownames(., "subgroup")
-        df
-    })
-    
-    # reactive that gets all necessary info for lollipop plot
-    st_lollipop <- reactive({
-        df <- st_data %>%
-            dplyr::filter(division_name %in% input$loc) %>%
-            dplyr::filter(subgroup %in% input$races) %>%
-            group_by(subgroup) %>% dplyr::summarise(
-                across(ends_with("pass_rate"), mean)
-            ) %>%
-            pivot_longer(!subgroup, names_to = "year", values_to = "pass_rate") %>%
-            dplyr::mutate(year = str_remove(year, "_pass_rate")) %>%
-            pivot_wider(names_from = subgroup, values_from = pass_rate)
-        df
-    })
-    
-    st_meta <- reactive({
+    # grabs student percentages and counts from student count data
+    st_metadata <- reactive({
         df <- student_count_data %>%
             filter(division_name %in% input$loc)
         df
@@ -288,17 +262,17 @@ server <- function(input, output, session) {
     
     # create value boxes
     output$st_value_boxes <- renderUI({
-        prop <- st_meta() %>% filter(race == "Black") %>% select(total_count) /
-            sum(st_meta()$total_count)
+        prop <- st_metadata() %>% filter(race == "Black") %>% select(total_count) /
+            sum(st_metadata()$total_count)
         vbs <- list(
             value_box(
                 title = "# of Black students:",
-                value = st_meta() %>% filter(race == "Black") %>% select(total_count),
+                value = st_metadata() %>% filter(race == "Black") %>% select(total_count),
                 theme = "primary"
             ),
             value_box(
                 title = "Total # of students:",
-                value = sum(st_meta()$total_count),
+                value = sum(st_metadata()$total_count),
                 theme = "primary"
             ),
             value_box(
@@ -310,8 +284,51 @@ server <- function(input, output, session) {
         vbs
     })
     
+    local_educator_data <- reactive({
+        hsize <- 3
+        df <- educator_count_data %>% 
+            filter(division_name %in% input$loc) %>%
+            pivot_longer(cols = -division_name, names_to = "races", values_to = "counts") %>%
+            arrange(desc(counts)) %>%
+            filter(!grepl("total_counts", races)) %>%
+            mutate(counts = as.numeric(counts)) %>%
+            mutate_if(is.character, str_replace_all, "_", " ") %>%
+            mutate_if(is.character, str_to_title)
+        df
+    })
+    
+    output$educator_race_plot <- renderPlot({
+        hsize <- 3
+        p <- ggplot(local_educator_data(), aes(x = hsize, y = counts, fill = races)) +
+            geom_col(color = "black") +
+            geom_text_repel(aes(label = counts),
+                      position = position_stack(vjust = 0.5)) +
+            coord_polar(theta = "y") +
+            scale_fill_brewer(palette = "Dark2") +
+            xlim(c(0.2, hsize + 0.5)) +
+            theme(panel.background = element_rect(fill = "white"),
+                  panel.grid = element_blank(),
+                  axis.title = element_blank(),
+                  axis.ticks = element_blank(),
+                  axis.text = element_blank())
+        p
+    })
+    
+    # reactive that gets all necessary info for radar plot
+    st_radar_data <- reactive({
+        df <- st_data %>%
+            dplyr::filter(division_name %in% input$loc) %>%
+            dplyr::filter(subgroup %in% input$races) %>%
+            select(c(subject, subgroup, `2022-2023_pass_rate`)) %>%
+            # pivot dataset such that subjects are columns and
+            # subjects are row names
+            pivot_wider(names_from = subject, values_from = `2022-2023_pass_rate`) %>%
+            column_to_rownames(., "subgroup")
+        df
+    })
+    
     # create radio plot with subetted data
-    output$radio_plot <- renderPlotly({
+    output$radar_plot <- renderPlotly({
         req(input$races)
         
         pal <- c("Black" = "black",
@@ -320,7 +337,7 @@ server <- function(input, output, session) {
                  "Hispanic" = "violet")
         
         fig <- plot_ly(
-            data = st_radar(),
+            data = st_radar_data(),
             type = "scatterpolar",
             mode = "lines+markers"
         )
@@ -333,13 +350,27 @@ server <- function(input, output, session) {
         # (e.g [Black, White, Asian, Black])
         for (i in 1:length(input$races)) {
             fig <- fig %>%
-                add_trace(r = as.numeric(unlist(c(st_radar()[input$races[i], ], 
-                                                  st_radar()[input$races[i], 1]))), 
-                          theta = unlist(c(colnames(st_radar()), colnames(st_radar())[1])),
+                add_trace(r = as.numeric(unlist(c(st_radar_data()[input$races[i], ], 
+                                                  st_radar_data()[input$races[i], 1]))), 
+                          theta = unlist(c(colnames(st_radar_data()), colnames(st_radar_data())[1])),
                           name = paste(input$races[i], "Students"))
         }
         
         fig %>% layout(polar = list(radialaxis = list(visible = TRUE, range = c(0, 100))))
+    })
+    
+    # reactive that gets all necessary info for lollipop plot
+    st_lollipop_data <- reactive({
+        df <- st_data %>%
+            dplyr::filter(division_name %in% input$loc) %>%
+            dplyr::filter(subgroup %in% input$races) %>%
+            group_by(subgroup) %>% dplyr::summarise(
+                across(ends_with("pass_rate"), mean)
+            ) %>%
+            pivot_longer(!subgroup, names_to = "year", values_to = "pass_rate") %>%
+            dplyr::mutate(year = str_remove(year, "_pass_rate")) %>%
+            pivot_wider(names_from = subgroup, values_from = pass_rate)
+        df
     })
     
     # create lollipop plot
@@ -353,9 +384,9 @@ server <- function(input, output, session) {
                  "Hispanic" = "violet")
         
         # apply(df, 1, min or max) gets both mins and maxes from each row
-        p <- ggplot(st_lollipop(), aes(x = year)) + 
-            geom_segment(aes(x = year, xend = year, y = apply(st_lollipop() %>% select(-year), 1, min), 
-                             yend = apply(st_lollipop() %>% select(-year), 1, max)), color = "grey", linewidth = 1.5) +
+        p <- ggplot(st_lollipop_data(), aes(x = year)) + 
+            geom_segment(aes(x = year, xend = year, y = apply(st_lollipop_data() %>% select(-year), 1, min), 
+                             yend = apply(st_lollipop_data() %>% select(-year), 1, max)), color = "grey", linewidth = 1.5) +
             theme_minimal() + labs(x = "School Year", y = "Testing Pass Rate (%)")
         
         for (i in 1:length(input$races)) {
