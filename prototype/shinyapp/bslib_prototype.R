@@ -162,7 +162,8 @@ server <- function(input, output, session) {
             title = "Black Population (%):",
             value = black_pop,
             showcase = bs_icon("pie-chart-fill"),
-            theme = "info"
+            theme = "info",
+            showcase_layout = "top right"
         )
         box
     })
@@ -173,7 +174,8 @@ server <- function(input, output, session) {
             title = "Median Age:",
             value = shiny::p(median_age, "years"),
             showcase = bs_icon("cake"),
-            theme = "primary"
+            theme = "primary",
+            showcase_layout = "top right"
         )
         box
     })
@@ -183,7 +185,8 @@ server <- function(input, output, session) {
             title = "Total Population",
             value = sum(sodem_data$total_population),
             showcase = bs_icon("check2-all"),
-            theme = "primary"
+            theme = "primary",
+            showcase_layout = "top right"
         )
         box
         
