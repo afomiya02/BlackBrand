@@ -110,33 +110,6 @@ server <- function(input, output, session) {
     ### --- EDUCATION ---
     ## subset standardized testing radar data
     
-    # reactive that gets all necessary info for radar plot
-    st_radar <- reactive({
-        df <- st_data %>%
-            dplyr::filter(division_name %in% input$loc) %>%
-            dplyr::filter(subgroup %in% input$races) %>%
-            select(c(subject, subgroup, `2022-2023_pass_rate`)) %>%
-            # pivot dataset such that subjects are columns and
-            # subjects are row names
-            pivot_wider(names_from = subject, values_from = `2022-2023_pass_rate`) %>%
-            column_to_rownames(., "subgroup")
-        df
-    })
-    
-    # reactive that gets all necessary info for lollipop plot
-    st_lollipop <- reactive({
-        df <- st_data %>%
-            dplyr::filter(division_name %in% input$loc) %>%
-            dplyr::filter(subgroup %in% input$races) %>%
-            group_by(subgroup) %>% dplyr::summarise(
-                across(ends_with("pass_rate"), mean)
-            ) %>%
-            pivot_longer(!subgroup, names_to = "year", values_to = "pass_rate") %>%
-            dplyr::mutate(year = str_remove(year, "_pass_rate")) %>%
-            pivot_wider(names_from = subgroup, values_from = pass_rate)
-        df
-    })
-    
     st_meta <- reactive({
         df <- student_count_data %>%
             filter(division_name %in% input$loc)
@@ -172,8 +145,50 @@ server <- function(input, output, session) {
         vbs
     })
     
+    local_educator_data <- reactive({
+        hsize <- 3
+        df <- educator_count_data %>% 
+            filter(division_name %in% input$loc) %>%
+            pivot_longer(cols = -division_name, names_to = "races", values_to = "counts") %>%
+            arrange(desc(counts)) %>%
+            filter(!grepl("total_counts", races)) %>%
+            mutate(counts = as.numeric(counts)) %>%
+            mutate_if(is.character, str_replace_all, "_", " ") %>%
+            mutate_if(is.character, str_to_title)
+        df
+    })
+    
+    output$educator_race_plot <- renderPlot({
+        hsize <- 3
+        p <- ggplot(local_educator_data(), aes(x = hsize, y = counts, fill = races)) +
+            geom_col(color = "black") +
+            geom_text(aes(label = counts), position = position_stack(vjust = 0.5)) +
+            coord_polar(theta = "y") +
+            scale_fill_brewer(palette = "Dark2") +
+            xlim(c(0.2, hsize + 0.5)) +
+            theme(panel.background = element_rect(fill = "white"),
+                  panel.grid = element_blank(),
+                  axis.title = element_blank(),
+                  axis.ticks = element_blank(),
+                  axis.text = element_blank())
+        p
+    })
+    
+    # reactive that gets all necessary info for radar plot
+    st_radar <- reactive({
+        df <- st_data %>%
+            dplyr::filter(division_name %in% input$loc) %>%
+            dplyr::filter(subgroup %in% input$races) %>%
+            select(c(subject, subgroup, `2022-2023_pass_rate`)) %>%
+            # pivot dataset such that subjects are columns and
+            # subjects are row names
+            pivot_wider(names_from = subject, values_from = `2022-2023_pass_rate`) %>%
+            column_to_rownames(., "subgroup")
+        df
+    })
+    
     # create radio plot with subetted data
-    output$radio_plot <- renderPlotly({
+    output$radar_plot <- renderPlotly({
         req(input$races)
         
         pal <- c("Black" = "black",
@@ -202,6 +217,20 @@ server <- function(input, output, session) {
         }
         
         fig %>% layout(polar = list(radialaxis = list(visible = TRUE, range = c(0, 100))))
+    })
+    
+    # reactive that gets all necessary info for lollipop plot
+    st_lollipop <- reactive({
+        df <- st_data %>%
+            dplyr::filter(division_name %in% input$loc) %>%
+            dplyr::filter(subgroup %in% input$races) %>%
+            group_by(subgroup) %>% dplyr::summarise(
+                across(ends_with("pass_rate"), mean)
+            ) %>%
+            pivot_longer(!subgroup, names_to = "year", values_to = "pass_rate") %>%
+            dplyr::mutate(year = str_remove(year, "_pass_rate")) %>%
+            pivot_wider(names_from = subgroup, values_from = pass_rate)
+        df
     })
     
     # create lollipop plot

@@ -114,7 +114,7 @@ ui <- page_navbar(
                         nav_panel(
                             title = "2022-2023 Testing Results",
                             layout_column_wrap(
-                                plotlyOutput("radio_plot"),
+                                plotlyOutput("radar_plot"),
                                 layout_column_wrap(
                                     uiOutput("st_value_boxes")
                                 ))
@@ -129,7 +129,7 @@ ui <- page_navbar(
                 ),
                 accordion_panel(
                     title = "Educators?",
-                    "meow"
+                    plotOutput("educator_race_plot")
                 )
             )
         )
