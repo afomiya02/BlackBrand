@@ -7,12 +7,14 @@ library(leaflet)
 library(RColorBrewer)
 library(plotly)
 library(tidyverse)
+library(thematic) # INSTALL THESE!
+library(ragg)
 
 source("sodem.r")
 source("education.r")
 
 ui <- page_navbar(
-    title = "insert logo here",
+    title = img(src="logo_WIDE.png"),
     selected = "overview",
     theme = bs_theme(preset = "journal"),
     useShinyjs(),
@@ -88,11 +90,11 @@ ui <- page_navbar(
         title = "Education",
         layout_sidebar(
             sidebar = sidebar(
-                title = "Standardized Testing",
+                title = "Education in Hampton Roads",
                 width = validateCssUnit("20%"), # sidebar takes up x% of page
                 selectInput(
                     inputId = "loc",
-                    label = "Select locality:",
+                    label = "Select location:",
                     selected = "Chesapeake",
                     choices = unique(st_data$division_name)
                 ),
@@ -151,9 +153,10 @@ ui <- page_navbar(
                                 inputId = "cohort_year",
                                 label = "Select Year:",
                                 value = 2023,
-                                min = 2014,
-                                max = 2023,
+                                min = min(cohort_pass_rates$cohort_year),
+                                max = max(cohort_pass_rates$cohort_year),
                                 round = TRUE,
+                                step = 1,
                                 sep = "",
                                 width = "100%",
                                 animate = animationOptions(interval = 2400)

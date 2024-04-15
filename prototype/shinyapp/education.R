@@ -99,51 +99,85 @@ student_count_data <- read.csv("data/VDOE/student_count.csv") %>%
     mutate(other = native_american + pacific_islander + multiracial) %>%
     select(-c(native_american, pacific_islander, multiracial))
 
-# Function to get and clean on-time pass rates per division
-cohort_pass_rates <- read.csv("data/VDOE/on_time_graduation_rates.csv") %>%
-    # clean string names
-    mutate_if(is.character, trimws) %>%
-    mutate_if(is.character, str_replace_all, ",", "") %>%
-    mutate_if(is.character, tolower) %>%
-    mutate_if(is.character, str_replace_all, " ", "_") %>%
-    # rename column names to match lowerscore and underscores (column_name)
-    rename_with(~str_replace_all(., fixed(".."), fixed("."))) %>%
-    rename_with(~str_replace_all(., fixed("."), "_")) %>%
-    rename_with(~str_replace(., "_$", ""), ends_with("_")) %>% # regex specifies last instance of _
-    rename_all(tolower) %>%
-    # filter data to match hampton roads localities
-    filter(division_name %in% hampton_roads_edu_localities) %>%
-    mutate(race = case_when(
-        race == "black_not_of_hispanic_origin" ~ "black",
-        race == "native_hawaiian__or_pacific_islander" ~ "pacific_islander",
-        race == "non-hispanic_two_or_more_races" ~ "multiracial",
-        race == "white_not_of_hispanic_origin" ~ "white",
-        race == "american_indian_or_alaska_native" ~ "native_american",
-        TRUE ~ as.character(race) # default
-    )) %>%
-    # get rid of unnecessary cols
-    select(c(cohort_year, division_name, race, graduation_rate)) %>%
-    mutate(graduation_rate = str_replace_all(graduation_rate, "<|%", "")) %>%
-    mutate(graduation_rate = as.numeric(graduation_rate)) %>%
-    # post-process character strings to title
-    # in case of williamsburg
-    mutate(division_name = case_when(str_detect(division_name, "^w") ~ division_name,
-                                     TRUE ~ str_replace(division_name, "_city", ""))) %>%
-    mutate(across(division_name:race, str_replace_all, "_", " ")) %>%
-    mutate(across(division_name:race, str_to_title))
+# Function to get and clean on-time pass rates per division and race, including all students
+preprocess_cohort_graduation_data <- function() {
+    # cohort pass rates by race
+    df1 <- read.csv("data/VDOE/on_time_graduation_rates.csv") %>%
+        # clean string names
+        mutate_if(is.character, trimws) %>%
+        mutate_if(is.character, tolower) %>%
+        mutate_if(is.character, str_replace_all, " ", "_") %>%
+        mutate_if(is.character, str_replace_all, ",", "") %>%
+        # rename column names to match lowerscore and underscores (column_name)
+        rename_with(~str_replace_all(., fixed("."), "_")) %>%
+        rename_with(~str_replace(., "_$", ""), ends_with("_")) %>% # regex specifies last instance of _
+        rename_all(tolower) %>%
+        # filter data to match hampton roads localities
+        filter(division_name %in% hampton_roads_edu_localities) %>%
+        mutate(race = case_when(
+            race == "black_not_of_hispanic_origin" ~ "black",
+            race == "native_hawaiian__or_pacific_islander" ~ "pacific_islander",
+            race == "non-hispanic_two_or_more_races" ~ "multiracial",
+            race == "white_not_of_hispanic_origin" ~ "white",
+            race == "american_indian_or_alaska_native" ~ "native_american",
+            TRUE ~ as.character(race) # default
+        )) %>%
+        # get rid of unnecessary cols
+        select(c(cohort_year, division_name, race, graduation_rate)) %>%
+        # regex is < or % so if string contains either or it'll replace with nothing
+        mutate(graduation_rate = str_replace_all(graduation_rate, "<|%", "")) %>%
+        mutate(graduation_rate = as.numeric(graduation_rate)) %>%
+        # post-process character strings to title
+        # in case of williamsburg
+        mutate(division_name = case_when(str_detect(division_name, "^w") ~ division_name,
+                                         TRUE ~ str_replace(division_name, "_city", ""))) %>%
+        mutate(across(division_name:race, str_replace_all, "_", " ")) %>%
+        mutate(across(division_name:race, str_to_title))
+    
+    df2 <- read.csv("data/VDOE/on_time_graduation_rates_all.csv") %>%
+                # clean string names
+        mutate_if(is.character, trimws) %>%
+        mutate_if(is.character, tolower) %>%
+        mutate_if(is.character, str_replace_all, " ", "_") %>%
+        # rename column names to match lowerscore and underscores (column_name)
+        rename_with(~str_replace_all(., fixed("."), "_")) %>%
+        rename_with(~str_replace(., "_$", ""), ends_with("_")) %>% # regex specifies last instance of _
+        rename_all(tolower) %>%
+        # filter data to match hampton roads localities
+        filter(division_name %in% hampton_roads_edu_localities) %>%
+        # get rid of unnecessary cols
+        select(c(cohort_year, division_name, graduation_rate)) %>%
+        # add "race" column for grouping purposes
+        mutate(race = "All Students", .before = graduation_rate) %>%
+        # regex is < or % so if string contains either or it'll replace with nothing
+        mutate(graduation_rate = str_replace_all(graduation_rate, "<|%", "")) %>%
+        mutate(graduation_rate = as.numeric(graduation_rate)) %>%
+        # post-process character strings to title
+        # in case of williamsburg
+        mutate(division_name = case_when(str_detect(division_name, "^w") ~ division_name,
+                                         TRUE ~ str_replace(division_name, "_city", ""))) %>%
+        mutate(across(division_name, str_replace_all, "_", " ")) %>%
+        mutate(across(division_name, str_to_title))
+    
+    df <- df1 %>% bind_rows(df2) %>%
+        arrange(cohort_year, division_name)
+    return(df)
+}
+
+cohort_pass_rates <- preprocess_cohort_graduation_data()
 
 # REGRESSING MISSING VALUES USING LINEAR REGRESSION
 # some values may be off since adjr2 = 37%
 # aka this only accounts for 37% of data
-fit <- lm(graduation_rate ~ ., data = cohort_pass_rates)
-
-cohort_pass_rates <- cohort_pass_rates %>%
-    rowwise() %>%
-    mutate(graduation_rate = ifelse(is.na(graduation_rate), 
-                                    predict(fit, newdata = across(everything())), 
-                                    graduation_rate)) %>%
-    mutate(graduation_rate = round(graduation_rate, 2)) %>%
-    ungroup()
+# fit <- lm(graduation_rate ~ ., data = cohort_pass_rates)
+# 
+# cohort_pass_rates <- cohort_pass_rates %>%
+#     rowwise() %>%
+#     mutate(graduation_rate = ifelse(is.na(graduation_rate), 
+#                                     predict(fit, newdata = across(everything())), 
+#                                     graduation_rate)) %>%
+#     mutate(graduation_rate = round(graduation_rate, 2)) %>%
+#     ungroup()
     
 # Function to assist inner joining several standardized testing pass rates
 #

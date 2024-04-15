@@ -9,6 +9,7 @@ library(plotly)
 library(tidyverse)
 library(ggrepel)
 library(ggExtra)
+library(thematic)
 
 source("sodem.r")
 source("education.r")
@@ -298,18 +299,18 @@ server <- function(input, output, session) {
             mutate(across(loc_name, str_replace_all, "_", " ")) %>%
             mutate(across(loc_name, str_to_title))
         df <- merge(gd, ch, by.x = "loc_name", by.y = "division_name") %>%
-            filter(race %in% input$races)
+            # filter(race %in% c("All Students", input$races))
+            filter(race %in% "Black")
         df
     })
     
     output$cohort_choropleth_map <- renderLeaflet({
         data <- cohort_grad_data()
         pal <- colorBin("YlOrRd", data$graduation_rate)
-        map <- data %>%
-            leaflet() %>%
+        map <- leaflet(data) %>%
             addPolygons(
                 color = "black",
-                fillColor = ~pal(graduation_rate),
+                fillColor = ~pal(data$graduation_rate),
                 fillOpacity = 0.75,
                 weight = 1,
                 popup = paste(
