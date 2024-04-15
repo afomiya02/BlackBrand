@@ -1,0 +1,6 @@
+We report homeownership rates in Hampton Roads. The interactive map includes both the percentage of homeowners defined as total homeowners/ total population and the percentage of black homeowners calculated as the total black homeowners/total Black population.The radio buttons at the top right of the map allow the user to view the percentage of Black homeowners across the localities in Hampton Roads.
+
+Homeownership improves individuals' long-term wealth. It also improves civic and political engagement, children's educational outcomes, and health behaviors.As such, we examine the rate of homeownership for the Black community in Hampton Roads.
+
+Regardless of locality, the Black population has a lower rate of homeownership than the general population. The disparity
+is persistent for most counties/cities. In James City, there is a 23 percentage points difference between the general population and the Black population, with a 76% and 53.1% homeownership rate, respectively. For the other localities, differences range from 5 to 28 percentage points.Poquoson was the only locality where the Black population had a greater homeownership rate than the general population.

@@ -37,7 +37,7 @@ educator_count_data <- read_excel("data/VDOE/educator_count.xlsx") %>%
     # clean column and value names
     rename_all(tolower) %>% rename_all(str_replace_all, " ", "_") %>% # rename all COLUMNS to lower
     mutate(across(total_counts:not_specified, as.numeric)) %>% # make numeric columns numeric
-    mutate(across(where(is.numeric), ~replace_na(., 0))) %>% # replace NA with zero
+    mutate_all(~tidyr::replace_na(., 0)) %>% # replace NA with zero
     mutate(across(everything(), tolower)) %>% # make string columns to lower
     mutate(across(everything(), str_replace_all, " ", "_")) %>% # replace spaces w/ underscores for data cleaning
     mutate(division_name = str_replace(division_name, "_public_schools", "")) %>% # remove public schools from div name
