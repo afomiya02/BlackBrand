@@ -45,7 +45,7 @@ library(reshape2)
 # Median Income line plots  -------------------------------------------------------
 process_income_data <- function(year) {
   # VA file paths based on the year
-  va_yr <- read.csv(sprintf("data/income/va_income", year, ".csv"))
+  va_yr <- read.csv(paste0("data/economics/income/va_income", year, ".csv"))
   va_yr <- va_yr[2:6]
   race_names <- c("Total", "Black")
   
@@ -53,7 +53,8 @@ process_income_data <- function(year) {
   if(year == "2016" || year == "2015" || year == "2014" || year == "2013" || 
      year == "2012" || year == "2011" || year == "2010") {
     va_race_income_median <- data.frame(va_yr[c(31, 33), 4])
-  }else {
+  }
+  else {
     va_race_income_median <- data.frame(va_yr[c(81, 83), 4])
   }
   va_race_income <-
@@ -61,14 +62,15 @@ process_income_data <- function(year) {
   colnames(va_race_income) <- c("Race", "Median Income")
   
   #Hampton Income
-  hamp_yr <- read.csv(sprintf("data/income/hampton_income%d.csv", year))
+  hamp_yr <- read.csv(paste0("data/economics/income/hampton_income", year, ".csv"))
   hamp_yr <- hamp_yr[2:6]
   #getting the name, variable and estimate
   hamp_income2 <- hamp_yr[, 2:4]
   if(year == "2016" || year == "2015" || year == "2014"|| year == "2013" 
      || year == "2012" || year == "2011" || year == "2010") {
     hamp_income3 <- hamp_income2 %>% group_by(NAME) %>% slice(c(31, 33))
-  }else {
+  }
+  else {
     hamp_income3 <- hamp_income2 %>% group_by(NAME) %>% slice(c(81, 83))
   }
   #This give us overall hampton overall and black median income
@@ -103,13 +105,14 @@ process_income_data <- function(year) {
 
 ## Homeownership 
 # Function to read homeownership data
+# wasn't able to find anything with this -marcos
 read_homeownership_data <- function() {
   # Read data for black homeowners in 2019
-  b_hm_19 <- read_rds("data/TableS2502FiveYearEstimates/bhmown2019.rds")
+  b_hm_19 <- read_rds("data/economics/homeownership/TableS2502FiveYearEstimates/bhmown2019.rds")
   # Read data for total homeowners in 2019
-  tot_hm_19 <- read_rds("data/TableS2502FiveYearEstimates/tothmown2019.rds")
+  tot_hm_19 <- read_rds("data/economics/homeownership/TableS2502FiveYearEstimates/tothmown2019.rds")
   # Read all home data
-  all_hm_data <- read_rds("data/TableS2502FiveYearEstimates/allhomedata.rds")
+  all_hm_data <- read_rds("data/economics/homeownership/TableS2502FiveYearEstimates/allhomedata.rds")
   # Rename column for demographic
   colnames(all_hm_data)[2] <- "Demographic"
   
@@ -154,7 +157,8 @@ read_and_plot_sectors <- function(year) {
     
     # Convert ggplot object to plotly object and hide legend for better visualization
     return(hide_legend(ggplotly(sectors_data, tooltip = c("x", "y", "Sector"))))
-  } else {
+  } 
+  else {
     # Return NULL if the file does not exist
     return(NULL)
   }
@@ -305,7 +309,7 @@ generate_plot <- function(data) {
 
 # Function to load and process uninsured data
 load_process_uninsured <- function(year) {
-  file_path <- paste0("data/economics/helath/TableS2701FiveYearEstimates/uninsured", year, ".csv")
+  file_path <- paste0("data/economics/health/TableS2701FiveYearEstimates/uninsured", year, ".csv")
   uninsured_data <- read.csv(file_path)
   colnames(uninsured_data)[1:3] <- c("Locality", "Demographic", "Percent Uninsured")
   uninsured_data <- uninsured_data %>%
