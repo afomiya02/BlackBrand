@@ -1,5 +1,5 @@
 source("sodem.r")
-source("education.r")
+#source("education.r")
 source("economics.r")
 
 server <- function(input, output, session) {
