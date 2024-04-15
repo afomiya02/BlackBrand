@@ -1296,7 +1296,7 @@ server <- function(input, output, session) {
   # Median Income line plots -------------------------------------------------
   process_income_data <- function(year) {
     # VA file paths based on the year
-    va_yr <- read.csv(sprintf("data/economics/income/va_income%d.csv", year))
+    va_yr <- read.csv(sprintf("data/income/va_income%d.csv", year))
     va_yr <- va_yr[2:6]
     race_names <- c("Total", "Black")
     
