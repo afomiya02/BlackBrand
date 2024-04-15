@@ -13,6 +13,7 @@ library(thematic)
 
 source("sodem.r")
 source("education.r")
+source("economics.r")
 
 options(shiny.useragg = TRUE)
 thematic_shiny(font = "auto")
@@ -323,8 +324,254 @@ server <- function(input, output, session) {
             ) %>%
             addTiles()
         map
+    
+    ### --- ECONOMICS ---
+    ### CREATE BIG GRAPH SHOWCASING TRENDS IN MEDIAN INCOME ####################
+    output$medianTimeGraph <- renderPlot ({
+        income_data_list <- list()
+        years <- 2010:2019
+        # loop through the years from 2010 to 2019
+        for(year in years) {
+            income_data_list[[as.character(year)]] <- process_income_data(year)
+        }
+        # combine all the data frames from the list into one data frame
+        income_years <- do.call(rbind, income_data_list)
+        
+        ### CREATE BIG GRAPH SHOWCASING TRENDS IN MEDIAN INCOME ####################
+        va_total <- income_years %>% filter(Location == "Virginia" & Demographic == "Total Population")
+        hr_total <- income_years %>% filter(Location == "Hampton Roads" & Demographic == "Total Population")
+        va_black <- income_years %>% filter(Location == "Virginia" & Demographic == "Black Population")
+        hr_black <- income_years %>% filter(Location == "Hampton Roads" & Demographic == "Black Population")
+        LINES <- c("Virginia" = "solid", "Hampton Roads" = "dashed")
+        
+        incomeGraph <- ggplot(income_years, aes(x = Year, y = `Median Income (US Dollars)`, color = Demographic, group = Location, linetype = Location)) + 
+            geom_line(data = va_total, size = 1.3, aes(linetype = Location)) +
+            geom_line(data = va_black, size = 1.3, aes(linetype = Location)) +
+            geom_line(data = hr_total, size = 1.3, aes(linetype = Location)) +
+            geom_line(data = hr_black, size = 1.3, aes(linetype = Location)) +
+            scale_color_manual(name = "Population", values = c("black", "#800404")) +
+            scale_linetype_manual(name = "Location", values = c("dashed", "solid")) +
+            scale_x_continuous(breaks = unique(income_years$Year), 
+                               labels = unique(as.integer(income_years$Year))) +
+            theme_minimal() + theme(
+                plot.title = element_text(hjust = 0.5),
+                axis.title.x = element_blank(),
+                axis.title.y = element_text(size = 12),
+                legend.title = element_blank(),
+                legend.text = element_text(size = 12),
+                axis.text = element_text(size = 12)
+            ) +
+            labs(x = "Year", y = "Median Income (US Dollars)")
+        incomeGraph
     })
+    
+    # Home Ownership Map 
+    # Reactive expression to get the selected value from the HomeOwnSlider input
+    var_hmown <- reactive({
+        input$HomeOwnSlider
+    })
+    
+    # Render Leaflet map
+    output$homeownership_map <- renderLeaflet({
+        # Read homeownership data
+        data <- read_homeownership_data()
+        b_hm_19 <- data$b_hm_19
+        tot_hm_19 <- data$tot_hm_19
+        all_hm_data <- data$all_hm_data
+        
+        # Function to create line plots for each locality
+        pick_n <- function(Locality) {
+            # Filter data for the selected locality
+            dataFiltered <- filter(all_hm_data, NAME == Locality)
+            
+            # Create ggplot line plot
+            hm_line <- ggplot(dataFiltered,
+                              aes(
+                                  x = Year,
+                                  y = Percent,
+                                  color = Demographic,
+                                  group = Demographic
+                              )) +
+                geom_line(position = "identity") +
+                theme(axis.text.x = element_text(angle = 40)) +
+                scale_fill_discrete(name = "",
+                                    labels = c("Black Home Owners", "White Home Owners")) +
+                scale_fill_manual(values = c("#A9A9A9", "#8B0000")) +
+                theme(legend.position = "bottom") +
+                labs(title = Locality)
+            
+            # Return ggplot object
+            return(hm_line)
+        }
+        
+        # Apply pick_n function to each locality in the data
+        r <- lapply(1:length(unique(b_hm_19$NAME)), function(i) {
+            pick_n(b_hm_19$NAME[i])
+        })
+        
+        # Create color palette for choropleth map
+        pal <- colorNumeric(palette = "viridis",
+                            domain = b_hm_19$Percent,
+                            reverse = TRUE)
+        
+        # Create Leaflet map object
+        b_hmown_leaf_19 <- b_hm_19 %>%
+            leaflet(options = leafletOptions(
+                minZoom = 5,
+                maxZoom = 15,
+                drag = FALSE
+            )) %>%
+            addProviderTiles("CartoDB.PositronNoLabels") %>%
+            addPolygons(
+                data = b_hm_19,
+                color = ~ pal(Percent),
+                weight = 0.5,
+                fillOpacity = 0.7,
+                smoothFactor = 0,
+                highlightOptions = highlightOptions(
+                    bringToFront = TRUE,
+                    opacity = 1.5,
+                    weight = 3
+                ),
+                label = ~ paste0(NAME,  " Black Homeowners: ", Percent, "%"),
+                group = "Black Home Owners",
+                popup = popupGraph(r)
+            ) %>%
+            addPolygons(
+                data = tot_hm_19,
+                color = ~ pal(Percent),
+                weight = 0.5,
+                fillOpacity = 0.7,
+                smoothFactor = 0,
+                highlightOptions = highlightOptions(
+                    bringToFront = TRUE,
+                    opacity = 1.5,
+                    weight = 3
+                ),
+                label = ~ paste0(NAME,  " Total Homeowners: ", Percent, "%"),
+                group = "Total Home Owners",
+                popup = popupGraph(r)
+            ) %>%
+            addLayersControl(
+                baseGroups = c("Total Home Owners"),
+                overlayGroups = c("Black Home Owners"),
+                options = layersControlOptions(collapsed = FALSE)
+            ) %>%
+            hideGroup("Black Home Owners") %>%
+            addLegend(
+                "topleft",
+                pal = pal,
+                values = ~ Percent,
+                title = "Home Owners",
+                labFormat = labelFormat(suffix = "%"),
+                opacity = 1
+            )
+    })
+    
+    #Labor market
+    # Employment By Sector
+    # Reactive expression to get the selected year from the input dropdown
+    var_sectorEmployment <- reactive({
+        input$SectorEmploymentYearDrop
+    })
+    
+    # Render the plotly plot
+    output$sector_plot <- renderPlotly({
+        # Call the read_and_plot_sectors function with the selected year from the reactive expression
+        read_and_plot_sectors(var_sectorEmployment())
+    })
+    
+    #Poverty
+    #poverty rates
+    # Define a reactive expression to capture the selected year from the dropdown
+    var_poverty <- reactive({
+        input$PovertyYearDrop
+    })
+    
+    
+    # Render plot based on selected year
+    output$pov_plot <- renderPlot({
+        # Check the selected year and load corresponding data
+        if (var_poverty() %in% c("2019", "2018", "2017", "2016", "2015")) {
+            year <- var_poverty()
+            va_file <- paste0("data/economics/poverty/va_poverty", year, ".csv")
+            hamp_file <- paste0("data/economics/poverty/hamp_poverty", year, ".csv")
+            pov_data <- read_process_csv(va_file, hamp_file, c(123, 136))
+        } else if (var_poverty() %in% c("2014", "2013", "2012")) {
+            year <- var_poverty()
+            va_file <- paste0("data/economics/poverty/va_poverty", year, ".csv")
+            hamp_file <- paste0("data/economics/poverty/hamp_poverty", year, ".csv")
+            pov_data <- read_process_csv(va_file, hamp_file, c(93, 102))
+        }
+        
+        # Generate the plot using ggplot2
+        pov_plot <- ggplot(pov_data, aes(x = Location, y = `Percentage (%)`, fill = Demographic)) +
+            geom_bar(stat = "identity", position = position_dodge()) +
+            geom_text(aes(label = paste0(round(`Percentage (%)`, digits = 2), "%")),
+                      vjust = 1.5, color = "white", position = position_dodge(0.9), size = 5) +
+            theme_minimal() +
+            theme(
+                plot.title = element_text(hjust = 0.5, size = 25),
+                legend.key.size = unit(1, 'cm'),
+                legend.title = element_blank(),
+                legend.key.height = unit(1, 'cm'),
+                legend.key.width = unit(1, 'cm'),
+                legend.text = element_text(size = 14),
+                axis.text = element_text(size = 15),
+                axis.title = element_text(size = 17),
+                axis.title.x = element_blank(),
+                axis.title.y = element_text(margin = margin(t = 0, r = 20, b = 0, l = 0))
+            ) +
+            scale_fill_manual(values = c("#A9A9A9", "#8B0000")) +
+            labs(title = paste("Poverty Rate (%) - Year", year)) # Add title with selected year
+        
+        pov_plot # Render the plot
+    })
+    
+    # poverty rates across localities
+    # Define a reactive expression to capture the selected year from the dropdown
+    var_povertyCount <- reactive({
+        input$PovertyCountYearDrop
+    })
+    # Render Plotly plot based on selected year
+    output$counties_pov <- renderPlotly({
+        # Load and process data based on selected year
+        hamp_data <- switch(var_povertyCount(),
+                            "2019" = load_process_csv("2019"),
+                            "2018" = load_process_csv("2018"),
+                            "2017" = load_process_csv("2017"),
+                            "2016" = load_process_csv("2016"),
+                            "2015" = load_process_csv("2015"),
+                            "2014" = load_process_csv("2014"),
+                            "2013" = load_process_csv("2013"),
+                            "2012" = load_process_csv("2012")
+        )
+        
+        # Generate plot
+        plot <- generate_plot(hamp_data)
+        
+        # Convert ggplot to Plotly plot
+        ggplotly(plot)
+    })
+    
+    #Health
+    # Define a reactive expression to retrieve the selected year from the UninsuredPctSlider input
+    var_uninsuredpct <- reactive({
+        input$UninsuredPctSlider
+    })
+    
+    # Render Plotly plot based on selected year
+    output$uninsured_plot <- renderPlotly({
+        # Load and process data based on selected year
+        unins_data <- load_process_uninsured(var_uninsuredpct())
+        
+        # Generate plot
+        plot <- generate_uninsured_plot(unins_data)
+        
+        # Convert ggplot to Plotly plot
+        ggplotly(plot)
+    })
+    
 }
 
 return(server)
-shinyApp(ui = ui, server = server)
