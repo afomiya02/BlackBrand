@@ -7,10 +7,11 @@ library(leaflet)
 library(RColorBrewer)
 library(plotly)
 library(tidyverse)
+library(ggrepel)
+library(ggExtra)
 
 source("sodem.r")
 source("education.r")
-source("ui.r")
 
 server <- function(input, output, session) {
     ### --- SOCIODEMOGRAPHICS ---
@@ -110,30 +111,24 @@ server <- function(input, output, session) {
     ### --- EDUCATION ---
     ## subset standardized testing radar data
     
-    st_meta <- reactive({
-        df <- student_count_data %>%
-            filter(division_name %in% input$loc)
-        df
-    })
-    
-    # just a header
-    output$metadata <- renderUI({
-        HTML(h2(input$loc))
-    })
+    # # just a header
+    # output$metadata <- renderUI({
+    #     HTML(h2(input$loc))
+    # })
     
     # create value boxes
     output$st_value_boxes <- renderUI({
-        prop <- st_meta() %>% filter(race == "Black") %>% select(total_count) /
-            sum(st_meta()$total_count)
+        prop <- local_student_data() %>% filter(races == "Black") %>% select(total_count) /
+            sum(local_student_data()$total_count)
         vbs <- list(
             value_box(
                 title = "# of Black students:",
-                value = st_meta() %>% filter(race == "Black") %>% select(total_count),
+                value = local_student_data() %>% filter(races == "Black") %>% select(total_count),
                 theme = "primary"
             ),
             value_box(
                 title = "Total # of students:",
-                value = sum(st_meta()$total_count),
+                value = sum(local_student_data()$total_count),
                 theme = "primary"
             ),
             value_box(
@@ -145,24 +140,35 @@ server <- function(input, output, session) {
         vbs
     })
     
-    local_educator_data <- reactive({
-        hsize <- 3
-        df <- educator_count_data %>% 
+    local_student_data <- reactive({
+        df <- student_count_data %>%
             filter(division_name %in% input$loc) %>%
-            pivot_longer(cols = -division_name, names_to = "races", values_to = "counts") %>%
-            arrange(desc(counts)) %>%
-            filter(!grepl("total_counts", races)) %>%
-            mutate(counts = as.numeric(counts)) %>%
+            pivot_longer(cols = -division_name, names_to = "races", values_to = "total_count") %>%
+            arrange(desc(total_count)) %>%
+            filter(!grepl("total_count", races)) %>%
+            mutate(total_count = as.numeric(total_count)) %>%
             mutate_if(is.character, str_replace_all, "_", " ") %>%
             mutate_if(is.character, str_to_title)
         df
     })
     
-    output$educator_race_plot <- renderPlot({
+    local_educator_data <- reactive({
+        df <- educator_count_data %>% 
+            filter(division_name %in% input$loc) %>%
+            pivot_longer(cols = -division_name, names_to = "races", values_to = "total_count") %>%
+            arrange(desc(total_count)) %>%
+            filter(!grepl("total_count", races)) %>%
+            mutate(total_count = as.numeric(total_count)) %>%
+            mutate_if(is.character, str_replace_all, "_", " ") %>%
+            mutate_if(is.character, str_to_title)
+        df
+    })
+    
+    output$student_race_plot <- renderPlot({
         hsize <- 3
-        p <- ggplot(local_educator_data(), aes(x = hsize, y = counts, fill = races)) +
+        p <- ggplot(local_student_data(), aes(x = hsize, y = total_count, fill = races)) +
             geom_col(color = "black") +
-            geom_text(aes(label = counts), position = position_stack(vjust = 0.5)) +
+            geom_text(aes(x = 2.1, label = total_count), position = position_stack(vjust = 0.5)) +
             coord_polar(theta = "y") +
             scale_fill_brewer(palette = "Dark2") +
             xlim(c(0.2, hsize + 0.5)) +
@@ -170,7 +176,25 @@ server <- function(input, output, session) {
                   panel.grid = element_blank(),
                   axis.title = element_blank(),
                   axis.ticks = element_blank(),
-                  axis.text = element_blank())
+                  axis.text = element_blank()) +
+            ggtitle(paste("Racial Distribution of Students in", input$loc))
+        p
+    })
+    
+    output$educator_race_plot <- renderPlot({
+        hsize <- 3
+        p <- ggplot(local_educator_data(), aes(x = hsize, y = total_count, fill = races)) +
+            geom_col(color = "black") +
+            geom_text(aes(x = 2.1, label = total_count), position = position_stack(vjust = 0.5)) +
+            coord_polar(theta = "y") +
+            scale_fill_brewer(palette = "Dark2") +
+            xlim(c(0.2, hsize + 0.5)) +
+            theme(panel.background = element_rect(fill = "white"),
+                  panel.grid = element_blank(),
+                  axis.title = element_blank(),
+                  axis.ticks = element_blank(),
+                  axis.text = element_blank()) +
+            ggtitle(paste("Racial Distribution of Educators in", input$loc))
         p
     })
     
@@ -253,10 +277,55 @@ server <- function(input, output, session) {
             p <- p +
                 # sym() turns a string into a variable, i.e "Asian" becomes Asian and therefore
                 # becomes readable and fetches Asian from data frame
+                # !! unpacks these variables from input$races[i]
                 geom_point(aes(x = year, y = !!sym(input$races[i])), colour = pal[input$races[i]], size = 5)
         }
         
         p + ylim(0, 100)
+    })
+    
+    # create choropleth data & map
+    cohort_grad_data <- reactive({
+        ch <- cohort_pass_rates %>%
+            filter(cohort_year %in% input$cohort_year)
+        # TODO CREATE NEW GEO_DATA FOR EDUCATIONAL DATA COMBINING WILLIAMSBURG AND JC COUNTY
+        gd <- geo_data %>%
+            # remove williamsburg
+            filter(loc_name != "williamsburg") %>%
+            # rename james city county to williamsburg-james city county
+            mutate(loc_name = case_when(str_detect(loc_name, "^j") ~ "williamsburg-james_city_county",
+                                        TRUE ~ str_replace(loc_name, "_city", ""))) %>%
+            mutate(across(loc_name, str_replace_all, "_", " ")) %>%
+            mutate(across(loc_name, str_to_title))
+        df <- merge(gd, ch, by.x = "loc_name", by.y = "division_name") %>%
+            filter(race %in% input$races)
+        df
+    })
+    
+    output$cohort_choropleth_map <- renderLeaflet({
+        data <- cohort_grad_data()
+        pal <- colorBin("YlOrRd", data$graduation_rate)
+        map <- data %>%
+            leaflet() %>%
+            addPolygons(
+                color = "black",
+                fillColor = ~pal(graduation_rate),
+                fillOpacity = 0.75,
+                weight = 1,
+                popup = paste(
+                    "<h1>", data$loc_name,"</h1>",
+                    "<b>Black Student Population:</b>", "purr",
+                    "<br><b>Total Student Population:</b>", "meow"
+                )
+            ) %>%
+            addLegend(
+                "bottomright",
+                pal = pal,
+                values = data$graduation_rate,
+                title = "Graduation Rate (%)"
+            ) %>%
+            addTiles()
+        map
     })
     
 }

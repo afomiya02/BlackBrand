@@ -12,7 +12,7 @@ source("sodem.r")
 source("education.r")
 
 ui <- page_navbar(
-    title = "phaceholder",
+    title = "insert logo here",
     selected = "overview",
     theme = bs_theme(preset = "journal"),
     useShinyjs(),
@@ -128,8 +128,39 @@ ui <- page_navbar(
                     
                 ),
                 accordion_panel(
-                    title = "Educators?",
-                    plotOutput("educator_race_plot")
+                    title = "Educators vs. Students",
+                    card(
+                        card_header("Distribution of Educators per Location"),
+                        card_body(
+                            layout_column_wrap(
+                                plotOutput("educator_race_plot"),
+                                plotOutput("student_race_plot")
+                            )
+                        ),
+                        card_footer("Source: VDOE Virginia Educator Ethnicity and Race Data")
+                    )
+                ),
+                accordion_panel(
+                    title = "Educational Attainment (Graduation Rates)",
+                    card(
+                        card_header("Graduation Rate Choropleth Map"),
+                        card_body(class = "p-0", leafletOutput("cohort_choropleth_map")),
+                        p(), # spacer
+                        card_body(
+                            sliderInput(
+                                inputId = "cohort_year",
+                                label = "Select Year:",
+                                value = 2023,
+                                min = 2014,
+                                max = 2023,
+                                round = TRUE,
+                                sep = "",
+                                width = "100%",
+                                animate = animationOptions(interval = 2400)
+                            ),
+                        ),
+                        card_footer("Source: VDOE Cohort Graduation Build-a-Table")
+                    )
                 )
             )
         )
@@ -152,5 +183,3 @@ ui <- page_navbar(
 )
 
 return(ui)
-
-shinyApp(ui, server)
