@@ -14,6 +14,9 @@ library(thematic)
 source("sodem.r")
 source("education.r")
 
+options(shiny.useragg = TRUE)
+thematic_shiny(font = "auto")
+
 server <- function(input, output, session) {
     ### --- SOCIODEMOGRAPHICS ---
     
@@ -171,7 +174,6 @@ server <- function(input, output, session) {
             geom_col(color = "black") +
             geom_text(aes(x = 2.1, label = total_count), position = position_stack(vjust = 0.5)) +
             coord_polar(theta = "y") +
-            scale_fill_brewer(palette = "Dark2") +
             xlim(c(0.2, hsize + 0.5)) +
             theme(panel.background = element_rect(fill = "white"),
                   panel.grid = element_blank(),
@@ -188,7 +190,6 @@ server <- function(input, output, session) {
             geom_col(color = "black") +
             geom_text(aes(x = 2.1, label = total_count), position = position_stack(vjust = 0.5)) +
             coord_polar(theta = "y") +
-            scale_fill_brewer(palette = "Dark2") +
             xlim(c(0.2, hsize + 0.5)) +
             theme(panel.background = element_rect(fill = "white"),
                   panel.grid = element_blank(),
@@ -215,11 +216,6 @@ server <- function(input, output, session) {
     # create radio plot with subetted data
     output$radar_plot <- renderPlotly({
         req(input$races)
-        
-        pal <- c("Black" = "black",
-                 "White" = "orange",
-                 "Asian" = "darkgreen",
-                 "Hispanic" = "violet")
         
         fig <- plot_ly(
             data = st_radar(),
@@ -306,7 +302,7 @@ server <- function(input, output, session) {
     
     output$cohort_choropleth_map <- renderLeaflet({
         data <- cohort_grad_data()
-        pal <- colorBin("YlOrRd", data$graduation_rate)
+        pal <- colorBin("YlOrRd", bins = 7, 70:100)
         map <- leaflet(data) %>%
             addPolygons(
                 color = "black",
@@ -328,7 +324,6 @@ server <- function(input, output, session) {
             addTiles()
         map
     })
-    
 }
 
 return(server)

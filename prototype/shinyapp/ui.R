@@ -13,6 +13,9 @@ library(ragg)
 source("sodem.r")
 source("education.r")
 
+options(shiny.useragg = TRUE)
+thematic_shiny(font = "auto")
+
 ui <- page_navbar(
     title = img(src="logo_WIDE.png"),
     selected = "overview",
