@@ -50,6 +50,7 @@
         ),
         nav_panel(
             title = "Sociodemographics",
+            # rearrange tiles such that total pop, median age, black pop
             layout_sidebar(
                 sidebar = sidebar(
                     width = validateCssUnit("25%"),
@@ -484,7 +485,7 @@
                     title = "Business", 
                     layout_sidebar(
                         sidebar = sidebar(
-                            width = validateCssUnit("33%"),
+                            width = validateCssUnit("25%"),
                             title = "Black Business Trend Tracker",
                             includeMarkdown("markdown/economics/business.Rmd"),
                         ),
@@ -522,17 +523,15 @@
                     title = "Household Well-being", 
                     layout_sidebar(
                         sidebar = sidebar(
-                            width = validateCssUnit("33%"),
+                            width = validateCssUnit("25%"),
                             title = "Household in Hampton Roads",
                             includeMarkdown("markdown/economics/household_wellbeing.Rmd"),
                             textOutput("description_text")
                         ),
                         layout_column_wrap(
-                            width = 12,
+                            width = 1,
                             heights_equal = "row",
-                            fluidRow(
-                            h1(strong("Household Characteristics"), align = "center"),
-                                selectInput(
+                            selectInput(
                                 "select_wellbeing",
                                 "Select Indicator:",
                                 width = "100%",
@@ -544,15 +543,14 @@
                                     "Percent of Black Households with a computer with broadband internet",
                                     "Percent of Black Households without a computer"
                                 )
-                                ),
-                            card(
-                                
-                                card_body(leafletOutput("wellbeing_maps")),
-                                card_footer("Data Source: ACS 5 Year Estimates Tables: S0901, S2201, S0701, S1002, S1201, S0802, S2802")
-                            )
                             ),
-                        ),
-                        
+                            card(
+                                card_header("Household Characteristics"),
+                                card_body(leafletOutput("wellbeing_maps"), class = "p-0"),
+                                card_footer("Data Source: ACS 5 Year Estimates Tables: S0901, 
+                                                S2201, S0701, S1002, S1201, S0802, S2802")
+                            )
+                        )
                     )
                 )
             )
@@ -574,7 +572,7 @@
                         card(
                             # remake slider bins rather than continuous
                             # create sidebar with radio buttons - 2015 & 2020
-                            card_header(strong("Number of Internet Providers Per Zip Code"), align = "center"),
+                            card_header("Number of Internet Providers Per Zip Code"),
                             selectInput(
                                 "select_coverage",
                                 "Select Year:",
@@ -599,7 +597,7 @@
                     ),
                     layout_column_wrap(
                         card(
-                            card_header(strong("Number of Internet Providers Offering Speeds >= 100mbps"), align = "center"),
+                            card_header("Number of Internet Providers Offering Speeds >= 100mbps"),
                             selectInput(
                                 "select_quality",
                                 "Select Year:",
@@ -607,7 +605,7 @@
                                 choices = c("2015", "2020")
                             ),
                             p(),
-                            card_body(leafletOutput("internet_quality_maps"), style = "p-0"),
+                            card_body(leafletOutput("internet_quality_maps"), class = "p-0"),
                             card_footer("Data Source: Sourced from BroadbandNow(2022)")
                         )
                     )
@@ -624,7 +622,7 @@
                     ),
                     layout_column_wrap(
                         card(
-                            card_header(strong("News Anchors"), align = "center"),
+                            card_header("News Anchors"),
                             withSpinner(plotOutput("anch_plots")),
                             card_footer("Data Source: Manually Collected")
                         )
@@ -640,12 +638,11 @@
                         width = validateCssUnit("25%"),
                         includeMarkdown("markdown/media/radio_station.Rmd"),
                     ),
-                    layout_column_wrap(
-                        fluidPage(
-                            h1(strong("Radio Stations"), align = "center"),
-                            withSpinner(leafletOutput("radio")),)
-                    ),
-                    card_footer("Data Source: Collected from new station")
+                    card(
+                        card_header("Radio Stations"),
+                        card_body(leafletOutput("radio"), class = "p-0"),
+                        card_footer("Data Source: Collected from news stations")
+                    )
                 )
             ),
             nav_panel(
