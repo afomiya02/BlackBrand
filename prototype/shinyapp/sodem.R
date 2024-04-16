@@ -56,6 +56,7 @@ preprocess_sodem_data <- function(path) {
   
   # Reshape the data
   df <- pivot_wider(data = df, names_from = label, values_from = estimate)
+  return(df)
 }
 
 # gets all 2022 ACS DP05 data for median age + black population choropleth

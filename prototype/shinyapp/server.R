@@ -17,15 +17,14 @@ source("economics.r")
 server <- function(input, output, session) {
     ### --- SOCIODEMOGRAPHICS --- ----------------------------------------------------------
     
-    # black population value box
+    # total population value box
     output$sodem_vb1 <- renderUI({
-        black_pop <- round(sum(sodem_data$black_or_african_american) / 
-                               sum(sodem_data$total_population), 2) * 100
+        total_pop <- sum(sodem_data$total_population)
         value_box(
-            title = p("Black Population:", style = "font-size: 20px"),
-            value = shiny::p(paste0(black_pop, "%"), style = "font-size: 36px"),
-            showcase = bs_icon("pie-chart"),
-            theme = "info"
+            title = shiny::p("Total population:"),
+            value = shiny::p(prettyNum(total_pop, big.mark = ","), style = "font-size: 36px"),
+            showcase = bs_icon("person"),
+            theme = "primary"
         )
     })
     
@@ -33,20 +32,22 @@ server <- function(input, output, session) {
     output$sodem_vb2 <- renderUI({
         median_age <- round(mean(sodem_data$median_age_years), 1)
         value_box(
-            title = shiny::p("Median Age:", style = "font-size: 20px"),
+            title = shiny::p("Median age:"),
             value = shiny::p(median_age, "years", style = "font-size: 36px"),
             showcase = bs_icon("cake"),
             theme = "primary"
         )
     })
     
-    # total population value box
+    # black population value box
     output$sodem_vb3 <- renderUI({
+        black_pop <- round(sum(sodem_data$black_or_african_american) / 
+                               sum(sodem_data$total_population), 2) * 100
         value_box(
-            title = shiny::p("Total Population:", style = "font-size: 20px"),
-            value = shiny::p(sum(sodem_data$total_population), style = "font-size: 36px"),
-            showcase = bs_icon("person"),
-            theme = "primary"
+            title = p("Percent of Black individuals:"),
+            value = shiny::p(paste0(black_pop, "%"), style = "font-size: 36px"),
+            showcase = bs_icon("pie-chart"),
+            theme = "info"
         )
     })
     
@@ -63,9 +64,9 @@ server <- function(input, output, session) {
                 fillOpacity = 0.75,
                 popup = paste(
                     "<h1>", heatmap_data$loc,"</h1>",
+                    "<br><b>Total Population:</b>", heatmap_data$total_population,
                     "<b>Median Age (years):</b>", heatmap_data$median_age_years,
-                    "<br><b>Black Population (%):</b>", heatmap_data$pct_black,
-                    "<br><b>Total Population:</b>", heatmap_data$total_population
+                    "<br><b>Black Population (%):</b>", heatmap_data$pct_black
                 )
             ) %>%
             addLegend(
@@ -90,9 +91,9 @@ server <- function(input, output, session) {
                 fillOpacity = 0.75,
                 popup = paste(
                     "<h1>", heatmap_data$loc,"</h1>",
+                    "<br><b>Total Population:</b>", heatmap_data$total_population,
                     "<b>Median Age (years):</b>", heatmap_data$median_age_years,
-                    "<br><b>Black Population (%):</b>", heatmap_data$pct_black,
-                    "<br><b>Total Population:</b>", heatmap_data$total_population
+                    "<br><b>Black Population (%):</b>", heatmap_data$pct_black
                 )
             ) %>%
             addLegend(
@@ -111,8 +112,8 @@ server <- function(input, output, session) {
     
     # black student % in loc
     output$edu_vb1 <- renderUI({
-        prop <- local_student_data() %>% filter(races == "Black") %>% select(total_count) /
-            sum(local_student_data()$total_count)
+        prop <- local_student_data() %>% filter(races == "Black") %>% select(total_student_count) /
+            sum(local_student_data()$total_student_count)
         
         value_box(
             title = p("Percentage of Black students in", input$edu_loc),
@@ -139,23 +140,26 @@ server <- function(input, output, session) {
         )
     })
     
+    # total student population in loc
     output$edu_vb3 <- renderUI({
         value_box(
             title = p("Total student population in", input$edu_loc),
-            value = p(sum(local_student_data()$total_count), style = "font-size: 36px"),
+            value = p(sum(local_student_data()$total_student_count), style = "font-size: 36px"),
             theme = "primary",
             showcase = bs_icon("person"),
             showcase_layout = "top right"
         )
     })
     
+    # gonna try to merge student and educator data together
+    
     local_student_data <- reactive({
         df <- student_count_data %>%
             filter(division_name %in% input$edu_loc) %>%
-            pivot_longer(cols = -division_name, names_to = "races", values_to = "total_count") %>%
-            arrange(desc(total_count)) %>%
-            filter(!grepl("total_count", races)) %>%
-            mutate(total_count = as.numeric(total_count)) %>%
+            pivot_longer(cols = -division_name, names_to = "races", values_to = "total_student_count") %>%
+            arrange(desc(total_student_count)) %>%
+            filter(!grepl("total_student_count", races)) %>%
+            mutate(total_student_count = as.numeric(total_student_count)) %>%
             mutate_if(is.character, str_replace_all, "_", " ") %>%
             mutate_if(is.character, str_to_title)
         df
@@ -164,20 +168,21 @@ server <- function(input, output, session) {
     local_educator_data <- reactive({
         df <- educator_count_data %>% 
             filter(division_name %in% input$edu_loc) %>%
-            pivot_longer(cols = -division_name, names_to = "races", values_to = "total_count") %>%
-            arrange(desc(total_count)) %>%
-            filter(!grepl("total_count", races)) %>%
-            mutate(total_count = as.numeric(total_count)) %>%
+            pivot_longer(cols = -division_name, names_to = "races", values_to = "total_educator_count") %>%
+            arrange(desc(total_educator_count)) %>%
+            filter(!grepl("total_educator_count", races)) %>%
+            mutate(total_educator_count = as.numeric(total_educator_count)) %>%
             mutate_if(is.character, str_replace_all, "_", " ") %>%
             mutate_if(is.character, str_to_title)
         df
     })
     
+    # creates donut graph for student demographics in loc
     output$student_race_plot <- renderPlot({
         hsize <- 3
-        p <- ggplot(local_student_data(), aes(x = hsize, y = total_count, fill = races)) +
+        p <- ggplot(local_student_data(), aes(x = hsize, y = total_student_count, fill = races)) +
             geom_col(color = "black") +
-            geom_text(aes(x = 2.1, label = total_count), position = position_stack(vjust = 0.5)) +
+            geom_text(aes(x = 2.1, label = total_student_count), position = position_stack(vjust = 0.5)) +
             coord_polar(theta = "y") +
             xlim(c(0.2, hsize + 0.5)) +
             theme(panel.background = element_rect(fill = "white"),
@@ -189,11 +194,12 @@ server <- function(input, output, session) {
         p
     })
     
+    # creates donut graph for educator demographics in loc
     output$educator_race_plot <- renderPlot({
         hsize <- 3
-        p <- ggplot(local_educator_data(), aes(x = hsize, y = total_count, fill = races)) +
+        p <- ggplot(local_educator_data(), aes(x = hsize, y = total_educator_count, fill = races)) +
             geom_col(color = "black") +
-            geom_text(aes(x = 2.1, label = total_count), position = position_stack(vjust = 0.5)) +
+            geom_text(aes(x = 2.1, label = total_educator_count), position = position_stack(vjust = 0.5)) +
             coord_polar(theta = "y") +
             xlim(c(0.2, hsize + 0.5)) +
             theme(panel.background = element_rect(fill = "white"),
@@ -203,6 +209,12 @@ server <- function(input, output, session) {
                   axis.text = element_blank()) +
             ggtitle(paste("Racial Distribution of Educators in", input$edu_loc))
         p
+    })
+    
+    
+    
+    output$edu_ratio1 <- renderUI({
+        
     })
     
     # reactive that gets all necessary info for radar plot
