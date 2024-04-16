@@ -14,9 +14,6 @@ source("sodem.r")
 source("education.r")
 source("economics.r")
 
-options(shiny.useragg = TRUE)
-thematic_shiny(font = "auto")
-
 ui <- page_navbar(
     title = img(src="logo_WIDE.png"),
     selected = "overview",
@@ -56,7 +53,7 @@ ui <- page_navbar(
         title = "Sociodemographics",
         layout_sidebar(
             sidebar = sidebar(
-                width = validateCssUnit("33%"),
+                width = validateCssUnit("25%"),
                 title = "Demographic Characteristics",
                 includeMarkdown("markdown/sodem/sodem_characteristics.md")
             ),
@@ -65,9 +62,9 @@ ui <- page_navbar(
                 heights_equal = "row",
                 layout_column_wrap(
                     width = 1/3,
-                    uiOutput("age_value_box"),
-                    uiOutput("pop_value_box"),
-                    uiOutput("total_pop_value_box")
+                    uiOutput("sodem_vb1"),
+                    uiOutput("sodem_vb2"),
+                    uiOutput("sodem_vb3")
                 ),
                 navset_card_tab(
                     height = validateCssUnit("1000px"),
@@ -92,85 +89,129 @@ ui <- page_navbar(
     ),
     nav_panel(
         title = "Education",
-        layout_sidebar(
+        # layout_sidebar(
+        # sidebar = sidebar(
+        #     title = "Education in Hampton Roads",
+        #     width = "20%",
+        # ),
+        navset_card_underline(
             sidebar = sidebar(
-                title = "Education in Hampton Roads",
-                width = validateCssUnit("20%"), # sidebar takes up x% of page
+                title = "Location & Race Comparison",
+                width = "20%", # sidebar takes up x% of page
                 selectInput(
-                    inputId = "loc",
+                    inputId = "edu_loc",
                     label = "Select location:",
                     selected = "Chesapeake",
                     choices = unique(st_data$division_name)
                 ),
                 checkboxGroupInput(
-                    inputId = "races",
+                    inputId = "edu_races",
                     label = "Select races:",
                     choices = c("Black" = "Black",
                                 "White" = "White",
                                 "Asian" = "Asian",
                                 "Hispanic" = "Hispanic"),
                     selected = "Black"
-                )
+                ),
+                p(),
+                p("Use this sidebar to compare races against each other in each location! NOTE: 
+                  There are some locations in Hampton Roads where there simply isn't enough data 
+                  to be recorded.", style = "text-align: justify")
             ),
-            accordion(
-                multiple = FALSE,
-                accordion_panel(
-                    title = "Standardized Testing",
-                    navset_card_tab(
+            nav_panel(
+                title = "Standardized Testing",
+                layout_column_wrap(
+                    width = 1,
+                    heights_equal = "row",
+                    layout_column_wrap(
+                        width = 1/3,
+                        heights_equal = "row",
+                        uiOutput("edu_vb1"),
+                        uiOutput("edu_vb2"),
+                        uiOutput("edu_vb3")
+                    ),
+                    navset_card_pill(
                         nav_panel(
                             title = "2022-2023 Testing Results",
-                            layout_column_wrap(
-                                plotlyOutput("radar_plot"),
-                                layout_column_wrap(
-                                    uiOutput("st_value_boxes")
-                                ))
-                        ),
-                        nav_panel(
-                            title = "Race Comparison",
-                            card_body(plotOutput("lollipop_plot")),
-                        ),
-                        card_footer("Source: VDOE Annual Pass Rates (Division Subject Area)")
-                    ),
-                    
-                ),
-                accordion_panel(
-                    title = "Educators vs. Students",
-                    card(
-                        card_header("Distribution of Educators per Location"),
-                        card_body(
-                            layout_column_wrap(
-                                plotOutput("educator_race_plot"),
-                                plotOutput("student_race_plot")
-                            )
-                        ),
-                        card_footer("Source: VDOE Virginia Educator Ethnicity and Race Data")
-                    )
-                ),
-                accordion_panel(
-                    title = "Educational Attainment (Graduation Rates)",
-                    card(
-                        card_header("Graduation Rate Choropleth Map"),
-                        card_body(class = "p-0", leafletOutput("cohort_choropleth_map")),
-                        p(), # spacer
-                        card_body(
-                            sliderInput(
-                                inputId = "cohort_year",
-                                label = "Select Year:",
-                                value = 2023,
-                                min = min(cohort_pass_rates$cohort_year),
-                                max = max(cohort_pass_rates$cohort_year),
-                                round = TRUE,
-                                step = 1,
-                                sep = "",
-                                width = "100%",
-                                animate = animationOptions(interval = 2400)
+                            card(
+                                card_header("Pass Rates by Subject"),
+                                layout_sidebar(
+                                    sidebar = sidebar(
+                                        width = "20%",
+                                        selectInput(
+                                            inputId = "st_year",
+                                            label = "Select year:",
+                                            # there has to be a better way to do this but
+                                            # atp my brain has been fried to the point that i'm
+                                            # seeing double
+                                            choices = c("2022-2023" = "2022-2023_pass_rate",
+                                                        "2021-2022" = "2021-2022_pass_rate",
+                                                        "2020-2021" = "2020-2021_pass_rate",
+                                                        "2018-2019" = "2018-2019_pass_rate",
+                                                        "2017-2018" = "2017-2018_pass_rate",
+                                                        "2016-2017" = "2016-2017_pass_rate",
+                                                        "2015-2016" = "2015-2016_pass_rate",
+                                                        "2014-2015" = "2014-2015_pass_rate",
+                                                        "2013-2014" = "2013-2014_pass_rate"),
+                                            selected = "2022-2023"
+                                        )
+                                    ),
+                                    plotlyOutput("radar_plot"),
+                                    
+                                ),
+                                card_footer("Source: VDOE Annual Pass Rates (Division Subject Area)")
                             ),
                         ),
-                        card_footer("Source: VDOE Cohort Graduation Build-a-Table")
+                        nav_panel(
+                            title = "Testing Results Over Time",
+                            card(
+                                card_header("Average Testing Results vs. Race"),
+                                card_body(plotOutput("lollipop_plot")),
+                                card_footer("Source: VDOE Annual Pass Rates (Division Subject Area)")
+                            )
+                        )
                     )
+                )
+                
+            ),
+            nav_panel(
+                title = "Educators vs. Students",
+                card(
+                    card_header("Distribution of Educators per Location"),
+                    card_body(
+                        layout_column_wrap(
+                            plotOutput("educator_race_plot"),
+                            plotOutput("student_race_plot")
+                        )
+                    ),
+                    card_footer("Source: VDOE Virginia Educator Ethnicity and Race Data")
+                )
+            ),
+            nav_panel(
+                title = "Educational Attainment (Graduation Rate)",
+                card(
+                    card_header("Graduation Rate Choropleth Map"),
+                    card_body(class = "p-0", leafletOutput("cohort_choropleth_map")),
+                    p(), # spacer
+                    card_body(
+                        sliderInput(
+                            inputId = "cohort_year",
+                            label = "Select Year:",
+                            value = 2023,
+                            min = min(cohort_pass_rates$cohort_year),
+                            max = max(cohort_pass_rates$cohort_year),
+                            round = TRUE,
+                            step = 1,
+                            sep = "",
+                            width = "100%",
+                            animate = animationOptions(interval = 2400)
+                        ),
+                    ),
+                    card_footer("Source: VDOE Cohort Graduation Build-a-Table")
                 )
             )
         )
+        # )
     ),
     nav_panel(
         title = "Economics",
@@ -179,7 +220,7 @@ ui <- page_navbar(
                 title = "Income",
                 layout_sidebar(
                     sidebar = sidebar(
-                        width = "33%", # does the same as validateCssUnit("33%")
+                        width = "25%", # does the same as validateCssUnit("25%")
                         title = "Household's Economic Status in Hampton Roads",
                         includeMarkdown("markdown/economics/income.Rmd")
                     ),
@@ -196,7 +237,7 @@ ui <- page_navbar(
                 title = "Homeownership", 
                 layout_sidebar(
                     sidebar = sidebar(
-                        width = "33%",
+                        width = "25%",
                         title = "Homeownership in Hampton Roads",
                         includeMarkdown("markdown/economics/homeownership.Rmd"),
                     ),
@@ -214,7 +255,7 @@ ui <- page_navbar(
                 title = "Labor Market", 
                 layout_sidebar(
                     sidebar = sidebar(
-                        width = validateCssUnit("33%"),
+                        width = validateCssUnit("25%"),
                         title = "Labor Market Characteristics in Hampton Roads",
                         includeMarkdown("markdown/economics/labor_market.Rmd"),
                     ),
@@ -296,7 +337,7 @@ ui <- page_navbar(
                 title = "Poverty", 
                 layout_sidebar(
                     sidebar = sidebar(
-                        width = validateCssUnit("33%"),
+                        width = validateCssUnit("25%"),
                         title = "How does the poverty rate in Hampton Roads compare to all of Virginia?",
                         includeMarkdown("markdown/economics/poverty.Rmd"),
                     ),
@@ -378,7 +419,7 @@ ui <- page_navbar(
                 title = "Health", 
                 layout_sidebar(
                     sidebar = sidebar(
-                        width = validateCssUnit("33%"),
+                        width = validateCssUnit("25%"),
                         title = "Insurance Status In Hampton Roads",
                         includeMarkdown("markdown/economics/health.Rmd"),
                     ),
@@ -404,26 +445,26 @@ ui <- page_navbar(
             ),
             nav_panel(
                 title = "Veterans", 
-                 layout_sidebar(
-                     sidebar = sidebar(
-                         width = validateCssUnit("33%"),
-                         title = "Veteran Population in Hampton Roads",
-                         includeMarkdown("markdown/economics/veterans.Rmd"),
-                     ),
-                     layout_column_wrap(
-                         width = 1,
-                         heights_equal = "row",
-                         fluidRow(
-                             plotOutput("veteransGraph") 
-                         )
-                     )
-                 )
+                layout_sidebar(
+                    sidebar = sidebar(
+                        width = validateCssUnit("25%"),
+                        title = "Veteran Population in Hampton Roads",
+                        includeMarkdown("markdown/economics/veterans.Rmd"),
+                    ),
+                    layout_column_wrap(
+                        width = 1,
+                        heights_equal = "row",
+                        fluidRow(
+                            plotOutput("veteransGraph") 
+                        )
+                    )
+                )
             ),
             tabPanel(
                 title = "Business", 
                 layout_sidebar(
                     sidebar = sidebar(
-                        width = validateCssUnit("33%"),
+                        width = validateCssUnit("25%"),
                         title = "Business Environment in Hampton Roads",
                         includeMarkdown("markdown/economics/business.Rmd"),
                     ),
@@ -440,7 +481,7 @@ ui <- page_navbar(
                 title = "Household Well-being", 
                 layout_sidebar(
                     sidebar = sidebar(
-                        width = validateCssUnit("33%"),
+                        width = validateCssUnit("25%"),
                         title = "Well-being of Households in Hampton Roads",
                         includeMarkdown("markdown/economics/household_wellbeing.Rmd"),
                     ),

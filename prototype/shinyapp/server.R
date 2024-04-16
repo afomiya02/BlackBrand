@@ -15,46 +15,40 @@ source("sodem.r")
 source("education.r")
 source("economics.r")
 
-options(shiny.useragg = TRUE)
-thematic_shiny(font = "auto")
-
 server <- function(input, output, session) {
     ### --- SOCIODEMOGRAPHICS ---
     
-    ## VALUE BOXES
     # black population value box
-    output$pop_value_box <- renderUI({
+    output$sodem_vb1 <- renderUI({
         black_pop <- round(sum(sodem_data$black_or_african_american) / 
                                sum(sodem_data$total_population), 2) * 100
-        box <- value_box(
-            title = p("Black Population (%):", style = "font-size: 20px"),
-            value = shiny::p(black_pop, style = "font-size: 36px"),
-            showcase = bs_icon("pie-chart-fill"),
+        value_box(
+            title = p("Black Population:", style = "font-size: 20px"),
+            value = shiny::p(paste0(black_pop, "%"), style = "font-size: 36px"),
+            showcase = bs_icon("pie-chart"),
             theme = "info"
         )
-        box
     })
     
-    output$age_value_box <- renderUI({
+    # median age value box
+    output$sodem_vb2 <- renderUI({
         median_age <- round(mean(sodem_data$median_age_years), 1)
-        box <- value_box(
+        value_box(
             title = shiny::p("Median Age:", style = "font-size: 20px"),
             value = shiny::p(median_age, "years", style = "font-size: 36px"),
             showcase = bs_icon("cake"),
             theme = "primary"
         )
-        box
     })
     
-    output$total_pop_value_box <- renderUI({
-        box <- value_box(
+    # total population value box
+    output$sodem_vb3 <- renderUI({
+        value_box(
             title = shiny::p("Total Population:", style = "font-size: 20px"),
             value = shiny::p(sum(sodem_data$total_population), style = "font-size: 36px"),
-            showcase = bs_icon("check2-all"),
+            showcase = bs_icon("person"),
             theme = "primary"
         )
-        box
-        
     })
     
     ## LEAFLET OUTPUT
@@ -114,40 +108,50 @@ server <- function(input, output, session) {
     })
     
     ### --- EDUCATION ---
-    ## subset standardized testing radar data
     
-    # # just a header
-    # output$metadata <- renderUI({
-    #     HTML(h2(input$loc))
-    # })
-    
-    # create value boxes
-    output$st_value_boxes <- renderUI({
+    # black student % in loc
+    output$edu_vb1 <- renderUI({
         prop <- local_student_data() %>% filter(races == "Black") %>% select(total_count) /
             sum(local_student_data()$total_count)
-        vbs <- list(
-            value_box(
-                title = "# of Black students:",
-                value = local_student_data() %>% filter(races == "Black") %>% select(total_count),
-                theme = "primary"
-            ),
-            value_box(
-                title = "Total # of students:",
-                value = sum(local_student_data()$total_count),
-                theme = "primary"
-            ),
-            value_box(
-                title = "Percentage of Black students:",
-                value = paste0(round(prop * 100, 2), "%"),
-                theme = "info"
-            )
+        
+        value_box(
+            title = p("Percentage of Black students in", input$edu_loc),
+            value = p(paste0(round(prop * 100, 2), "%"), style = "font-size: 36px"),
+            theme = "info",
+            showcase = bs_icon("pie-chart"),
+            showcase_layout = "top right"
         )
-        vbs
+    })
+    
+    # average test scores for black population
+    output$edu_vb2 <- renderUI({
+        pct <- st_data %>% 
+            filter(subgroup == "Black" & division_name == input$edu_loc) %>%
+            pull(`2022-2023_pass_rate`) %>%
+            mean()
+        
+        value_box(
+            title = shiny::p("Average Black test scores in", input$edu_loc),
+            value = shiny::p(paste0(pct, "%"), style = "font-size: 36px"),
+            theme = "danger",
+            showcase = bs_icon("card-checklist"),
+            showcase_layout = "top right"
+        )
+    })
+    
+    output$edu_vb3 <- renderUI({
+        value_box(
+            title = p("Total student population in", input$edu_loc),
+            value = p(sum(local_student_data()$total_count), style = "font-size: 36px"),
+            theme = "primary",
+            showcase = bs_icon("person"),
+            showcase_layout = "top right"
+        )
     })
     
     local_student_data <- reactive({
         df <- student_count_data %>%
-            filter(division_name %in% input$loc) %>%
+            filter(division_name %in% input$edu_loc) %>%
             pivot_longer(cols = -division_name, names_to = "races", values_to = "total_count") %>%
             arrange(desc(total_count)) %>%
             filter(!grepl("total_count", races)) %>%
@@ -159,7 +163,7 @@ server <- function(input, output, session) {
     
     local_educator_data <- reactive({
         df <- educator_count_data %>% 
-            filter(division_name %in% input$loc) %>%
+            filter(division_name %in% input$edu_loc) %>%
             pivot_longer(cols = -division_name, names_to = "races", values_to = "total_count") %>%
             arrange(desc(total_count)) %>%
             filter(!grepl("total_count", races)) %>%
@@ -181,7 +185,7 @@ server <- function(input, output, session) {
                   axis.title = element_blank(),
                   axis.ticks = element_blank(),
                   axis.text = element_blank()) +
-            ggtitle(paste("Racial Distribution of Students in", input$loc))
+            ggtitle(paste("Racial Distribution of Students in", input$edu_loc))
         p
     })
     
@@ -197,26 +201,26 @@ server <- function(input, output, session) {
                   axis.title = element_blank(),
                   axis.ticks = element_blank(),
                   axis.text = element_blank()) +
-            ggtitle(paste("Racial Distribution of Educators in", input$loc))
+            ggtitle(paste("Racial Distribution of Educators in", input$edu_loc))
         p
     })
     
     # reactive that gets all necessary info for radar plot
     st_radar <- reactive({
         df <- st_data %>%
-            dplyr::filter(division_name %in% input$loc) %>%
-            dplyr::filter(subgroup %in% input$races) %>%
-            select(c(subject, subgroup, `2022-2023_pass_rate`)) %>%
+            dplyr::filter(division_name %in% input$edu_loc) %>%
+            dplyr::filter(subgroup %in% input$edu_races) %>%
+            select(c(subject, subgroup, one_of(input$st_year))) %>%
             # pivot dataset such that subjects are columns and
             # subjects are row names
-            pivot_wider(names_from = subject, values_from = `2022-2023_pass_rate`) %>%
+            pivot_wider(names_from = subject, values_from = one_of(input$st_year)) %>%
             column_to_rownames(., "subgroup")
         df
     })
     
     # create radio plot with subetted data
     output$radar_plot <- renderPlotly({
-        req(input$races)
+        req(input$edu_races)
         
         fig <- plot_ly(
             data = st_radar(),
@@ -227,15 +231,15 @@ server <- function(input, output, session) {
         # TODO: CREATE PROPER FIXED COLOR PALETTE THAT MATCHES
         # CHECKBOX INPUTS WITH ITS RESPECTIVE COLOR
         
-        # iterate thru input$races to get line for each race in plot
+        # iterate thru input$edu_races to get line for each race in plot
         # have to wrap r and theta such that the values iterate like a circle
         # (e.g [Black, White, Asian, Black])
-        for (i in 1:length(input$races)) {
+        for (i in 1:length(input$edu_races)) {
             fig <- fig %>%
-                add_trace(r = as.numeric(unlist(c(st_radar()[input$races[i], ], 
-                                                  st_radar()[input$races[i], 1]))), 
+                add_trace(r = as.numeric(unlist(c(st_radar()[input$edu_races[i], ], 
+                                                  st_radar()[input$edu_races[i], 1]))), 
                           theta = unlist(c(colnames(st_radar()), colnames(st_radar())[1])),
-                          name = paste(input$races[i], "Students"))
+                          name = paste(input$edu_races[i], "Students"))
         }
         
         fig %>% layout(polar = list(radialaxis = list(visible = TRUE, range = c(0, 100))))
@@ -243,9 +247,10 @@ server <- function(input, output, session) {
     
     # reactive that gets all necessary info for lollipop plot
     st_lollipop <- reactive({
+        req(input$edu_races)
         df <- st_data %>%
-            dplyr::filter(division_name %in% input$loc) %>%
-            dplyr::filter(subgroup %in% input$races) %>%
+            dplyr::filter(division_name %in% input$edu_loc) %>%
+            dplyr::filter(subgroup %in% input$edu_races) %>%
             group_by(subgroup) %>% dplyr::summarise(
                 across(ends_with("pass_rate"), mean)
             ) %>%
@@ -257,13 +262,14 @@ server <- function(input, output, session) {
     
     # create lollipop plot
     output$lollipop_plot <- renderPlot({
-        req(input$races)
+        req(input$edu_races)
         
         # TODO create separate legend w/ colors
-        pal <- c("Black" = "black",
-                 "White" = "orange",
-                 "Asian" = "darkgreen",
-                 "Hispanic" = "violet")
+        # current theme (journal) colors
+        pal <- c("Black" = "#AAAAAA",
+                 "White" = "#EB6864",
+                 "Asian" = "#336699",
+                 "Hispanic" = "#F57A00")
         
         # apply(df, 1, min or max) gets both mins and maxes from each row
         p <- ggplot(st_lollipop(), aes(x = year)) + 
@@ -271,12 +277,12 @@ server <- function(input, output, session) {
                              yend = apply(st_lollipop() %>% select(-year), 1, max)), color = "grey", linewidth = 1.5) +
             theme_minimal() + labs(x = "School Year", y = "Testing Pass Rate (%)")
         
-        for (i in 1:length(input$races)) {
+        for (i in 1:length(input$edu_races)) {
             p <- p +
                 # sym() turns a string into a variable, i.e "Asian" becomes Asian and therefore
                 # becomes readable and fetches Asian from data frame
-                # !! unpacks these variables from input$races[i]
-                geom_point(aes(x = year, y = !!sym(input$races[i])), colour = pal[input$races[i]], size = 5)
+                # !! unpacks these variables from input$edu_races[i]
+                geom_point(aes(x = year, y = !!sym(input$edu_races[i])), colour = pal[input$edu_races[i]], size = 5)
         }
         
         p + ylim(0, 100)
@@ -296,7 +302,7 @@ server <- function(input, output, session) {
             mutate(across(loc_name, str_replace_all, "_", " ")) %>%
             mutate(across(loc_name, str_to_title))
         df <- merge(gd, ch, by.x = "loc_name", by.y = "division_name") %>%
-            # filter(race %in% c("All Students", input$races))
+            # filter(race %in% c("All Students", input$edu_races))
             filter(race %in% "Black")
         df
     })
