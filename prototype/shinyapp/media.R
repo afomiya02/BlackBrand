@@ -458,7 +458,7 @@ RadioStations <- function(input,output, session){
                               'christian contemporaty/preaching, album adult alternative, Christian contemporary hit radio', ''))
     
     # Merge geo data with radio data
-    merged_data <- merge(radio_df, geo_data, by = 'loc_name')
+    merged_data <- merge(geo_data, radio_df, by = 'loc_name')
     
     # Create labels for markers
     labs <- lapply(seq(nrow(merged_data)), function(i) {

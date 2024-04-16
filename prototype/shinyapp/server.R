@@ -9,7 +9,6 @@ library(plotly)
 library(tidyverse)
 library(ggrepel)
 library(ggExtra)
-library(thematic)
 
 source("sodem.r")
 source("education.r")

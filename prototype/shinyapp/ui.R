@@ -7,8 +7,6 @@ library(leaflet)
 library(RColorBrewer)
 library(plotly)
 library(tidyverse)
-library(thematic) # INSTALL THESE!
-library(ragg)
 
 source("sodem.r")
 source("education.r")
@@ -146,43 +144,35 @@ ui <- page_navbar(
                     navset_card_pill(
                         nav_panel(
                             title = "2022-2023 Testing Results",
-                            card(
-                                card_header("Pass Rates by Subject"),
-                                layout_sidebar(
-                                    sidebar = sidebar(
-                                        width = "20%",
-                                        selectInput(
-                                            inputId = "st_year",
-                                            label = "Select year:",
-                                            # there has to be a better way to do this but
-                                            # atp my brain has been fried to the point that i'm
-                                            # seeing double
-                                            choices = c("2022-2023" = "2022-2023_pass_rate",
-                                                        "2021-2022" = "2021-2022_pass_rate",
-                                                        "2020-2021" = "2020-2021_pass_rate",
-                                                        "2018-2019" = "2018-2019_pass_rate",
-                                                        "2017-2018" = "2017-2018_pass_rate",
-                                                        "2016-2017" = "2016-2017_pass_rate",
-                                                        "2015-2016" = "2015-2016_pass_rate",
-                                                        "2014-2015" = "2014-2015_pass_rate",
-                                                        "2013-2014" = "2013-2014_pass_rate"),
-                                            selected = "2022-2023"
-                                        )
-                                    ),
-                                    plotlyOutput("radar_plot"),
-                                    
+                            layout_sidebar(
+                                sidebar = sidebar(
+                                    width = "20%",
+                                    selectInput(
+                                        inputId = "st_year",
+                                        label = "Select year:",
+                                        # there has to be a better way to do this but
+                                        # atp my brain has been fried to the point that i'm
+                                        # seeing double
+                                        choices = c("2022-2023" = "2022-2023_pass_rate",
+                                                    "2021-2022" = "2021-2022_pass_rate",
+                                                    "2020-2021" = "2020-2021_pass_rate",
+                                                    "2018-2019" = "2018-2019_pass_rate",
+                                                    "2017-2018" = "2017-2018_pass_rate",
+                                                    "2016-2017" = "2016-2017_pass_rate",
+                                                    "2015-2016" = "2015-2016_pass_rate",
+                                                    "2014-2015" = "2014-2015_pass_rate",
+                                                    "2013-2014" = "2013-2014_pass_rate"),
+                                        selected = "2022-2023"
+                                    )
                                 ),
-                                card_footer("Source: VDOE Annual Pass Rates (Division Subject Area)")
+                                plotlyOutput("radar_plot"),
                             ),
                         ),
                         nav_panel(
                             title = "Testing Results Over Time",
-                            card(
-                                card_header("Average Testing Results vs. Race"),
-                                card_body(plotOutput("lollipop_plot")),
-                                card_footer("Source: VDOE Annual Pass Rates (Division Subject Area)")
-                            )
-                        )
+                            plotOutput("lollipop_plot")
+                        ),
+                        card_footer("Source: VDOE Annual Pass Rates (Division Subject Area)")
                     )
                 )
                 
@@ -190,6 +180,7 @@ ui <- page_navbar(
             nav_panel(
                 title = "Educators vs. Students",
                 card(
+                    # maybe include teacher-student value boxes here...
                     card_header("Distribution of Educators per Location"),
                     card_body(
                         layout_column_wrap(
@@ -244,6 +235,7 @@ ui <- page_navbar(
                         )
                     )
                 )
+                # include data table here?
             ),
             nav_panel(
                 title = "Homeownership", 
@@ -256,8 +248,11 @@ ui <- page_navbar(
                     layout_column_wrap(
                         width = 1,
                         card(
+                            # this is fucking BUGGED. idk what happened here but
+                            # it is absurdly slow. will try fixing if not it's up to you
+                            # fall 2024 team :)
                             card_header("Black vs. Total Homeowners in Hampton Roads"),
-                            card_body(leafletOutput("homeownership_map")),
+                            card_body(leafletOutput("homeownership_map"), class = "p-0"),
                             card_footer("Source: ???")
                         )
                     )
@@ -271,6 +266,8 @@ ui <- page_navbar(
                         title = "Labor Market Characteristics in Hampton Roads",
                         includeMarkdown("markdown/economics/labor_market.Rmd"),
                     ),
+                    # completely redo. graphs aren't normalized and some graphs straight up
+                    # don't work
                     navset_card_tab(
                         title = "Labor Market Analysis",
                         nav_panel(
@@ -286,7 +283,6 @@ ui <- page_navbar(
                                     "2014", "2013", "2012", "2011", "2010"
                                 )
                             ),
-                            
                             layout_column_wrap(
                                 width = 1,
                                 heights_equal = "row",
@@ -295,9 +291,8 @@ ui <- page_navbar(
                                     
                                 )
                             ),
-                            
-                            card_footer("*Note: Data missing for some years. 
-                                   Source: ACS 5 Year Estimate Table DP03")
+                            card_footer("Note: Data missing for some years. 
+                                        Source: ACS 5 Year Estimate Table DP03")
                         ),
                         nav_panel(
                             title = "Unemployment Rate",
@@ -346,6 +341,7 @@ ui <- page_navbar(
                 )
             ),
             nav_panel(
+                # same as labor market
                 title = "Poverty", 
                 layout_sidebar(
                     sidebar = sidebar(
@@ -523,6 +519,8 @@ ui <- page_navbar(
                   ),
                   layout_column_wrap(
                       card(
+                          # remake slider bins rather than continuous
+                          # create sidebar with radio buttons - 2015 & 2020
                           card_header(strong("Number of Internet Providers Per Zip Code"), align = "center"),
                           selectInput(
                               "select_coverage",
@@ -530,7 +528,8 @@ ui <- page_navbar(
                               width = "50%",
                               choices = c("2015", "2020")
                           ),
-                          withSpinner(leafletOutput("internet_coverage_maps")),
+                          p(),
+                          card_body(leafletOutput("internet_coverage_maps"), class = "p-0"),
                           card_footer("Data Source: Sourced from BroadbandNow(2022)")
                       )
                   )
@@ -554,7 +553,8 @@ ui <- page_navbar(
                               width = "100%",
                               choices = c("2015", "2020")
                           ),
-                          withSpinner(leafletOutput("internet_quality_maps")),
+                          p(),
+                          card_body(leafletOutput("internet_quality_maps"), style = "p-0"),
                           card_footer("Data Source: Sourced from BroadbandNow(2022)")
                       )
                   )
