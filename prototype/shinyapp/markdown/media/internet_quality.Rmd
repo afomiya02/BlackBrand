@@ -1,13 +1,11 @@
-**Quality of Broadband Internet in Hampton Roads**
-
 BroadbandNow defines some standards of internet speeds for a variety of situations. For example, to support “average” internet speed for 3-4 users at once, download speeds of at least 100 Mbps. are required. According to 2020 American census data, the average Black Family household consists of about 3.38 people. That means, the average Black family household would require internet with at least 100 Mbps. download speed to experience “average” speeds. This suggests that if one person would be gaming online for instance it could impact the internet speed of other users in the household especially if everyone is using it at once. Therefore, we focused mostly on identifying what zip codes have access to internet download speeds of at least 100 Mbps.
 
 As shown here, few providers offered such high quality internet speeds in 2015. The majority of zip codes that did offer such speeds were concentrated in the more densely populated southeastern counties of Hampton Roads. As seen in the maps, the number of providers offering quality internet speeds increases to a maximum of 5. The region overall sees an increase in access to providers with quality speeds where many zip codes that were previously blue (1-2 providers with quality speed) in 2015 change to green (3-4 providers) in 2020 suggesting that there must have been an increase in the demand for this level of internet quality. One obvious reason for such increase in demand is the effect of the COVID-19 pandemic on work and school. Suddenly, many people were forced to continue working and attending school using web based communication systems such as Zoom. Of course, we are still trying to understand the implications of such an event, but based on the evidence gathered here we can assume that there has been an attempt to meet that demand for high quality internet.
 
-**Quality of Internet in Historically Redlined Neighborhoods**
+#### Quality of Internet in Historically Redlined Neighborhoods
 
 In an attempt to identify “digital” redlining, we investigated any correlation between those neighborhoods marked as hazardous (in red) and number of internet providers per zip code. While the redlined areas do see comparatively lower internet provider counts than the surrounding areas. However, the level at which it affects the community remains unclear.
 
-**Limitations**
+#### Limitations
 
 Note to anyone who references this information, the data are collected from the FCC form 477 which is how internet providers report their coverage to the FCC. There exists an issue of overstating coverage (by number of providers) due to the manner in which the data are collected. Currently, Form 477 counts an entire census block as “covered” if as little as one address in that area is serviced by a provider.

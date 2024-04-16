@@ -345,7 +345,7 @@ ui <- page_navbar(
                     )
                 )
             ),
-            tabPanel(
+            nav_panel(
                 title = "Poverty", 
                 layout_sidebar(
                     sidebar = sidebar(
@@ -472,7 +472,7 @@ ui <- page_navbar(
                     )
                 )
             ),
-            tabPanel(
+            nav_panel(
                 title = "Business", 
                 layout_sidebar(
                     sidebar = sidebar(
@@ -489,7 +489,7 @@ ui <- page_navbar(
                     )
                 )
             ),
-            tabPanel(
+            nav_panel(
                 title = "Household Well-being", 
                 layout_sidebar(
                     sidebar = sidebar(
@@ -509,172 +509,154 @@ ui <- page_navbar(
         )
     ),
     ## Media / Entertainment tab-------------------------------------------------------
-    tags$head(
-      tags$style(HTML("
-      .scrollable-sidebar {
-        overflow-y: auto;
-        max-height: 80vh; 
-        min-width: 500px;
-      }
-    "))
-    ),
     nav_panel(
-      title = "Media/Entertainment",
-      fluidRow(
-        tabsetPanel(
-          id = "media_tabs",
-          type = "tabs",
-          tabPanel("Internet Coverage", 
-                   fillPage(
-                     layout_sidebar(
-                       sidebar = sidebar(
-                         class = "scrollable-sidebar",
-                         width = validateCssUnit("33%"),
-                         includeMarkdown("markdown/media/internet_coverage.Rmd")
-                         
-                       ),
-                       layout_column_wrap(
-                         card(
-                           card_header(strong("Number of Internet Providers Per Zip Code"), align = "center"),
-                           selectInput(
-                             "select_coverage",
-                             "Select Year:",
-                             width = "50%",
-                             choices = c("2015", "2020")
-                           ),
-                           withSpinner(leafletOutput("internet_coverage_maps")),
-                           card_footer("Data Source: Sourced from BroadbandNow(2022)")
-                         )
-                       )
-                     )
-                   )
+      title = "Media & Entertainment",
+      navset_card_underline(
+          nav_panel(
+              title = "Internet Coverage", 
+              layout_sidebar(
+                  sidebar = sidebar(
+                      title = "Coverage of Broadband Internet in Hampton Roads",
+                      class = "scrollable-sidebar",
+                      width = "25%",
+                      includeMarkdown("markdown/media/internet_coverage.Rmd")
+                  ),
+                  layout_column_wrap(
+                      card(
+                          card_header(strong("Number of Internet Providers Per Zip Code"), align = "center"),
+                          selectInput(
+                              "select_coverage",
+                              "Select Year:",
+                              width = "50%",
+                              choices = c("2015", "2020")
+                          ),
+                          withSpinner(leafletOutput("internet_coverage_maps")),
+                          card_footer("Data Source: Sourced from BroadbandNow(2022)")
+                      )
+                  )
+              )
           ),
-          tabPanel("Internet Quality", 
-                   fillPage(
-                     layout_sidebar(
-                       sidebar = sidebar(
-                         class = "scrollable-sidebar",
-                         width = validateCssUnit("33%"),
-                         includeMarkdown("markdown/media/internet_quality.Rmd"),
-                       ),
-                       layout_column_wrap(
-                         card(
-                           card_header(strong("Number of Internet Providers Offering Speeds >= 100mbps"), align = "center"),
-                           selectInput(
-                             "select_quality",
-                             "Select Year:",
-                             width = "100%",
-                             choices = c("2015", "2020")
-                           ),
-                           withSpinner(leafletOutput("internet_quality_maps")),
-                           card_footer("Data Source: Sourced from BroadbandNow(2022)")
-                         )
-                       )
-                     )
-                   )
+          nav_panel(
+              title = "Internet Quality", 
+              layout_sidebar(
+                  sidebar = sidebar(
+                      title = "Quality of Broadband Internet in Hampton Roads",
+                      class = "scrollable-sidebar",
+                      width = validateCssUnit("25%"),
+                      includeMarkdown("markdown/media/internet_quality.Rmd"),
+                  ),
+                  layout_column_wrap(
+                      card(
+                          card_header(strong("Number of Internet Providers Offering Speeds >= 100mbps"), align = "center"),
+                          selectInput(
+                              "select_quality",
+                              "Select Year:",
+                              width = "100%",
+                              choices = c("2015", "2020")
+                          ),
+                          withSpinner(leafletOutput("internet_quality_maps")),
+                          card_footer("Data Source: Sourced from BroadbandNow(2022)")
+                      )
+                  )
+              )
           ),
-          tabPanel("News Anchors", 
-                   fillPage(
-                     layout_sidebar(
-                       sidebar = sidebar(
-                         class = "scrollable-sidebar",
-                         width = validateCssUnit("33%"),
-                         includeMarkdown("markdown/media/news_anchor.Rmd"),
-                       ),
-                       
-                       layout_column_wrap(
-                         card(
-                           card_header(strong("News Anchors"), align = "center"),
-                           withSpinner(plotOutput("anch_plots")),
-                           card_footer("Data Source: Manually Collected")
-                         )
-                       )
-                     ),
-                     
-                   )
+          nav_panel(
+              title = "News Anchors", 
+              layout_sidebar(
+                  sidebar = sidebar(
+                      title = "News Anchors Across Hampton Roads",
+                      class = "scrollable-sidebar",
+                      width = validateCssUnit("25%"),
+                      includeMarkdown("markdown/media/news_anchor.Rmd"),
+                  ),
+                  layout_column_wrap(
+                      card(
+                          card_header(strong("News Anchors"), align = "center"),
+                          withSpinner(plotOutput("anch_plots")),
+                          card_footer("Data Source: Manually Collected")
+                      )
+                  )
+              )
           ),
-          tabPanel("Radio Stations", 
-                   fillPage(
-                     layout_sidebar(
-                       sidebar = sidebar(
-                         class = "scrollable-sidebar",
-                         width = validateCssUnit("33%"),
-                         includeMarkdown("markdown/media/radio_station.Rmd"),
-                       ),
-                       
-                       layout_column_wrap(
-                         fluidPage(
-                           h1(strong("Radio Stations"), align = "center"),
-                           withSpinner(leafletOutput("radio")),)
-                       ),
-                       card_footer("Data Source: Collected from new station")
-                     )
-                   )
+          nav_panel(
+              title = "Radio Stations", 
+              layout_sidebar(
+                  sidebar = sidebar(
+                      title = "Radio Stations Across Hampton Roads",
+                      class = "scrollable-sidebar",
+                      width = validateCssUnit("25%"),
+                      includeMarkdown("markdown/media/radio_station.Rmd"),
+                  ),
+                  layout_column_wrap(
+                      fluidPage(
+                          h1(strong("Radio Stations"), align = "center"),
+                          withSpinner(leafletOutput("radio")),)
+                  ),
+                  card_footer("Data Source: Collected from new station")
+              )
           ),
-          tabPanel("Headquarter Location", 
-                   fillPage(
-                     layout_sidebar(
-                       sidebar = sidebar(
-                         class = "scrollable-sidebar",
-                         width = validateCssUnit("33%"),
-                         includeMarkdown("markdown/media/headquarter_location.Rmd"),
-                       ),
-                       layout_column_wrap(
-                         card(
-                           card_header(strong("Headquarters"), align = "center"),
-                           withSpinner(plotOutput("headquarters_graph")),
-                           card_footer("Data Source: Newspaper Headquarter Locations")
-                        )
-                       )
-                     )
-                   )
+          nav_panel(
+              title = "Headquarter Locations", 
+              layout_sidebar(
+                  sidebar = sidebar(
+                      title = "Headquarters in Hampton Roads",
+                      class = "scrollable-sidebar",
+                      width = validateCssUnit("25%"),
+                      includeMarkdown("markdown/media/headquarter_location.Rmd"),
+                  ),
+                  layout_column_wrap(
+                      card(
+                          card_header(strong("Headquarters"), align = "center"),
+                          withSpinner(plotOutput("headquarters_graph")),
+                          card_footer("Data Source: Newspaper Headquarter Locations")
+                      )
+                  )
+              )
           ),
-          tabPanel("Ratio of Sentiment Over Time", 
-                   fillPage(
-                     layout_sidebar(
-                       sidebar = sidebar(
-                         class = "scrollable-sidebar",
-                         width = validateCssUnit("33%"),
-                         includeMarkdown("markdown/media/radio_sentiment.Rmd"),
-                       ),
-                       layout_column_wrap(
-                         card(
-                           card_header(strong("Sentiment Terminology Over Time"), align = "center"),
-                           selectInput(
-                             "select_sent_year",
-                             "Select Year:",
-                             width = "100%",
-                             choices = c(
-                               "2022", "2021","2020", "2019", "2018","2017", "2016",
-                               "2015", "2014", "2012", "2010"
-                             )),
-                           mainPanel(plotlyOutput("sentiment_by_year")),
-                           card_footer("Derived from Bag of Words Text Analytics Algorithm")
-                         )
-                       )
-                     )
-                   )
+          nav_panel(
+              title = "Ratio of Sentiment Over Time", 
+              layout_sidebar(
+                  sidebar = sidebar(
+                      title = "Sentiment Analysis in Hampton Roads",
+                      class = "scrollable-sidebar",
+                      width = validateCssUnit("25%"),
+                      includeMarkdown("markdown/media/radio_sentiment.Rmd"),
+                  ),
+                  layout_column_wrap(
+                      card(
+                          card_header(strong("Sentiment Terminology Over Time"), align = "center"),
+                          selectInput(
+                              "select_sent_year",
+                              "Select Year:",
+                              width = "100%",
+                              choices = c(
+                                  "2022", "2021","2020", "2019", "2018","2017", "2016",
+                                  "2015", "2014", "2012", "2010"
+                              )),
+                          mainPanel(plotlyOutput("sentiment_by_year")),
+                          card_footer("Derived from Bag of Words Text Analytics Algorithm")
+                      )
+                  )
+              )
           ),
-          tabPanel("Diversity", 
-                   fillPage(
-                     layout_sidebar(
-                       sidebar = sidebar(
-                         class = "scrollable-sidebar",
-                         width = validateCssUnit("33%"),
-                         includeMarkdown("markdown/media/diversity.Rmd"),
-                       ),
-                       layout_column_wrap(
-                         card(
-                           card_header(strong("Diversity Bag"), align = "center"),
-                           withSpinner(plotOutput("div_by_pos_and_neg")),
-                           card_footer("Derived from Bag of Words Text Analytics Algorithm")
-                           )
-                       )
-                     )
-                   )
+          nav_panel(
+              title = "Diversity", 
+              layout_sidebar(
+                  sidebar = sidebar(
+                      title = "Ratio of Diversity to Positive & Negative Bags",
+                      class = "scrollable-sidebar",
+                      width = validateCssUnit("25%"),
+                      includeMarkdown("markdown/media/diversity.Rmd"),
+                  ),
+                  layout_column_wrap(
+                      card(
+                          card_header(strong("Diversity Bag"), align = "center"),
+                          withSpinner(plotOutput("div_by_pos_and_neg")),
+                          card_footer("Derived from Bag of Words Text Analytics Algorithm")
+                      )
+                  )
+              )
           )
-          
-        )
       )
     ),
     nav_spacer(),

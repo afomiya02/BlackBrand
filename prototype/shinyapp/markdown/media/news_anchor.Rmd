@@ -1,5 +1,3 @@
-### News Anchors
-
 Throughout the Hampton Roads region, there are three major local news channels: WAVY, WTKR, and Channel 13 News. Here we are looking at the race of the news anchors by gender, role, and channel. From the three news channels, there are a total of 90 news anchors. By looking at the pie chart, we can see that the majority of the news anchors (70%) were White and a quarter of the anchors (24.4%) were Black. The other 5% were either of Latin or Asian descent.
 
 By looking at the graphic that displays Gender vs. Ethnicity, we can see that there were more Black female anchors than Black male anchors. This opposes the pattern that is displayed by the White anchors. This could be due to more Black females being in that profession in the area.
