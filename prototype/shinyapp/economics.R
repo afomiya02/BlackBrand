@@ -343,6 +343,26 @@ read_veteran_data <- function(year) {
   military_bases <- readRDS("data/economics/veterans/TableS2101FiveYearEstimates/militarybases.rds")
   list(vet_data = vet_data, military_bases = military_bases)
 }
+#Business
+state_summary_metrics <- read_csv("data/economics/business/success_summary_metrics_state.csv")
+metro_summary_metrics <- read_csv("data/economics/business/success_summary_metrics_metro.csv")
+state_names <- unique(state_summary_metrics$NAME)
+metro_names <- unique(metro_summary_metrics$NAME)
+# Mapping of metrics to titles
+metric_titles <- c(
+  "Total_Avg_Annual_Pay_Total" = "Total Average Annual Pay (Total)",
+  "Total_Avg_Annual_Pay_Black_Business" = "Total Average Annual Pay (Black Business)",
+  "Total_Avg_Employees_Total" = "Total Average Employees (Total)",
+  "Total_Avg_Employees_Black_Business" = "Total Average Employees (Black Business)",
+  "Total_Sum_of_Firms_Total" = "Total Sum of Firms (Total)",
+  "Total_Sum_of_Firms_Black_Business" = "Total Sum of Firms (Black Business)",
+  "Pay_Annual_Per_Employee_Total" = "Pay Annual Per Employee (Total)",
+  "Pay_Annual_Per_Employee_Black_Business" = "Pay Annual Per Employee (Black Business)",
+  "Percent_Total_Avg_Annual_Pay_BB" = "Percent of Total Average Annual Pay made up by Black Buisness",
+  "Percent_Total_Avg_Employees_BB" = "Percent of Total Average Employees made up by Black Buisness",
+  "Percent_Total_Sum_of_Firms_BB" = "Percent of Total Sum of Firms made up by Black Buisness"
+)
+#Household Well-being is in server.r
 
-#Household Well-being
+
 

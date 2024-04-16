@@ -443,11 +443,32 @@ ui <- page_navbar(
                         includeMarkdown("markdown/economics/business.Rmd"),
                     ),
                     layout_column_wrap(
-                        width = 1,
-                        heights_equal = "row",
-                        fluidRow(
-                            plotOutput("businessGraph") 
+                      sidebarLayout(
+                        sidebarPanel(
+                          radioButtons("selectionType", "Choose your selection type:",
+                                       choices = c("Select by State" = "state", 
+                                                   "Select by Metropolitan Area" = "metro")),
+                          uiOutput("dynamicSelectInput"),
+                          selectInput("metrics", "Select Metrics:", 
+                                      choices = c("Total Average Annual Pay (Total)" = "Total_Avg_Annual_Pay_Total",
+                                                  "Total Average Annual Pay (Black Business)" = "Total_Avg_Annual_Pay_Black_Business",
+                                                  "Total Average Employees (Total)" = "Total_Avg_Employees_Total",
+                                                  "Total Average Employees (Black Business)" = "Total_Avg_Employees_Black_Business",
+                                                  "Total Sum of Firms (Total)" = "Total_Sum_of_Firms_Total",
+                                                  "Total Sum of Firms (Black Business)" = "Total_Sum_of_Firms_Black_Business",
+                                                  "Average Pay Annual Per Employee (Total)" = "Pay_Annual_Per_Employee_Total",
+                                                  "Average Pay Annual Per Employee (Black Business)" = "Pay_Annual_Per_Employee_Black_Business",
+                                                  "Percent of Total Average Annual Pay (Black Business)" = "Percent_Total_Avg_Annual_Pay_BB",
+                                                  "Percent of Total Average Employees (Black Business)" = "Percent_Total_Avg_Employees_BB",
+                                                  "Percent of Total Sum of Firms (Black Business)" = "Percent_Total_Sum_of_Firms_BB")),
+                        ),
+                        mainPanel(
+                          tabPanel("Plot and Table", 
+                                   plotOutput("plot"),
+                                   dataTableOutput("table")
+                          )
                         )
+                      )
                     )
                 )
             ),
