@@ -1,0 +1,32 @@
+---
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+Hampton Roads is rich in military bases and establishments. All branches
+of the U.S. military have bases or substantial presence, with Naval
+Station Norfolk being the largest naval station in the United States, if
+not the world [1]. Starting in the 1960s, Black Americans have been
+overrepresented in the United States Armed Services relative to their
+proportion of the population [2].Among other benefits, many view the
+military as an economically cost-effective means to gain training and
+educational advancement.
+
+We report rates of Black veteran status as a percentage of the total
+Black population by locality. Percentages were calculated by dividing
+the Black veteran population by the total Black population for each
+locality. The radio buttons at the top right of the map allow the user
+to view military bases across Hampton Roads.
+
+We report rates of Black veteran status as a percentage of the total
+Black population by locality. Percentages were calculated by dividing
+the Black veteran population by the total Black population for each
+locality. The radio buttons at the top right of the map allow the user
+to view military bases across Hampton Roads.
+
+[1] Hampton Roads Chamber of Commerce, 2021. Retrieved from:
+<https://www.hrchamber.com/page/our-military/>
+
+[2]. Ferguson, P. (2021). U.S. Army. Retrieved from:
+<https://www.army.mil/article/243604/african_american_service_and_racial_integration_in_the_u_s_military>

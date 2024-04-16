@@ -335,3 +335,14 @@ generate_uninsured_plot <- function(data) {
     scale_fill_manual(values = c("#A9A9A9", "#8B0000"))
   return(plot)
 }
+
+#Veterans
+# Function to read data for the selected year
+read_veteran_data <- function(year) {
+  vet_data <- readRDS(paste0("data/economics/veterans/TableS2101FiveYearEstimates/bveteran", year, ".rds"))
+  military_bases <- readRDS("data/economics/veterans/TableS2101FiveYearEstimates/militarybases.rds")
+  list(vet_data = vet_data, military_bases = military_bases)
+}
+
+#Household Well-being
+

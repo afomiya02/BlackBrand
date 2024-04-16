@@ -187,7 +187,7 @@ ui <- page_navbar(
                         card(
                             card_header("Hampton Roads vs. Virginia Line Graph"),
                             card_body(plotOutput("medianTimeGraph")),
-                            card_footer("Source: ???")
+                            card_footer("Data Source: ACS 5 Year Estimates Table S1903")
                         )
                     )
                 )
@@ -205,7 +205,7 @@ ui <- page_navbar(
                         card(
                             card_header("Black vs. Total Homeowners in Hampton Roads"),
                             card_body(leafletOutput("homeownership_map")),
-                            card_footer("Source: ???")
+                            card_footer("Data Source: ACS 5 Year Estimates Table S2505")
                         )
                     )
                 )     
@@ -383,6 +383,7 @@ ui <- page_navbar(
                         includeMarkdown("markdown/economics/health.Rmd"),
                     ),
                     layout_column_wrap(
+                      
                         h4(strong("Health Uninsured Rates' Cities and Counties"), align = "center"),
                         width = 1,
                         heights_equal = "row",
@@ -399,7 +400,9 @@ ui <- page_navbar(
                                 animate = animationOptions(interval = 1400)
                             ),
                         )
-                    )
+                    ),
+                      card_footer("Data Source: ACS 5 Year Estimates Table S2701")
+                    ,
                 )
             ),
             nav_panel(
@@ -407,16 +410,28 @@ ui <- page_navbar(
                  layout_sidebar(
                      sidebar = sidebar(
                          width = validateCssUnit("33%"),
-                         title = "Veteran Population in Hampton Roads",
+                         title = "Who has served in Hampton Roads?",
                          includeMarkdown("markdown/economics/veterans.Rmd"),
                      ),
                      layout_column_wrap(
-                         width = 1,
-                         heights_equal = "row",
-                         fluidRow(
-                             plotOutput("veteransGraph") 
-                         )
-                     )
+                       h4(strong("Veteran Status in Hampton Roads"), align = "center"),
+                       width = 1,
+                       heights_equal = "row",
+                       fluidRow(
+                         leafletOutput("veteran_map"),
+                         sliderInput(
+                         "VeteranSlider",
+                         "Select Year:",
+                         value = 2019,
+                         min = 2010,
+                         max = 2019,
+                         sep = "",
+                         width = "100%",
+                         animate = animationOptions(interval = 1200)
+                       ),
+                      )
+ 
+                     ), card_footer("Data Source: ACS 5 Year Estimates Table S2101"),
                  )
             ),
             tabPanel(
@@ -424,7 +439,7 @@ ui <- page_navbar(
                 layout_sidebar(
                     sidebar = sidebar(
                         width = validateCssUnit("33%"),
-                        title = "Business Environment in Hampton Roads",
+                        title = "Black Business Trend Tracker",
                         includeMarkdown("markdown/economics/business.Rmd"),
                     ),
                     layout_column_wrap(
@@ -441,16 +456,36 @@ ui <- page_navbar(
                 layout_sidebar(
                     sidebar = sidebar(
                         width = validateCssUnit("33%"),
-                        title = "Well-being of Households in Hampton Roads",
+                        title = "Household in Hampton Roads",
                         includeMarkdown("markdown/economics/household_wellbeing.Rmd"),
+                        textOutput("description_text")
                     ),
                     layout_column_wrap(
                         width = 12,
                         heights_equal = "row",
                         fluidRow(
-                            plotOutput("householdWellbeingGraph") 
-                        )
-                    )
+                           h1(strong("Household Characteristics"), align = "center"),
+                            selectInput(
+                              "select_wellbeing",
+                              "Select Indicator:",
+                              width = "100%",
+                              choices = c(
+                                "Percent of Black Households Receiving Foodstamps/SNAP Benefits",
+                                "Percent of Black County Migration",
+                                "Percent of Black Population that uses car/truck/van to get to work",
+                                "Percent of Black Population that uses public transportation to get to work",
+                                "Percent of Black Households with a computer with broadband internet",
+                                "Percent of Black Households without a computer"
+                              )
+                            ),
+                           card(
+                             
+                            card_body(leafletOutput("wellbeing_maps")),
+                            card_footer("Data Source: ACS 5 Year Estimates Tables: S0901, S2201, S0701, S1002, S1201, S0802, S2802")
+                           )
+                        ),
+                    ),
+                    
                 )
             )
         )

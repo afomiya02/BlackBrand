@@ -1824,6 +1824,13 @@ server <- function(input, output, session) {
   
   
   # Veteran Status ----------------------------------------------------------
+  # Function to read data for the selected year
+  read_veteran_data <- function(year) {
+    vet_data <- readRDS(paste0("data/TableS2101FiveYearEstimates/bveteran", year, ".rds"))
+    military_bases <- readRDS("data/TableS2101FiveYearEstimates/militarybases.rds")
+    list(vet_data = vet_data, military_bases = military_bases)
+  }
+  
   # Define a reactive expression to retrieve the selected year from the VeteranSlider input
   var_veteran <- reactive({
     input$VeteranSlider
@@ -1832,16 +1839,20 @@ server <- function(input, output, session) {
   # Render Leaflet map based on the selected year
   output$veteran_map <- renderLeaflet({
     # Check the selected year and load corresponding data
-    if (var_veteran() %in% c("2019", "2018", "2017", "2016", "2015", "2014", "2013", "2012", "2011", "2010")) {
+    selected_year <- var_veteran()
+    if (selected_year %in% c("2019", "2018", "2017", "2016", "2015", "2014", "2013", "2012", "2011", "2010")) {
       # Load data for the selected year
-      vet_data <- readRDS(paste0("data/TableS2101FiveYearEstimates/bveteran", var_veteran(), ".rds"))
-      military_bases <- readRDS("data/TableS2101FiveYearEstimates/militarybases.rds")
+      data <- read_veteran_data(selected_year)
+      vet_data <- data$vet_data
+      military_bases <- data$military_bases
+      
       # Define color palette
       pal <- colorNumeric(
         palette = "viridis",
         domain = vet_data$Percent,
         reverse = TRUE
       )
+      
       # Create Leaflet map
       veteran_map <- vet_data %>%
         leaflet(options = leafletOptions(minZoom = 8)) %>%
@@ -1881,6 +1892,7 @@ server <- function(input, output, session) {
       return(veteran_map)
     }
   })
+  
   
   
      
