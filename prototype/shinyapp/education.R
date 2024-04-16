@@ -116,14 +116,13 @@ preprocess_cohort_graduation_data <- function() {
         filter(division_name %in% hampton_roads_edu_localities) %>%
         mutate(race = case_when(
             race == "black_not_of_hispanic_origin" ~ "black",
-            race == "native_hawaiian__or_pacific_islander" ~ "pacific_islander",
-            race == "non-hispanic_two_or_more_races" ~ "multiracial",
             race == "white_not_of_hispanic_origin" ~ "white",
-            race == "american_indian_or_alaska_native" ~ "native_american",
             TRUE ~ as.character(race) # default
         )) %>%
         # get rid of unnecessary cols
         select(c(cohort_year, division_name, race, graduation_rate)) %>%
+        # filter races with no data
+        filter(race %in% c("white", "black", "asian", "hispanic")) %>%
         # regex is < or % so if string contains either or it'll replace with nothing
         mutate(graduation_rate = str_replace_all(graduation_rate, "<|%", "")) %>%
         mutate(graduation_rate = as.numeric(graduation_rate)) %>%

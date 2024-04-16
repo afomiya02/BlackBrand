@@ -301,14 +301,18 @@ server <- function(input, output, session) {
                                         TRUE ~ str_replace(loc_name, "_city", ""))) %>%
             mutate(across(loc_name, str_replace_all, "_", " ")) %>%
             mutate(across(loc_name, str_to_title))
+        
         df <- merge(gd, ch, by.x = "loc_name", by.y = "division_name") %>%
-            # filter(race %in% c("All Students", input$edu_races))
-            filter(race %in% "Black")
+            filter(race == input$grad_race)
         df
     })
     
     output$cohort_choropleth_map <- renderLeaflet({
         data <- cohort_grad_data()
+        # brainrot solution, please implement this in a more efficient way
+        # next semester's capstone team :3
+        
+        # minimum graduation rate across ENTIRE dataset is 72%
         pal <- colorBin("YlOrRd", bins = 7, 70:100)
         map <- leaflet(data) %>%
             addPolygons(
@@ -318,8 +322,7 @@ server <- function(input, output, session) {
                 weight = 1,
                 popup = paste(
                     "<h1>", data$loc_name,"</h1>",
-                    "<b>Black Student Population:</b>", "purr",
-                    "<br><b>Total Student Population:</b>", "meow"
+                    "<b>", input$grad_race, "Student Population:</b>", 2 * 10
                 )
             ) %>%
             addLegend(

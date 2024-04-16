@@ -89,34 +89,46 @@ ui <- page_navbar(
     ),
     nav_panel(
         title = "Education",
-        # layout_sidebar(
-        # sidebar = sidebar(
-        #     title = "Education in Hampton Roads",
-        #     width = "20%",
-        # ),
         navset_card_underline(
+            id = "edu_nav",
             sidebar = sidebar(
                 title = "Location & Race Comparison",
                 width = "20%", # sidebar takes up x% of page
-                selectInput(
-                    inputId = "edu_loc",
-                    label = "Select location:",
-                    selected = "Chesapeake",
-                    choices = unique(st_data$division_name)
+                conditionalPanel(
+                    condition = "input.edu_nav !== 'Educational Attainment (Graduation Rate)'",
+                    selectInput(
+                        inputId = "edu_loc",
+                        label = "Select location:",
+                        selected = "Chesapeake",
+                        choices = unique(st_data$division_name)
+                    ),
+                    checkboxGroupInput(
+                        inputId = "edu_races",
+                        label = "Select races:",
+                        choices = c("Black" = "Black",
+                                    "White" = "White",
+                                    "Asian" = "Asian",
+                                    "Hispanic" = "Hispanic"),
+                        selected = "Black"
+                    ),
+                    p(),
+                    p("Use this sidebar to compare races against each other in each location! NOTE: 
+                      There are some locations in Hampton Roads where there simply isn't enough data 
+                      to be recorded.", style = "text-align: justify")
                 ),
-                checkboxGroupInput(
-                    inputId = "edu_races",
-                    label = "Select races:",
-                    choices = c("Black" = "Black",
-                                "White" = "White",
-                                "Asian" = "Asian",
-                                "Hispanic" = "Hispanic"),
-                    selected = "Black"
-                ),
-                p(),
-                p("Use this sidebar to compare races against each other in each location! NOTE: 
-                  There are some locations in Hampton Roads where there simply isn't enough data 
-                  to be recorded.", style = "text-align: justify")
+                conditionalPanel(
+                    condition = "input.edu_nav == 'Educational Attainment (Graduation Rate)'",
+                    radioButtons(
+                        inputId = "grad_race",
+                        label = "Select to view:",
+                        choices = c("All Students" = "All Students",
+                                    "Black" = "Black",
+                                    "White" = "White",
+                                    "Asian" = "Asian",
+                                    "Hispanic" = "Hispanic"),
+                        selected = "All Students"
+                    )
+                )
             ),
             nav_panel(
                 title = "Standardized Testing",
@@ -211,11 +223,10 @@ ui <- page_navbar(
                 )
             )
         )
-        # )
     ),
     nav_panel(
         title = "Economics",
-        navset_card_tab(
+        navset_card_underline(
             nav_panel(
                 title = "Income",
                 layout_sidebar(
