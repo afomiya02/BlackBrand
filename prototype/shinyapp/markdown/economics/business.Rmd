@@ -1,0 +1,51 @@
+**Building Supportive Ecosystems For Black-owned US Businesses [1]**
+
+The article explores the challenges and opportunities for Black-owned businesses in the US, especially in the context of the COVID-19 pandemic and the racial wealth gap. Some of the key findings and recommendations from the report are:
+
+-   The article argues that building supportive ecosystems for Black-owned businesses can help them overcome structural barriers, such as access to capital, markets, talent, and networks, and achieve revenue parity with their white-owned counterparts.
+
+-   The article estimates that achieving revenue parity between Black- and white-owned businesses could add \$290 billion in business equity and \$190 billion in GDP annually.
+
+-   The article also suggests that providing additional liquidity to Black-owned SMBs during the pandemic could preserve up to 815,000 jobs and reduce the racial unemployment gap by 10 percent.
+
+-   The article highlights some examples of successful ecosystems that support Black-owned businesses, such as Atlanta, Georgia; Durham, North Carolina; and Detroit, Michigan. It also identifies some best practices and recommendations for ecosystem builders, such as governments, corporations, philanthropies, and community organizations.
+
+**Building Supportive Ecosystems For Black-owned US Businesses [2]**
+
+The report highights the strong entrepreneurial spirit among Black Americans, which has spurred the creation of numerous Black-owned businesses. However, it also notes that Black-owned businesses on the whole lag behind the average U.S. firm in terms of size and revenue. The report identifies three persistent barriers that impede the establishment and growth of Black-owned firms:
+
+-   Wealth Gap: Fewer assets and less disposable income to invest in business
+-   Credit Gap: Decreased access to formal credit and high denial rates
+-   Trust Gap: Institutional bias that Blacks have experienced, inhibiting them from actions such as applying to financial institutions for more capital, joining networks, creating valuable partnerships, and more
+
+It is stated that of the Black business owners surveyed, 48 percent reported not trusting institutions that provide business education and training, and 45 percent reported not trusting institutions that finance businesses. Moreover, 29 percent of respondents reported deciding not to approach lenders or investors for capital, even when their business needed it. The report’s authors calculated that if Black-owned firms were able to reach employment parity with all privately-held U.S. firms, 600,000 new jobs could be created and \$55 billion would be added to the U.S. economy. This could also reduce unemployment in the Black community down to 5 percent.
+
+**Equitable Growth In Hampton Roads [3]**
+
+The paper argues that Hampton Roads has the potential to become a hub for equitable growth and innovation, but it needs to address some key issues, such as:
+
+-   Diversifying its economy beyond defense and tourism, which are vulnerable to federal budget cuts and environmental shocks.
+
+-   Investing in human capital and workforce development, especially for low-income and minority residents who face barriers to education and employment opportunities.
+
+-   Fostering a culture of entrepreneurship and civic engagement, by supporting local startups, nonprofits, and community organizations that can create social impact and economic value.
+
+-   Leveraging its unique assets and strengths, such as its strategic location, rich history, diverse population, and military presence.
+
+-   Bridging gaps in educational attainment by investing in human capital and workforce development, with a focus on overcoming barriers for low-income and minority residents.
+
+The paper also provides some recommendations and best practices for policymakers, business leaders, philanthropists, and community members who want to promote equitable growth in Hampton Roads. Some of these include:
+
+-   Creating a regional economic development authority that can coordinate and align the efforts of different stakeholders and jurisdictions.
+
+-   Establishing a regional innovation fund that can provide seed capital and mentorship to entrepreneurs and innovators from underrepresented backgrounds.
+
+-   Developing a regional talent pipeline that can connect local students and workers with high-demand skills and industries.
+
+-   Building a regional identity and brand that can attract and retain talent, investment, and visitors.
+
+[1] Building supportive ecosystems for Black-owned US businesses, 2020. Retrieved from: [Read Full Paper](https://www.mckinsey.com/industries/public-sector/our-insights/building-supportive-ecosystems-for-black-owned-us-businesses)
+
+[2] The Tapestry of Black Business Ownership In America. Retrieved from: [Read Full Paper](https://aeoworks.org/wp-content/uploads/2019/03/AEO_Black_Owned_Business_Report_02_16_17_FOR_WEB-1.pdf)
+
+[3] Equitable Growth In Hampton Roads. Retrieved from:[Read Full Paper](https://github.com/blackbrand-dashboard/article/blob/main/ar3.pdf)

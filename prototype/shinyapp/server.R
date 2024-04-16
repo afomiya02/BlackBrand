@@ -15,7 +15,7 @@ source("education.r")
 source("economics.r")
 
 server <- function(input, output, session) {
-    ### --- SOCIODEMOGRAPHICS ---
+    ### --- SOCIODEMOGRAPHICS --- ----------------------------------------------------------
     
     # black population value box
     output$sodem_vb1 <- renderUI({
@@ -106,7 +106,8 @@ server <- function(input, output, session) {
         sodem_choropleth
     })
     
-    ### --- EDUCATION ---
+    ### --- EDUCATION ----------------------------------------------------------
+    ## subset standardized testing radar data
     
     # black student % in loc
     output$edu_vb1 <- renderUI({
@@ -334,7 +335,7 @@ server <- function(input, output, session) {
         map
     })
     
-    ### --- ECONOMICS ---
+    ### --- ECONOMICS --- ----------------------------------------------------------
     ### CREATE BIG GRAPH SHOWCASING TRENDS IN MEDIAN INCOME ####################
     output$medianTimeGraph <- renderPlot ({
         income_data_list <- list()
@@ -580,6 +581,270 @@ server <- function(input, output, session) {
         # Convert ggplot to Plotly plot
         ggplotly(plot)
     })
+    
+    #Veterans
+    # Define a reactive expression to retrieve the selected year from the VeteranSlider input
+    var_veteran <- reactive({
+      input$VeteranSlider
+    })
+    
+    # Render Leaflet map based on the selected year
+    output$veteran_map <- renderLeaflet({
+      # Check the selected year and load corresponding data
+      selected_year <- var_veteran()
+      if (selected_year %in% c("2019", "2018", "2017", "2016", "2015", "2014", "2013", "2012", "2011", "2010")) {
+        # Load data for the selected year
+        data <- read_veteran_data(selected_year)
+        vet_data <- data$vet_data
+        military_bases <- data$military_bases
+        
+        # Define color palette
+        pal <- colorNumeric(
+          palette = "viridis",
+          domain = vet_data$Percent,
+          reverse = TRUE
+        )
+        
+        # Create Leaflet map
+        veteran_map <- vet_data %>%
+          leaflet(options = leafletOptions(minZoom = 8)) %>%
+          addProviderTiles("CartoDB.PositronNoLabels") %>%
+          addPolygons(
+            color = ~ pal(Percent),
+            weight = 0.5,
+            fillOpacity = 0.7,
+            smoothFactor = 0,
+            highlightOptions = highlightOptions(
+              bringToFront = TRUE,
+              opacity = 1.5,
+              weight = 3
+            ),
+            label = ~ paste0(NAME,  " Black Veterans: ", Percent, "%"),
+            group = "Veteran Status"
+          ) %>%
+          addMarkers(
+            data = military_bases,
+            popup = ~ paste0("Base: ", base_name, " Branch: ", branch),
+            group = "Military Bases"
+          ) %>%
+          addLayersControl(
+            baseGroups = c("Veteran Status"),
+            overlayGroups = c("Military Bases"),
+            options = layersControlOptions(collapsed = FALSE)
+          ) %>%
+          hideGroup("Military Bases") %>%
+          addLegend(
+            "topleft",
+            pal = pal,
+            values = ~ Percent,
+            title = "Black Veterans",
+            labFormat = labelFormat(suffix = "%"),
+            opacity = 1
+          )
+        return(veteran_map)
+      }
+    })
+    
+    #Household Well-being
+    var_well <- reactive({
+      input$select_wellbeing
+    })
+    
+    output$wellbeing_maps <- renderLeaflet({
+      # Function to create leaflet map for each variable
+      create_leaflet_map <- function(data_file, col_names, legend_title) {
+        data <- read_rds(data_file)
+        colnames(data)[4] <- "Percent"
+        colnames(data)[3] <- col_names
+        data_pal <- colorNumeric(palette = "viridis", domain = data$Percent, reverse = TRUE)
+        
+        map <- data %>%
+          leaflet(options = leafletOptions(minZoom = 5, maxZoom = 15, drag = FALSE)) %>% 
+          addProviderTiles("CartoDB.PositronNoLabels") %>% 
+          addPolygons(color = ~ data_pal(Percent), weight = 0.5, fillOpacity = 0.7, smoothFactor = 0,
+                      highlightOptions = highlightOptions(bringToFront = TRUE, opacity = 1.5, weight = 3),
+                      label = ~paste0(NAME, " - ", col_names, ": ", Percent, "%")) %>% 
+          addLegend("bottomright",
+                    pal = data_pal,
+                    values = ~ Percent,
+                    title = legend_title,
+                    labFormat = labelFormat(suffix = "%"),
+                    opacity = 1)
+        
+        return(map)
+      }
+      
+      # Get selected variable
+      selected_variable <- var_welltext()
+      
+      # Create leaflet map based on selected variable
+      if (selected_variable == "Percent of Black Households Receiving Foodstamps/SNAP Benefits") {
+        map <- create_leaflet_map("data/economics/household_wellbeing/foodstmp.rds", "Food Stamps", "Food Stamps")
+      } else if (selected_variable == "Percent of Black County Migration") {
+        map <- create_leaflet_map("data/economics/household_wellbeing//mobile.rds", "Intra-County Migration", "County Migration")
+      } else if (selected_variable == "Percent of Black Population that uses car/truck/van to get to work") {
+        map <- create_leaflet_map("data//economics/household_wellbeing/priv_trans.rds", "Private Transport", "Private Transportation")
+      } else if (selected_variable == "Percent of Black Population that uses public transportation to get to work") {
+        map <- create_leaflet_map("data/economics/household_wellbeing/pub_trans.rds", "Public Transport", "Public Transportation")
+      } else if (selected_variable == "Percent of Black Households with a computer with broadband internet") {
+        map <- create_leaflet_map("data/economics/household_wellbeing/compin.rds", "Computer and Internet", "Computer with Internet Access")
+      } else if (selected_variable == "Percent of Black Households without a computer") {
+        map <- create_leaflet_map("data/economics/household_wellbeing/nocomp.rds", "No Computer", "No Computer Access")
+      }
+      
+      return(map)
+    })
+    
+    var_welltext <- reactive({
+      input$select_wellbeing
+    })
+    
+    output$description_text <- renderText({
+      
+      if (var_welltext() == "Percent of Black Households Receiving Foodstamps/SNAP Benefits") {
+        "The percentage of Black Households receiving Food stamps or SNAP Benefits across the localities of Hampton Roads.
+     More than half (54.3%) of the total Black population in Hampton Roads receive one of these welfare programs. There are also considerable
+    variabilities across localities - in Franklin, approximately 92% received food stamps/SNAP benefits, in contrast to 12% in Gloucester
+    (the lowest number of recipients in Hampton Roads). "
+      }
+      
+      else if (var_welltext() == "Percent of Black County Migration") {
+        "Percent of Black population that moved within state but from a different county. There seems to be low mobility across counties and cities in the Hampton Roads region.
+    Migration rates ranged from as low as 0.4% to a high of 14.7%. "
+      }
+      
+      else if (var_welltext() == "Percent of Black Population that uses car/truck/van to get to work") {
+        "Percent distribution of the Black population that uses a car/truck/van to get to work. We included this indicator as reliable transportation
+     can improve economic efficiency (due to access to more jobs, childcare facilities, etc.) and even access to healthcare (e.g., appointments, emergency care).
+     Approximately 50% of the Black population uses private transportation to get to work  in Portsmouth. This is relatively high compared to Gloucester,
+    where only 8.4% uses similar transportation for work. "
+      }
+      
+      else if (var_welltext() == "Percent of Black Population that uses public transportation to get to work") {
+        "Percent distribution of the Black population that uses public transportation to work. We included this indicator as public transportation at times may be unreliable,
+    increasing economic inequality. Majority of the Black population in Hampton Roads uses public transportation in order to get work. However, there are some differences
+    across localities - a high of 94% in Southampton to a low of 14% in Gloucester."
+      }
+      
+      else if (var_welltext() == "Percent of Black Households with a computer with broadband internet") {
+        "Percent of the Black population with a computer that has a broadband internet subscription. The internet and digital devices have become an
+   essential component of everyday life. Such access can exacerbate educational and economic inequality,
+   thus it is important to understand how the Black community in Hampton Roads engages in these technologies. Despite the rapid usage of technology,
+    there are some significant disparities with the Hampton Roads region.
+    For instance, over 90% of Black households had a computer with a broadband internet subscription in York compared to a low of 66% in James City."
+      }
+      
+      else if (var_welltext() == "Percent of Black Households without a computer") {
+        "Percent of the Black population without a computer. The internet and digital devices have become an
+   essential component of everyday life. Such access can exacerbate educational and economic inequality,
+   thus it is important to understand how the Black community in Hampton Roads engages in these technologies. While the percent of Black households in Hampton Roads
+   without a computer is low, the percentage is surprising given the rapid usage of technology. In 2019, the average White household without a computer was 6%, however, for
+   the same period 11 of the 16 localities had a greater percentage of Black households without access - with a high of 76%, 39%, and 16% in Poquoson, Mathews, and
+   Franklin, respectively."
+      }
+    })
+    
+    #Business
+    # Dynamic UI for state or metro selection
+    output$dynamicSelectInput <- renderUI({
+      if(input$selectionType == "state") {
+        selectInput("state", "Select State:", choices = state_names)
+      } else {
+        selectInput("metroArea", "Select Metropolitan Area:", choices = metro_names)
+      }
+    })
+    
+    # Reactive expression to filter data based on selection
+    filtered_data <- reactive({
+      if(input$selectionType == "state") {
+        selected_state <- input$state
+        state_summary_metrics %>% filter(NAME == selected_state)
+      } else {
+        selected_metro <- input$metroArea
+        metro_summary_metrics %>% filter(NAME == selected_metro)
+      }
+    })
+    
+    output$plot <- renderPlot({
+      req(input$metrics)  # Ensure that a metric is selected
+      data_to_plot <- filtered_data()
+      
+      selected_metric <- input$metrics
+      
+      # Define y-axis labels based on the selected metric
+      y_label <- switch(selected_metric,
+                        "Total_Avg_Annual_Pay_Total" = "Average Annual payroll ($1,000) per a firm",
+                        "Total_Avg_Annual_Pay_Black_Business" = "Average Annual payroll ($1,000) per a firm",
+                        "Total_Avg_Employees_Total" = "Average Employee per a firm",
+                        "Total_Avg_Employees_Black_Business" = "Average Employee per a firm",
+                        "Total_Sum_of_Firms_Total" = "Number of firms",
+                        "Total_Sum_of_Firms_Black_Business" = "Number of firms",
+                        "Pay_Annual_Per_Employee_Total" = "Average take home pay for an employee",
+                        "Pay_Annual_Per_Employee_Black_Business" = "Average take home pay for an employee",
+                        "Percent_Total_Avg_Annual_Pay_BB" = "Percent Black Business in Total Statistic",
+                        "Percent_Total_Avg_Employees_BB" = "Percent Black Business in Total Statistic",
+                        "Percent_Total_Sum_of_Firms_BB" = "Percent Black Business in Total Statistic")
+      
+      
+      title <- metric_titles[selected_metric]  # Get the title from the mapping
+      if(selected_metric %in% c("Pay_Annual_Per_Employee_Total", "Pay_Annual_Per_Employee_Black_Business")) {
+        data_to_plot <- data_to_plot %>%
+          mutate(Pay_Annual_Per_Employee_Total = Total_Avg_Annual_Pay_Total / Total_Avg_Employees_Total,
+                 Pay_Annual_Per_Employee_Black_Business = Total_Avg_Annual_Pay_Black_Business / Total_Avg_Employees_Black_Business)
+        
+      }
+      # Handle new percentage metrics
+      if(selected_metric == "Percent_Total_Avg_Annual_Pay_BB") {
+        data_to_plot <- data_to_plot %>%
+          mutate(Percent_Total_Avg_Annual_Pay_BB = (Total_Avg_Annual_Pay_Black_Business / Total_Avg_Annual_Pay_Total) * 100)
+      } else if(selected_metric == "Percent_Total_Avg_Employees_BB") {
+        data_to_plot <- data_to_plot %>%
+          mutate(Percent_Total_Avg_Employees_BB = (Total_Avg_Employees_Black_Business / Total_Avg_Employees_Total) * 100)
+      } else if(selected_metric == "Percent_Total_Sum_of_Firms_BB") {
+        data_to_plot <- data_to_plot %>%
+          mutate(Percent_Total_Sum_of_Firms_BB = (Total_Sum_of_Firms_Black_Business / Total_Sum_of_Firms_Total) * 100)
+      }
+      
+      selected_area <- if(input$selectionType == "state") input$state else input$metroArea
+      plot_title <- paste(title, "\nin", selected_area)
+      
+      # Calculate the slope (difference) between consecutive points
+      data_to_plot <- data_to_plot %>%
+        arrange(Year) %>%
+        mutate(Slope = c(NA, diff(as.numeric(get(selected_metric)))),
+               SlopeType = ifelse(Slope > 0, "Positive", ifelse(Slope < 0, "Negative", "Flat")))
+      
+      # Shift the SlopeType column up by one row
+      data_to_plot$SlopeType <- c(data_to_plot$SlopeType[-1], NA)
+      
+      # Create the plot with trend line
+      p <- ggplot(data_to_plot, aes_string(x = "Year", y = selected_metric, group = "1")) +
+        geom_line(aes(color = SlopeType)) +  # Color lines based on slope type
+        scale_color_manual(values = c("Positive" = "green", "Negative" = "red", "Flat" = "blue")) +
+        labs(title = plot_title, x = "Year", y = y_label) +
+        theme_minimal() +
+        theme(plot.title = element_text(hjust = 0.5),  # Center the title
+              plot.margin = margin(10, 10, 10, 10),  # Adjust margins if needed
+              legend.position = "bottom")  # Position the legend at the bottom
+      
+      
+      # Custom function to format y-axis as percentages
+      percent_format <- function(x) {
+        paste0(format(x, nsmall = 1), "%")
+      }
+      
+      # Apply custom percent format to y-axis for percentage metrics
+      if(selected_metric %in% c("Percent_Total_Avg_Annual_Pay_BB", "Percent_Total_Avg_Employees_BB", "Percent_Total_Sum_of_Firms_BB")) {
+        p <- p + scale_y_continuous(labels = percent_format)
+      }
+      
+      
+      
+      
+      # Render the plot
+      p
+    })
+
     # Media/Entertainment Tab -----------------------------------------------
     InternetCoverage(input,output, session)
     InternetQualityMap(input, output,session)

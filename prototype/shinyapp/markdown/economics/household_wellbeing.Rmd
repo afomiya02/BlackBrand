@@ -1,0 +1,4 @@
+We retrived several indicators using the 2019 5-year ACS estimates to examine the well-being of Black households in Hampton Roads. These characteristics are presented using interactive maps. Clicking on the tabs and selecting a variable populates the map. Hovering over the map displays the percentage of Black residents living in a specific city/county with the selected characteristics.
+
+**The interactive map shows:**
+
