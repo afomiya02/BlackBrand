@@ -324,6 +324,7 @@ server <- function(input, output, session) {
             ) %>%
             addTiles()
         map
+    })
     
     ### --- ECONOMICS ---
     ### CREATE BIG GRAPH SHOWCASING TRENDS IN MEDIAN INCOME ####################
