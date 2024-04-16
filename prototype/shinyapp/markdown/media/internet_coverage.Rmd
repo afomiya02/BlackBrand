@@ -1,0 +1,11 @@
+**Coverage of Broadband Internet in Hampton Roads**
+
+As an initial observation, the maximum number of internet providers (for any given zip code) in 2015 was 6. The maximum number of providers jumped to 11 in 2020, which can be seen in the 2020 map. One might assume that the zip codes with lower population densities are the ones seeing lower provider numbers. Based on county population totals this seems to be the case, however there are several exceptions of this. As a point of reference, the zip code with the highest population of 10,194 is 23664 (Hampton). The zip code with the lowest population of 96 is 23045 (Mathews). There are several zip codes within Mathews county with very low population density that have relatively high counts of internet providers. As mentioned in preliminary results, this could have something to do with increased efforts to provide “farmhouse” connections to rural areas. As noted in the plots, the 23185 zip code of James City saw one of the highest jumps in provider counts, coming from 5 total providers in 2015 to 11 in 2020.
+
+**Coverage in Historically Redlined Neighborhoods**
+
+In Hampton Roads, the localities of Norfolk and Newport News experienced redlining during the 1940s when discriminatory housing laws and practices were still enforced. The Home Owners Loan Corporation (HOLC) was a federal program that essentially graded popular American cities by neighborhood. Real estate appraisers would evaluate the economic value of a community based on racial and cultural value. This 'redlining' played a key role in preventing Black families from developing wealth by limiting access to mortgage financing and thus blocking their path to owning property. The practice was not deemed illegal until 1968.
+
+**Limitations**
+
+Note to anyone who references this information, the data are collected from the FCC form 477 which is how internet providers report their coverage to the FCC. There exists an issue of overstating coverage (by number of providers) due to the manner in which the data are collected. Currently, Form 477 counts an entire census block as “covered” if as little as one address in that area is serviced by a provider.

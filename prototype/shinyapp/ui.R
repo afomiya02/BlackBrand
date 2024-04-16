@@ -13,6 +13,7 @@ library(ragg)
 source("sodem.r")
 source("education.r")
 source("economics.r")
+source("media.r")
 
 ui <- page_navbar(
     title = img(src="logo_WIDE.png"),
@@ -506,6 +507,175 @@ ui <- page_navbar(
                 )
             )
         )
+    ),
+    ## Media / Entertainment tab-------------------------------------------------------
+    tags$head(
+      tags$style(HTML("
+      .scrollable-sidebar {
+        overflow-y: auto;
+        max-height: 80vh; 
+        min-width: 500px;
+      }
+    "))
+    ),
+    nav_panel(
+      title = "Media/Entertainment",
+      fluidRow(
+        tabsetPanel(
+          id = "media_tabs",
+          type = "tabs",
+          tabPanel("Internet Coverage", 
+                   fillPage(
+                     layout_sidebar(
+                       sidebar = sidebar(
+                         class = "scrollable-sidebar",
+                         width = validateCssUnit("33%"),
+                         includeMarkdown("markdown/media/internet_coverage.Rmd")
+                         
+                       ),
+                       layout_column_wrap(
+                         card(
+                           card_header(strong("Number of Internet Providers Per Zip Code"), align = "center"),
+                           selectInput(
+                             "select_coverage",
+                             "Select Year:",
+                             width = "50%",
+                             choices = c("2015", "2020")
+                           ),
+                           withSpinner(leafletOutput("internet_coverage_maps")),
+                           card_footer("Data Source: Sourced from BroadbandNow(2022)")
+                         )
+                       )
+                     )
+                   )
+          ),
+          tabPanel("Internet Quality", 
+                   fillPage(
+                     layout_sidebar(
+                       sidebar = sidebar(
+                         class = "scrollable-sidebar",
+                         width = validateCssUnit("33%"),
+                         includeMarkdown("markdown/media/internet_quality.Rmd"),
+                       ),
+                       layout_column_wrap(
+                         card(
+                           card_header(strong("Number of Internet Providers Offering Speeds >= 100mbps"), align = "center"),
+                           selectInput(
+                             "select_quality",
+                             "Select Year:",
+                             width = "100%",
+                             choices = c("2015", "2020")
+                           ),
+                           withSpinner(leafletOutput("internet_quality_maps")),
+                           card_footer("Data Source: Sourced from BroadbandNow(2022)")
+                         )
+                       )
+                     )
+                   )
+          ),
+          tabPanel("News Anchors", 
+                   fillPage(
+                     layout_sidebar(
+                       sidebar = sidebar(
+                         class = "scrollable-sidebar",
+                         width = validateCssUnit("33%"),
+                         includeMarkdown("markdown/media/news_anchor.Rmd"),
+                       ),
+                       
+                       layout_column_wrap(
+                         card(
+                           card_header(strong("News Anchors"), align = "center"),
+                           withSpinner(plotOutput("anch_plots")),
+                           card_footer("Data Source: Manually Collected")
+                         )
+                       )
+                     ),
+                     
+                   )
+          ),
+          tabPanel("Radio Stations", 
+                   fillPage(
+                     layout_sidebar(
+                       sidebar = sidebar(
+                         class = "scrollable-sidebar",
+                         width = validateCssUnit("33%"),
+                         includeMarkdown("markdown/media/radio_station.Rmd"),
+                       ),
+                       
+                       layout_column_wrap(
+                         fluidPage(
+                           h1(strong("Radio Stations"), align = "center"),
+                           withSpinner(leafletOutput("radio")),)
+                       ),
+                       card_footer("Data Source: Collected from new station")
+                     )
+                   )
+          ),
+          tabPanel("Headquarter Location", 
+                   fillPage(
+                     layout_sidebar(
+                       sidebar = sidebar(
+                         class = "scrollable-sidebar",
+                         width = validateCssUnit("33%"),
+                         includeMarkdown("markdown/media/headquarter_location.Rmd"),
+                       ),
+                       layout_column_wrap(
+                         card(
+                           card_header(strong("Headquarters"), align = "center"),
+                           withSpinner(plotOutput("headquarters_graph")),
+                           card_footer("Data Source: Newspaper Headquarter Locations")
+                        )
+                       )
+                     )
+                   )
+          ),
+          tabPanel("Ratio of Sentiment Over Time", 
+                   fillPage(
+                     layout_sidebar(
+                       sidebar = sidebar(
+                         class = "scrollable-sidebar",
+                         width = validateCssUnit("33%"),
+                         includeMarkdown("markdown/media/radio_sentiment.Rmd"),
+                       ),
+                       layout_column_wrap(
+                         card(
+                           card_header(strong("Sentiment Terminology Over Time"), align = "center"),
+                           selectInput(
+                             "select_sent_year",
+                             "Select Year:",
+                             width = "100%",
+                             choices = c(
+                               "2022", "2021","2020", "2019", "2018","2017", "2016",
+                               "2015", "2014", "2012", "2010"
+                             )),
+                           mainPanel(plotlyOutput("sentiment_by_year")),
+                           card_footer("Derived from Bag of Words Text Analytics Algorithm")
+                         )
+                       )
+                     )
+                   )
+          ),
+          tabPanel("Diversity", 
+                   fillPage(
+                     layout_sidebar(
+                       sidebar = sidebar(
+                         class = "scrollable-sidebar",
+                         width = validateCssUnit("33%"),
+                         includeMarkdown("markdown/media/diversity.Rmd"),
+                       ),
+                       layout_column_wrap(
+                         card(
+                           card_header(strong("Diversity Bag"), align = "center"),
+                           withSpinner(plotOutput("div_by_pos_and_neg")),
+                           card_footer("Derived from Bag of Words Text Analytics Algorithm")
+                           )
+                       )
+                     )
+                   )
+          )
+          
+        )
+      )
     ),
     nav_spacer(),
     nav_menu(

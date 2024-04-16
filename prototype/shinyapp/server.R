@@ -581,7 +581,13 @@ server <- function(input, output, session) {
         # Convert ggplot to Plotly plot
         ggplotly(plot)
     })
-    
+    # Media/Entertainment Tab -----------------------------------------------
+    InternetCoverage(input,output, session)
+    InternetQualityMap(input, output,session)
+    NewsAnchors(input, output,session)
+    RadioStations(input,output,session)
+    headquarter_sentiment_deversity(input,output,session)
+    # End of Media/Entertainment Tab -----------------------------------------------
 }
 
 return(server)
