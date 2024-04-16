@@ -211,8 +211,6 @@ server <- function(input, output, session) {
         p
     })
     
-    
-    
     output$edu_ratio1 <- renderUI({
         
     })
