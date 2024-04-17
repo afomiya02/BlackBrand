@@ -95,7 +95,7 @@
                     title = "Location & Race Comparison",
                     width = "20%", # sidebar takes up x% of page
                     conditionalPanel(
-                        condition = "input.edu_nav === 'Standardized Testing'",
+                        condition = "input.edu_nav == 'Standardized Testing'",
                         selectInput(
                             inputId = "edu_loc",
                             label = "Select location:",
@@ -110,10 +110,10 @@
                                         "Asian" = "Asian",
                                         "Hispanic" = "Hispanic"),
                             selected = "Black"
-                        ),
+                        )
                     ),
                     conditionalPanel(
-                        condition = "input.edu_nav === 'Educational Attainment (Graduation Rate)'",
+                        condition = "input.edu_nav == 'Educational Attainment (Graduation Rate)'",
                         radioButtons(
                             inputId = "grad_race",
                             label = "Select to view:",
@@ -126,7 +126,7 @@
                         )
                     ),
                     conditionalPanel(
-                        condition = "input.edu_nav === 'Educators vs. Students'",
+                        condition = "input.edu_nav == 'Educators vs. Students'",
                         selectInput(
                             inputId = "edu_loc",
                             label = "Select location:",
@@ -149,7 +149,7 @@
                         ),
                         navset_card_pill(
                             nav_panel(
-                                title = "2022-2023 Testing Results",
+                                title = "Standardized Testing Results",
                                 layout_sidebar(
                                     sidebar = sidebar(
                                         width = "20%",
