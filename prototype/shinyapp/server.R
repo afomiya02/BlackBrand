@@ -112,8 +112,8 @@ server <- function(input, output, session) {
     
     # black student % in loc
     output$edu_vb1 <- renderUI({
-        prop <- local_student_data() %>% filter(races == "Black") %>% select(total_student_count) /
-            sum(local_student_data()$total_student_count)
+        prop <- local_education_data() %>% filter(races == "Black") %>% select(total_student_count) /
+            sum(local_education_data()$total_student_count)
         
         value_box(
             title = p("Percentage of Black students in", input$edu_loc),
@@ -144,7 +144,7 @@ server <- function(input, output, session) {
     output$edu_vb3 <- renderUI({
         value_box(
             title = p("Total student population in", input$edu_loc),
-            value = p(sum(local_student_data()$total_student_count), style = "font-size: 36px"),
+            value = p(sum(local_education_data()$total_student_count), style = "font-size: 36px"),
             theme = "primary",
             showcase = bs_icon("person"),
             showcase_layout = "top right"
@@ -152,9 +152,8 @@ server <- function(input, output, session) {
     })
     
     # gonna try to merge student and educator data together
-    
-    local_student_data <- reactive({
-        df <- student_count_data %>%
+    local_education_data <- reactive({
+        std <- student_count_data %>%
             filter(division_name %in% input$edu_loc) %>%
             pivot_longer(cols = -division_name, names_to = "races", values_to = "total_student_count") %>%
             arrange(desc(total_student_count)) %>%
@@ -162,11 +161,8 @@ server <- function(input, output, session) {
             mutate(total_student_count = as.numeric(total_student_count)) %>%
             mutate_if(is.character, str_replace_all, "_", " ") %>%
             mutate_if(is.character, str_to_title)
-        df
-    })
-    
-    local_educator_data <- reactive({
-        df <- educator_count_data %>% 
+        
+        edu <- educator_count_data %>% 
             filter(division_name %in% input$edu_loc) %>%
             pivot_longer(cols = -division_name, names_to = "races", values_to = "total_educator_count") %>%
             arrange(desc(total_educator_count)) %>%
@@ -174,13 +170,15 @@ server <- function(input, output, session) {
             mutate(total_educator_count = as.numeric(total_educator_count)) %>%
             mutate_if(is.character, str_replace_all, "_", " ") %>%
             mutate_if(is.character, str_to_title)
-        df
+        
+        inner_join(std, edu, by = c("division_name", "races")) 
     })
     
     # creates donut graph for student demographics in loc
     output$student_race_plot <- renderPlot({
         hsize <- 3
-        p <- ggplot(local_student_data(), aes(x = hsize, y = total_student_count, fill = races)) +
+        data <- local_education_data() %>% filter(races != "Total Counts")
+        p <- ggplot(data, aes(x = hsize, y = total_student_count, fill = races)) +
             geom_col(color = "black") +
             geom_text(aes(x = 2.1, label = total_student_count), position = position_stack(vjust = 0.5)) +
             coord_polar(theta = "y") +
@@ -197,7 +195,8 @@ server <- function(input, output, session) {
     # creates donut graph for educator demographics in loc
     output$educator_race_plot <- renderPlot({
         hsize <- 3
-        p <- ggplot(local_educator_data(), aes(x = hsize, y = total_educator_count, fill = races)) +
+        data <- local_education_data() %>% filter(races != "Total Counts")
+        p <- ggplot(data, aes(x = hsize, y = total_educator_count, fill = races)) +
             geom_col(color = "black") +
             geom_text(aes(x = 2.1, label = total_educator_count), position = position_stack(vjust = 0.5)) +
             coord_polar(theta = "y") +
@@ -211,8 +210,43 @@ server <- function(input, output, session) {
         p
     })
     
+    # black teacher-student ratio
     output$edu_ratio1 <- renderUI({
-        
+        data <- local_education_data() %>% filter(races == "Black")
+        pct <- data$total_student_count / data$total_educator_count
+        value_box(
+            title = shiny::p("Black teacher to Black student ratio in", input$edu_loc),
+            value = shiny::p(paste0(ceiling(pct), ":1"), style = "font-size: 36px"),
+            theme = "primary",
+            showcase = bs_icon("hand-index"),
+            showcase_layout = "top right"
+        )
+    })
+    
+    # white teacher-student ratio
+    output$edu_ratio2 <- renderUI({
+        data <- local_education_data() %>% filter(races == "White")
+        pct <- data$total_student_count / data$total_educator_count
+        value_box(
+            title = shiny::p("White teacher to White student ratio in", input$edu_loc),
+            value = shiny::p(paste0(ceiling(pct), ":1"), style = "font-size: 36px"),
+            theme = "info",
+            showcase = bs_icon("hand-index"),
+            showcase_layout = "top right"
+        )
+    })
+    
+    # total teacher-student ratio
+    output$edu_ratio3 <- renderUI({
+        data <- local_education_data() %>% filter(races == "Total Counts")
+        pct <- data$total_student_count / data$total_educator_count
+        value_box(
+            title = shiny::p("Total teacher to student ratio in", input$edu_loc),
+            value = shiny::p(paste0(ceiling(pct), ":1"), style = "font-size: 36px"),
+            theme = "secondary",
+            showcase = bs_icon("aspect-ratio"),
+            showcase_layout = "top right"
+        )
     })
     
     # reactive that gets all necessary info for radar plot

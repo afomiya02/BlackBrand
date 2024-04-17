@@ -95,7 +95,7 @@
                     title = "Location & Race Comparison",
                     width = "20%", # sidebar takes up x% of page
                     conditionalPanel(
-                        condition = "input.edu_nav !== 'Educational Attainment (Graduation Rate)'",
+                        condition = "input.edu_nav === 'Standardized Testing'",
                         selectInput(
                             inputId = "edu_loc",
                             label = "Select location:",
@@ -111,13 +111,9 @@
                                         "Hispanic" = "Hispanic"),
                             selected = "Black"
                         ),
-                        p(),
-                        p("Use this sidebar to compare races against each other in each location! NOTE: 
-                        There are some locations in Hampton Roads where there simply isn't enough data 
-                        to be recorded.", style = "text-align: justify")
                     ),
                     conditionalPanel(
-                        condition = "input.edu_nav == 'Educational Attainment (Graduation Rate)'",
+                        condition = "input.edu_nav === 'Educational Attainment (Graduation Rate)'",
                         radioButtons(
                             inputId = "grad_race",
                             label = "Select to view:",
@@ -127,6 +123,15 @@
                                         "Asian" = "Asian",
                                         "Hispanic" = "Hispanic"),
                             selected = "All Students"
+                        )
+                    ),
+                    conditionalPanel(
+                        condition = "input.edu_nav === 'Educators vs. Students'",
+                        selectInput(
+                            inputId = "edu_loc",
+                            label = "Select location:",
+                            selected = "Chesapeake",
+                            choices = unique(st_data$division_name)
                         )
                     )
                 ),
@@ -152,7 +157,7 @@
                                             inputId = "st_year",
                                             label = "Select year:",
                                             # there has to be a better way to do this but
-                                            # atp my brain has been fried to the point that i'm
+                                            # atp my brain has been fried to the point i'm
                                             # seeing double
                                             choices = c("2022-2023" = "2022-2023_pass_rate",
                                                         "2021-2022" = "2021-2022_pass_rate",
@@ -180,9 +185,13 @@
                 ),
                 nav_panel(
                     title = "Educators vs. Students",
+                    layout_column_wrap(
+                        uiOutput("edu_ratio1"), # black t-s ratio
+                        uiOutput("edu_ratio2"), # white
+                        uiOutput("edu_ratio3") # total
+                    ),
                     card(
-                        # maybe include teacher-student value boxes here...
-                        card_header("Distribution of Educators per Location"),
+                        card_header("Teachers vs. Students per Location"),
                         card_body(
                             layout_column_wrap(
                                 plotOutput("educator_race_plot"),

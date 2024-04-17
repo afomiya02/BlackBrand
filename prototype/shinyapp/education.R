@@ -97,7 +97,9 @@ student_count_data <- read.csv("data/VDOE/student_count.csv") %>%
     # create "other" category such that it includes native american, 
     # pacific islander and multiracial races
     mutate(other = native_american + pacific_islander + multiracial) %>%
-    select(-c(native_american, pacific_islander, multiracial))
+    select(-c(native_american, pacific_islander, multiracial)) %>%
+    # get total count of students by row (this is so janky)
+    rowwise() %>% mutate(total_counts = asian + black + hispanic + other + white, .before = 2)
 
 # Function to get and clean on-time pass rates per division and race, including all students
 preprocess_cohort_graduation_data <- function() {
