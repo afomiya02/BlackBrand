@@ -1,0 +1,13 @@
+Around every five years the U.S. Department of Agriculture releases their Food Access Research Atlas, a comprehensive dataset providing information about food access throughout the nation. Variables including poverty rates, food deserts, and demographic access to sources of food are all provided.
+
+We first collected the dataset and cleaned it for better operability within this dashboard by filtering for only Hampton localities. The data is broken into county tracts for a more fine-tuned look.
+
+This page is intended to show the poverty rate of each tract in a given locality, along with visualize the African American population's access to supermarkets at two different distances, one and one half mile.
+
+Viewing the first map, visualizing poverty rates, we can see a trend that the more densly populated areas, inner city Norfolk, or Hampton, have higher rates of poverty. We can see that it in some tracts reach rates of up to 80.0%.
+
+The two subsequent plots visualize the African American communities' access to supermarkets at two different distances. Half mile distances are a lot more prevalent on the outskirts of the Hamton region. Places like Southampton and York Counties have lower access especially seen in the African American Communities
+
+One unfortunate note is the number of N/A's in the one mile distance in Virginia Beach and Norfolk counties.
+
+Despite our findings, it is important to note that this does not visualize the accessibility of supermarkets for other demographics. Taking a more holistic view of this data dashboard would be including all demographics and comparing them from there.
