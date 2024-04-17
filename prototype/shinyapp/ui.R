@@ -772,7 +772,7 @@
                   title = "Financial Literacy Score",
                   class = "scrollable-sidebar",
                   width = validateCssUnit("25%"),
-                  includeMarkdown("markdown/people_values/religion.Rmd"),
+                  includeMarkdown("markdown/people_values/financial_lit.Rmd"),
                 ),
                 layout_column_wrap(
                   card(
