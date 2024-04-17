@@ -144,7 +144,11 @@ server <- function(input, output, session) {
   # Render the hamp_pie plot
   output$hamp_pie <- renderPlot({
     # Define color palette
-    vir_pal <- c("#33638DFF", "#1F968BFF", "#29AF7FFF", "#73D055FF", "#FDE725FF")
+    vir_pal <- c("#FF0000",
+                 "#C1CDC1",
+                 "#F0FFF0",
+                 "#8B7355",
+                 "#B22222")
     
     # Load and process data
     hamp_race_file_path <- paste0("data/race/hamp_race", var_hampRace(), ".csv")
@@ -205,7 +209,11 @@ server <- function(input, output, session) {
   # Render the va_pie plot
   output$va_pie <- renderPlot({
     # Define color palette
-    vir_pal <- c("#33638DFF", "#1F968BFF", "#29AF7FFF", "#73D055FF", "#FDE725FF")
+    vir_pal <- c("#FF0000",
+                 "#C1CDC1",
+                 "#F0FFF0",
+                 "#8B7355",
+                 "#B22222")
     
     # Load and process data
     va_race_file_path <- paste0("data/race/va_race", var_VaRace(), ".csv")
@@ -295,7 +303,11 @@ server <- function(input, output, session) {
   # Render the hamp_graph plot
   output$hamp_graph <- renderPlot({
     # Define color palette
-    vir_pal <- c("#33638DFF", "#1F968BFF", "#29AF7FFF", "#73D055FF", "#FDE725FF")
+    vir_pal <- c("#FF0000",
+                 "#C1CDC1",
+                 "#F0FFF0",
+                 "#8B7355",
+                 "#B22222")
     
     # Load and process data
     hamp_age_file_path <- paste0("data/age/hamp_age", var_hampAge(), ".csv")
@@ -303,7 +315,7 @@ server <- function(input, output, session) {
     
     # Plot hamp_graph
     hamp_graph <- ggplot(hamp_ages_data, aes(x = "", y = PctPop, fill = Labels)) +
-      geom_bar(stat = "identity", width = 1, color = "white") +
+      geom_bar(stat = "identity", width = 1, color = "black") +
       coord_polar("y", start = 0) +
       theme_void() +
       theme(
@@ -320,7 +332,7 @@ server <- function(input, output, session) {
         aes(label = paste0(round(PctPop), "%")),
         position = position_stack(vjust = 0.5),
         size = 5,
-        color = "white"
+        color = "black"
       ) +
       scale_fill_manual(values = vir_pal)
     
@@ -373,7 +385,11 @@ server <- function(input, output, session) {
   # Render the va_graph plot
   output$va_graph <- renderPlot({
     # Define color palette
-    vir_pal <- c("#33638DFF", "#1F968BFF", "#29AF7FFF", "#73D055FF", "#FDE725FF")
+    vir_pal <- c("#FF0000",
+                 "#C1CDC1",
+                 "#F0FFF0",
+                 "#8B7355",
+                 "#B22222")
     
     # Load and preprocess Virginia age data
     va_age_file_path <- paste0("data/age/va_age", var_VaAge(), ".csv")
@@ -381,7 +397,7 @@ server <- function(input, output, session) {
     
     # Plot va_graph
     va_graph <- ggplot(va_ages_data , aes(x = "", y = `Percent of Population`, fill = Labels)) +
-      geom_bar(stat = "identity", width = 1, color = "white") +
+      geom_bar(stat = "identity", width = 1, color = "black") +
       coord_polar("y", start = 0) +
       theme_void() +
       theme(
@@ -398,7 +414,7 @@ server <- function(input, output, session) {
         aes(label = paste0(round(`Percent of Population`), "%")),
         position = position_stack(vjust = 0.5),
         size = 5,
-        color = "white"
+        color = "black"
       ) +
       scale_fill_manual(values = vir_pal)
     
@@ -534,7 +550,7 @@ server <- function(input, output, session) {
         legend.title = element_blank(),
         legend.text = element_text(size = 13)
       ) +
-      scale_fill_viridis_d(
+      scale_fill_viridis_d(option = "F",
         labels = c(
           "Under 18", "18 to 29", "30 to 44",
           "45 to 64", "65 and Older"
@@ -648,7 +664,7 @@ server <- function(input, output, session) {
       geom_col() +
       labs(title = paste(race, "Teacher Breakdown"), y = "Percentage (%)", x = "") + 
       theme(axis.text.x = element_text(angle = 40)) +
-      scale_fill_viridis_d()
+      scale_fill_viridis_d(option="rocket")
     # Return the plot
     return(hide_legend(ggplotly(teacherByRace, tooltip = c("x", "y"))))
   }
@@ -731,7 +747,7 @@ server <- function(input, output, session) {
       axis.text = element_text(size = 13)
     ) +
     labs(y = "Percent (%)") +
-    scale_color_viridis_d() +
+    scale_color_viridis_d(option="rocket") +
     scale_x_continuous(breaks = seq(2015, 2019, by = 1)) + # Set x-axis breaks to numeric years
     scale_y_continuous(limits = c(2, 14), breaks = seq(0, 14, by = 2))
   
@@ -773,7 +789,20 @@ server <- function(input, output, session) {
         legend.title = element_blank(),
         legend.text = element_text(size = 13),
         axis.text = element_text(size = 13)
-      ) +
+      )+ scale_fill_manual(values = c(
+        "Chesapeake" = "black",
+        "Gloucester" = "burlywood",
+        "Hampton" = "red",
+        "Isle of Wight" = "grey",
+        "Newport News" = "antiquewhite",
+        "Norfolk" = "cornsilk4",
+        "Portsmouth" = "firebrick",
+        "Southampton" = "azure",
+        "Suffolk" = "indianred2",
+        "Virginia Beach" = "slategray2",
+        "Williamsburg-James City" = "tan4",
+        "York" = "rosybrown"
+      ))+
       labs(y = "Percent Difference (%)", fill = "Location") + # Set axis labels and legend title
       ylim(0, 16) # Set y-axis limits
     
@@ -895,7 +924,7 @@ server <- function(input, output, session) {
           vjust = 0.95,
           hjust = 1
         )) +
-        scale_fill_manual(values = c("#D55E00", "#0072B2")) +
+        scale_fill_manual(values = c("#8B1A1A", "#C1CDCD")) +
         labs(x = "Location")
       
       #plot
@@ -1022,7 +1051,7 @@ server <- function(input, output, session) {
           vjust = 0.95,
           hjust = 1
         )) +
-        scale_fill_manual(values = c("#D55E00", "#0072B2")) +
+        scale_fill_manual(values = c("#8B1A1A", "#C1CDCD")) +
         labs(x = "Location")
       #plot
       BW_map <- suspension_counties_plot
@@ -1439,7 +1468,7 @@ server <- function(input, output, session) {
     })
     
     # Create color palette for choropleth map
-    pal <- colorNumeric(palette = "viridis",
+    pal <- colorNumeric(palette = "Reds",
                         domain = b_hm_19$Percent,
                         reverse = TRUE)
     
@@ -1523,7 +1552,7 @@ server <- function(input, output, session) {
         theme_minimal() +  # Minimal theme
         labs(title = "", y = "Total Number of People Employed", x = "") +  # Set titles for plot
         theme(axis.text.x = element_text(angle = 40)) +  # Rotate x-axis labels for better readability
-        scale_fill_viridis_d()  # Use Viridis color scale for better visualization
+        scale_fill_viridis_d(option="F")  # Use Viridis color scale for better visualization
       
       # Further customization of plot aesthetics
       sectors_data <- sectors_data +
@@ -1593,7 +1622,7 @@ server <- function(input, output, session) {
   # Reactive expression for selected unemployment rate year
   var_unemploymentRate <- reactive({
     input$UnemploymentRateSlider  # Retrieve selected year from slider input
-  })
+  }) 
   
   # Render the unemployment plot using plotly
   output$unemployment_plot <- renderPlotly({
@@ -1838,7 +1867,7 @@ server <- function(input, output, session) {
       military_bases <- readRDS("data/TableS2101FiveYearEstimates/militarybases.rds")
       # Define color palette
       pal <- colorNumeric(
-        palette = "viridis",
+        palette = "Reds",
         domain = vet_data$Percent,
         reverse = TRUE
       )
@@ -1995,7 +2024,7 @@ server <- function(input, output, session) {
     # Create the plot with trend line
     p <- ggplot(data_to_plot, aes_string(x = "Year", y = selected_metric, group = "1")) +
       geom_line(aes(color = SlopeType)) +  # Color lines based on slope type
-      scale_color_manual(values = c("Positive" = "green", "Negative" = "red", "Flat" = "blue")) +
+      scale_color_manual(values = c("Positive" = "black", "Negative" = "red", "Flat" = "grey")) +
       labs(title = plot_title, x = "Year", y = y_label) +
       theme_minimal() +
       theme(plot.title = element_text(hjust = 0.5),  # Center the title
@@ -2025,7 +2054,7 @@ server <- function(input, output, session) {
   # People & Values ---------------------------------------------------------
   #Family Dynamic ---------------------------------------------------------
   generateMap <- function(data, title, labelSuffix = "%") {
-    pal <- colorNumeric(palette = "viridis", domain = data$Percent, reverse = TRUE)
+    pal <- colorNumeric(palette = "Reds", domain = data$Percent, reverse = TRUE)
     data %>% 
       leaflet(options = leafletOptions(minZoom = 5, maxZoom = 15, drag = FALSE)) %>%
       addProviderTiles("CartoDB.PositronNoLabels") %>%
@@ -2131,7 +2160,7 @@ server <- function(input, output, session) {
               plot_data[i, "religion"], '</p>', 'Percent Adherence: ', '</p>',
               plot_data[i, "value"])
     })
-    pal2 <- colorNumeric(viridis_pal()(11), plot_data$value)
+    pal2 <- colorNumeric(palette = "Reds", plot_data$value)
     religion <- plot_data %>%
       leaflet(options = leafletOptions(minZoom = 5, maxZoom = 15, drag = FALSE)) %>% 
       addProviderTiles("CartoDB.PositronNoLabels") %>%
@@ -2150,7 +2179,7 @@ server <- function(input, output, session) {
     foodBankLoc <- read.csv("./data/foodBank/FoodBanks.csv")
     countyOutlines <- read_sf(dsn = "./data/countyOutlines/countyOutlines.shp")
     labs <- paste0(foodBankLoc$name, "<br></br><a href='", foodBankLoc$url,"'>View</a>")
-    pal <- colorFactor(palette = 'viridis', foodBankLoc$county)
+    pal <- colorFactor(palette = 'Reds', foodBankLoc$county)
     foodBank.map <- foodBankLoc %>%
       leaflet(options = leafletOptions(minZoom = 5, maxZoom = 17, drag=FALSE)) %>%
       addProviderTiles("CartoDB.PositronNoLabels") %>%
@@ -2174,7 +2203,7 @@ server <- function(input, output, session) {
     # Then, use this reordered factor in your ggplot call without using reorder()
     foodBank.ggplot <- ggplot(gg.table, aes(x = Locality, y = `Food Banks`)) + 
       ggtitle("# of Food Banks in Locality") + 
-      geom_col() + 
+      geom_col(fill = "firebrick") + 
       theme(legend.position="none", 
             axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=1, size = 15)) + 
       geom_text(aes(label = `Food Banks`), 
@@ -2190,7 +2219,7 @@ server <- function(input, output, session) {
   generateFoodAccessMap <- function(data, valueColumn, titleSuffix) {
     value <- round(as.numeric(data[[valueColumn]]), 2)
     county <- word(data$County, 1, -2)
-    pal <- colorNumeric(palette = "magma", domain = as.double(value), reverse = TRUE)
+    pal <- colorNumeric(palette = "Reds", domain = as.double(value), reverse = TRUE)
     
     foodAccessMap <- leaflet(data, options = leafletOptions(minZoom = 5, maxZoom = 15, drag = FALSE)) %>%
       addProviderTiles("CartoDB.Positron") %>%
@@ -2238,13 +2267,19 @@ server <- function(input, output, session) {
     
     # plot
     financial_literacy <- ggplot(df, aes(x=ppracem, y=CFPB_score, fill=ppracem)) +
-      geom_boxplot(varwidth = TRUE, alpha=0.2) +
+      geom_boxplot(varwidth = TRUE, alpha=0.5) +
       theme(legend.position="none") +
       scale_x_discrete(labels=my_xlab, limits = positions)+
       #scale_x_discrete(limits = positions) + 
       labs(x = "Race") +
       labs(y = "Financial Literacy Score") +
       ylim(0, 100) +
+      scale_fill_manual(values = c(
+        "Asian" = "red",
+        "White" = "black",
+        "2+ races" = "firebrick4",
+        "Black or African American" = "burlywood4"
+      ))+
       theme(text = element_text(size = 15))
     financial_literacy
   })
@@ -2288,6 +2323,10 @@ server <- function(input, output, session) {
       geom_col(aes(x = DOV_FL, y = n, fill = ppracem)) +
       labs(x = "Answered 'Do not know' during survey") +
       labs(y = "Count") +
+      scale_fill_manual(values = c("White" = "red",
+                                   "Black or African American" = "azure3",
+                                   "Asian" = "black",
+                                   "2+ races" = "firebrick4"))+
       labs(fill = "Race")
     dont_know <- ggplotly(dont_know)
   })
@@ -2339,7 +2378,7 @@ server <- function(input, output, session) {
       pal2 <- colorFactor(cols, domain = norfolk$holc_grade)
     
       # Create map details for 2015
-    pal <- colorNumeric(viridis_pal()(6), joined_zips$AllProviderCount_2015)
+    pal <- colorNumeric(palette = "Reds", joined_zips$AllProviderCount_2015)
     labs <- sprintf(
       "<strong>%s</strong><br/>Zip: %i<br/>Num. Providers: %i",
       joined_zips$County,
@@ -2421,7 +2460,7 @@ server <- function(input, output, session) {
       pal2 <- colorFactor(cols, domain = norfolk$holc_grade)
       
       # Create map details for 2020
-      pal <- colorNumeric(viridis_pal()(11), joined_zips$AllProviderCount_2020)
+      pal <- colorNumeric(palette = "Reds", joined_zips$AllProviderCount_2020)
       labs <- sprintf(
         "<strong>%s</strong><br/>Zip: %i<br/>Num. Providers: %i<br/>Black Population: %i<br/>Percent Black: %.2f%%",
         joined_zips$County,
@@ -2498,7 +2537,7 @@ server <- function(input, output, session) {
       pal2 <- colorFactor(cols, domain = norfolk$holc_grade)
       
       # Create map details for 2015
-      pal <- colorNumeric(viridis_pal()(11), joined_zips$All100_3.1)
+      pal <- colorNumeric(palette = "Reds", joined_zips$All100_3.1)
       labs <- sprintf(
         "<strong>%s</strong><br/>Zip: %i<br/>Num. Providers: %i",
         joined_zips$County,
@@ -2565,7 +2604,7 @@ server <- function(input, output, session) {
       pal2 <- colorFactor(cols, domain = norfolk$holc_grade)
       
       # Create map details for 2020
-      pal <- colorNumeric(viridis_pal()(11), joined_zips$All100_3)
+      pal <- colorNumeric(palette = "Reds", joined_zips$All100_3)
       labs <- sprintf(
         "<strong>%s</strong><br/>Zip: %i<br/>Num. Providers: %i<br/>Black Population: %i<br/>Percent Black: %.2f%%",
         joined_zips$County,
@@ -2623,6 +2662,7 @@ server <- function(input, output, session) {
       geom_bar(stat = "identity", width = 1) + 
       coord_polar("y", start = 0) +
       theme_void() +
+      scale_fill_manual(values = c("peachpuff4", "grey", "brown", "azure", "red"))+
       geom_text(aes(
         y = count,
         label = paste(round(count / sum(count) * 100, 1), "%"),
@@ -2637,6 +2677,7 @@ server <- function(input, output, session) {
       ggplot(aes(Ethnicity, count, fill = Gender)) +
       geom_bar(stat = "identity", position = "dodge") + theme_fivethirtyeight() +
       theme(axis.title = element_text()) + ylab('Count') +
+      scale_fill_manual(values = c("F"="red", "M"="black"))+
       theme(axis.title.y = element_text(),
             axis.title = element_blank(),
             axis.text.x = element_text(size = 15),
@@ -2650,7 +2691,13 @@ server <- function(input, output, session) {
       summarise(count = n()) %>%
       ggplot(aes(Ethnicity, count, fill = Role)) +
       geom_bar(stat = "identity", position = "dodge") + theme_fivethirtyeight() +
-      theme(axis.title = element_text()) + ylab('Count') +
+      theme(axis.title = element_text()) + ylab('Count') + 
+      scale_fill_manual(values = c("Anchor" = "black", 
+                                   "Reporter" = "red", 
+                                   "Traffic" = "peachpuff4",
+                                   "Other" = "firebrick4",
+                                   "Sports" = "azure4",
+                                   "Weather" = "burlywood1"))+
       theme(axis.title.y = element_text(),
             axis.title = element_blank(),
             axis.text.x = element_text(size = 15),
@@ -2665,6 +2712,7 @@ server <- function(input, output, session) {
       ggplot(aes(Ethnicity, count, fill = Channel)) +
       geom_bar(stat = "identity", position = "dodge") + theme_fivethirtyeight() +
       theme(axis.title = element_text()) + ylab('Count') +
+      scale_fill_manual(values = c("Channel 13"="black", "WAVY" = "peachpuff4", "WTKR" = "red"))+
       theme(axis.title.y = element_text(),
             axis.title = element_blank(),
             axis.text.x = element_text(size = 15),
@@ -2722,13 +2770,13 @@ server <- function(input, output, session) {
     })
     
     # Define color palette for markers
-    pal <- colorNumeric(viridis_pal()(11), merged_data$count)
+    pal <- colorNumeric(palette = "Reds", merged_data$count)
     
     # Create Leaflet map
     radio_map <- leaflet(merged_data, options = leafletOptions(minZoom = 5, maxZoom = 15, drag = FALSE)) %>% 
       addProviderTiles("CartoDB.PositronNoLabels") %>%
-      addPolygons(
-        color = ~pal(count),
+      addPolygons(fillColor = pal, 
+        color = pal,
         weight = 0.5,
         fillOpacity = 0.7,
         smoothFactor = 0,
@@ -2897,7 +2945,11 @@ server <- function(input, output, session) {
       theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 15),       # Set x-axis text properties
             axis.text.y = element_text(hjust = 1, size = 15),                   # Set y-axis text properties
             plot.title = element_text(color = "black", size = 24, face = "bold"),  # Set plot title properties
-            legend.text=element_text(size=15)) +                                # Set legend text properties
+            legend.text=element_text(size=15)) +# Set legend text properties
+      scale_fill_manual(values = c("ASIAN/PACIFIC ISLANDER" = "black",
+                                   "BLACK OR AFRICAN AMERICAN" = "red",
+                                   "AMERICAN INDIAN" = "firebrick4",
+                                   "WHITE" = "azure4"))+
       ylim(0, 2000)                                  # Set y-axis limits
     
     jurisdiction
@@ -2924,7 +2976,7 @@ server <- function(input, output, session) {
       theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 10),       # Set x-axis text properties
             axis.text.y = element_text(hjust = 1, size = 15),                   # Set y-axis text properties
             plot.title = element_text(color = "black", size = 24, face = "bold"),  # Set plot title properties
-            legend.position = "none") +              # Remove legend
+            legend.position = "none") + # Remove legend
       coord_flip()                                   # Flip coordinates to horizontal
     
     jurisdiction2
@@ -2966,6 +3018,7 @@ server <- function(input, output, session) {
             legend.text = element_text(size = 20),            # Set legend text properties
             legend.title = element_blank()) +                  # Remove legend title
       ggtitle('City Council Demographics by Race 2021') +      # Set plot title
+      scale_fill_manual(values = c("Black" = "grey", "White" = "firebrick"))+
       ylab('count')                                           # Set y-axis label
     
     cityd  # Return the plot
@@ -3002,6 +3055,7 @@ server <- function(input, output, session) {
             legend.text = element_text(size = 20),            # Set legend text properties
             legend.title = element_blank()) +                  # Remove legend title
       ggtitle('City Council Demographics by Gender 2021') +     # Set plot title
+      scale_fill_manual(values = c("Female" = "grey", "Male" = "firebrick"))+
       ylab('count')                                           # Set y-axis label
     
     cityd2  # Return the plot
@@ -3043,7 +3097,7 @@ server <- function(input, output, session) {
       ggplot() +
       geom_line(aes(year, jail.rate.per.100k, col = race.ethnicity), size = 2.5) +
       theme_fivethirtyeight() +
-      scale_colour_viridis_d() +
+      scale_colour_viridis_d(option = "F") +
       ggtitle(paste('Jail Rate per 100,000 ages 15-64 for', title)) +
       scale_x_continuous(breaks = scales::pretty_breaks(n = 10)) +
       scale_y_continuous(breaks = scales::pretty_breaks(n = 3)) +
@@ -3107,6 +3161,7 @@ server <- function(input, output, session) {
       ungroup() %>%
       group_by(race.ethnicity) %>%
       mutate(label.pos = prop / 2)
+    
     
     # Filter data for Jail Population and create pie chart
     pie_plots1 <- col_plot %>%
@@ -3219,7 +3274,7 @@ server <- function(input, output, session) {
     })
     
     # Define color palette for map markers
-    pal2 <- colorNumeric(viridis_pal()(10), merged_data2$total_prison_adm_rate)
+    pal2 <- colorNumeric(palette = "Reds", merged_data2$total_prison_adm_rate)
     
     # Create Leaflet map
     prison <- merged_data2 %>%
@@ -3265,7 +3320,7 @@ server <- function(input, output, session) {
     joined_jim <- geo_join(zips, data_jim_final, by_sp = "name", by_df = "zipcode", how = "inner")
     
     # Define color palette for home values
-    pal <- colorNumeric("viridis", joined_jim$homevalue)
+    pal <- colorNumeric(palette = "Reds", joined_jim$homevalue)
     
     # Load redlining data
     norfolk <- geojson_read("./data/VANorfolk1940.geojson", what = "sp")
@@ -3348,13 +3403,13 @@ server <- function(input, output, session) {
     
     # Define color palette for legend
     pal2 <- viridis_pal()(11)
-    pal2 <- colorNumeric(viridis_pal()(11), merged_data2$count)
+    pal2 <- colorNumeric(palette = "Reds", merged_data2$count)
     
     # Create leaflet map
     radio <- merged_data2 %>%
       leaflet(options = leafletOptions(minZoom = 5, maxZoom = 15, drag = FALSE)) %>% 
       addProviderTiles("CartoDB.PositronNoLabels") %>%
-      addPolygons(data = merged_data2$geometry, color= viridis_pal()(11)[merged_data2$count],
+      addPolygons(data = merged_data2$geometry, color = viridis_pal()(11)[merged_data2$count],
                   weight = 0.5,
                   fillOpacity = 0.7, smoothFactor = 0,
                   highlightOptions = highlightOptions(bringToFront = TRUE, opacity = 1.5, weight = 3),
@@ -3377,7 +3432,7 @@ server <- function(input, output, session) {
       data <- read_rds(data_file)
       colnames(data)[4] <- "Percent"
       colnames(data)[3] <- col_names
-      data_pal <- colorNumeric(palette = "viridis", domain = data$Percent, reverse = TRUE)
+      data_pal <- colorNumeric(palette = "Reds", domain = data$Percent, reverse = TRUE)
       
       map <- data %>%
         leaflet(options = leafletOptions(minZoom = 5, maxZoom = 15, drag = FALSE)) %>% 
