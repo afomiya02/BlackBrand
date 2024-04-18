@@ -128,7 +128,7 @@
                     conditionalPanel(
                         condition = "input.edu_nav == 'Educators vs. Students'",
                         selectInput(
-                            inputId = "edu_loc",
+                            inputId = "edu_ratio_loc",
                             label = "Select location:",
                             selected = "Chesapeake",
                             choices = unique(st_data$division_name)

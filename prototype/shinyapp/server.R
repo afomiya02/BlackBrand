@@ -65,8 +65,8 @@ server <- function(input, output, session) {
     ## LEAFLET OUTPUT
     output$pop_choropleth <- renderLeaflet({
         # Yellow-Orange-Red color palette used for all choropleth maps
-        pal <- colorNumeric(continuous_pal, 
-                        min(heatmap_data$pct_black):max(heatmap_data$pct_black))
+        pal <- colorBin(continuous_pal, 
+            min(heatmap_data$pct_black):max(heatmap_data$pct_black))
         sodem_choropleth <- leaflet() %>%
             addPolygons(
                 data = heatmap_data,
@@ -93,7 +93,8 @@ server <- function(input, output, session) {
     })
     
     output$age_choropleth <- renderLeaflet({
-        pal <- colorBin(continuous_pal, 20:55)
+        pal <- colorBin(continuous_pal, 
+            min(heatmap_data$median_age_years):max(heatmap_data$median_age_years))
         sodem_choropleth <- leaflet() %>%
             addPolygons(
                 data = heatmap_data,
@@ -167,7 +168,7 @@ server <- function(input, output, session) {
     # gonna try to merge student and educator data together
     local_education_data <- reactive({
         std <- student_count_data %>%
-            filter(division_name %in% input$edu_loc) %>%
+            filter(division_name %in% input$edu_ratio_loc) %>%
             pivot_longer(cols = -division_name, names_to = "races", values_to = "total_student_count") %>%
             arrange(desc(total_student_count)) %>%
             filter(!grepl("total_student_count", races)) %>%
@@ -176,7 +177,7 @@ server <- function(input, output, session) {
             mutate_if(is.character, str_to_title)
         
         edu <- educator_count_data %>% 
-            filter(division_name %in% input$edu_loc) %>%
+            filter(division_name %in% input$edu_ratio_loc) %>%
             pivot_longer(cols = -division_name, names_to = "races", values_to = "total_educator_count") %>%
             arrange(desc(total_educator_count)) %>%
             filter(!grepl("total_educator_count", races)) %>%
@@ -203,7 +204,7 @@ server <- function(input, output, session) {
                   axis.ticks = element_blank(),
                   axis.text = element_blank()) +
             scale_fill_manual(values = discrete_pal) +
-            ggtitle(paste("Racial Distribution of Students in", input$edu_loc))
+            ggtitle(paste("Racial Distribution of Students in", input$edu_ratio_loc))
         p
     })
     
@@ -222,7 +223,7 @@ server <- function(input, output, session) {
                   axis.ticks = element_blank(),
                   axis.text = element_blank()) +
             scale_fill_manual(values = discrete_pal) +
-            ggtitle(paste("Racial Distribution of Educators in", input$edu_loc))
+            ggtitle(paste("Racial Distribution of Educators in", input$edu_ratio_loc))
         p
     })
     
@@ -231,7 +232,7 @@ server <- function(input, output, session) {
         data <- local_education_data() %>% filter(races == "Black")
         pct <- data$total_student_count / data$total_educator_count
         value_box(
-            title = shiny::p("Black teacher-student ratio in", input$edu_loc),
+            title = shiny::p("Black teacher-student ratio in", input$edu_ratio_loc),
             value = shiny::p(paste0(ceiling(pct), ":1"), style = "font-size: 36px"),
             theme = "primary",
             showcase = bs_icon("hand-index"),
@@ -244,7 +245,7 @@ server <- function(input, output, session) {
         data <- local_education_data() %>% filter(races == "White")
         pct <- data$total_student_count / data$total_educator_count
         value_box(
-            title = shiny::p("White teacher-student ratio in", input$edu_loc),
+            title = shiny::p("White teacher-student ratio in", input$edu_ratio_loc),
             value = shiny::p(paste0(ceiling(pct), ":1"), style = "font-size: 36px"),
             theme = "info",
             showcase = bs_icon("hand-index"),
@@ -257,7 +258,7 @@ server <- function(input, output, session) {
         data <- local_education_data() %>% filter(races == "Total Counts")
         pct <- data$total_student_count / data$total_educator_count
         value_box(
-            title = shiny::p("Total teacher-student ratio in", input$edu_loc),
+            title = shiny::p("Total teacher-student ratio in", input$edu_ratio_loc),
             value = shiny::p(paste0(ceiling(pct), ":1"), style = "font-size: 36px"),
             theme = "secondary",
             showcase = bs_icon("aspect-ratio"),
@@ -363,11 +364,7 @@ server <- function(input, output, session) {
     
     output$cohort_choropleth_map <- renderLeaflet({
         data <- cohort_grad_data()
-        # brainrot solution, please implement this in a more efficient way
-        # next semester's capstone team :3
-        
-        # minimum graduation rate across ENTIRE dataset is 72%
-        pal <- colorBin(continuous_pal, bins = 7, 70:100)
+        pal <- colorBin(continuous_pal, 70:100)
         map <- leaflet(data) %>%
             addPolygons(
                 color = "black",
