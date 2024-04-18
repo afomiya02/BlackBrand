@@ -14,6 +14,17 @@ source("sodem.r")
 source("education.r")
 source("economics.r")
 
+# color palettes
+discrete_pal <- c(
+    "Black" = "#531b1b",
+    "White" = "#f3bc7d",
+    "Asian" = "#fa6865",
+    "Hispanic" = "#d37334",
+    "Other" = "#6c6c6c"
+)
+
+continuous_pal <- "Reds"
+
 server <- function(input, output, session) {
     ### --- SOCIODEMOGRAPHICS --- ----------------------------------------------------------
     
@@ -54,7 +65,8 @@ server <- function(input, output, session) {
     ## LEAFLET OUTPUT
     output$pop_choropleth <- renderLeaflet({
         # Yellow-Orange-Red color palette used for all choropleth maps
-        pal <- colorBin("YlOrRd", heatmap_data$pct_black)
+        pal <- colorNumeric(continuous_pal, 
+                        min(heatmap_data$pct_black):max(heatmap_data$pct_black))
         sodem_choropleth <- leaflet() %>%
             addPolygons(
                 data = heatmap_data,
@@ -63,9 +75,9 @@ server <- function(input, output, session) {
                 weight = 1,
                 fillOpacity = 0.75,
                 popup = paste(
-                    "<h1>", heatmap_data$loc,"</h1>",
+                    "<h3>", heatmap_data$loc,"</h3>",
                     "<br><b>Total Population:</b>", heatmap_data$total_population,
-                    "<b>Median Age (years):</b>", heatmap_data$median_age_years,
+                    "<br><b>Median Age (years):</b>", heatmap_data$median_age_years,
                     "<br><b>Black Population (%):</b>", heatmap_data$pct_black
                 )
             ) %>%
@@ -81,7 +93,7 @@ server <- function(input, output, session) {
     })
     
     output$age_choropleth <- renderLeaflet({
-        pal <- colorBin("YlOrRd", heatmap_data$median_age_years)
+        pal <- colorBin(continuous_pal, 20:55)
         sodem_choropleth <- leaflet() %>%
             addPolygons(
                 data = heatmap_data,
@@ -90,9 +102,9 @@ server <- function(input, output, session) {
                 weight = 1,
                 fillOpacity = 0.75,
                 popup = paste(
-                    "<h1>", heatmap_data$loc,"</h1>",
+                    "<h3>", heatmap_data$loc,"</h3>",
                     "<br><b>Total Population:</b>", heatmap_data$total_population,
-                    "<b>Median Age (years):</b>", heatmap_data$median_age_years,
+                    "<br><b>Median Age (years):</b>", heatmap_data$median_age_years,
                     "<br><b>Black Population (%):</b>", heatmap_data$pct_black
                 )
             ) %>%
@@ -142,9 +154,10 @@ server <- function(input, output, session) {
     
     # total student population in loc
     output$edu_vb3 <- renderUI({
+        sum <- sum(local_education_data()$total_student_count)
         value_box(
             title = p("Total student population in", input$edu_loc),
-            value = p(sum(local_education_data()$total_student_count), style = "font-size: 36px"),
+            value = p(prettyNum(sum, big.mark = ","), style = "font-size: 36px"),
             theme = "primary",
             showcase = bs_icon("person"),
             showcase_layout = "top right"
@@ -174,6 +187,7 @@ server <- function(input, output, session) {
         inner_join(std, edu, by = c("division_name", "races")) 
     })
     
+    # TODO create percentiles instead of numbers for donut plots
     # creates donut graph for student demographics in loc
     output$student_race_plot <- renderPlot({
         hsize <- 3
@@ -188,6 +202,7 @@ server <- function(input, output, session) {
                   axis.title = element_blank(),
                   axis.ticks = element_blank(),
                   axis.text = element_blank()) +
+            scale_fill_manual(values = discrete_pal) +
             ggtitle(paste("Racial Distribution of Students in", input$edu_loc))
         p
     })
@@ -206,6 +221,7 @@ server <- function(input, output, session) {
                   axis.title = element_blank(),
                   axis.ticks = element_blank(),
                   axis.text = element_blank()) +
+            scale_fill_manual(values = discrete_pal) +
             ggtitle(paste("Racial Distribution of Educators in", input$edu_loc))
         p
     })
@@ -215,7 +231,7 @@ server <- function(input, output, session) {
         data <- local_education_data() %>% filter(races == "Black")
         pct <- data$total_student_count / data$total_educator_count
         value_box(
-            title = shiny::p("Black teacher to Black student ratio in", input$edu_loc),
+            title = shiny::p("Black teacher-student ratio in", input$edu_loc),
             value = shiny::p(paste0(ceiling(pct), ":1"), style = "font-size: 36px"),
             theme = "primary",
             showcase = bs_icon("hand-index"),
@@ -228,7 +244,7 @@ server <- function(input, output, session) {
         data <- local_education_data() %>% filter(races == "White")
         pct <- data$total_student_count / data$total_educator_count
         value_box(
-            title = shiny::p("White teacher to White student ratio in", input$edu_loc),
+            title = shiny::p("White teacher-student ratio in", input$edu_loc),
             value = shiny::p(paste0(ceiling(pct), ":1"), style = "font-size: 36px"),
             theme = "info",
             showcase = bs_icon("hand-index"),
@@ -241,12 +257,28 @@ server <- function(input, output, session) {
         data <- local_education_data() %>% filter(races == "Total Counts")
         pct <- data$total_student_count / data$total_educator_count
         value_box(
-            title = shiny::p("Total teacher to student ratio in", input$edu_loc),
+            title = shiny::p("Total teacher-student ratio in", input$edu_loc),
             value = shiny::p(paste0(ceiling(pct), ":1"), style = "font-size: 36px"),
             theme = "secondary",
             showcase = bs_icon("aspect-ratio"),
             showcase_layout = "top right"
         )
+    })
+    
+    # reactive that gets all necessary info for lollipop plot
+    # TODO create legend
+    st_lollipop <- reactive({
+        req(input$edu_races)
+        df <- st_data %>%
+            dplyr::filter(division_name %in% input$edu_loc) %>%
+            dplyr::filter(subgroup %in% input$edu_races) %>%
+            group_by(subgroup) %>% dplyr::summarise(
+                across(ends_with("pass_rate"), mean)
+            ) %>%
+            pivot_longer(!subgroup, names_to = "year", values_to = "pass_rate") %>%
+            dplyr::mutate(year = str_remove(year, "_pass_rate")) %>%
+            pivot_wider(names_from = subgroup, values_from = pass_rate)
+        df
     })
     
     # reactive that gets all necessary info for radar plot
@@ -265,58 +297,35 @@ server <- function(input, output, session) {
     # create radio plot with subetted data
     output$radar_plot <- renderPlotly({
         req(input$edu_races)
-        
+
         fig <- plot_ly(
             data = st_radar(),
             type = "scatterpolar",
-            mode = "lines+markers"
+            mode = "lines+markers",
+            colors = discrete_pal
         )
         
-        # TODO: CREATE PROPER FIXED COLOR PALETTE THAT MATCHES
-        # CHECKBOX INPUTS WITH ITS RESPECTIVE COLOR
-        
-        # iterate thru input$edu_races to get line for each race in plot
-        # have to wrap r and theta such that the values iterate like a circle
-        # (e.g [Black, White, Asian, Black])
         for (i in 1:length(input$edu_races)) {
             fig <- fig %>%
                 add_trace(r = as.numeric(unlist(c(st_radar()[input$edu_races[i], ], 
                                                   st_radar()[input$edu_races[i], 1]))), 
                           theta = unlist(c(colnames(st_radar()), colnames(st_radar())[1])),
+                          line = list(color = discrete_pal[input$edu_races[i]]),
+                          marker = list(color = discrete_pal[input$edu_races[i]]),
                           name = paste(input$edu_races[i], "Students"))
         }
         
         fig %>% layout(polar = list(radialaxis = list(visible = TRUE, range = c(0, 100))))
     })
     
-    # reactive that gets all necessary info for lollipop plot
-    st_lollipop <- reactive({
-        req(input$edu_races)
-        df <- st_data %>%
-            dplyr::filter(division_name %in% input$edu_loc) %>%
-            dplyr::filter(subgroup %in% input$edu_races) %>%
-            group_by(subgroup) %>% dplyr::summarise(
-                across(ends_with("pass_rate"), mean)
-            ) %>%
-            pivot_longer(!subgroup, names_to = "year", values_to = "pass_rate") %>%
-            dplyr::mutate(year = str_remove(year, "_pass_rate")) %>%
-            pivot_wider(names_from = subgroup, values_from = pass_rate)
-        df
-    })
-    
     # create lollipop plot
     output$lollipop_plot <- renderPlot({
         req(input$edu_races)
         
-        # TODO create separate legend w/ colors
-        # current theme (journal) colors
-        pal <- c("Black" = "#AAAAAA",
-                 "White" = "#EB6864",
-                 "Asian" = "#336699",
-                 "Hispanic" = "#F57A00")
+        pal <- discrete_pal
         
         # apply(df, 1, min or max) gets both mins and maxes from each row
-        p <- ggplot(st_lollipop(), aes(x = year)) + 
+        p <- ggplot(st_lollipop(), aes(x = year, color = pal)) + 
             geom_segment(aes(x = year, xend = year, y = apply(st_lollipop() %>% select(-year), 1, min), 
                              yend = apply(st_lollipop() %>% select(-year), 1, max)), color = "grey", linewidth = 1.5) +
             theme_minimal() + labs(x = "School Year", y = "Testing Pass Rate (%)")
@@ -326,10 +335,11 @@ server <- function(input, output, session) {
                 # sym() turns a string into a variable, i.e "Asian" becomes Asian and therefore
                 # becomes readable and fetches Asian from data frame
                 # !! unpacks these variables from input$edu_races[i]
-                geom_point(aes(x = year, y = !!sym(input$edu_races[i])), colour = pal[input$edu_races[i]], size = 5)
+                geom_point(aes(x = year, y = !!sym(input$edu_races[i]), 
+                               color = !!input$edu_races[i]), size = 5)
         }
         
-        p + ylim(0, 100)
+        p + ylim(0, 100) + scale_color_manual(name = "Demographic", values = pal)
     })
     
     # create choropleth data & map
@@ -357,7 +367,7 @@ server <- function(input, output, session) {
         # next semester's capstone team :3
         
         # minimum graduation rate across ENTIRE dataset is 72%
-        pal <- colorBin("YlOrRd", bins = 7, 70:100)
+        pal <- colorBin(continuous_pal, bins = 7, 70:100)
         map <- leaflet(data) %>%
             addPolygons(
                 color = "black",
