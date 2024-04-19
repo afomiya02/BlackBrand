@@ -203,7 +203,7 @@ server <- function(input, output, session) {
                   axis.title = element_blank(),
                   axis.ticks = element_blank(),
                   axis.text = element_blank()) +
-            scale_fill_manual(values = discrete_pal) +
+            scale_fill_manual(name = "Demographic", values = discrete_pal) +
             ggtitle(paste("Racial Distribution of Students in", input$edu_ratio_loc))
         p
     })
@@ -222,7 +222,7 @@ server <- function(input, output, session) {
                   axis.title = element_blank(),
                   axis.ticks = element_blank(),
                   axis.text = element_blank()) +
-            scale_fill_manual(values = discrete_pal) +
+            scale_fill_manual(name = "Demographic", values = discrete_pal) +
             ggtitle(paste("Racial Distribution of Educators in", input$edu_ratio_loc))
         p
     })
@@ -248,7 +248,7 @@ server <- function(input, output, session) {
             title = shiny::p("White teacher-student ratio in", input$edu_ratio_loc),
             value = shiny::p(paste0(ceiling(pct), ":1"), style = "font-size: 36px"),
             theme = "info",
-            showcase = bs_icon("hand-index"),
+            showcase = bs_icon("backpack"),
             showcase_layout = "top right"
         )
     })
