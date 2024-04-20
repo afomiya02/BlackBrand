@@ -27,6 +27,8 @@ ui <- page_navbar(
             fluidRow(
                 style = "margin: 2px",
                 align = "center",
+                # create markdown files for any text you want to include
+                # and call them using includeMarkdown() in the markdown library
                 includeMarkdown("markdown/overview/title.md"),
             ),
             br(""),
@@ -263,7 +265,7 @@ ui <- page_navbar(
                             # fall 2024 team :)
                             card_header("Black vs. Total Homeowners in Hampton Roads"),
                             card_body(leafletOutput("homeownership_map"), class = "p-0"),
-                            card_footer("Source: ???")
+                            card_footer("Source: ACS 5 Year Estimates Table S2505")
                         )
                     )
                 )     

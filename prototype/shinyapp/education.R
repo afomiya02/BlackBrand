@@ -167,35 +167,25 @@ preprocess_cohort_graduation_data <- function() {
 
 cohort_pass_rates <- preprocess_cohort_graduation_data()
 
-# REGRESSING MISSING VALUES USING LINEAR REGRESSION
-# some values may be off since adjr2 = 37%
-# aka this only accounts for 37% of data
-# fit <- lm(graduation_rate ~ ., data = cohort_pass_rates)
-# 
-# cohort_pass_rates <- cohort_pass_rates %>%
-#     rowwise() %>%
-#     mutate(graduation_rate = ifelse(is.na(graduation_rate), 
-#                                     predict(fit, newdata = across(everything())), 
-#                                     graduation_rate)) %>%
-#     mutate(graduation_rate = round(graduation_rate, 2)) %>%
-#     ungroup()
-    
 # Function to assist inner joining several standardized testing pass rates
 #
 # Returns:
 #   inner-joined data frame
 preprocess_subject_pass_rates <- function() {
     # this df will keep all the subgroups together
+    # standardized testing from 2013-2016
     df1 <- read_excel("data/VDOE/subject/subject_pass_rates_2013-2016.xlsx") %>%
         set_names(unlist(.[1,])) %>% slice(-1) %>%
         mutate_at("Div Num", as.numeric) %>%
         filter(!grepl("Limited", Subgroup)) # limited english proficient only exists here
     
     # will only keep the pass rates
+    # standardized testing from 2016-2019
     df2 <- read_excel("data/VDOE/subject/subject_pass_rates_2016-2019.xlsx") %>%
         mutate_at("Div Num", as.numeric)
     
     # only keeps pass rates and drops 
+    # testing from 2020-2023
     df3 <- read_excel("data/VDOE/subject/subject_pass_rates_2020-2023.xlsx") %>%
         filter(!grepl("Remote", Subject)) %>%
         mutate_at("Div Num", as.numeric)
@@ -205,6 +195,7 @@ preprocess_subject_pass_rates <- function() {
     df <- inner_join(df1, df2, by = c("Div Num", "Subgroup", "Subject")) %>%
         inner_join(., df3, by = c("Div Num", "Subgroup", "Subject")) %>%
         select_at(vars(-ends_with(c("x", "y", "Level")))) %>%
+        mutate_at(vars(ends_with("Pass Rate")), na_if, "<") %>%
         mutate_at(vars(ends_with("Pass Rate")), as.numeric) %>%
         # make strings tolower with underscores and no colons
         mutate_if(is.character, tolower) %>%
@@ -216,13 +207,16 @@ preprocess_subject_pass_rates <- function() {
         # and ONLY compare races
         filter(division_name %in% hampton_roads_edu_localities) %>%
         filter(subgroup %in% c("all students", "asian", "black", "hispanic", "white")) %>%
-        select(-div_num) %>%
-        # TODO regress NA values
-        # next semester's team: Make sure to research why these NAs are happening.
-        # for the most part the NA values are because there aren't enough samples to
-        # be collected, i.e in Franklin's case there just simply aren't enough samples
-        # to be collected. it's a good idea to take a good look
-        drop_na()
+        select(-div_num)
+
+    # next semester's team: a LOT of NAs are happening because there isn't enough sample
+    # data given that some populations are very small, and even smaller when split into different
+    # demographics.
+    
+    # as your sponsors what do do with these NAs -- you can possibly regress or impute these with
+    # an estimate (i hihgly recommend NOT doing this as it's unethical to make up real-world data),
+    # or to just leave these alone. the plots taking care of these already handle NA values so
+    # it's your choice <3
 
     return(df)
 }

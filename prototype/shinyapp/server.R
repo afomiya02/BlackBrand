@@ -125,8 +125,14 @@ server <- function(input, output, session) {
     
     # black student % in loc
     output$edu_vb1 <- renderUI({
-        prop <- local_education_data() %>% filter(races == "Black") %>% select(total_student_count) /
-            sum(local_education_data()$total_student_count)
+        black <- local_education_data() %>% 
+            filter(races == "Black") %>% 
+            select(total_student_count)
+        total <- local_education_data() %>%
+            filter(races == "Total Counts") %>%
+            select(total_student_count)
+        
+        prop <- black / total
         
         value_box(
             title = p("Percentage of Black students in", input$edu_loc),
@@ -173,6 +179,8 @@ server <- function(input, output, session) {
             arrange(desc(total_student_count)) %>%
             filter(!grepl("total_student_count", races)) %>%
             mutate(total_student_count = as.numeric(total_student_count)) %>%
+            # max(total_student_count) will always be the total count
+            mutate(student_pct = round(total_student_count / max(total_student_count), 2) * 100) %>%
             mutate_if(is.character, str_replace_all, "_", " ") %>%
             mutate_if(is.character, str_to_title)
         
@@ -182,6 +190,7 @@ server <- function(input, output, session) {
             arrange(desc(total_educator_count)) %>%
             filter(!grepl("total_educator_count", races)) %>%
             mutate(total_educator_count = as.numeric(total_educator_count)) %>%
+            mutate(educator_pct = round(total_educator_count / max(total_educator_count), 2) * 100) %>%
             mutate_if(is.character, str_replace_all, "_", " ") %>%
             mutate_if(is.character, str_to_title)
         
@@ -191,11 +200,14 @@ server <- function(input, output, session) {
     # TODO create percentiles instead of numbers for donut plots
     # creates donut graph for student demographics in loc
     output$student_race_plot <- renderPlot({
-        hsize <- 3
+        # size of blank space for donut
+        hsize <- 3 
         data <- local_education_data() %>% filter(races != "Total Counts")
+        
         p <- ggplot(data, aes(x = hsize, y = total_student_count, fill = races)) +
             geom_col(color = "black") +
-            geom_text(aes(x = 2.1, label = total_student_count), position = position_stack(vjust = 0.5)) +
+            geom_text(aes(x = 2.1, label = paste0(student_pct, "%")), 
+                          position = position_stack(vjust = 0.5)) +
             coord_polar(theta = "y") +
             xlim(c(0.2, hsize + 0.5)) +
             theme(panel.background = element_rect(fill = "white"),
@@ -214,7 +226,8 @@ server <- function(input, output, session) {
         data <- local_education_data() %>% filter(races != "Total Counts")
         p <- ggplot(data, aes(x = hsize, y = total_educator_count, fill = races)) +
             geom_col(color = "black") +
-            geom_text(aes(x = 2.1, label = total_educator_count), position = position_stack(vjust = 0.5)) +
+            geom_text(aes(x = 2.1, label = paste0(educator_pct, "%")), 
+                      position = position_stack(vjust = 0.5)) +
             coord_polar(theta = "y") +
             xlim(c(0.2, hsize + 0.5)) +
             theme(panel.background = element_rect(fill = "white"),
@@ -324,13 +337,18 @@ server <- function(input, output, session) {
         req(input$edu_races)
         
         pal <- discrete_pal
+        data <- st_lollipop()
         
         # apply(df, 1, min or max) gets both mins and maxes from each row
-        p <- ggplot(st_lollipop(), aes(x = year, color = pal)) + 
-            geom_segment(aes(x = year, xend = year, y = apply(st_lollipop() %>% select(-year), 1, min), 
-                             yend = apply(st_lollipop() %>% select(-year), 1, max)), color = "grey", linewidth = 1.5) +
+        # add data + line segments for the plot
+        p <- ggplot(data, aes(x = year, color = pal)) + 
+            geom_segment(aes(x = year, xend = year, 
+                             y = apply(data %>% select(-year), 1, min), 
+                             yend = apply(data %>% select(-year), 1, max)), 
+                         color = "grey", linewidth = 1.5) +
             theme_minimal() + labs(x = "School Year", y = "Testing Pass Rate (%)")
         
+        # add points for each demographic user wants to show
         for (i in 1:length(input$edu_races)) {
             p <- p +
                 # sym() turns a string into a variable, i.e "Asian" becomes Asian and therefore
@@ -340,6 +358,7 @@ server <- function(input, output, session) {
                                color = !!input$edu_races[i]), size = 5)
         }
         
+        # finish plot with limits and legend
         p + ylim(0, 100) + scale_color_manual(name = "Demographic", values = pal)
     })
     
