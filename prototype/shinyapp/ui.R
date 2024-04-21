@@ -12,7 +12,7 @@ source("sodem.r")
 source("education.r")
 source("economics.r")
 source("media.r")
-
+source("people_values.r")
 ui <- page_navbar(
     title = img(src="logo_WIDE.png"),
     selected = "overview",
@@ -490,7 +490,8 @@ ui <- page_navbar(
                             ),
                             card_footer("Data Source: ACS 5 Year Estimates Table S2101")
                         )
-                    )
+                        
+                    ), card_footer("Data Source: ACS 5 Year Estimates Table S2101"),
                 )
             ),
             nav_panel(
@@ -730,6 +731,154 @@ ui <- page_navbar(
                             card_header(strong("Diversity Bag"), align = "center"),
                             withSpinner(plotOutput("div_by_pos_and_neg")),
                             card_footer("Derived from Bag of Words Text Analytics Algorithm")
+                        )
+                    )
+                )
+            )
+        )
+    ),
+    ## People & Values tab -------------------------------------------------------
+    nav_panel(
+        title = "People & Values",
+        navset_card_underline(
+            nav_panel(
+                title = "Family Dynamic",
+                layout_sidebar(
+                    sidebar = sidebar(
+                        title = "Family Dynamic",
+                        class = "scrollable-sidebar",
+                        width = validateCssUnit("25%"),
+                        includeMarkdown("markdown/people_values/family_dynamic.Rmd"),
+                        withSpinner(textOutput("description_famtext"))
+                    ),
+                    layout_column_wrap(
+                        card(
+                            card_header(strong("Family Dynamics"), align = "center"),
+                            selectInput(
+                                "select_family",
+                                "Select Indicator:",
+                                width = "100%",
+                                choices = c(
+                                    "Percent of Black Children under 18 in Female Head of Household",
+                                    "Percent of Married Black Population 15 years and over",
+                                    "Percent of Black Grandparents who are Guardians")
+                            ),
+                            withSpinner(leafletOutput("family_maps")),
+                            card_footer("Data Source: ACS 5 Year Estimates Tables: S0901, S2201, S0701, S1002, S1201, S0802, S2802")
+                        )
+                    )
+                )
+            ),
+            nav_panel(
+                title = "Religion",
+                layout_sidebar(
+                    sidebar = sidebar(
+                        title = "Religion",
+                        class = "scrollable-sidebar",
+                        width = validateCssUnit("25%"),
+                        includeMarkdown("markdown/people_values/religion.Rmd"),
+                    ),
+                    layout_column_wrap(
+                        card(
+                            card_header(strong("Religion"), align = "center"),
+                            selectInput(
+                                "select_rel",
+                                "Select Religion:",
+                                width = "100%",
+                                choices = c('Christianity', 'Judaism', 'Budhism','Hindu', 'Islam')
+                            ),
+                            withSpinner(leafletOutput("religion")), 
+                            card_footer("Data Source: 2010 U.S. Religion Census: Religious Congregations & Membership Study")
+                        )
+                    )
+                )
+            ),
+            nav_panel(
+                title = "Financial Literacy",
+                layout_sidebar(
+                    sidebar = sidebar(
+                        title = "Financial Literacy Score",
+                        class = "scrollable-sidebar",
+                        width = validateCssUnit("25%"),
+                        includeMarkdown("markdown/people_values/financial_lit.Rmd"),
+                    ),
+                    layout_column_wrap(
+                        card(
+                            card_header(strong("Financial Literacy Measured Using VA Survey Data"), align = "center"),
+                            tabsetPanel(
+                                tabPanel(
+                                    "Financial Literacy Score",
+                                    h4(strong("Scores by Race"), align = "center"),
+                                    withSpinner(plotOutput("financial_literacy")), 
+                                ),
+                                tabPanel(
+                                    "Credit Score",
+                                    h4(strong("Credit Scores by Race"),align = "center"),
+                                    withSpinner(plotlyOutput("credit_scores"))
+                                ),
+                                tabPanel(
+                                    "Knowledge Gap",
+                                    h4(strong( "Answered Do Not Know to Any Question by Race"), align = "center"),
+                                    withSpinner(plotlyOutput("dont_know", height = "700px")),
+                                )
+                            ),
+                            card_footer("Data Source: OECD/INFE National Survey")
+                        )
+                    )
+                )
+            ),
+            nav_panel(
+                title = "Financial Banks",
+                layout_sidebar(
+                    sidebar = sidebar(
+                        title = "Food Banks",
+                        class = "scrollable-sidebar",
+                        width = validateCssUnit("25%"),
+                        includeMarkdown("markdown/people_values/food_banks.Rmd"),
+                    ),
+                    layout_column_wrap(
+                        card(
+                            card_header(strong("Food Banks"), align = "center"),
+                            tabsetPanel(
+                                tabPanel(
+                                    "Food Bank Locations", 
+                                    withSpinner(leafletOutput("foodBanksLeaflet")),
+                                ),
+                                tabPanel(
+                                    "Food Banks in Localities",
+                                    withSpinner(plotlyOutput("numFoodBanksLocalities")), 
+                                )
+                            ),card_footer("Data Source: Google Maps API places")
+                        )
+                    )
+                )
+            ), 
+            nav_panel(
+                title = "Food Insecurity",
+                layout_sidebar(
+                    sidebar = sidebar(
+                        title = "Food Insecurity",
+                        class = "scrollable-sidebar",
+                        width = validateCssUnit("25%"),
+                        includeMarkdown("markdown/people_values/food_insecurity.Rmd"),
+                    ),           
+                    layout_column_wrap(
+                        card(
+                            card_header(strong("Food Insecurity"), align = "center"),
+                            tabsetPanel(
+                                tabPanel(
+                                    "Poverty Rates", 
+                                    withSpinner(leafletOutput("povertyRateMap")),
+                                ),
+                                tabPanel(
+                                    "African Population Low Access Markets (Half Mile)",
+                                    withSpinner(leafletOutput("lowAccessAF")), 
+                                ), 
+                                tabPanel(
+                                    "African Population Low Access Markets (One Mile)",
+                                    withSpinner(leafletOutput("lowAccessAF1")), 
+                                )
+                            ),card_footer("Data Source: US Department of Agriculture")
                         )
                     )
                 )

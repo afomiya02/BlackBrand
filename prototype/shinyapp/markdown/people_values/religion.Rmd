@@ -1,0 +1,5 @@
+The people and values pillar is designed with Maslow's hierarchy of needs in mind. DESCRIPTION OF MASLOWS
+
+Are the spiritual needs of citizens in Hampton Roads being met by the churches? We can begin to unpack this question by looking at some religious data from ARDA. Using this source we can picture the religious needs of each county and city.
+
+The plot on the right indicates how prominent a religion is in the cities and counties of Hampton Roads. An NA value, gray on the map, indicates that the database has no information about congregations for that religion in that area. This either happens when there are no congregations in that area for that religion, or when there are congregations in the region but they were not included in the survey (did not respond, weren’t found).

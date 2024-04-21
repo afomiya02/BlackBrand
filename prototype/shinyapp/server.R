@@ -929,6 +929,14 @@ server <- function(input, output, session) {
     RadioStations(input,output,session)
     headquarter_sentiment_deversity(input,output,session)
     # End of Media/Entertainment Tab -----------------------------------------------
+
+    # People and Values Tab -----------------------------------------------
+    family_dynamic(input,output,session)
+    religion(input,output,session)
+    financial_lit(input,output,session)
+    foodbanks(input,output,session)
+    food_insecurity(input,output,session)
+    # People and Values Tab -----------------------------------------------
 }
 
 return(server)
