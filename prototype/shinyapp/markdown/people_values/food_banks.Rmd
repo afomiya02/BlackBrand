@@ -1,0 +1,9 @@
+Using Google Maps API we were able to collect around 60 different food bank locations within the Hampton Roads area. We did this by choosing three central coordinate points and using a radius search around those three points of 50,000 meters, Google Maps returned a list of locations that met the search criteria. In our case, it was locations that included 'Food Bank' or 'Food Pantry'.
+
+After the search was made, we parsed through all of the locations, adding which locality they were in and removed the locations that were outside of the bounds we were searching for.
+
+This process yielded a few interesting findings. In the plots to the right we can see the spread of food bank locations in all of the localities.
+
+Interestingly enough, both Southampton, and Poquoson did not have any returned food bank locations. Being as big as Southampton is, it was surprising to see nothing in the area in terms of food security resources
+
+We also see that Norfolk and Hampton have the most amounts of food banks, which would mean that higher populated areas, or more food insecure places have more of a focus on providing resources such as food banks or pantries to their communities.

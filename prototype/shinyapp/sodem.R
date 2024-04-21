@@ -30,10 +30,8 @@ hampton_roads_localities <- c(
 ## ALL RACE & AGE DEMOGRAPHICS FOUND IN THE 5-YEAR DP05 TABLE 
 ## IN THE AMERICAN CENSUS SURVEY TABLES
 
-## ALL EDUCATIONAL DATA FOUND IN THE VDOE STATISTICS TAB
-## https://p1pe.doe.virginia.gov/apex_captcha/home.do?apexTypeId=304 FOR STUDENT DATA
-## https://www.doe.virginia.gov/teaching-learning-assessment/teaching-in-virginia/education-workforce-data-reports FOR EDUCATOR DATA
-
+## ACS link to DP05 tables:
+#
 
 # Preprocesses all sociodemographic data for grouping purposes
 # 
@@ -44,7 +42,7 @@ hampton_roads_localities <- c(
 preprocess_sodem_data <- function(path) {
   df <- read.csv(path) %>%
     `colnames<-`(c("label", "estimate", "moe", "pct_estimate", "pct_moe")) %>%
-    mutate_all(str_trim) %>%# trim whitespace (tolower gave off weird symbols to whitespace)
+    mutate_all(str_trim) %>% # trim whitespace (tolower gave off weird symbols to whitespace)
     mutate(., across(.cols = everything(), tolower)) %>%
     mutate_all(str_replace_all, " ", "_") %>%
     mutate_all(str_replace_all, " |[()]|,", "") %>%
@@ -61,7 +59,7 @@ preprocess_sodem_data <- function(path) {
 
 # gets all 2022 ACS DP05 data for median age + black population choropleth
 # check functions.R for more info
-filenames <- list.files("data/ACS_DP05", pattern = "*.csv", full.names = TRUE)
+filenames <- list.files("data/sodem", pattern = "*.csv", full.names = TRUE)
 sodem_data <- lapply(filenames, preprocess_sodem_data)
 sodem_data <- bind_rows(sodem_data)
 

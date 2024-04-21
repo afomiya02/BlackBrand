@@ -1,0 +1,9 @@
+The data we pull from that measures financial literacy is a national survey done by the Federal Reserve. Because most of this data was categorical, there were not many metrics to measure by. Some responses that were interesting are visualized below. All of the data used in this scenario is from Virginia, but is not focused on the Hampton Roads area. This is because the data does not exist publicly at the time of this paper. We see the average scores on the financial literacy assessment portion of this survey. The thickness of each boxplot represents the number of respondents that are of that race. We can see that the average score of the black survey respondents (in blue) is slightly lower than the average score of the white respondents (in pink).
+
+**Credit Score Ranking**
+
+In the credit score tab, we can see the credit score by race. If respondents did not know their credit score, they were able to let the surveyors know that by responding “don’t know”. This plot shows the number of people that have credit scores in each category. Excellent represents a credit score of 800 or more. Good credit scores fall between 740 and 799. Fair credit scores fall between 670 and 739. Poor credit scores fall between 580 and 669, and very poor credit scores fall between 300 and 579 (Experian). The respondent population is not equal across races, so the counts in this plot could be misleading. However, we can see that the majority of black respondents have a good credit score while the majority of white respondents have an excellent score.
+
+**Knowledge Gap**
+
+In the last plot we are looking at how many respondents answered “I don’t know” to any of the financial literacy assessment questions. Black respondents did best in this area, most of them did not respond “I don’t know” throughout the survey.
