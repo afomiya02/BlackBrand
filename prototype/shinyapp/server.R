@@ -930,7 +930,405 @@ server <- function(input, output, session) {
     RadioStations(input,output,session)
     headquarter_sentiment_deversity(input,output,session)
     # End of Media/Entertainment Tab -----------------------------------------------
-
+    ### ---Politics/Justice Tab ---------------------
+    # Render the Traffic Race plot
+    output$trafficRace <- renderPlot({
+      # Call the function to read the data
+      data <- read_traffic_data()
+      
+      # Analyze the data
+      print(is.data.frame(data))  # Check if data is a data frame
+      print(ncol(data))            # Print the number of columns
+      print(nrow(data))            # Print the number of rows
+      
+      # Create the Race Count plot
+      trafficRace <- ggplot(data, aes(x = RACE)) +  
+        theme_fivethirtyeight() +                    # Set theme to fivethirtyeight
+        geom_bar(fill = "firebrick4") +          # Add bar plot with blue fill
+        geom_text(aes(label = ..count..), stat = "count", vjust = -0.5, colour = "grey") +  # Add count labels
+        labs(x = "Race", y = "Count", title = "Demographics of Traffic Stops") +  # Add axis and title labels
+        theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 15),       # Set x-axis text properties
+              axis.text.y = element_text(hjust = 1, size = 15),                   # Set y-axis text properties
+              plot.title = element_text(color = "black", size = 24)) +             # Set plot title properties
+        ylim(0, 10500) +                                                          # Set y-axis limits
+        theme(panel.grid.major.x = element_blank())                               # Remove vertical grid lines
+      
+      # Render the plot
+      trafficRace
+    })
+    
+    # Race and Jurisdiction
+    # Render the Jurisdiction plot
+    output$jurisdiction <- renderPlot({
+      # Call the function to read the data
+      data <- read_traffic_data()
+      
+      # Create the Race vs Jurisdiction plot
+      jurisdiction <- ggplot(data, aes(x = JURISDICTION, fill = RACE)) +
+        geom_bar(position = "dodge") +                   # Add dodged bar plot
+        theme_fivethirtyeight() +                         # Set theme to fivethirtyeight
+        theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 15),       # Set x-axis text properties
+              axis.text.y = element_text(hjust = 1, size = 15),                   # Set y-axis text properties
+              plot.title = element_text(color = "black", size = 24, face = "bold"),  # Set plot title properties
+              legend.text=element_text(size=15)) +                                # Set legend text properties
+        ylim(0, 2000)                                  # Set y-axis limits
+      
+      jurisdiction
+    })
+    
+    #Toggle Jurisdictions
+    
+    # Reactive variable for selected stop
+    var_stop <- reactive(input$select_stop)
+    
+    # Render plot for Race vs Age for selected jurisdiction
+    output$jurisdiction2 <- renderPlot({
+      # Read the CSV data
+      data <- read_traffic_data()
+      
+      # Filter data based on selected jurisdiction
+      jurisdiction2 <- data %>% 
+        filter(JURISDICTION == var_stop()) %>%         # Filter data based on selected jurisdiction
+        ggplot(aes(y = RACE, x = AGE, color = RACE)) + # Create scatter plot
+        theme_fivethirtyeight() +                      # Set theme to fivethirtyeight
+        geom_boxplot(size = 1, outlier.shape = 1,      # Add boxplot with specified properties
+                     outlier.color = "black",
+                     outlier.size = 3) +
+        geom_jitter(alpha = 0.25, width = .2) +        # Add jittered points
+        labs(title = "Traffic Stops Data") +           # Set plot title
+        theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 10),       # Set x-axis text properties
+              axis.text.y = element_text(hjust = 1, size = 15),                   # Set y-axis text properties
+              plot.title = element_text(color = "black", size = 24, face = "bold"),  # Set plot title properties
+              legend.position = "none") +              # Remove legend
+        coord_flip()                                   # Flip coordinates to horizontal
+      
+      jurisdiction2
+    })
+    
+   
+    # City council demographics Race
+    output$cityd <- renderPlot({
+      # Read data
+      data <- read_race()
+      police_df <- data$police_df
+      politicans_df <- data$politicans_df
+      
+      # Calculate total counts of Black and White individuals in police department
+      police_sum <- data.frame('black' = sum(police_df$Black, na.rm = TRUE),
+                               'white' = sum(police_df$White, na.rm = TRUE))
+      
+      # Plot City Council demographics by race
+      cityd <- politicans_df %>%
+        pivot_longer(4:7, names_to = 'demographic') %>%       # Reshape data for plotting
+        mutate(demographic = str_sub(demographic,  14)) %>%   # Extract demographic information
+        select(-c(Mayor, Vice.Mayor)) %>%                    # Remove Mayor and Vice Mayor columns
+        filter(demographic == 'White' | demographic == 'Black') %>%  # Filter for White and Black demographics
+        ggplot(aes(x = City, y = value, fill = demographic)) +   # Set up plot aesthetics
+        geom_bar(stat = 'identity', position = 'dodge') +       # Add dodged bar plot
+        theme_fivethirtyeight() +                               # Set theme to fivethirtyeight
+        theme(axis.title.y = element_text(),                    # Set y-axis title properties
+              axis.title = element_text(),                      # Set x-axis title properties
+              axis.text.x = element_text(angle = 45, size = 13, hjust = 1),  # Set x-axis text properties
+              axis.text.y = element_text(hjust = 1, size = 15),  # Set y-axis text properties
+              legend.text = element_text(size = 20),            # Set legend text properties
+              legend.title = element_blank()) +                  # Remove legend title
+        ggtitle('City Council Demographics by Race 2021') +      # Set plot title
+        ylab('count')                                           # Set y-axis label
+      
+      cityd  # Return the plot
+    })
+    
+    # City council demographics Gender
+    output$cityd2 <- renderPlot({
+      # Read data
+      data <- read_gender()
+      politicans_df <- data$politicans_df
+      
+      # Plot City Council demographics by gender
+      cityd2 <- politicans_df %>%
+        pivot_longer(4:7, names_to = 'demographic') %>%       # Reshape data for plotting
+        mutate(demographic = str_sub(demographic,  14)) %>%   # Extract demographic information
+        select(-c(Mayor, Vice.Mayor)) %>%                    # Remove Mayor and Vice Mayor columns
+        filter(demographic == 'Female' | demographic == 'Male') %>%  # Filter for Female and Male demographics
+        ggplot(aes(x = City, y = value, fill = demographic)) +   # Set up plot aesthetics
+        geom_bar(stat = 'identity', position = 'dodge') +       # Add dodged bar plot
+        theme_fivethirtyeight() +                               # Set theme to fivethirtyeight
+        theme(axis.title.y = element_text(),                    # Set y-axis title properties
+              axis.title = element_text(),                      # Set x-axis title properties
+              axis.text.x = element_text(angle = 45, size = 13, hjust = 1),  # Set x-axis text properties
+              axis.text.y = element_text(size = 15),            # Set y-axis text properties
+              legend.text = element_text(size = 20),            # Set legend text properties
+              legend.title = element_blank()) +                  # Remove legend title
+        ggtitle('City Council Demographics by Gender 2021') +     # Set plot title
+        ylab('count')                                           # Set y-axis label
+      
+      cityd2  # Return the plot
+    })
+    
+    # Jail plots
+    var_jailChoice <- reactive({
+      input$select_jailChoice
+    })
+    
+    # Jail plots for Jail Population
+    output$jail <- renderPlot({
+      # Call the function to read the data
+      data_info <- read_jail_data(var_jailChoice())
+      data <- data_info$data
+      title <- data_info$title
+      
+      # Plotting graph
+      jail <- data %>%
+        group_by(year) %>%
+        summarise(black = sum(black_jail_pop, na.rm = TRUE) / sum(black_pop_15to64, na.rm = TRUE) * 100000,
+                  white = sum(white_jail_pop, na.rm = TRUE) / sum(white_pop_15to64, na.rm = TRUE) * 100000,
+                  asian.pi = sum(aapi_jail_pop, na.rm = TRUE) / sum(aapi_pop_15to64, na.rm = TRUE) * 100000,
+                  latinx = sum(latinx_jail_pop, na.rm = TRUE) / sum(latinx_pop_15to64, na.rm = TRUE) * 100000,
+                  native.amer = sum(native_jail_pop, na.rm = TRUE) / sum(native_pop_15to64, na.rm = TRUE) * 100000) %>%
+        pivot_longer(cols = 2:6, names_to = 'race.ethnicity', values_to = 'jail.rate.per.100k') %>%
+        ungroup() %>%
+        arrange(desc(year), desc(jail.rate.per.100k)) %>%
+        mutate(label = ifelse(year == 2018, race.ethnicity, '')) %>%
+        ggplot() +
+        geom_line(aes(year, jail.rate.per.100k, col = race.ethnicity), size = 2.5) +
+        theme_fivethirtyeight() +
+        scale_colour_viridis_d() +
+        ggtitle(paste('Jail Rate per 100,000 ages 15-64 for', title)) +
+        scale_x_continuous(breaks = scales::pretty_breaks(n = 10)) +
+        scale_y_continuous(breaks = scales::pretty_breaks(n = 3)) +
+        theme(legend.text = element_text(size = 20), legend.title = element_blank(),
+              axis.text.x = element_text(size = 15), axis.text.y = element_text(size = 15)) +
+        xlim(1990, 2020) + ylim(0, 2000)
+      
+      jail
+    })
+    
+    # Pie plots
+    # Reactive expression to get the selected year from the input
+    var_pieYear <- reactive({
+      input$select_pieYear
+    })
+    
+    # Render pie plot for Jail Population
+    output$pie_plots1 <- renderHighchart({
+      # Read data from CSV file
+      va_hampton_roads_incarceration_trends <- read.csv('data/politics/incarceration/va_hampton_roads_incarceration_trends.csv')
+      
+      # Filter data for the selected year
+      col_plot <- va_hampton_roads_incarceration_trends %>%
+        filter(year == var_pieYear()) %>% # Filter by selected year
+        select(year, black_jail_pop, black_pop_15to64, latinx_jail_pop, latinx_pop_15to64,
+               native_jail_pop, native_pop_15to64, white_jail_pop, white_pop_15to64,
+               aapi_jail_pop, aapi_pop_15to64, other_race_jail_pop, total_jail_pop, total_pop_15to64) %>%
+        summarise(
+          black_jail = round(sum(black_jail_pop, na.rm = TRUE) / sum(total_jail_pop, na.rm = TRUE) * 100, 0),
+          black_pop = round(sum(black_pop_15to64, na.rm = TRUE) / sum(total_pop_15to64, na.rm = TRUE) * 100, 0),
+          native_jail = round(sum(native_jail_pop, na.rm = TRUE) / sum(total_jail_pop, na.rm = TRUE) * 100, 0),
+          native_pop = round(sum(native_pop_15to64, na.rm = TRUE) / sum(total_pop_15to64, na.rm = TRUE) * 100, 0),
+          aapi_jail = round(sum(aapi_jail_pop, na.rm = TRUE) / sum(total_jail_pop, na.rm = TRUE) * 100, 0),
+          aapi_pop = round(sum(aapi_pop_15to64, na.rm = TRUE) / sum(total_pop_15to64, na.rm = TRUE) * 100, 0),
+          white_jail = round(sum(white_jail_pop, na.rm = TRUE) / sum(total_jail_pop, na.rm = TRUE) * 100, 0),
+          white_pop = round(sum(white_pop_15to64, na.rm = TRUE) / sum(total_pop_15to64, na.rm = TRUE) * 100, 0),
+          latinx_jail = round(sum(latinx_jail_pop, na.rm = TRUE) / sum(total_jail_pop, na.rm = TRUE) * 100, 0),
+          latinx_pop = round(sum(latinx_pop_15to64, na.rm = TRUE) / sum(total_pop_15to64, na.rm = TRUE) * 100, 0),
+          other_jail = round(sum(other_race_jail_pop, na.rm = TRUE) / sum(total_pop_15to64, na.rm = TRUE) * 100, 0)
+        ) %>%
+        pivot_longer(cols = 1:10, values_to = 'prop', names_to = 'race.ethnicity') %>%
+        mutate(
+          class = case_when(
+            race.ethnicity == 'black_jail' | race.ethnicity == 'black_pop' ~ 'black',
+            race.ethnicity == 'white_jail' | race.ethnicity == 'white_pop' ~ 'white',
+            race.ethnicity == 'aapi_jail' | race.ethnicity == 'aapi_pop' ~ 'asian.pi',
+            race.ethnicity == 'latinx_jail' | race.ethnicity == 'latinx_pop' ~ 'latinx',
+            race.ethnicity == 'native_jail' | race.ethnicity == 'native_pop' ~ 'native',
+            race.ethnicity == 'other_jail' ~ 'other'
+          ),
+          type = case_when(
+            str_sub(race.ethnicity, -4) == 'jail' ~ 'Jail Population',
+            str_sub(race.ethnicity, -3) == 'pop' ~ 'Total Population'
+          )
+        ) %>%
+        arrange(desc(type)) %>%
+        ungroup() %>%
+        group_by(race.ethnicity) %>%
+        mutate(label.pos = prop / 2)
+      
+      # Filter data for Jail Population and create pie chart
+      pie_plots1 <- col_plot %>%
+        filter(type == 'Jail Population') %>%
+        mutate(race.ethnicity = str_sub(race.ethnicity, 1, -6)) %>%
+        hchart(
+          "pie", hcaes(x = race.ethnicity, y = prop),
+          name = paste0("Percentage of Jail Population ", var_pieYear())
+        )
+      
+      pie_plots1
+    })
+    
+    # Render pie plot for Total Population
+    output$pie_plots2 <- renderHighchart({
+      # Read data from CSV file
+      va_hampton_roads_incarceration_trends <- read.csv('data/politics/incarceration/va_hampton_roads_incarceration_trends.csv')
+      
+      # Filter data for the selected year
+      col_plot <- va_hampton_roads_incarceration_trends %>%
+        filter(year == var_pieYear()) %>% # Filter by selected year
+        select(year, black_jail_pop, black_pop_15to64, latinx_jail_pop, latinx_pop_15to64,
+               native_jail_pop, native_pop_15to64, white_jail_pop, white_pop_15to64,
+               aapi_jail_pop, aapi_pop_15to64, other_race_jail_pop, total_jail_pop, total_pop_15to64) %>%
+        summarise(
+          black_jail = round(sum(black_jail_pop, na.rm = TRUE) / sum(total_jail_pop, na.rm = TRUE) * 100, 0),
+          black_pop = round(sum(black_pop_15to64, na.rm = TRUE) / sum(total_pop_15to64, na.rm = TRUE) * 100, 0),
+          native_jail = round(sum(native_jail_pop, na.rm = TRUE) / sum(total_jail_pop, na.rm = TRUE) * 100, 0),
+          native_pop = round(sum(native_pop_15to64, na.rm = TRUE) / sum(total_pop_15to64, na.rm = TRUE) * 100, 0),
+          aapi_jail = round(sum(aapi_jail_pop, na.rm = TRUE) / sum(total_jail_pop, na.rm = TRUE) * 100, 0),
+          aapi_pop = round(sum(aapi_pop_15to64, na.rm = TRUE) / sum(total_pop_15to64, na.rm = TRUE) * 100, 0),
+          white_jail = round(sum(white_jail_pop, na.rm = TRUE) / sum(total_jail_pop, na.rm = TRUE) * 100, 0),
+          white_pop = round(sum(white_pop_15to64, na.rm = TRUE) / sum(total_pop_15to64, na.rm = TRUE) * 100, 0),
+          latinx_jail = round(sum(latinx_jail_pop, na.rm = TRUE) / sum(total_jail_pop, na.rm = TRUE) * 100, 0),
+          latinx_pop = round(sum(latinx_pop_15to64, na.rm = TRUE) / sum(total_pop_15to64, na.rm = TRUE) * 100, 0),
+          other_jail = round(sum(other_race_jail_pop, na.rm = TRUE) / sum(total_pop_15to64, na.rm = TRUE) * 100, 0)
+        ) %>%
+        pivot_longer(cols = 1:10, values_to = 'prop', names_to = 'race.ethnicity') %>%
+        mutate(
+          class = case_when(
+            race.ethnicity == 'black_jail' | race.ethnicity == 'black_pop' ~ 'black',
+            race.ethnicity == 'white_jail' | race.ethnicity == 'white_pop' ~ 'white',
+            race.ethnicity == 'aapi_jail' | race.ethnicity == 'aapi_pop' ~ 'asian.pi',
+            race.ethnicity == 'latinx_jail' | race.ethnicity == 'latinx_pop' ~ 'latinx',
+            race.ethnicity == 'native_jail' | race.ethnicity == 'native_pop' ~ 'native',
+            race.ethnicity == 'other_jail' ~ 'other'
+          ),
+          type = case_when(
+            str_sub(race.ethnicity, -4) == 'jail' ~ 'Jail Population',
+            str_sub(race.ethnicity, -3) == 'pop' ~ 'Total Population'
+          )
+        ) %>%
+        arrange(desc(type)) %>%
+        ungroup() %>%
+        group_by(race.ethnicity) %>%
+        mutate(label.pos = prop / 2)
+      
+      # Filter data for Total Population and create pie chart
+      pie_plots2 <- col_plot %>%
+        filter(type == 'Total Population') %>%
+        mutate(race.ethnicity = str_sub(race.ethnicity, 1, -5)) %>%
+        hchart(
+          "pie", hcaes(x = race.ethnicity, y = prop),
+          name = paste0("Percentage of Total Population ", var_pieYear())
+        )
+      
+      pie_plots2
+    })
+    
+    #Prison rates
+    # Reactive expression to get the selected year from the input
+    var_prisonYear <- reactive({
+      input$select_prisonYear
+    })
+    
+    # Render Leaflet map for prison data
+    output$prison <- renderLeaflet({
+      year <- var_prisonYear()
+      
+      # Read and process prison data
+      merged_data <- read_process_prison_data(year)
+      
+      # Create labels for map markers
+      labs <- lapply(seq(nrow(merged_data)), function(i) {
+        paste0(
+          '<p>', merged_data[i, "city_name"], '<p></p>', 
+          paste(year, ' Prison Admission Rate Per 100k: '), 
+          merged_data[i, "total_prison_adm_rate"], '</p>'
+        ) 
+      })
+      
+      # Define color palette for map markers
+      pal <- colorNumeric(viridis_pal()(10), merged_data$total_prison_adm_rate)
+      
+      # Create Leaflet map
+      prison <- merged_data %>%
+        leaflet(options = leafletOptions(minZoom = 5, maxZoom = 15, drag = FALSE)) %>% 
+        addProviderTiles("CartoDB.PositronNoLabels") %>%
+        addPolygons(
+          data = merged_data$geometry, 
+          color = pal(merged_data$total_prison_adm_rate),
+          weight = 0.5,
+          fillOpacity = 0.7, 
+          smoothFactor = 0,
+          highlightOptions = highlightOptions(bringToFront = TRUE, opacity = 1.5, weight = 3),
+          label = lapply(labs, htmltools::HTML)
+        ) %>%
+        addLegend(pal = pal, values = ~merged_data$total_prison_adm_rate, title = 'Admission Rate Per 100k', opacity = .75)  
+      
+      prison
+    })
+    
+    # Gentrification (map home values)
+    output$map_homevalues <- renderLeaflet({
+      # Load zipcode geojson file
+      zips <- geojson_read("https://raw.githubusercontent.com/jalbertbowden/open-virginia-gis/master/zip-codes/json/zt51_d00.geojson", what = "sp")
+      
+      # Load home value data
+      data_jim_final <- read.csv("data/politics/gentrification/data_jim_final.csv")
+      data_jim_final <- na.omit(data_jim_final)
+      
+      # Preprocess home value data
+      data_jim_final <- data_jim_final %>%  
+        mutate_at("homevalue", funs(as.character(.))) %>%
+        mutate_at("homevalue", funs(gsub(",", "", .))) %>%
+        mutate_at("homevalue", funs(as.numeric(.)))
+      
+      # Create popup information
+      data_jim_final <- data_jim_final %>% 
+        mutate(popup_info = paste("Zipcode", zipcode, "<br/>", "Homevalue", homevalue, "<br/>", 
+                                  "% White Population", Percentofpopulation, "<br/>", 
+                                  "% Black Population", percent_of_population))
+      
+      # Join zipcode data with home value data
+      joined_jim <- geo_join(zips, data_jim_final, by_sp = "name", by_df = "zipcode", how = "inner")
+      
+      # Define color palette for home values
+      pal <- colorNumeric("viridis", joined_jim$homevalue)
+      
+      # Load redlining data
+      norfolk <- geojson_read("data/politics/gentrification/VANorfolk1940.geojson", what = "sp")
+      cols <- c("green", "blue", "yellow", "red")
+      
+      # Define color factor for redlining grades
+      pal2 <- colorFactor(cols, domain = norfolk$holc_grade)
+      
+      # Create Leaflet map
+      map_homevalues <- joined_jim %>% 
+        leaflet() %>% 
+        addTiles() %>% 
+        addPolygons(
+          data = norfolk,
+          color = ~ pal2(norfolk$holc_grade),
+          opacity = 0.9,
+          stroke = F
+        ) %>%
+        addPolygons(
+          fillColor = ~ pal(joined_jim$homevalue),
+          color = ~ pal(joined_jim$homevalue),
+          fillOpacity = 0.5,
+          weight = 0.9,
+          smoothFactor = 0.2,
+          stroke = TRUE,
+          popup = ~ popup_info
+        ) %>%
+        addLegend(
+          pal = pal,
+          values = ~ joined_jim$homevalue,
+          position = "topleft",
+          title = "Median Home Value",
+          opacity = 0.75
+        )
+      
+      map_homevalues
+    }) 
+   
+    
     # People and Values Tab -----------------------------------------------
     family_dynamic(input,output,session)
     religion(input,output,session)
