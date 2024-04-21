@@ -9,6 +9,7 @@ library(plotly)
 library(tidyverse)
 library(ggrepel)
 library(ggExtra)
+library(htmlwidgets)
 
 source("sodem.r")
 source("education.r")
@@ -74,7 +75,13 @@ server <- function(input, output, session) {
                 color = "black",
                 weight = 1,
                 fillOpacity = 0.75,
-                popup = paste(
+                smoothFactor = 0.5,
+                opacity = 1.0,
+                highlightOptions = highlightOptions(
+                    bringToFront = TRUE, 
+                    color = "white",
+                    weight = 2),
+                label = paste(
                     "<h3>", heatmap_data$loc,"</h3>",
                     "<br><b>Total Population:</b>", heatmap_data$total_population,
                     "<br><b>Median Age (years):</b>", heatmap_data$median_age_years,
@@ -95,15 +102,22 @@ server <- function(input, output, session) {
     output$age_choropleth <- renderLeaflet({
         pal <- colorBin(continuous_pal, 
                         min(heatmap_data$median_age_years):max(heatmap_data$median_age_years))
-        sodem_choropleth <- leaflet() %>%
+        
+        cmap <- leaflet(heatmap_data) %>%
             addPolygons(
-                data = heatmap_data,
                 fillColor = pal(heatmap_data$median_age_years),
                 color = "black",
                 weight = 1,
                 fillOpacity = 0.75,
+                smoothFactor = 0.5,
+                opacity = 1.0,
+                highlightOptions = highlightOptions(
+                    bringToFront = TRUE, 
+                    color = "white",
+                    weight = 2),
+                label = heatmap_data$loc_name,
                 popup = paste(
-                    "<h3>", heatmap_data$loc,"</h3>",
+                    "<h3>", heatmap_data$loc_name,"</h3>",
                     "<br><b>Total Population:</b>", heatmap_data$total_population,
                     "<br><b>Median Age (years):</b>", heatmap_data$median_age_years,
                     "<br><b>Black Population (%):</b>", heatmap_data$pct_black
@@ -117,7 +131,7 @@ server <- function(input, output, session) {
             ) %>%
             addTiles()
         
-        sodem_choropleth
+        cmap
     })
     
     ### --- EDUCATION ----------------------------------------------------------
@@ -386,10 +400,16 @@ server <- function(input, output, session) {
         pal <- colorBin(continuous_pal, 70:100)
         map <- leaflet(data) %>%
             addPolygons(
-                color = "black",
                 fillColor = ~pal(data$graduation_rate),
-                fillOpacity = 0.75,
+                color = "black",
                 weight = 1,
+                fillOpacity = 0.75,
+                smoothFactor = 0.5,
+                opacity = 1.0,
+                highlightOptions = highlightOptions(
+                    bringToFront = TRUE, 
+                    color = "white",
+                    weight = 2),
                 popup = paste(
                     "<h1>", data$loc_name,"</h1>",
                     "<b>", input$grad_race, "Student Population:</b>", 2 * 10
@@ -509,30 +529,32 @@ server <- function(input, output, session) {
             addTiles() %>%
             addPolygons(
                 data = b_hm_19,
-                color = ~ pal(Percent),
-                weight = 0.5,
-                fillOpacity = 0.7,
-                smoothFactor = 0,
+                fillColor = ~ pal(Percent),
+                color = "black",
+                weight = 1,
+                fillOpacity = 0.75,
+                smoothFactor = 0.5,
+                opacity = 1.0,
                 highlightOptions = highlightOptions(
-                    bringToFront = TRUE,
-                    opacity = 1.5,
-                    weight = 3
-                ),
+                    bringToFront = TRUE, 
+                    color = "white",
+                    weight = 2),
                 label = ~ paste0(NAME, " Black Homeowners: ", Percent, "%"),
                 group = "Black Homeowners",
                 # popup = popupGraph(r)
             ) %>%
             addPolygons(
                 data = tot_hm_19,
-                color = ~ pal(Percent),
-                weight = 0.5,
-                fillOpacity = 0.7,
-                smoothFactor = 0,
+                fillColor = ~ pal(Percent),
+                color = "black",
+                weight = 1,
+                fillOpacity = 0.75,
+                smoothFactor = 0.5,
+                opacity = 1.0,
                 highlightOptions = highlightOptions(
-                    bringToFront = TRUE,
-                    opacity = 1.5,
-                    weight = 3
-                ),
+                    bringToFront = TRUE, 
+                    color = "white",
+                    weight = 2),
                 label = ~ paste0(NAME,  " Total Homeowners: ", Percent, "%"),
                 group = "Total Homeowners"
                 # popup = popupGraph(r)
@@ -544,7 +566,7 @@ server <- function(input, output, session) {
             ) %>%
             hideGroup("Black Home Owners") %>%
             addLegend(
-                "topleft",
+                "bottomright",
                 pal = pal,
                 values = ~Percent,
                 title = "Homeowners",
@@ -687,10 +709,9 @@ server <- function(input, output, session) {
                 fillOpacity = 0.7,
                 smoothFactor = 0,
                 highlightOptions = highlightOptions(
-                    bringToFront = TRUE,
-                    opacity = 1.5,
-                    weight = 3
-                ),
+                    bringToFront = TRUE, 
+                    color = "white",
+                    weight = 2),
                 label = ~ paste0(NAME,  " Black Veterans: ", Percent, "%"),
                 group = "Veteran Status"
             ) %>%
@@ -726,13 +747,21 @@ server <- function(input, output, session) {
             data <- read_rds(data_file)
             colnames(data)[4] <- "Percent"
             colnames(data)[3] <- col_names
-            data_pal <- colorNumeric(palette = "viridis", domain = data$Percent, reverse = TRUE)
+            data_pal <- colorBin(palette = continuous_pal, domain = data$Percent, reverse = TRUE)
             
             map <- data %>%
-                leaflet(options = leafletOptions(minZoom = 5, maxZoom = 15, drag = FALSE)) %>% 
-                addProviderTiles("CartoDB.PositronNoLabels") %>% 
-                addPolygons(color = ~ data_pal(Percent), weight = 0.5, fillOpacity = 0.7, smoothFactor = 0,
-                            highlightOptions = highlightOptions(bringToFront = TRUE, opacity = 1.5, weight = 3),
+                leaflet() %>% 
+                addTiles() %>% 
+                addPolygons(fillColor = ~ data_pal(Percent), 
+                            color = "black",
+                            weight = 1,
+                            fillOpacity = 0.75,
+                            smoothFactor = 0.5,
+                            opacity = 1.0,
+                            highlightOptions = highlightOptions(
+                                bringToFront = TRUE, 
+                                color = "white",
+                                weight = 2),
                             label = ~paste0(NAME, " - ", col_names, ": ", Percent, "%")) %>% 
                 addLegend("bottomright",
                           pal = data_pal,

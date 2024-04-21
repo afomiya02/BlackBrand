@@ -76,12 +76,12 @@ ui <- page_navbar(
                     id = "demographic",
                     nav_panel(
                         title = "Median Age",
-                        value = "age",
+                        value = "median_age_years",
                         leafletOutput("age_choropleth")
                     ),
                     nav_panel(
                         title = "Black Population",
-                        value = "pop",
+                        value = "pct_black",
                         leafletOutput("pop_choropleth")
                     ),
                     card_footer("Data: 2022 ACS 5-Year DP05 Table")
