@@ -472,24 +472,25 @@ ui <- page_navbar(
                         includeMarkdown("markdown/economics/veterans.Rmd"),
                     ),
                     layout_column_wrap(
-                        h4(strong("Veteran Status in Hampton Roads"), align = "center"),
-                        width = 1,
-                        heights_equal = "row",
-                        fluidRow(
-                            leafletOutput("veteran_map"),
-                            sliderInput(
-                                "VeteranSlider",
-                                "Select Year:",
-                                value = 2019,
-                                min = 2010,
-                                max = 2019,
-                                sep = "",
-                                width = "100%",
-                                animate = animationOptions(interval = 1200)
+                        card(
+                            card_header("Black Veterans in Hampton Roads"),
+                            card_body(leafletOutput("veteran_map"), class = "p-0"),
+                            p(),
+                            card_body(
+                                sliderInput(
+                                    "VeteranSlider",
+                                    "Select Year:",
+                                    value = 2019,
+                                    min = 2010,
+                                    max = 2019,
+                                    sep = "",
+                                    width = "100%",
+                                    animate = animationOptions(interval = 2400)
+                                ),
                             ),
+                            card_footer("Data Source: ACS 5 Year Estimates Table S2101")
                         )
-                        
-                    ), card_footer("Data Source: ACS 5 Year Estimates Table S2101"),
+                    )
                 )
             ),
             nav_panel(
@@ -500,32 +501,47 @@ ui <- page_navbar(
                         title = "Black Business Trend Tracker",
                         includeMarkdown("markdown/economics/business.Rmd"),
                     ),
-                    layout_column_wrap(
-                        sidebarLayout(
-                            sidebarPanel(
-                                radioButtons("selectionType", "Choose your selection type:",
-                                             choices = c("Select by State" = "state", 
-                                                         "Select by Metropolitan Area" = "metro")),
+                    card(
+                        card_header("Black Business Trend Tracker"),
+                        layout_sidebar(
+                            sidebar = sidebar(
+                                width = "25%",
+                                radioButtons(
+                                    "selectionType",
+                                    "Choose your selection type:",
+                                    choices = c("Select by State" = "state",
+                                                "Select by Metropolitan Area" = "metro")),
                                 uiOutput("dynamicSelectInput"),
-                                selectInput("metrics", "Select Metrics:", 
-                                            choices = c("Total Average Annual Pay (Total)" = "Total_Avg_Annual_Pay_Total",
-                                                        "Total Average Annual Pay (Black Business)" = "Total_Avg_Annual_Pay_Black_Business",
-                                                        "Total Average Employees (Total)" = "Total_Avg_Employees_Total",
-                                                        "Total Average Employees (Black Business)" = "Total_Avg_Employees_Black_Business",
-                                                        "Total Sum of Firms (Total)" = "Total_Sum_of_Firms_Total",
-                                                        "Total Sum of Firms (Black Business)" = "Total_Sum_of_Firms_Black_Business",
-                                                        "Average Pay Annual Per Employee (Total)" = "Pay_Annual_Per_Employee_Total",
-                                                        "Average Pay Annual Per Employee (Black Business)" = "Pay_Annual_Per_Employee_Black_Business",
-                                                        "Percent of Total Average Annual Pay (Black Business)" = "Percent_Total_Avg_Annual_Pay_BB",
-                                                        "Percent of Total Average Employees (Black Business)" = "Percent_Total_Avg_Employees_BB",
-                                                        "Percent of Total Sum of Firms (Black Business)" = "Percent_Total_Sum_of_Firms_BB")),
-                            ),
-                            mainPanel(
-                                tabPanel("Plot and Table", 
-                                         plotOutput("plot"),
-                                         dataTableOutput("table")
+                                selectInput(
+                                    "metrics",
+                                    "Select Metrics:",
+                                    choices = c(
+                                        "Total Average Annual Pay (Total)" =
+                                            "Total_Avg_Annual_Pay_Total",
+                                        "Total Average Annual Pay (Black Business)" =
+                                            "Total_Avg_Annual_Pay_Black_Business",
+                                        "Total Average Employees (Total)" =
+                                            "Total_Avg_Employees_Total",
+                                        "Total Average Employees (Black Business)" =
+                                            "Total_Avg_Employees_Black_Business",
+                                        "Total Sum of Firms (Total)" =
+                                            "Total_Sum_of_Firms_Total",
+                                        "Total Sum of Firms (Black Business)" =
+                                            "Total_Sum_of_Firms_Black_Business",
+                                        "Average Pay Annual Per Employee (Total)" =
+                                            "Pay_Annual_Per_Employee_Total",
+                                        "Average Pay Annual Per Employee (Black Business)" =
+                                            "Pay_Annual_Per_Employee_Black_Business",
+                                        "Percent of Total Average Annual Pay (Black Business)" =
+                                            "Percent_Total_Avg_Annual_Pay_BB",
+                                        "Percent of Total Average Employees (Black Business)" =
+                                            "Percent_Total_Avg_Employees_BB",
+                                        "Percent of Total Sum of Firms (Black Business)" =
+                                            "Percent_Total_Sum_of_Firms_BB"
+                                    )
                                 )
-                            )
+                            ),
+                            plotOutput("plot")
                         )
                     )
                 )
