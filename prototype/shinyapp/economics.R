@@ -128,42 +128,42 @@ read_and_plot_sectors <- function(year) {
 # Unemployment Rate
 # Function to generate unemployment plot for a specific year
 generate_unemployment_plot <- function(year) {
-    # Read unemployment data for the specified year
-    unemp_data <- read.csv(paste0("data/economics/labor_market/TableS2301FiveYearEstimates/unemployment", year, ".csv"))
-    colnames(unemp_data)[2] <- "Locality"
-    colnames(unemp_data)[3] <- "Demographic"
-    colnames(unemp_data)[4] <- "Unemployment Rate"
-    
-    # Read Virginia unemployment data for the specified year
-    va_unemp_data <- read.csv(paste0("data/economics/labor_market/TableS2301FiveYearEstimates/vaunemployment", year, ".csv"))
-    
-    # Create the plot
-    plot <- unemp_data %>%
-        # Format locality names
-        mutate(Locality = str_remove(Locality, "County, Virginia")) %>%
-        mutate(Locality = str_remove(Locality, "city, Virginia")) %>%
-        arrange(desc(Locality)) %>%
-        ggplot(aes(fill = Demographic, y = `Unemployment Rate`, x = Locality)) +
-        geom_bar(position = "dodge", stat = "identity") +  # Plot bars
-        geom_hline(
-            yintercept = va_unemp_data$estimate,  # Add horizontal line for Virginia unemployment rate
-            linetype = "dashed",
-            color = "red",
-            show.legend = TRUE
-        ) +
-        theme_minimal() +
-        theme(legend.title = element_blank()) +
-        labs(
-            title = "",
-            y = "Unemployment Rate (%)",
-            x = "",
-            caption = "Source: ACS 5 Year Estimate Table S2301"
-        ) +
-        theme(axis.text.x = element_text(angle = 40)) +  # Rotate x-axis labels for better readability
-        scale_fill_manual(values = c("#A9A9A9", "#8B0000"))  # Customize fill colors
-    
-    # Convert ggplot object to plotly for interactivity
-    ggplotly(plot)
+  # Read unemployment data for the specified year
+  unemp_data <- read.csv(paste0("data/economics/labor_market/TableS2301FiveYearEstimates/unemployment", year, ".csv"))
+  colnames(unemp_data)[2] <- "Locality"
+  colnames(unemp_data)[3] <- "Demographic"
+  colnames(unemp_data)[4] <- "Unemployment Rate"
+  
+  # Read Virginia unemployment data for the specified year
+  va_unemp_data <- read.csv(paste0("data/economics/labor_market/TableS2301FiveYearEstimates/vaunemployment", year, ".csv"))
+  
+  # Create the plot
+  plot <- unemp_data %>%
+    # Format locality names
+    mutate(Locality = str_remove(Locality, "County, Virginia")) %>%
+    mutate(Locality = str_remove(Locality, "city, Virginia")) %>%
+    arrange(desc(Locality)) %>%
+    ggplot(aes(fill = Demographic, y = `Unemployment Rate`, x = Locality)) +
+    geom_bar(position = "dodge", stat = "identity") +  # Plot bars
+    geom_hline(
+      yintercept = va_unemp_data$estimate,  # Add horizontal line for Virginia unemployment rate
+      linetype = "dashed",
+      color = "red",
+      show.legend = TRUE
+    ) +
+    theme_minimal() +
+    theme(legend.title = element_blank()) +
+    labs(
+      title = "",
+      y = "Unemployment Rate (%)",
+      x = "",
+      caption = "Source: ACS 5 Year Estimate Table S2301"
+    ) +
+    theme(axis.text.x = element_text(angle = 40)) +  # Rotate x-axis labels for better readability
+    scale_fill_manual(values = c("#A9A9A9", "#8B0000"))  # Customize fill colors
+  
+  # Convert ggplot object to plotly for interactivity
+  ggplotly(plot)
 }
 #Poverty
 # Poverty Rates in VA and Hampton Roads

@@ -1,0 +1,55 @@
+library(shiny)
+library(leaflet)
+library(leaflet.extras)
+library(leaflet.providers)
+library(leaflet.minicharts)
+library(tidyverse)
+library(sf)
+library(ggthemes)
+library(RColorBrewer)
+library(sjmisc)
+library(shinythemes)
+library(DT)
+library(data.table)
+library(rsconnect)
+library(shinycssloaders)
+library(readxl)
+library(readr)
+library(gridExtra)
+library(stringr)
+library(shinyjs)
+library(plotly)
+library(ggrepel)
+library(shinydashboard)
+library(mapdata)
+library(plotrix)
+library(scatterpie)
+library(leafpop)
+library(ggpubr)
+library(viridis)
+library(highcharter)
+#library(rCharts)
+library(terra)
+library(geojsonio)
+library(tigris)
+library(dplyr)
+library(lattice)
+library(ggplot2)
+library(forcats)
+library(plotly)
+library(formattable)
+library(hrbrthemes)
+library(bslib)
+library(reshape2) 
+
+# Traffic stops
+# Function to read traffic data
+read_traffic_data <- function() {
+  data <- read.csv("data/politics/traffic_stops/hampton_trafficstop.csv")
+  return(data)
+}
+
+
+
+
+

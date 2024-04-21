@@ -12,6 +12,7 @@
     source("education.r")
     source("economics.r")
     source("media.r")
+    source("politics_justice.r")
 
     ui <- page_navbar(
         title = img(src="logo_WIDE.png"),
@@ -95,7 +96,7 @@
                     title = "Location & Race Comparison",
                     width = "20%", # sidebar takes up x% of page
                     conditionalPanel(
-                        condition = "input.edu_nav == 'Standardized Testing'",
+                        condition = "input.edu_nav !== 'Educational Attainment (Graduation Rate)'",
                         selectInput(
                             inputId = "edu_loc",
                             label = "Select location:",
@@ -110,7 +111,11 @@
                                         "Asian" = "Asian",
                                         "Hispanic" = "Hispanic"),
                             selected = "Black"
-                        )
+                        ),
+                        p(),
+                        p("Use this sidebar to compare races against each other in each location! NOTE: 
+                        There are some locations in Hampton Roads where there simply isn't enough data 
+                        to be recorded.", style = "text-align: justify")
                     ),
                     conditionalPanel(
                         condition = "input.edu_nav == 'Educational Attainment (Graduation Rate)'",
@@ -123,15 +128,6 @@
                                         "Asian" = "Asian",
                                         "Hispanic" = "Hispanic"),
                             selected = "All Students"
-                        )
-                    ),
-                    conditionalPanel(
-                        condition = "input.edu_nav == 'Educators vs. Students'",
-                        selectInput(
-                            inputId = "edu_loc",
-                            label = "Select location:",
-                            selected = "Chesapeake",
-                            choices = unique(st_data$division_name)
                         )
                     )
                 ),
@@ -149,7 +145,7 @@
                         ),
                         navset_card_pill(
                             nav_panel(
-                                title = "Standardized Testing Results",
+                                title = "2022-2023 Testing Results",
                                 layout_sidebar(
                                     sidebar = sidebar(
                                         width = "20%",
@@ -157,7 +153,7 @@
                                             inputId = "st_year",
                                             label = "Select year:",
                                             # there has to be a better way to do this but
-                                            # atp my brain has been fried to the point i'm
+                                            # atp my brain has been fried to the point that i'm
                                             # seeing double
                                             choices = c("2022-2023" = "2022-2023_pass_rate",
                                                         "2021-2022" = "2021-2022_pass_rate",
@@ -185,13 +181,9 @@
                 ),
                 nav_panel(
                     title = "Educators vs. Students",
-                    layout_column_wrap(
-                        uiOutput("edu_ratio1"), # black t-s ratio
-                        uiOutput("edu_ratio2"), # white
-                        uiOutput("edu_ratio3") # total
-                    ),
                     card(
-                        card_header("Teachers vs. Students per Location"),
+                        # maybe include teacher-student value boxes here...
+                        card_header("Distribution of Educators per Location"),
                         card_body(
                             layout_column_wrap(
                                 plotOutput("educator_race_plot"),
@@ -230,7 +222,7 @@
             title = "Economics",
             navset_card_underline(
                 nav_panel(
-                    title = "Income",
+                    title = strong("Income"),
                     layout_sidebar(
                         sidebar = sidebar(
                             width = "25%", # does the same as validateCssUnit("25%")
@@ -241,14 +233,14 @@
                             card(
                                 card_header("Hampton Roads vs. Virginia Line Graph"),
                                 card_body(plotOutput("medianTimeGraph")),
-                                card_footer("Source: ???")
+                                card_footer("Data Source: ACS 5 Year Estimates Table S1903")
                             )
                         )
                     )
                     # include data table here?
                 ),
                 nav_panel(
-                    title = "Homeownership", 
+                    title = strong("Homeownership"), 
                     layout_sidebar(
                         sidebar = sidebar(
                             width = "25%",
@@ -263,13 +255,13 @@
                                 # fall 2024 team :)
                                 card_header("Black vs. Total Homeowners in Hampton Roads"),
                                 card_body(leafletOutput("homeownership_map"), class = "p-0"),
-                                card_footer("Source: ???")
+                                card_footer("Data Source: ACS 5 Year Estimates Table S2505")
                             )
                         )
                     )     
                 ),
                 nav_panel(
-                    title = "Labor Market", 
+                    title = strong("Labor Market"), 
                     layout_sidebar(
                         sidebar = sidebar(
                             width = validateCssUnit("25%"),
@@ -312,7 +304,7 @@
                                     width = 1,
                                     heights_equal = "row",
                                     fluidRow(
-                                        plotOutput("unemployment_plot") 
+                                        plotlyOutput("unemployment_plot") 
                                     ),
                                     sliderInput(
                                         "UnemploymentRateSlider",
@@ -352,7 +344,7 @@
                 ),
                 nav_panel(
                     # same as labor market
-                    title = "Poverty", 
+                    title = strong("Poverty"), 
                     layout_sidebar(
                         sidebar = sidebar(
                             width = validateCssUnit("25%"),
@@ -434,7 +426,7 @@
                     )
                 ),
                 nav_panel(
-                    title = "Health", 
+                    title = strong("Health"), 
                     layout_sidebar(
                         sidebar = sidebar(
                             width = validateCssUnit("25%"),
@@ -462,7 +454,7 @@
                     )
                 ),
                 nav_panel(
-                    title = "Veterans", 
+                    title = strong("Veterans"), 
                     layout_sidebar(
                         sidebar = sidebar(
                             width = validateCssUnit("33%"),
@@ -491,7 +483,7 @@
                     )
                 ),
                 nav_panel(
-                    title = "Business", 
+                    title = strong("Business"), 
                     layout_sidebar(
                         sidebar = sidebar(
                             width = validateCssUnit("25%"),
@@ -529,7 +521,7 @@
                     )
                 ),
                 nav_panel(
-                    title = "Household Well-being", 
+                    title = strong("Household Well-being"), 
                     layout_sidebar(
                         sidebar = sidebar(
                             width = validateCssUnit("25%"),
@@ -718,6 +710,193 @@
             )
         )
         ),
+        ### ---Politics/Justice Tab -------------------------------------------------------------
+        nav_panel(
+          title = "Politics & Justice",
+          navset_card_underline(
+            nav_panel(
+              title = strong("Traffic Stops"), 
+              layout_sidebar(
+                sidebar = sidebar(
+                  width = validateCssUnit("25%"),
+                  title = "Traffic Stops",
+                  includeMarkdown("markdown/politics/traffic_stops.Rmd"),
+                ),
+                
+                navset_card_tab(
+                  title = "Traffic Stops",
+                  nav_panel(
+                    title = "Race Counts",
+                    value = "plot1",
+                    h4(strong("Demographics of Traffic Stops"), align = "center"),
+          
+                    layout_column_wrap(
+                      width = 1,
+                      heights_equal = "row",
+                      fluidRow(
+                        plotOutput('trafficRace'),
+                        
+                      )
+                    )
+                    
+                  ),
+                  nav_panel(
+                    title = "Race and Jurisdiction",
+                    value = "plot2",
+                    h4(strong("Race and Jurisdiction"), align = "center"),
+                    layout_column_wrap(
+                      width = 1,
+                      heights_equal = "row",
+                      fluidRow(
+                        plotOutput("jurisdiction") 
+                      ),
+                
+                    ),
+                    
+                  ),
+                  nav_panel(
+                    title = "Toggle Jurisdictions",
+                    value = "plot2",
+                    h4(strong("Race Counts"), align = "center"),
+                    selectInput(
+                      "select_stop",
+                      "Select Hampton Roads County:",
+                      width = "100%",
+                      choices = c("CHESAPEAKE", "FRANKLIN CITY", "HAMPTON",
+                                  "NEWPORT NEWS", "NORFOLK", "POQUOSON",
+                                  "PORTSMOUTH", "SUFFOLK", "VIRGINIA BEACH",
+                                  "WILLIAMSBURG", "GLOUCESTER CO", "ISLE OF WIGHT CO",
+                                  "JAMES CITY CO", "MATHEWS CO", "SOUTHAMPTON CO",
+                                  "YORK CO")
+                    ),
+                    layout_column_wrap(
+                      width = 1,
+                      heights_equal = "row",
+                      fluidRow(
+                        plotOutput("jurisdiction2") 
+                      ),
+                      
+                    ),
+                   
+                  )
+                )
+              )
+            ),
+            nav_panel(
+              title = strong("City Council Demographics"), 
+              layout_sidebar(
+                sidebar = sidebar(
+                  width = "25%",
+                  title = "Homeownership in Hampton Roads",
+                  includeMarkdown("markdown/economics/homeownership.Rmd"),
+                ),
+                layout_column_wrap(
+                  width = 1,
+                  card(
+                    # this is fucking BUGGED. idk what happened here but
+                    # it is absurdly slow. will try fixing if not it's up to you
+                    # fall 2024 team :)
+                    card_header("Black vs. Total Homeowners in Hampton Roads"),
+                    card_body(leafletOutput("homeownership_map"), class = "p-0"),
+                    card_footer("Data Source: ACS 5 Year Estimates Table S2505")
+                  )
+                )
+              )     
+            ),
+            nav_panel(
+              title = strong("Traffic Stops"), 
+              layout_sidebar(
+                sidebar = sidebar(
+                  width = validateCssUnit("25%"),
+                  title = "Traffic Stops",
+                  includeMarkdown("markdown/politics/traffic_stops.Rmd"),
+                ),
+                
+                navset_card_tab(
+                  title = "Traffic Stops",
+                  nav_panel(
+                    title = "Race Counts",
+                    value = "plot1",
+                    h4(strong("Demographics of Traffic Stops"), align = "center"),
+                    
+                    layout_column_wrap(
+                      width = 1,
+                      heights_equal = "row",
+                      fluidRow(
+                        plotOutput('trafficRace'),
+                        
+                      )
+                    )
+                    
+                  ),
+                  nav_panel(
+                    title = "Race and Jurisdiction",
+                    value = "plot2",
+                    h4(strong("Race and Jurisdiction"), align = "center"),
+                    layout_column_wrap(
+                      width = 1,
+                      heights_equal = "row",
+                      fluidRow(
+                        plotOutput("jurisdiction") 
+                      ),
+                      
+                    ),
+                    
+                  ),
+                  nav_panel(
+                    title = "Toggle Jurisdictions",
+                    value = "plot2",
+                    h4(strong("Race Counts"), align = "center"),
+                    selectInput(
+                      "select_stop",
+                      "Select Hampton Roads County:",
+                      width = "100%",
+                      choices = c("CHESAPEAKE", "FRANKLIN CITY", "HAMPTON",
+                                  "NEWPORT NEWS", "NORFOLK", "POQUOSON",
+                                  "PORTSMOUTH", "SUFFOLK", "VIRGINIA BEACH",
+                                  "WILLIAMSBURG", "GLOUCESTER CO", "ISLE OF WIGHT CO",
+                                  "JAMES CITY CO", "MATHEWS CO", "SOUTHAMPTON CO",
+                                  "YORK CO")
+                    ),
+                    layout_column_wrap(
+                      width = 1,
+                      heights_equal = "row",
+                      fluidRow(
+                        plotOutput("jurisdiction2") 
+                      ),
+                      
+                    ),
+                    
+                  )
+                )
+              )
+            ),
+        
+            nav_panel(
+              title = strong("City Council Demographics"), 
+              layout_sidebar(
+                sidebar = sidebar(
+                  width = "25%",
+                  title = "Homeownership in Hampton Roads",
+                  includeMarkdown("markdown/economics/homeownership.Rmd"),
+                ),
+                layout_column_wrap(
+                  width = 1,
+                  card(
+                    # this is fucking BUGGED. idk what happened here but
+                    # it is absurdly slow. will try fixing if not it's up to you
+                    # fall 2024 team :)
+                    card_header("Black vs. Total Homeowners in Hampton Roads"),
+                    card_body(leafletOutput("homeownership_map"), class = "p-0"),
+                    card_footer("Data Source: ACS 5 Year Estimates Table S2505")
+                  )
+                )
+              )     
+            )
+
+          )
+        ),
+        
         nav_spacer(),
         nav_menu(
             title = "Links",

@@ -13,9 +13,10 @@ library(ggExtra)
 source("sodem.r")
 source("education.r")
 source("economics.r")
+source("politics_justice.r")
 
 server <- function(input, output, session) {
-    ### --- SOCIODEMOGRAPHICS --- ----------------------------------------------------------
+    ### --- SOCIODEMOGRAPHICS -------------------------------------------------------------
     
     # total population value box
     output$sodem_vb1 <- renderUI({
