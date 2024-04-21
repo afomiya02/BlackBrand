@@ -59,7 +59,7 @@ preprocess_sodem_data <- function(path) {
 
 # gets all 2022 ACS DP05 data for median age + black population choropleth
 # check functions.R for more info
-filenames <- list.files("data/ACS_DP05", pattern = "*.csv", full.names = TRUE)
+filenames <- list.files("data/sodem", pattern = "*.csv", full.names = TRUE)
 sodem_data <- lapply(filenames, preprocess_sodem_data)
 sodem_data <- bind_rows(sodem_data)
 

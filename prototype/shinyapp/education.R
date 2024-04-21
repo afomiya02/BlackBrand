@@ -35,7 +35,7 @@ hampton_roads_edu_localities <- c(
 # https://p1pe.doe.virginia.gov/apex_captcha/home.do?apexTypeId=305
 
 # Preprocesses educator count data for grouping purposes
-educator_count_data <- read_excel("data/VDOE/educator_count.xlsx") %>%
+educator_count_data <- read_excel("data/education/educator_count.xlsx") %>%
     # clean dataframe body for easier cleaning
     slice(-c(1:2, 138:140)) %>% # slice first two and last two rows containing no data
     set_names(unlist(.[1,])) %>% slice(-c(1, 135)) %>% # rename column names with first row
@@ -60,7 +60,7 @@ educator_count_data <- read_excel("data/VDOE/educator_count.xlsx") %>%
     
 
 # Preprocesses student count data for grouping purposes
-student_count_data <- read.csv("data/VDOE/student_count.csv") %>%
+student_count_data <- read.csv("data/education/student_count.csv") %>%
     # clean string names
     mutate_if(is.character, trimws) %>%
     mutate_if(is.character, str_replace_all, ",", "") %>%
@@ -104,7 +104,7 @@ student_count_data <- read.csv("data/VDOE/student_count.csv") %>%
 # Function to get and clean on-time pass rates per division and race, including all students
 preprocess_cohort_graduation_data <- function() {
     # cohort pass rates by race
-    df1 <- read.csv("data/VDOE/on_time_graduation_rates.csv") %>%
+    df1 <- read.csv("data/education/on_time_graduation_rates.csv") %>%
         # clean string names
         mutate_if(is.character, trimws) %>%
         mutate_if(is.character, tolower) %>%
@@ -135,7 +135,7 @@ preprocess_cohort_graduation_data <- function() {
         mutate(across(division_name:race, str_replace_all, "_", " ")) %>%
         mutate(across(division_name:race, str_to_title))
     
-    df2 <- read.csv("data/VDOE/on_time_graduation_rates_all.csv") %>%
+    df2 <- read.csv("data/education/on_time_graduation_rates_all.csv") %>%
                 # clean string names
         mutate_if(is.character, trimws) %>%
         mutate_if(is.character, tolower) %>%
@@ -174,19 +174,19 @@ cohort_pass_rates <- preprocess_cohort_graduation_data()
 preprocess_subject_pass_rates <- function() {
     # this df will keep all the subgroups together
     # standardized testing from 2013-2016
-    df1 <- read_excel("data/VDOE/subject/subject_pass_rates_2013-2016.xlsx") %>%
+    df1 <- read_excel("data/education/subject/subject_pass_rates_2013-2016.xlsx") %>%
         set_names(unlist(.[1,])) %>% slice(-1) %>%
         mutate_at("Div Num", as.numeric) %>%
         filter(!grepl("Limited", Subgroup)) # limited english proficient only exists here
     
     # will only keep the pass rates
     # standardized testing from 2016-2019
-    df2 <- read_excel("data/VDOE/subject/subject_pass_rates_2016-2019.xlsx") %>%
+    df2 <- read_excel("data/education/subject/subject_pass_rates_2016-2019.xlsx") %>%
         mutate_at("Div Num", as.numeric)
     
     # only keeps pass rates and drops 
     # testing from 2020-2023
-    df3 <- read_excel("data/VDOE/subject/subject_pass_rates_2020-2023.xlsx") %>%
+    df3 <- read_excel("data/education/subject/subject_pass_rates_2020-2023.xlsx") %>%
         filter(!grepl("Remote", Subject)) %>%
         mutate_at("Div Num", as.numeric)
     
