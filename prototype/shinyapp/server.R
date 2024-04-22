@@ -82,7 +82,8 @@ server <- function(input, output, session) {
                     bringToFront = TRUE, 
                     color = "white",
                     weight = 2),
-                label = paste(
+                label = heatmap_data$loc_name,
+                popup = paste(
                     "<h3>", heatmap_data$loc,"</h3>",
                     "<br><b>Total Population:</b>", heatmap_data$total_population,
                     "<br><b>Median Age (years):</b>", heatmap_data$median_age_years,
