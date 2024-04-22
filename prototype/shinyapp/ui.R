@@ -13,6 +13,7 @@ source("education.r")
 source("economics.r")
 source("media.r")
 source("people_values.r")
+source("feedback.r")
 ui <- page_navbar(
   title = img(src="logo_WIDE.png"),
   selected = "overview",
@@ -48,7 +49,23 @@ ui <- page_navbar(
           width = 4,
           includeMarkdown("markdown/overview/project_goals.md"),
         ),
-      )
+      ),
+      # Give feedback button
+      tags$head(tags$style(
+        HTML(
+          "
+                    .btn-highlight {
+                    background-color: #4CAF50;
+                    color: white;
+                    }
+                    .rating-buttons {
+                    margin-left: 50px;
+                    padding-bottom: 10px;}"
+        )
+      )),
+      tags$div(style = "text-align: right;",
+               # This aligns the button to the right
+               actionButton("show_feedback", "Give Feedback", class = "btn-primary"))
     ),
     # Data & Methodology Section
     nav_panel(title = "Data & Methodology",)
