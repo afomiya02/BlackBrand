@@ -14,7 +14,7 @@ source("sodem.r")
 source("education.r")
 source("economics.r")
 source("politics_justice.r")
-
+source("feedback.r")
 # color palettes
 discrete_pal <- c(
     "Black" = "#531b1b",
@@ -1336,6 +1336,10 @@ server <- function(input, output, session) {
     foodbanks(input,output,session)
     food_insecurity(input,output,session)
     # People and Values Tab -----------------------------------------------
+
+    # Feedback button-----------------------------------------------
+    feedback(input,output,session)
+    # End feedback button-----------------------------------------------
 }
 
 return(server)
