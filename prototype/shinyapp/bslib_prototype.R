@@ -7,16 +7,102 @@ library(leaflet)
 library(RColorBrewer)
 library(plotly)
 library(tidyverse)
-
+library(magick)
 source("sodem.r")
 source("education.r")
+
 ui <- page_navbar(
-    title = "phaceholder",
+    title = img(src="logo_WIDE.png"),
     selected = "overview",
     theme = bs_theme(preset = "journal"),
     useShinyjs(),
     nav_menu(
         title = "Overview",
+        nav_panel(
+          title = "Home",
+          value = "overview",
+          fluidRow(
+            style = "margin: 2px",
+            align = "center",
+            img(src = "frontpage.png"),
+          ),
+          fluidRow(
+            style = "margin: 2px",
+            align = "center",
+            column(
+              width = 4,
+              img(src = "bb2.png"),
+              h1(strong("Professionalism"), align = "center"),
+            ),
+            column(
+              width = 4,
+              img(src = "bb3.png"),
+              h1(strong("Business"), align = "center"),
+            ),
+            column(
+              width = 4,
+              img(src = "bb1.png"),
+              h1(strong("Community"), align = "center"),
+            )
+          ),
+          fluidRow(
+            style = "margin: 2px",
+            align = "center",
+            column(
+              width = 5,
+              img(src = "race_business.png", align = "center", width = "400px"),
+              br("The image above shows the average number of businesses per state, by race. As can be seen, the number of businesses in Virginia is 7.8.
+                 This is the state where Hampton Roads is located, and the population for the state does not justify the number of businesses. Black BRAND
+                 is seeking to change that by promoting entrepreneurship and business within the black population. 
+                 ")
+            ),
+            column(
+              width = 2
+            ),
+            column(
+              width = 5,
+              br("Below is the Hampton Roads localities, separated by the counties. There are a large number of counties that make up the Hampton Roads 
+                 area. However, a bunch of these areas are in despair with a lack of resources that is neglecting the chances of fostering business with 
+                 a growth mindset. 
+                 "),
+              img(src = 'localities.png', align = "center",  width = "300px"),
+            ),
+          ),
+          fluidRow(
+            style = "margin: 2px",
+            align = "center",
+            img(src = "city.png")
+          ),
+          fluidRow(
+            style = "margin: 2px",
+            align = "center",
+            h1(strong("Executive Team"), align = "center"),
+            p("", style = "padding-top:10px;"),
+            column(
+              width = 4,
+              img(src = "blair_durham.png"),
+              h1(strong("Blair Durham: "), align = "center"),
+              h1(strong("Co-Founder/President"), align = "center")
+            ),
+            column(
+              width = 4,
+              img(src = "naomi_lewis.png"),
+              h1(strong("Naomi Lewis: "), align = "center"),
+              h1(strong("Parliamentarian"), align = "center")
+            ),
+            column(
+              width = 4,
+              img(src = "lafayette_judkins.png"),
+              h1(strong("Lafayette Judkins: "), align = "center"),
+              h1(strong("Chairman"), align = "center")
+            ),
+          ),
+          fluidRow(
+            style = "margin: 2px",
+            align = "center",
+            img(src = "VTDSPG Logo.png")
+          )
+        ),
         nav_panel(
             title = "Project Background",
             value = "overview",
@@ -24,9 +110,16 @@ ui <- page_navbar(
             fluidRow(
                 style = "margin: 2px",
                 align = "center",
-                includeMarkdown("markdown/overview/title.md"),
+               
+                img(src = "VTIntro.png"),
             ),
             br(""),
+            fluidRow(
+              style = "margin: 6px",
+              align = "center",
+              includeMarkdown("markdown/overview/title.md"),
+            ),
+            br(""), 
             fluidRow(
                 style = "margin: 6px",
                 column(
@@ -36,6 +129,7 @@ ui <- page_navbar(
                 column(
                     width = 4,
                     includeMarkdown("markdown/overview/project_background.md"),
+                    img(src="vtlogo.jpg")
                 ),
                 column(
                     width = 4,
@@ -43,7 +137,102 @@ ui <- page_navbar(
                 ),
             )
         ),
-        nav_panel(title = "Data & Methodology",)
+        nav_panel(title = "Data & Methodology",
+                  fluidRow(
+                    style = "margin: 6px;",
+                    h1(strong("Data"), align = "center"),
+                    p("", style = "padding-top:10px;"),
+                    column(
+                      width = 4,
+                      img(src = 'acs.png', style = "display: inline; float: left;", width = "200px"),
+                      includeMarkdown("markdown/data_methodology/data1.md"),
+                      br(),
+                      img(src = 'broadbandnow.png', style = "display: inline; float: left;", width = "150px"),
+                      includeMarkdown("markdown/data_methodology/data2.md"),
+                      img(src = 'zillow.png', style = "display: inline; float: left;", width = "150px"),
+                      includeMarkdown("markdown/data_methodology/data3.md")
+                    ),
+                    column(
+                      width = 4,
+                      img(src = 'localities.png', style = "display: inline; float: center;", width = "475px"),
+                      p(),
+                      p(),
+                      br(),
+                      img(src = 'kidscount.png', style = "display: inline; float: left;", width = "150px"),
+                      includeMarkdown("markdown/data_methodology/data4.md"),
+                      br(),
+                      img(src = 'doe.jpg', style = "display: inline; float: left;", width = "150px"),
+                      includeMarkdown("markdown/data_methodology/data5.md"),
+                    ),
+                    column(
+                      width = 4,
+                      img(src = 'oecd.png', style = "display: inline; float: left;", width = "150px"),
+                      includeMarkdown("markdown/data_methodology/data6.md"),
+                      br(),
+                      img(src = 'googleMapLogo.png', style = "display: inline; float: left;", width = "150px"),
+                      includeMarkdown("markdown/data_methodology/data7.md"),
+                      br(),
+                      img(src = 'censusreporter.png', style = "display: inline; float: left;", width = "150px"),
+                      includeMarkdown("markdown/data_methodology/data8.md"),
+                    )
+                  ),
+                  fluidRow(
+                    style = "margin: 6px;",
+                    h1(strong("5 Pillars of Methodology"), align = "center"),
+                    p("", style = "padding-top:10px;"),
+                    column(
+                      width = 4,
+                      strong("Education: "),
+                      includeMarkdown("markdown/data_methodology/methodology1.md"),
+                      img(
+                        src = 'education.png',
+                        align = "center",
+                        height = "300px",
+                        width = "400px"
+                      ),
+                      p(
+                        tags$small(
+                          "[1] Anna J. Egalitea, A.J. , Kisida B., & Winters, M.A. (2015), Economics of Education Review, 45, 44-52."
+                        )
+                      ),
+                      p(
+                        tags$small(
+                          "[2] Noltemeyer, A. L., Ward, R. M., & Mcloughlin, C. (2015). Relationship between school suspension and student outcomes: A meta-analysis. School Psychology Review, 44(2), 224-240."
+                        )
+                      ),
+                      ),
+                    column(
+                      width = 4,
+                      strong("Policy & Justice: "),
+                      includeMarkdown("markdown/data_methodology/methodology2.md"),
+                      strong("People & Values: "),
+                      includeMarkdown("markdown/data_methodology/methodology3.md"),
+                      strong("Media & Entertainment:"),
+                      includeMarkdown("markdown/data_methodology/methodology4.md"),
+                      uiOutput("tab")
+                    ),
+                    column(
+                      width = 4,
+                      strong("Economics: "),
+                      includeMarkdown("markdown/data_methodology/methodology5.md"),
+                      p(),
+                      img(
+                        src = 'economic.png',
+                        align = "center",
+                        height = "300px",
+                        width = "400px"
+                      ),
+                      p(),
+                      p(),
+                      includeMarkdown("markdown/data_methodology/methodology6.md"),
+                      p(
+                        tags$small(
+                          "[1] Butler, S. M., Beach, W. W., & Winfree, P. L. (2008). Pathways to economic mobility: Key indicators. Economic mobility project."
+                        )
+                      )
+                    )
+                  )
+                  )
     ),
     nav_panel(
         title = "Sociodemographics",
