@@ -8,12 +8,13 @@ library(RColorBrewer)
 library(plotly)
 library(tidyverse)
 
-source("sodem.r")
-source("education.r")
-source("economics.r")
-source("media.r")
-source("people_values.r")
-source("feedback.r")
+source("code/sodem.r")
+source("code/education.r")
+source("code/economics.r")
+source("code/media.r")
+source("code/politics_justice.r")
+source("code/people_values.r")
+source("code/feedback.r")
 
 ui <- page_navbar(
     title = img(src="logo_WIDE.png"),
