@@ -71,85 +71,134 @@ ui <- page_navbar(
         # Data & Methodology Section
         nav_panel(
             title = "Data & Methodology",
-            value = "Home",
-            fluidRow(
-                style = "margin: 2px",
-                align = "center",
-                p(h1("Datasets Used Inside the Dashboard"), br(),
-                  h4("NOTE: Cards in orange are sources we have updated to 2022 so far"))
-            ),
-            layout_column_wrap(
-                width = 1/2,
-                heights_equal = "all",
-                card(
-                    card_header(class = "bg-red", "American Community Survey"),
-                    layout_sidebar(
-                        sidebar = sidebar(img(src = 'acs.png')),
-                        includeMarkdown("markdown/data_methodology/data1.md")
+            navset_card_pill(
+                nav_panel(
+                    title = "Datasets",
+                    fluidRow(
+                        style = "margin: 2px",
+                        align = "center",
+                        p(h1("Datasets Used Inside the Dashboard"), br(),
+                          h4("NOTE: Cards in orange are sources we have updated to 2022 so far"))
                     ),
-                ),
-                card(
-                    card_header(class = "bg-red", "Virginia Department of Education"),
-                    layout_sidebar(
-                        fillable = TRUE,
-                        open = FALSE,
-                        sidebar = sidebar(img(src = "doe.jpg")),
-                        includeMarkdown("markdown/data_methodology/data5.md")
+                    layout_column_wrap(
+                        width = 1/2,
+                        heights_equal = "all",
+                        fill = FALSE,
+                        card(
+                            card_header(class = "bg-red", "American Community Survey"),
+                            layout_sidebar(
+                                sidebar = sidebar(img(src = 'acs.png')),
+                                includeMarkdown("markdown/data_methodology/data1.md")
+                            ),
+                        ),
+                        card(
+                            card_header(class = "bg-red", "Virginia Department of Education"),
+                            layout_sidebar(
+                                fillable = TRUE,
+                                open = FALSE,
+                                sidebar = sidebar(img(src = "doe.jpg")),
+                                includeMarkdown("markdown/data_methodology/data5.md")
+                            )
+                        ),
+                        card(
+                            card_header(class = "bg-dark", "BroadbandNow"),
+                            layout_sidebar(
+                                fillable = TRUE,
+                                open = FALSE,
+                                sidebar = sidebar(img(src = 'broadbandnow.png')),
+                                includeMarkdown("markdown/data_methodology/data2.md")
+                            )
+                        ),
+                        card(
+                            card_header(class = "bg-dark", "Zillow"),
+                            layout_sidebar(
+                                fillable = TRUE,
+                                open = FALSE,
+                                sidebar = sidebar(img(src = "zillow.png")),
+                                includeMarkdown("markdown/data_methodology/data3.md")
+                            ),
+                        ),
+                        card(
+                            card_header(class = "bg-dark", "Kids COUNT"),
+                            layout_sidebar(
+                                fillable = TRUE,
+                                open = FALSE,
+                                sidebar = sidebar(img(src = "kidscount.png")),
+                                includeMarkdown("markdown/data_methodology/data4.md")
+                            )
+                        ),
+                        card(
+                            card_header(class = "bg-dark", "OECD"),
+                            layout_sidebar(
+                                fillable = TRUE,
+                                open = FALSE,
+                                sidebar = sidebar(img(src = "oecd.png")),
+                                includeMarkdown("markdown/data_methodology/data6.md")
+                            )
+                        ),
+                        card(
+                            card_header(class = "bg-dark", "Google Maps API"),
+                            layout_sidebar(
+                                fillable = TRUE,
+                                open = FALSE,
+                                sidebar = sidebar(img(src = "googleMapLogo.png")),
+                                includeMarkdown("markdown/data_methodology/data7.md")
+                            )
+                        ),
+                        card(
+                            card_header(class = "bg-dark", "Census Reporter"),
+                            layout_sidebar(
+                                fillable = TRUE,
+                                open = FALSE,
+                                sidebar = sidebar(img(src = "censusreporter.png")),
+                                includeMarkdown("markdown/data_methodology/data8.md")
+                            )
+                        )
                     )
                 ),
-                card(
-                    card_header(class = "bg-dark", "BroadbandNow"),
-                    layout_sidebar(
-                        fillable = TRUE,
-                        open = FALSE,
-                        sidebar = sidebar(img(src = 'broadbandnow.png')),
-                        includeMarkdown("markdown/data_methodology/data2.md")
-                    )
-                ),
-                card(
-                    card_header(class = "bg-dark", "Zillow"),
-                    layout_sidebar(
-                        fillable = TRUE,
-                        open = FALSE,
-                        sidebar = sidebar(img(src = "zillow.png")),
-                        includeMarkdown("markdown/data_methodology/data3.md")
-                    ),
-                ),
-                card(
-                    card_header(class = "bg-dark", "Kids COUNT"),
-                    layout_sidebar(
-                        fillable = TRUE,
-                        open = FALSE,
-                        sidebar = sidebar(img(src = "kidscount.png")),
-                        includeMarkdown("markdown/data_methodology/data4.md")
-                    )
-                ),
-                card(
-                    card_header(class = "bg-dark", "OECD"),
-                    layout_sidebar(
-                        fillable = TRUE,
-                        open = FALSE,
-                        sidebar = sidebar(img(src = "oecd.png")),
-                        includeMarkdown("markdown/data_methodology/data6.md")
-                    )
-                ),
-                card(
-                    card_header(class = "bg-dark", "Google Maps API"),
-                    layout_sidebar(
-                        fillable = TRUE,
-                        open = FALSE,
-                        sidebar = sidebar(img(src = "googleMapLogo.png")),
-                        includeMarkdown("markdown/data_methodology/data7.md")
-                    )
-                ),
-                card(
-                    card_header(class = "bg-dark", "Census Reporter"
-                    ),
-                    layout_sidebar(
-                        fillable = TRUE,
-                        open = FALSE,
-                        sidebar = sidebar(img(src = "censusreporter.png")),
-                        includeMarkdown("markdown/data_methodology/data8.md")
+                nav_panel(
+                    title = "Methodology",
+                    fluidRow(
+                        style = "margin: 6px;",
+                        h1(strong("5 Pillars of Methodology"), align = "center"),
+                        p("", style = "padding-top:10px;"),
+                        column(
+                            width = 4,
+                            strong("Education: "),
+                            includeMarkdown("markdown/data_methodology/methodology1.md"),
+                            img(src = 'education.png', align = "center",
+                                height = "300px", width = "400px"),
+                            p(tags$small("[1] Anna J. Egalitea, A.J. , Kisida B., & Winters, M.A. 
+                                         (2015), Economics of Education Review, 45, 44-52.")),
+                            p(tags$small("[2] Noltemeyer, A. L., Ward, R. M., & Mcloughlin, C. 
+                                         (2015). Relationship between school suspension and student 
+                                         outcomes: A meta-analysis. School Psychology Review, 44(2), 
+                                         224-240.")),
+                        ),
+                        column(
+                            width = 4,
+                            strong("Policy & Justice: "),
+                            includeMarkdown("markdown/data_methodology/methodology2.md"),
+                            strong("People & Values: "),
+                            includeMarkdown("markdown/data_methodology/methodology3.md"),
+                            strong("Media & Entertainment:"),
+                            includeMarkdown("markdown/data_methodology/methodology4.md"),
+                            uiOutput("tab")
+                        ),
+                        column(
+                            width = 4,
+                            strong("Economics: "),
+                            includeMarkdown("markdown/data_methodology/methodology5.md"),
+                            p(),
+                            img(src = 'economic.png', align = "center", 
+                                height = "300px", width = "400px"),
+                            p(),
+                            p(),
+                            includeMarkdown("markdown/data_methodology/methodology6.md"),
+                            p(tags$small("[1] Butler, S. M., Beach, W. W., & Winfree, P. L. (2008). 
+                                         Pathways to economic mobility: Key indicators. 
+                                         Economic mobility project."))
+                        )
                     )
                 )
             )
