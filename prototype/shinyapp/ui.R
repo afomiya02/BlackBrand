@@ -96,7 +96,7 @@ ui <- page_navbar(
                             layout_sidebar(
                                 fillable = TRUE,
                                 open = FALSE,
-                                sidebar = sidebar(img(src = "doe.jpg")),
+                                sidebar = sidebar(img(src = "doe.png")),
                                 includeMarkdown("markdown/data_methodology/data5.md")
                             )
                         ),
@@ -114,7 +114,7 @@ ui <- page_navbar(
                             layout_sidebar(
                                 fillable = TRUE,
                                 open = FALSE,
-                                sidebar = sidebar(img(src = "zillow.png")),
+                                sidebar = sidebar(img(src = "zillow.svg")),
                                 includeMarkdown("markdown/data_methodology/data3.md")
                             ),
                         ),
@@ -123,7 +123,7 @@ ui <- page_navbar(
                             layout_sidebar(
                                 fillable = TRUE,
                                 open = FALSE,
-                                sidebar = sidebar(img(src = "kidscount.png")),
+                                sidebar = sidebar(img(src = "kidscount_datacenter.png")),
                                 includeMarkdown("markdown/data_methodology/data4.md")
                             )
                         ),
