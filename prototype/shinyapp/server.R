@@ -210,7 +210,7 @@ server <- function(input, output, session) {
             mutate_if(is.character, str_replace_all, "_", " ") %>%
             mutate_if(is.character, str_to_title)
         
-        inner_join(std, edu, by = c("division_name", "races")) 
+        df <- inner_join(std, edu, by = c("division_name", "races")) ; df
     })
     
     # TODO create percentiles instead of numbers for donut plots
@@ -380,13 +380,20 @@ server <- function(input, output, session) {
     
     # create choropleth data & map
     cohort_grad_data <- reactive({
+        # get cohort pass rates data from education.r
         ch <- cohort_pass_rates %>%
             filter(cohort_year %in% input$cohort_year)
+        
         # TODO CREATE NEW GEO_DATA FOR EDUCATIONAL DATA COMBINING WILLIAMSBURG AND JC COUNTY
+        # NEXT SEMESTER THIS IS ALL YOU!
+        
+        # get geo data from sodem.r
+        # TODO create separate file containing metadata such as geo data, color palettes, etc. ??
         gd <- geo_data %>%
             # remove williamsburg
             filter(loc_name != "williamsburg") %>%
             # rename james city county to williamsburg-james city county
+            # ^j == first occurrence of "j" in regex
             mutate(loc_name = case_when(str_detect(loc_name, "^j") ~ "williamsburg-james_city_county",
                                         TRUE ~ str_replace(loc_name, "_city", ""))) %>%
             mutate(across(loc_name, str_replace_all, "_", " ")) %>%
@@ -399,7 +406,8 @@ server <- function(input, output, session) {
     
     output$cohort_choropleth_map <- renderLeaflet({
         data <- cohort_grad_data()
-        pal <- colorBin(continuous_pal, 70:100)
+        pal <- colorBin(continuous_pal, 
+                        floor(min(data$graduation_rate)):ceiling(max(data$graduation_rate)))
         map <- leaflet(data) %>%
             addPolygons(
                 fillColor = ~pal(data$graduation_rate),
@@ -412,9 +420,11 @@ server <- function(input, output, session) {
                     bringToFront = TRUE, 
                     color = "white",
                     weight = 2),
+                label = data$loc_name,
                 popup = paste(
-                    "<h1>", data$loc_name,"</h1>",
-                    "<b>", input$grad_race, "Student Population:</b>", 2 * 10
+                    "<h3>", data$loc_name,"</h3>",
+                    "<b>", input$grad_race, "Student Population:</b>", 2 * 10,
+                    "<br><b>", input$grad_race, "Graduation Rate (%): ", data$graduation_rate
                 )
             ) %>%
             addLegend(

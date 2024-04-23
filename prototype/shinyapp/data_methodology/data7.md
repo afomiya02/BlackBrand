@@ -1,2 +1,0 @@
-Using a Google Maps Platform developer account, accessing real-time information about places and locations in the globe is incredibly easy. Returned in an easy to format, easy to plot way, the Google Maps API was used to locate food banks and pantries within the Hampton Roads area.
-          

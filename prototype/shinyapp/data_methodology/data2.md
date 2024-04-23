@@ -1,3 +1,0 @@
-***Broadband Now***
-            is a broadband provider company that compiles the results of the FCC form 477 which requires internet providers to report their coverage to the FCC. The information in these reports regarding internet provider, speed, and location were used in the analysis for this dashboard.
-                                            We display the relevant information for the counties and cities in the Hampton Roads region.

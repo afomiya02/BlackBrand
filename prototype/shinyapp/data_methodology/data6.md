@@ -1,3 +1,0 @@
- ***The OECD International Network on Financial Education*** conducts this survey at an international level and aims to identify the level of financial literacy of the survey respondents. The survey provides information about the respondents (credit scores and race), and creates a financial literacy score based off of the respondents answers to various questions. We used the information relevant to Virginia to establish an idea of the financial literacy of the Black population compared to other racial groups.
-           
-          

@@ -1,3 +1,0 @@
-A major driver of economic growth and mobility is growth in labor, income, health, and wealth accumulation (homeownership). Thus, we examine median income, poverty rates, industry employment and unemployment rates, health insurance status, and homeownership rate for the Black and general population across the counties and cities in Hampton Roads [1]. To further assess economic progress, we included several characteristics to measure Black households well-being.  We included welfare measures (Food Stamps or SNAP recipients); family stability (female-headed household, marital rates, grandparents guardianship, and migration); transportation access (private and public transportation); and technology access (computer and internet access). 
-          
-          

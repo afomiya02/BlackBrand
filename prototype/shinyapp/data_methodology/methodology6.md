@@ -1,2 +1,0 @@
-Lastly, we rank counties/cities based on several of our indicators. The idea is to determine whether the Black community was consistently underperforming in some localities in the Hampton Road region.
-          

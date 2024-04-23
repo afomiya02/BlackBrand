@@ -1,5 +1,0 @@
-We investigated financial literacy survey results to describe the financial literacy of the Black population as a whole. The survey provides results from a wide variety of countries,
-                here we only focused on the responses from Virginia residents. Unfortunately this information is not available on a more granular level yet, so we aim to draw insights from the most representative
-                population available in the data. Another facet of People & Values that is touched on is the availability of food, and the area's food security. Food security allows for a healthier quality of life in all communities.
-                By analyzing what areas are more food insecure than others, along with providing the information and resources to make a change, a community can grow and thrive.
-          

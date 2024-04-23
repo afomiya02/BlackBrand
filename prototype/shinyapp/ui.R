@@ -71,9 +71,9 @@ ui <- page_navbar(
         # Data & Methodology Section
         nav_panel(
             title = "Data & Methodology",
-            navset_card_pill(
+            navset_card_underline(
                 nav_panel(
-                    title = "Datasets",
+                    title = strong("Datasets"),
                     fluidRow(
                         style = "margin: 2px",
                         align = "center",
@@ -157,7 +157,7 @@ ui <- page_navbar(
                     )
                 ),
                 nav_panel(
-                    title = "Methodology",
+                    title = strong("Methodology"),
                     fluidRow(
                         style = "margin: 6px;",
                         h1(strong("5 Pillars of Methodology"), align = "center"),
@@ -203,15 +203,9 @@ ui <- page_navbar(
                 )
             )
         ),
-        # future work section
-        nav_panel(
-            title = "Future Work",
-            value = "future_work",
-        ),
         # meet the team
         nav_panel(
             title = "Meet the Team",
-            value = "meet_the_team",
         )
     ),
     ## Sociodemographics tab -------------------------------------------------------
@@ -262,8 +256,9 @@ ui <- page_navbar(
             sidebar = sidebar(
                 title = "Location & Race Comparison",
                 width = "20%", # sidebar takes up x% of page
+                # conditional panels that change depending on tab we're on
                 conditionalPanel(
-                    condition = "input.edu_nav == 'Standardized Testing'",
+                    condition = "input.edu_nav == '<strong>Standardized Testing</strong>'",
                     selectInput(
                         inputId = "edu_loc",
                         label = "Select location:",
@@ -281,7 +276,8 @@ ui <- page_navbar(
                     )
                 ),
                 conditionalPanel(
-                    condition = "input.edu_nav == 'Educational Attainment (Graduation Rate)'",
+                    condition = "input.edu_nav == 
+                        '<strong>Educational Attainment (Graduation Rate)</strong>'",
                     radioButtons(
                         inputId = "grad_race",
                         label = "Select to view:",
@@ -294,7 +290,7 @@ ui <- page_navbar(
                     )
                 ),
                 conditionalPanel(
-                    condition = "input.edu_nav == 'Educators vs. Students'",
+                    condition = "input.edu_nav == '<strong>Educators vs. Students</strong>'",
                     selectInput(
                         inputId = "edu_ratio_loc",
                         label = "Select location:",
@@ -310,7 +306,7 @@ ui <- page_navbar(
                     heights_equal = "row",
                     layout_column_wrap(
                         width = 1/3,
-                        heights_equal = "row",
+                        heights_equal = "all",
                         uiOutput("edu_vb1"),
                         uiOutput("edu_vb2"),
                         uiOutput("edu_vb3")
@@ -319,6 +315,7 @@ ui <- page_navbar(
                         nav_panel(
                             title = "Standardized Testing Results",
                             layout_sidebar(
+                                height = validateCssUnit("1000px"),
                                 sidebar = sidebar(
                                     width = "20%",
                                     selectInput(
@@ -354,11 +351,19 @@ ui <- page_navbar(
             nav_panel(
                 title = strong("Educators vs. Students"),
                 layout_column_wrap(
-                    uiOutput("edu_ratio1"), # black t-s ratio
-                    uiOutput("edu_ratio2"), # white
-                    uiOutput("edu_ratio3") # total
+                    width = 1,
+                    heights = "row",
+                    layout_column_wrap(
+                        height = "15%",
+                        width = 1/3,
+                        uiOutput("edu_ratio1"), # black t-s ratio
+                        uiOutput("edu_ratio2"), # white
+                        uiOutput("edu_ratio3") # total
+                    ),
                 ),
                 card(
+                    full_screen = TRUE,
+                    height = "85%",
                     card_header("Teachers vs. Students per Location"),
                     card_body(
                         layout_column_wrap(
@@ -372,26 +377,25 @@ ui <- page_navbar(
             nav_panel(
                 title = strong("Educational Attainment (Graduation Rate)"),
                 card(
+                    full_screen = TRUE,
                     card_header("Graduation Rate Choropleth Map"),
                     card_body(class = "p-0", leafletOutput("cohort_choropleth_map")),
-                    p(), # spacer
-                    card_body(
-                        sliderInput(
-                            inputId = "cohort_year",
-                            label = "Select Year:",
-                            value = 2023,
-                            min = min(cohort_pass_rates$cohort_year),
-                            max = max(cohort_pass_rates$cohort_year),
-                            round = TRUE,
-                            step = 1,
-                            sep = "",
-                            width = "100%",
-                            animate = animationOptions(interval = 2400)
-                        ),
-                    ),
                     card_footer("Source: VDOE Cohort Graduation Build-a-Table")
-                )
-            )
+                ),
+                p(), # spacer
+                sliderInput(
+                    inputId = "cohort_year",
+                    label = "Select Year:",
+                    value = 2023,
+                    min = min(cohort_pass_rates$cohort_year),
+                    max = max(cohort_pass_rates$cohort_year),
+                    round = TRUE,
+                    step = 1,
+                    sep = "",
+                    width = "100%",
+                    animate = animationOptions(interval = 2400)
+                ),
+            ),
         )
     ),
     
@@ -417,7 +421,7 @@ ui <- page_navbar(
                 )
             ),
             nav_panel(
-                title = "Homeownership", 
+                title = strong("Homeownership"), 
                 layout_sidebar(
                     sidebar = sidebar(
                         width = "25%",
@@ -427,9 +431,6 @@ ui <- page_navbar(
                     layout_column_wrap(
                         width = 1,
                         card(
-                            # this is fucking BUGGED. idk what happened here but
-                            # it is absurdly slow. will try fixing if not it's up to you
-                            # fall 2024 team :)
                             card_header("Black vs. Total Homeowners in Hampton Roads"),
                             card_body(leafletOutput("homeownership_map"), class = "p-0"),
                             card_footer("Source: ACS 5 Year Estimates Table S2505")
@@ -438,7 +439,7 @@ ui <- page_navbar(
                 )     
             ),
             nav_panel(
-                title = "Labor Market", 
+                title = strong("Labor Market"), 
                 layout_sidebar(
                     sidebar = sidebar(
                         width = validateCssUnit("25%"),
@@ -520,8 +521,8 @@ ui <- page_navbar(
                 )
             ),
             nav_panel(
-                # same as labor market
-                title = "Poverty", 
+                # same issue as labor market
+                title = strong("Poverty"), 
                 layout_sidebar(
                     sidebar = sidebar(
                         width = validateCssUnit("25%"),
@@ -603,7 +604,7 @@ ui <- page_navbar(
                 )
             ),
             nav_panel(
-                title = "Health", 
+                title = strong("Health"), 
                 layout_sidebar(
                     sidebar = sidebar(
                         width = validateCssUnit("25%"),
@@ -630,13 +631,12 @@ ui <- page_navbar(
                             )
                         )
                     ),
-                    card_footer("*Note: Data missing for Black population in Poquoson.
-
-Data Source: ACS 5 Year Estimates Table S2701S")
+                    card_footer("*Note: Data missing for Black population in Poquoson. 
+                                Data Source: ACS 5 Year Estimates Table S2701S")
                 )
             ),
             nav_panel(
-                title = "Veterans", 
+                title = strong("Veterans"), 
                 layout_sidebar(
                     sidebar = sidebar(
                         width = validateCssUnit("33%"),
@@ -667,7 +667,7 @@ Data Source: ACS 5 Year Estimates Table S2701S")
                 )
             ),
             nav_panel(
-                title = "Business", 
+                title = strong("Business"), 
                 layout_sidebar(
                     sidebar = sidebar(
                         width = validateCssUnit("25%"),
@@ -720,7 +720,7 @@ Data Source: ACS 5 Year Estimates Table S2701S")
                 )
             ),
             nav_panel(
-                title = "Household Well-being", 
+                title = strong("Household Well-being"), 
                 layout_sidebar(
                     sidebar = sidebar(
                         width = validateCssUnit("25%"),
@@ -745,6 +745,7 @@ Data Source: ACS 5 Year Estimates Table S2701S")
                             )
                         ),
                         card(
+                            height = "1000px",
                             card_header("Household Characteristics"),
                             card_body(leafletOutput("wellbeing_maps"), class = "p-0"),
                             card_footer("Data Source: ACS 5 Year Estimates Tables: S0901, 
@@ -760,7 +761,7 @@ Data Source: ACS 5 Year Estimates Table S2701S")
         title = "Media & Entertainment",
         navset_card_underline(
             nav_panel(
-                title = "Internet Coverage", 
+                title = strong("Internet Coverage"), 
                 layout_sidebar(
                     sidebar = sidebar(
                         title = "Coverage of Broadband Internet in Hampton Roads",
@@ -787,7 +788,7 @@ Data Source: ACS 5 Year Estimates Table S2701S")
                 )
             ),
             nav_panel(
-                title = "Internet Quality", 
+                title = strong("Internet Quality"), 
                 layout_sidebar(
                     sidebar = sidebar(
                         title = "Quality of Broadband Internet in Hampton Roads",
@@ -812,7 +813,7 @@ Data Source: ACS 5 Year Estimates Table S2701S")
                 )
             ),
             nav_panel(
-                title = "News Anchors", 
+                title = strong("News Anchors"), 
                 layout_sidebar(
                     sidebar = sidebar(
                         title = "News Anchors Across Hampton Roads",
@@ -830,7 +831,7 @@ Data Source: ACS 5 Year Estimates Table S2701S")
                 )
             ),
             nav_panel(
-                title = "Radio Stations", 
+                title = strong("Radio Stations"), 
                 layout_sidebar(
                     sidebar = sidebar(
                         title = "Radio Stations Across Hampton Roads",
@@ -846,7 +847,7 @@ Data Source: ACS 5 Year Estimates Table S2701S")
                 )
             ),
             nav_panel(
-                title = "Headquarter Locations", 
+                title = strong("Headquarter Locations"), 
                 layout_sidebar(
                     sidebar = sidebar(
                         title = "Headquarters in Hampton Roads",
@@ -864,7 +865,7 @@ Data Source: ACS 5 Year Estimates Table S2701S")
                 )
             ),
             nav_panel(
-                title = "Ratio of Sentiment Over Time", 
+                title = strong("Sentiment"), 
                 layout_sidebar(
                     sidebar = sidebar(
                         title = "Sentiment Analysis in Hampton Roads",
@@ -890,7 +891,7 @@ Data Source: ACS 5 Year Estimates Table S2701S")
                 )
             ),
             nav_panel(
-                title = "Diversity", 
+                title = strong("Diversity"), 
                 layout_sidebar(
                     sidebar = sidebar(
                         title = "Ratio of Diversity to Positive & Negative Bags",
@@ -1123,7 +1124,7 @@ Data Source: ACS 5 Year Estimates Table S2701S")
         title = "People & Values",
         navset_card_underline(
             nav_panel(
-                title = "Family Dynamic",
+                title = strong("Family Dynamics"),
                 layout_sidebar(
                     sidebar = sidebar(
                         title = "Family Dynamic",
@@ -1151,7 +1152,7 @@ Data Source: ACS 5 Year Estimates Table S2701S")
                 )
             ),
             nav_panel(
-                title = "Religion",
+                title = strong("Religion"),
                 layout_sidebar(
                     sidebar = sidebar(
                         title = "Religion",
@@ -1175,7 +1176,7 @@ Data Source: ACS 5 Year Estimates Table S2701S")
                 )
             ),
             nav_panel(
-                title = "Financial Literacy",
+                title = strong("Financial Literacy"),
                 layout_sidebar(
                     sidebar = sidebar(
                         title = "Financial Literacy Score",
@@ -1209,7 +1210,7 @@ Data Source: ACS 5 Year Estimates Table S2701S")
                 )
             ),
             nav_panel(
-                title = "Financial Banks",
+                title = strong("Financial Banks"),
                 layout_sidebar(
                     sidebar = sidebar(
                         title = "Food Banks",
@@ -1235,7 +1236,7 @@ Data Source: ACS 5 Year Estimates Table S2701S")
                 )
             ), 
             nav_panel(
-                title = "Food Insecurity",
+                title = strong("Food Insecurity"),
                 layout_sidebar(
                     sidebar = sidebar(
                         title = "Food Insecurity",
@@ -1287,3 +1288,4 @@ Data Source: ACS 5 Year Estimates Table S2701S")
 )
 
 return(ui)
+shinyApp(ui, server)
