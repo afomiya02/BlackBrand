@@ -97,7 +97,8 @@ server <- function(input, output, session) {
                 "bottomright",
                 pal = pal,
                 values = heatmap_data$pct_black,
-                title = "Black Population (%)"
+                title = "Black Population",
+                labFormat = labelFormat(suffix = "%")
             ) %>%
             addTiles()
         
@@ -705,6 +706,7 @@ server <- function(input, output, session) {
         # Check the selected year and load corresponding data
         selected_year <- var_veteran()
         data <- read_veteran_data(selected_year)
+        print(data)
         vet_data <- data$vet_data
         military_bases <- data$military_bases
         
@@ -719,20 +721,26 @@ server <- function(input, output, session) {
             leaflet() %>%
             addTiles() %>%
             addPolygons(
-                color = ~ pal(Percent),
-                weight = 0.5,
-                fillOpacity = 0.7,
-                smoothFactor = 0,
+                fillColor = ~pal(Percent),
+                color = "black",
+                weight = 1,
+                fillOpacity = 0.75,
+                smoothFactor = 0.5,
+                opacity = 1.0,
                 highlightOptions = highlightOptions(
                     bringToFront = TRUE, 
                     color = "white",
                     weight = 2),
-                label = ~ paste0(NAME,  " Black Veterans: ", Percent, "%"),
+                label = ~NAME,
+                popup = ~paste("<h3>", NAME, "</h3>", 
+                               "<br><b>Black Veterans (%): </b>", Percent),
                 group = "Veteran Status"
             ) %>%
             addMarkers(
                 data = military_bases,
-                popup = ~ paste0("Base: ", base_name, " Branch: ", branch),
+                label = ~base_name,
+                popup = ~paste("<h3>", base_name, "</h3>",
+                              "<br><b>Branch: </b>", branch),
                 group = "Military Bases"
             ) %>%
             addLayersControl(
@@ -742,7 +750,7 @@ server <- function(input, output, session) {
             ) %>%
             hideGroup("Military Bases") %>%
             addLegend(
-                "topleft",
+                "bottomright",
                 pal = pal,
                 values = ~ Percent,
                 title = "Black Veterans",
@@ -762,7 +770,7 @@ server <- function(input, output, session) {
             data <- read_rds(data_file)
             colnames(data)[4] <- "Percent"
             colnames(data)[3] <- col_names
-            data_pal <- colorBin(palette = continuous_pal, domain = data$Percent, reverse = TRUE)
+            data_pal <- colorBin(palette = continuous_pal, domain = data$Percent)
             
             map <- data %>%
                 leaflet() %>% 
@@ -777,7 +785,9 @@ server <- function(input, output, session) {
                                 bringToFront = TRUE, 
                                 color = "white",
                                 weight = 2),
-                            label = ~paste0(NAME, " - ", col_names, ": ", Percent, "%")) %>% 
+                            label = ~NAME,
+                            popup = ~paste("<h3>", NAME, "</h3>",
+                                           "<br><b>", col_names, " (%): </b>", Percent)) %>% 
                 addLegend("bottomright",
                           pal = data_pal,
                           values = ~ Percent,
