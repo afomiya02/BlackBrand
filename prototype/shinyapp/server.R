@@ -88,7 +88,7 @@ server <- function(input, output, session) {
                 label = heatmap_data$loc_name,
                 popup = paste(
                     "<h3>", heatmap_data$loc,"</h3>",
-                    "<br><b>Total Population:</b>", heatmap_data$total_population,
+                    "<b>Total Population:</b>", heatmap_data$total_population,
                     "<br><b>Median Age (years):</b>", heatmap_data$median_age_years,
                     "<br><b>Black Population (%):</b>", heatmap_data$pct_black
                 )
@@ -124,7 +124,7 @@ server <- function(input, output, session) {
                 label = heatmap_data$loc_name,
                 popup = paste(
                     "<h3>", heatmap_data$loc_name,"</h3>",
-                    "<br><b>Total Population:</b>", heatmap_data$total_population,
+                    "<b>Total Population:</b>", heatmap_data$total_population,
                     "<br><b>Median Age (years):</b>", heatmap_data$median_age_years,
                     "<br><b>Black Population (%):</b>", heatmap_data$pct_black
                 )
@@ -427,8 +427,8 @@ server <- function(input, output, session) {
                 label = data$loc_name,
                 popup = paste(
                     "<h3>", data$loc_name,"</h3>",
-                    "<b>", input$grad_race, "Student Population:</b>", 2 * 10,
-                    "<br><b>", input$grad_race, "Graduation Rate (%): ", data$graduation_rate
+                    "<b>", input$grad_race, "Student Population:</b>", "TODO please get population",
+                    "<br><b>", input$grad_race, "Graduation Rate (%):</b>", data$graduation_rate
                 )
             ) %>%
             addLegend(
@@ -496,7 +496,7 @@ server <- function(input, output, session) {
         b_hm_19 <- data$b_hm_19
         tot_hm_19 <- data$tot_hm_19
         all_hm_data <- data$all_hm_data
-        
+
         # TODO create new tab containing these plots
         # having this encased in a popup is going to go unnoticed by majority of users
         # we'd much rather have this in its own tab
@@ -555,9 +555,11 @@ server <- function(input, output, session) {
                     bringToFront = TRUE, 
                     color = "white",
                     weight = 2),
-                label = ~ paste0(NAME, " Black Homeowners: ", Percent, "%"),
-                group = "Black Homeowners",
-                # popup = popupGraph(r)
+                label = ~NAME,
+                popup = ~paste("<h3>", NAME, "</h3>",
+                               "<b>Black Homeowners (%):</b>", Percent,
+                               "<br><b>Total Homeowners (%):</b>", tot_hm_19$Percent),
+                group = "Black Homeowners"
             ) %>%
             addPolygons(
                 data = tot_hm_19,
@@ -571,9 +573,10 @@ server <- function(input, output, session) {
                     bringToFront = TRUE, 
                     color = "white",
                     weight = 2),
-                label = ~ paste0(NAME,  " Total Homeowners: ", Percent, "%"),
-                group = "Total Homeowners"
-                # popup = popupGraph(r)
+                label = ~NAME,
+                popup = ~paste("<h3>", NAME, "</h3>",
+                               "<b>Black Homeowners (%):</b>", b_hm_19$Percent,
+                               "<br><b>Total Homeowners (%):</b>", Percent)
                 # TODO create separate tab showcasing black vs. total homeownership
             ) %>%
             addLayersControl(
@@ -595,7 +598,7 @@ server <- function(input, output, session) {
     # Employment By Sector
     # Reactive expression to get the selected year from the input dropdown
     var_sectorEmployment <- reactive({
-        input$SectorEmploymentYearDrop
+        as.character(input$SectorEmploymentYearDrop)
     })
     
     # Render the plotly plot
@@ -628,6 +631,8 @@ server <- function(input, output, session) {
         }
         
         # Generate the plot using ggplot2
+        # TODO create fixed y-values for the plot
+        # also please don't align the plot title to center :(
         pov_plot <- ggplot(pov_data, aes(x = Location, y = `Percentage (%)`, fill = Demographic)) +
             geom_bar(stat = "identity", position = position_dodge()) +
             geom_text(aes(label = paste0(round(`Percentage (%)`, digits = 2), "%")),
@@ -654,7 +659,7 @@ server <- function(input, output, session) {
     # poverty rates across localities
     # Define a reactive expression to capture the selected year from the dropdown
     var_povertyCount <- reactive({
-        input$PovertyCountYearDrop
+        as.character(input$PovertyCountYearDrop)
     })
     # Render Plotly plot based on selected year
     output$counties_pov <- renderPlotly({
@@ -706,7 +711,6 @@ server <- function(input, output, session) {
         # Check the selected year and load corresponding data
         selected_year <- var_veteran()
         data <- read_veteran_data(selected_year)
-        print(data)
         vet_data <- data$vet_data
         military_bases <- data$military_bases
         
@@ -733,14 +737,14 @@ server <- function(input, output, session) {
                     weight = 2),
                 label = ~NAME,
                 popup = ~paste("<h3>", NAME, "</h3>", 
-                               "<br><b>Black Veterans (%): </b>", Percent),
+                               "<b>Black Veterans (%): </b>", Percent),
                 group = "Veteran Status"
             ) %>%
             addMarkers(
                 data = military_bases,
                 label = ~base_name,
                 popup = ~paste("<h3>", base_name, "</h3>",
-                              "<br><b>Branch: </b>", branch),
+                              "<b>Branch: </b>", branch),
                 group = "Military Bases"
             ) %>%
             addLayersControl(
@@ -752,7 +756,7 @@ server <- function(input, output, session) {
             addLegend(
                 "bottomright",
                 pal = pal,
-                values = ~ Percent,
+                values = ~Percent,
                 title = "Black Veterans",
                 labFormat = labelFormat(suffix = "%"),
                 opacity = 1
@@ -787,7 +791,7 @@ server <- function(input, output, session) {
                                 weight = 2),
                             label = ~NAME,
                             popup = ~paste("<h3>", NAME, "</h3>",
-                                           "<br><b>", col_names, " (%): </b>", Percent)) %>% 
+                                           "<b>", col_names, " (%): </b>", Percent)) %>% 
                 addLegend("bottomright",
                           pal = data_pal,
                           values = ~ Percent,
@@ -983,6 +987,7 @@ server <- function(input, output, session) {
     RadioStations(input,output,session)
     headquarter_sentiment_deversity(input,output,session)
     # End of Media/Entertainment Tab -----------------------------------------------
+    
     ### ---Politics/Justice Tab ---------------------
     # Render the Traffic Race plot
     output$trafficRace <- renderPlot({

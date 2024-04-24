@@ -85,6 +85,8 @@ read_homeownership_data <- function() {
 # Employment By Sector 
 
 # Function to read CSV data, preprocess, and generate plot for a specific year
+# TODO 1.) the colors change between years -- that CANNOT happen
+# TODO 2.) the data isn't normalized
 read_and_plot_sectors <- function(year) {
     # Construct file path for the CSV file based on the selected year
     file_path <- paste0("data/economics/labor_market/TableDP03FiveYearEstimates/top2employmentSectors", year, ".csv")

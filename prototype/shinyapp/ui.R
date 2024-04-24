@@ -447,33 +447,33 @@ ui <- page_navbar(
                         title = "Labor Market Characteristics in Hampton Roads",
                         includeMarkdown("markdown/economics/labor_market.Rmd"),
                     ),
-                    # completely redo. graphs aren't normalized and some graphs straight up
-                    # don't work
-                    navset_card_tab(
+                    navset_card_pill(
                         title = "Labor Market Analysis",
                         nav_panel(
                             title = "Industry Employment",
                             value = "plot1",
-                            h4(strong("Top Two Industry Sectors"), align = "center"),
-                            selectInput(
-                                "SectorEmploymentYearDrop",
-                                "Select Year:",
-                                width = "100%",
-                                choices = c(
-                                    "2019", "2018", "2017", "2016", "2015",
-                                    "2014", "2013", "2012", "2011", "2010"
-                                )
-                            ),
                             layout_column_wrap(
                                 width = 1,
                                 heights_equal = "row",
-                                fluidRow(
-                                    plotlyOutput("sector_plot"),
-                                    
-                                )
-                            ),
-                            card_footer("Note: Data missing for some years. 
+                                card(
+                                    card_header("Top Two Employment Sectors"),
+                                    card_body(plotlyOutput("sector_plot")),
+                                    card_footer("Note: Data missing for some years. 
                                             Source: ACS 5 Year Estimates Table DP03")
+                                ),
+                                sliderInput(
+                                    "SectorEmploymentYearDrop",
+                                    "Select Year:",
+                                    value = 2019,
+                                    min = 2010,
+                                    max = 2019,
+                                    sep = "",
+                                    width = "100%",
+                                    animate =
+                                        animationOptions(interval = 2100)
+                                ),
+                            ),
+                            
                         ),
                         nav_panel(
                             title = "Unemployment Rate",
@@ -494,7 +494,7 @@ ui <- page_navbar(
                                     sep = "",
                                     width = "100%",
                                     animate =
-                                        animationOptions(interval = 1400)
+                                        animationOptions(interval = 2100)
                                 ),
                             ),
                             card_footer("*Note: Red dotted line represents Virgina's unemployment rate. Missing data for the Black population in Mathews and Poquoson
@@ -530,58 +530,48 @@ ui <- page_navbar(
                         title = "How does the poverty rate in Hampton Roads compare to all of Virginia?",
                         includeMarkdown("markdown/economics/poverty.Rmd"),
                     ),
-                    navset_card_tab(
+                    navset_card_pill(
                         title = "Poverty Rates in Hampton Roads",
                         id = "poverty_tab",
                         nav_panel(
                             title = "Poverty Rates",
                             value = "plot1",
-                            
-                            h4(strong("Poverty Rates across Hampton Roads and Virginia"), align = "center"),
-                            selectInput(
+                            card(
+                                card_header("Poverty Rates across Hampton Roads and Virginia"),
+                                card_body(plotOutput("pov_plot")),
+                                card_footer("Data Source: ACS 5 Year Estimates Table S1701")
+                            ),
+                            sliderInput(
                                 "PovertyYearDrop",
                                 "Select Year:",
+                                value = 2019,
+                                min = 2012,
+                                max = 2019,
+                                sep = "",
                                 width = "100%",
-                                choices = c("2019", "2018", "2017", "2016", "2015", "2014",
-                                            "2013", "2012")
+                                animate =
+                                    animationOptions(interval = 2100)
                             ),
-                            
-                            layout_column_wrap(
-                                width = 1,
-                                heights_equal = "row",
-                                fluidRow(
-                                    plotOutput("pov_plot"),
-                                    
-                                )
-                            ),
-                            
-                            card_footer( "Data Source: ACS 5 Year Estimates Table S1701")
                         ),
                         nav_panel(
-                            title = "Poverty Rates across Localities",
+                            title = "Poverty Rates across Hampton Roads",
                             value = "plot2",
-                            h4(strong("Poverty Rates across Hampton Roads' Cities and Counties"), align = "center"),
-                            layout_column_wrap(
-                                width = 1,
-                                heights_equal = "row",
-                                
-                                selectInput(
-                                    "PovertyCountYearDrop",
-                                    "Select Year:",
-                                    width = "100%",
-                                    choices = c("2019", "2018", "2017", "2016", "2015", "2014",
-                                                "2013", "2012")
-                                ),
-                                layout_column_wrap(
-                                    width = 1,
-                                    heights_equal = "row",
-                                    fluidRow(
-                                        plotlyOutput("counties_pov", width = "100%"),
-                                        
-                                    )
-                                ),
+                            card(
+                                card_header("Poverty Rates across Hampton Roads"),
+                                card_body(plotlyOutput("counties_pov", width = "100%")),
+                                card_footer("Data Source: ACS 5 Year Estimates Table S1701")
                             ),
-                            card_footer("Data Source: ACS 5 Year Estimates Table S1701")
+                            sliderInput(
+                                "PovertyCountYearDrop",
+                                "Select Year:",
+                                value = 2019,
+                                min = 2012,
+                                max = 2019,
+                                sep = "",
+                                width = "100%",
+                                animate =
+                                    animationOptions(interval = 2100)
+                            )
                         ),
                         nav_panel(
                             title = "Poverty Trends",
@@ -597,7 +587,6 @@ ui <- page_navbar(
                                         height = "800",
                                         width = "1100"
                                     )
-                                    
                                 )
                             )
                         )
@@ -613,27 +602,25 @@ ui <- page_navbar(
                         includeMarkdown("markdown/economics/health.Rmd"),
                     ),
                     layout_column_wrap(
+                        width = 1,
+                        heights_equal = "row",
                         card(
-                            h4(strong("Health Uninsured Rates' Cities and Counties"), align = "center"),
-                            width = 1,
-                            heights_equal = "row",
-                            fluidRow(
-                                plotlyOutput("uninsured_plot"),
-                                sliderInput(
-                                    "UninsuredPctSlider",
-                                    "Select Year",
-                                    value = 2019,
-                                    min = 2012,
-                                    max = 2019,
-                                    sep = "",
-                                    width = "100%",
-                                    animate = animationOptions(interval = 1400)
-                                ),
-                            )
-                        )
-                    ),
-                    card_footer("*Note: Data missing for Black population in Poquoson. 
-                                Data Source: ACS 5 Year Estimates Table S2701S")
+                            card_header("Health Uninsured Rates' Cities and Counties"),
+                            card_body(plotlyOutput("uninsured_plot")),
+                            card_footer("Note: Poquoson Black data missing. Data Source: 
+                                    ACS 5 Year Estimates Table S2701S")
+                        ),
+                        sliderInput(
+                            "UninsuredPctSlider",
+                            "Select Year",
+                            value = 2019,
+                            min = 2012,
+                            max = 2019,
+                            sep = "",
+                            width = "100%",
+                            animate = animationOptions(interval = 2100)
+                        ),
+                    )
                 )
             ),
             nav_panel(
@@ -645,25 +632,23 @@ ui <- page_navbar(
                         includeMarkdown("markdown/economics/veterans.Rmd"),
                     ),
                     layout_column_wrap(
+                        width = 1,
+                        heights_equal = "row",
                         card(
                             card_header("Black Veterans in Hampton Roads"),
                             card_body(leafletOutput("veteran_map"), class = "p-0"),
-                            p(),
-                            card_body(
-                                sliderInput(
-                                    "VeteranSlider",
-                                    "Select Year:",
-                                    value = 2019,
-                                    min = 2010,
-                                    max = 2019,
-                                    sep = "",
-                                    width = "100%",
-                                    animate = animationOptions(interval = 2400)
-                                ),
-                            ),
                             card_footer("Data Source: ACS 5 Year Estimates Table S2101")
-                        )
-                        
+                        ),
+                        sliderInput(
+                            "VeteranSlider",
+                            "Select Year:",
+                            value = 2019,
+                            min = 2010,
+                            max = 2019,
+                            sep = "",
+                            width = "100%",
+                            animate = animationOptions(interval = 2400)
+                        ),
                     ),
                 )
             ),
