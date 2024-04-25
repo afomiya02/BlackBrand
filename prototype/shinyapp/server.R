@@ -1291,12 +1291,14 @@ server <- function(input, output, session) {
       })
       
       # Define color palette for map markers
-      pal <- colorNumeric(viridis_pal()(10), merged_data$total_prison_adm_rate)
+      pal <- colorBin(continuous_pal, merged_data$total_prison_adm_rate)
       
       # Create Leaflet map
+      # TODO fix this. look at merged_data and make sure leaflet takes in a data frame of class
+      # "sf"
       prison <- merged_data %>%
         leaflet(options = leafletOptions(minZoom = 5, maxZoom = 15, drag = FALSE)) %>% 
-        addProviderTiles("CartoDB.PositronNoLabels") %>%
+        addTiles() %>%
         addPolygons(
           data = merged_data$geometry, 
           color = pal(merged_data$total_prison_adm_rate),
@@ -1336,7 +1338,7 @@ server <- function(input, output, session) {
       joined_jim <- geo_join(zips, data_jim_final, by_sp = "name", by_df = "zipcode", how = "inner")
       
       # Define color palette for home values
-      pal <- colorNumeric("viridis", joined_jim$homevalue)
+      pal <- colorBin(continuous_pal, joined_jim$homevalue)
       
       # Load redlining data
       norfolk <- geojson_read("data/politics/gentrification/VANorfolk1940.geojson", what = "sp")
@@ -1349,27 +1351,33 @@ server <- function(input, output, session) {
       map_homevalues <- joined_jim %>% 
         leaflet() %>% 
         addTiles() %>% 
-        addPolygons(
-          data = norfolk,
-          color = ~ pal2(norfolk$holc_grade),
-          opacity = 0.9,
-          stroke = F
-        ) %>%
+        # addPolygons(
+        #   data = norfolk,
+        #   color = ~ pal2(norfolk$holc_grade),
+        #   opacity = 0.9,
+        #   stroke = F
+        # ) %>%
         addPolygons(
           fillColor = ~ pal(joined_jim$homevalue),
-          color = ~ pal(joined_jim$homevalue),
-          fillOpacity = 0.5,
-          weight = 0.9,
-          smoothFactor = 0.2,
-          stroke = TRUE,
-          popup = ~ popup_info
+          color = "black",
+          weight = 1,
+          fillOpacity = 0.75,
+          smoothFactor = 0.5,
+          opacity = 1.0,
+          highlightOptions = highlightOptions(
+              bringToFront = TRUE, 
+              color = "white",
+              weight = 2),
+          # TODO turn this popup to a proper label and popup
+          # look at sodem and education leaflet maps for inspiration
+          popup = ~popup_info
         ) %>%
         addLegend(
           pal = pal,
           values = ~ joined_jim$homevalue,
-          position = "topleft",
+          position = "bottomright",
           title = "Median Home Value",
-          opacity = 0.75
+          labFormat = labelFormat(prefix = "$")
         )
       
       map_homevalues

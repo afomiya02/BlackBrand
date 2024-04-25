@@ -600,8 +600,9 @@ headquarter_sentiment_deversity <- function(input,output,session){
     
     # Reactive expression for selecting sentiment year
     sentiment_year <- reactive({
-        input$select_sent_year
+        as.character(input$select_sent_year)
     })
+    
     # Output for sentiment by year plot
     output$sentiment_by_year <- renderPlotly({
         sentiment_data <- calculate_ratios(load_data())

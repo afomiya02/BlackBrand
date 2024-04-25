@@ -840,12 +840,10 @@ ui <- page_navbar(
                         width = validateCssUnit("25%"),
                         includeMarkdown("markdown/media/headquarter_location.Rmd"),
                     ),
-                    layout_column_wrap(
-                        card(
-                            card_header(strong("Headquarters"), align = "center"),
-                            withSpinner(plotOutput("headquarters_graph")),
-                            card_footer("Data Source: Newspaper Headquarter Locations")
-                        )
+                    card(
+                        card_header("Headquarter Locations Across Major Cities in Virginia"),
+                        card_body(plotOutput("headquarters_graph")),
+                        card_footer("Data Source: Newspaper Headquarter Locations")
                     )
                 )
             ),
@@ -860,19 +858,24 @@ ui <- page_navbar(
                     ),
                     layout_column_wrap(
                         card(
-                            card_header(strong("Sentiment Terminology Over Time"), align = "center"),
-                            selectInput(
-                                "select_sent_year",
-                                "Select Year:",
-                                width = "100%",
-                                choices = c(
-                                    "2022", "2021","2020", "2019", "2018","2017", "2016",
-                                    "2015", "2014", "2012", "2010"
-                                )),
-                            mainPanel(plotlyOutput("sentiment_by_year")),
+                            card_header("Sentiment Terminology Over Time"),
+                            card_body(plotlyOutput("sentiment_by_year")),
                             card_footer("Derived from Bag of Words Text Analytics Algorithm")
                         )
-                    )
+                    ),
+                    # TODO fix this slider -- this shit ain't workin
+                    sliderInput(
+                        inputId = "select_sent_year",
+                        label = "Select Year:",
+                        value = 2022,
+                        min = 2010,
+                        max = 2022,
+                        round = TRUE,
+                        step = 1,
+                        sep = "",
+                        width = "100%",
+                        animate = animationOptions(interval = 2400)
+                    ),
                 )
             ),
             nav_panel(
@@ -884,12 +887,10 @@ ui <- page_navbar(
                         width = validateCssUnit("25%"),
                         includeMarkdown("markdown/media/diversity.Rmd"),
                     ),
-                    layout_column_wrap(
-                        card(
-                            card_header(strong("Diversity Bag"), align = "center"),
-                            withSpinner(plotOutput("div_by_pos_and_neg")),
-                            card_footer("Derived from Bag of Words Text Analytics Algorithm")
-                        )
+                    card(
+                        card_header("Diversity Bag of Words"),
+                        card_body(plotOutput("div_by_pos_and_neg")),
+                        card_footer("Derived from Bag of Words Text Analytics Algorithm")
                     )
                 )
             )
@@ -908,41 +909,27 @@ ui <- page_navbar(
                         includeMarkdown("markdown/politics/traffic_stops.Rmd"),
                     ),
                     
-                    navset_card_tab(
+                    navset_card_pill(
                         title = "Traffic Stops",
                         nav_panel(
-                            title = "Race Counts",
+                            title = "Traffic Stops by Race",
                             value = "plot1",
-                            h4(strong("Demographics of Traffic Stops"), align = "center"),
-                            
-                            layout_column_wrap(
-                                width = 1,
-                                heights_equal = "row",
-                                fluidRow(
-                                    plotOutput('trafficRace'),
-                                    
-                                )
+                            card(
+                                card_header("Demographics of Traffic Stops in Hampton Roads"),
+                                card_body(plotOutput("trafficRace")),
                             )
-                            
                         ),
                         nav_panel(
                             title = "Race and Jurisdiction",
                             value = "plot2",
-                            h4(strong("Race and Jurisdiction"), align = "center"),
-                            layout_column_wrap(
-                                width = 1,
-                                heights_equal = "row",
-                                fluidRow(
-                                    plotOutput("jurisdiction") 
-                                ),
-                                
-                            ),
-                            
+                            card(
+                                card_header("Demographics of Traffic Stops in Hampton Roads"),
+                                card_body(plotOutput("jurisdiction"))
+                            )
                         ),
                         nav_panel(
                             title = "Toggle Jurisdictions",
                             value = "plot2",
-                            h4(strong("Race Counts"), align = "center"),
                             selectInput(
                                 "select_stop",
                                 "Select Hampton Roads County:",
@@ -954,15 +941,10 @@ ui <- page_navbar(
                                             "JAMES CITY CO", "MATHEWS CO", "SOUTHAMPTON CO",
                                             "YORK CO")
                             ),
-                            layout_column_wrap(
-                                width = 1,
-                                heights_equal = "row",
-                                fluidRow(
-                                    plotOutput("jurisdiction2") 
-                                ),
-                                
-                            ),
-                            
+                            card(
+                                card_header("Traffic Stops Across Each Locality"),
+                                card_body(plotOutput("jurisdiction2"))
+                            )
                         )
                     )
                 )
@@ -975,17 +957,14 @@ ui <- page_navbar(
                         title = "City Council Demographics",
                         includeMarkdown("markdown/politics/city_council_demographics.Rmd"),
                     ),
-                    layout_column_wrap(
-                        card(
+                    card(
+                        card_header("City Council Demographics by Race and Gender, 2021"),
+                        layout_column_wrap(
                             width = 1,
-                            heights_equal = "row",
-                            fluidRow(
-                                plotOutput("cityd"),
-                                tags$hr(),
-                                plotOutput("cityd2")
-                            ),
+                            plotOutput("cityd"),
+                            plotOutput("cityd2")
                         )
-                    ) 
+                    )
                 )  
             ),
             nav_panel(
@@ -997,12 +976,11 @@ ui <- page_navbar(
                         includeMarkdown("markdown/politics/incarceration_trends.Rmd"),
                     ),
                     
-                    navset_card_tab(
-                        title = "Jail Rates",
+                    navset_card_pill(
+                        title = "Incarcerations Across Hampton Roads",
                         nav_panel(
                             title = "Jail Rates",
                             value = "plot1",
-                            h4(strong("Demographics of Traffic Stops"), align = "center"),
                             selectInput(
                                 "select_jailChoice",
                                 "Select:",
@@ -1012,30 +990,24 @@ ui <- page_navbar(
                                     "Hampton Roads"
                                 )
                             ),
-                            layout_column_wrap(
-                                width = 1,
-                                heights_equal = "row",
-                                fluidRow(
-                                    plotOutput('jail'),
-                                    
-                                )
-                            ),
-                            card_footer("Source: Vera Institute of Justice")
+                            card(
+                                card_header("Jail Rates Across Virginia and Hampton Roads"),
+                                card_body(plotOutput("jail")),
+                                card_footer("Source: Vera Institute of Justice")
+                            )
                             
                         ),
                         nav_panel(
                             title = "Jail & Pop Demographics",
                             value = "plot2",
-                            h4(strong("Jail and Total Population Hampton Roads Demographics"), align = "center"),
                             selectInput(
                                 "select_pieYear",
                                 "Select Year:",
                                 width = "100%",
                                 choices = c("2014", "2015", "2016", "2017", "2018")
                             ),
-                            layout_column_wrap(
-                                width = 1,
-                                heights_equal = "row",
+                            card(
+                                card_header("Jail and Total Population Hampton Roads Demographics"),
                                 fluidRow(
                                     column(
                                         width = 6,
@@ -1047,31 +1019,24 @@ ui <- page_navbar(
                                         highchartOutput("pie_plots2"),
                                         h4("Total Population", align = "center")
                                     )
-                                    
                                 ),
-                                
-                            ),
-                            card_footer("Source: Vera Institute of Justice")
+                                card_footer("Source: Vera Institute of Justice")
+                            )
                         ),
                         nav_panel(
                             title = "Prison Rates",
                             value = "plot3",
-                            h4(strong("Race Counts"), align = "center"),
                             selectInput(
                                 "select_prisonYear",
                                 "Select Year:",
                                 width = "100%",
                                 choices = c("2013", "2012","2011", "2010", "2009")
                             ),
-                            layout_column_wrap(
-                                width = 1,
-                                heights_equal = "row",
-                                fluidRow(
-                                    leafletOutput("prison")
-                                ),
-                                
-                            ),
-                            card_footer("Source: Vera Institute of Justice")
+                            card(
+                                card_header("Admission Rates per 100k People"),
+                                card_body(leafletOutput("prison")),
+                                card_footer("Source: Vera Institute of Justice")
+                            )
                         )
                     )
                 )
@@ -1084,26 +1049,15 @@ ui <- page_navbar(
                         title = "Analyzing Gentrification in Hampton Roads",
                         includeMarkdown("markdown/politics/gentrification.Rmd"),
                     ),
-                    h4(strong("Median Home Value & Percent Populations"), align = "center"),
-                    layout_column_wrap(
-                        width = 1,
-                        card(
-                            card_header("Median Home Value & Percent Populations"),
-                            card_body(leafletOutput("map_homevalues"), class = "p-0"),
-                            card_footer("Data Source: Manually collected from Zillow & Census Reporter (2022)")
-                        )
-                    ),
-                    
+                    card(
+                        card_header("Median Home Value & Percent Populations"),
+                        card_body(leafletOutput("map_homevalues"), class = "p-0"),
+                        card_footer("Data Source: Manually collected from Zillow & Census Reporter (2022)")
+                    )
                 )     
-            ),
-            
-            
-            
+            )
         ) 
     ),
-    
-    
-    
     ## People & Values tab -------------------------------------------------------
     nav_panel(
         title = "People & Values",
