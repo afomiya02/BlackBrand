@@ -483,7 +483,7 @@ ui <- page_navbar(
                                 width = 1,
                                 heights_equal = "row",
                                 fluidRow(
-                                    plotOutput("unemployment_plot") 
+                                    plotlyOutput("unemployment_plot") 
                                 ),
                                 sliderInput(
                                     "UnemploymentRateSlider",
