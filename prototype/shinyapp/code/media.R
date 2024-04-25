@@ -483,7 +483,6 @@ RadioStations <- function(input,output, session){
         pal <- colorBin(continuous_pal, merged_data$count)
         
         # Create Leaflet map
-        View(merged_data)
         radio_map <- leaflet(merged_data) %>% 
             addTiles() %>%
             addPolygons(
@@ -499,12 +498,12 @@ RadioStations <- function(input,output, session){
                     weight = 2),
                 # what the fuck is this
                 # label = lapply(labs, htmltools::HTML)
-                label = city_name # placeholder cause labs is UGLY
+                label = ~city_name # placeholder cause labs is UGLY
             ) %>%
             addLegend(
                 pal = pal, 
                 values = ~count, 
-                title = 'Number of Stations', 
+                title = 'Number of Stations',
                 position = "bottomright"
             )
         

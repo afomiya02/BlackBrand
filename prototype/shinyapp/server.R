@@ -19,17 +19,6 @@ source("code/politics_justice.r")
 source("code/people_values.r")
 source("code/feedback.r")
 
-# color palettes
-discrete_pal <- c(
-    "Black" = "#531b1b",
-    "White" = "#f3bc7d",
-    "Asian" = "#fa6865",
-    "Hispanic" = "#d37334",
-    "Other" = "#6c6c6c"
-)
-
-continuous_pal <- "Reds"
-
 server <- function(input, output, session) {
     ### --- SOCIODEMOGRAPHICS -------------------------------------------------------------
     
