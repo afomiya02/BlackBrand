@@ -456,6 +456,7 @@ ui <- page_navbar(
                                 width = 1,
                                 heights_equal = "row",
                                 card(
+                                    height = "1000px",
                                     card_header("Top Two Employment Sectors"),
                                     card_body(plotlyOutput("sector_plot")),
                                     card_footer("Note: Data missing for some years. 
@@ -531,12 +532,13 @@ ui <- page_navbar(
                         includeMarkdown("markdown/economics/poverty.Rmd"),
                     ),
                     navset_card_pill(
-                        title = "Poverty Rates in Hampton Roads",
+                        title = "Poverty in Hampton Roads",
                         id = "poverty_tab",
                         nav_panel(
                             title = "Poverty Rates",
                             value = "plot1",
                             card(
+                                height = "1000px",
                                 card_header("Poverty Rates across Hampton Roads and Virginia"),
                                 card_body(plotOutput("pov_plot")),
                                 card_footer("Data Source: ACS 5 Year Estimates Table S1701")
@@ -557,6 +559,7 @@ ui <- page_navbar(
                             title = "Poverty Rates across Hampton Roads",
                             value = "plot2",
                             card(
+                                height = "1000px",
                                 card_header("Poverty Rates across Hampton Roads"),
                                 card_body(plotlyOutput("counties_pov", width = "100%")),
                                 card_footer("Data Source: ACS 5 Year Estimates Table S1701")
@@ -605,6 +608,7 @@ ui <- page_navbar(
                         width = 1,
                         heights_equal = "row",
                         card(
+                            height = "1000px",
                             card_header("Health Uninsured Rates' Cities and Counties"),
                             card_body(plotlyOutput("uninsured_plot")),
                             card_footer("Note: Poquoson Black data missing. Data Source: 
@@ -627,7 +631,7 @@ ui <- page_navbar(
                 title = strong("Veterans"), 
                 layout_sidebar(
                     sidebar = sidebar(
-                        width = validateCssUnit("33%"),
+                        width = validateCssUnit("25%"),
                         title = "Who has served in Hampton Roads?",
                         includeMarkdown("markdown/economics/veterans.Rmd"),
                     ),
@@ -635,6 +639,7 @@ ui <- page_navbar(
                         width = 1,
                         heights_equal = "row",
                         card(
+                            height = "1000px",
                             card_header("Black Veterans in Hampton Roads"),
                             card_body(leafletOutput("veteran_map"), class = "p-0"),
                             card_footer("Data Source: ACS 5 Year Estimates Table S2101")
@@ -755,21 +760,18 @@ ui <- page_navbar(
                         width = "25%",
                         includeMarkdown("markdown/media/internet_coverage.Rmd")
                     ),
-                    layout_column_wrap(
-                        card(
-                            # remake slider bins rather than continuous
-                            # create sidebar with radio buttons - 2015 & 2020
-                            card_header("Number of Internet Providers Per Zip Code"),
-                            selectInput(
-                                "select_coverage",
-                                "Select Year:",
-                                width = "50%",
-                                choices = c("2015", "2020")
-                            ),
-                            p(),
-                            card_body(leafletOutput("internet_coverage_maps"), class = "p-0"),
-                            card_footer("Data Source: Sourced from BroadbandNow(2022)")
-                        )
+                    selectInput(
+                        "select_coverage",
+                        "Select Year:",
+                        width = "50%",
+                        choices = c("2015", "2020")
+                    ),
+                    card(
+                        # remake slider bins rather than continuous
+                        # create sidebar with radio buttons - 2015 & 2020
+                        card_header("Number of Internet Providers Per Zip Code"),
+                        card_body(leafletOutput("internet_coverage_maps"), class = "p-0"),
+                        card_footer("Data Source: Sourced from BroadbandNow(2022)")
                     )
                 )
             ),
@@ -782,19 +784,16 @@ ui <- page_navbar(
                         width = validateCssUnit("25%"),
                         includeMarkdown("markdown/media/internet_quality.Rmd"),
                     ),
-                    layout_column_wrap(
-                        card(
-                            card_header("Number of Internet Providers Offering Speeds >= 100mbps"),
-                            selectInput(
-                                "select_quality",
-                                "Select Year:",
-                                width = "100%",
-                                choices = c("2015", "2020")
-                            ),
-                            p(),
-                            card_body(leafletOutput("internet_quality_maps"), class = "p-0"),
-                            card_footer("Data Source: Sourced from BroadbandNow(2022)")
-                        )
+                    selectInput(
+                        "select_quality",
+                        "Select Year:",
+                        width = "100%",
+                        choices = c("2015", "2020")
+                    ),
+                    card(
+                        card_header("Number of Internet Providers Offering Speeds >= 100mbps"),
+                        card_body(leafletOutput("internet_quality_maps"), class = "p-0"),
+                        card_footer("Data Source: Sourced from BroadbandNow(2022)")
                     )
                 )
             ),
