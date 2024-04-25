@@ -27,6 +27,19 @@ hampton_roads_localities <- c(
   "york_county"
 )
 
+# Discrete color palettes to be used across the entire dashboard.
+# If you want to change the palette, do it HERE!
+discrete_pal <- c(
+    "Black" = "#531b1b",
+    "White" = "#f3bc7d",
+    "Asian" = "#fa6865",
+    "Hispanic" = "#d37334",
+    "Other" = "#6c6c6c"
+)
+
+# continuous
+continuous_pal <- "Reds"
+
 ## ALL RACE & AGE DEMOGRAPHICS FOUND IN THE 5-YEAR DP05 TABLE 
 ## IN THE AMERICAN CENSUS SURVEY TABLES
 

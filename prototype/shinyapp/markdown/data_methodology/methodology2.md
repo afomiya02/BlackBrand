@@ -1,0 +1,2 @@
+We analyzed the home values for zip codes in the Hampton Roads region using information from Zillow & compared them to the population characteristics of each zip code using Census Reporter.
+                We aim to identify a relationship between the local Black population and local home values.

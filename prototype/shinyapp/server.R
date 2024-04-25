@@ -9,11 +9,15 @@ library(plotly)
 library(tidyverse)
 library(ggrepel)
 library(ggExtra)
+library(htmlwidgets)
 
-source("sodem.r")
-source("education.r")
-source("economics.r")
-source("politics_justice.r")
+source("code/sodem.r")
+source("code/education.r")
+source("code/economics.r")
+source("code/media.r")
+source("code/politics_justice.r")
+source("code/people_values.r")
+source("code/feedback.r")
 
 # color palettes
 discrete_pal <- c(
@@ -75,9 +79,16 @@ server <- function(input, output, session) {
                 color = "black",
                 weight = 1,
                 fillOpacity = 0.75,
+                smoothFactor = 0.5,
+                opacity = 1.0,
+                highlightOptions = highlightOptions(
+                    bringToFront = TRUE, 
+                    color = "white",
+                    weight = 2),
+                label = heatmap_data$loc_name,
                 popup = paste(
                     "<h3>", heatmap_data$loc,"</h3>",
-                    "<br><b>Total Population:</b>", heatmap_data$total_population,
+                    "<b>Total Population:</b>", heatmap_data$total_population,
                     "<br><b>Median Age (years):</b>", heatmap_data$median_age_years,
                     "<br><b>Black Population (%):</b>", heatmap_data$pct_black
                 )
@@ -86,7 +97,8 @@ server <- function(input, output, session) {
                 "bottomright",
                 pal = pal,
                 values = heatmap_data$pct_black,
-                title = "Black Population (%)"
+                title = "Black Population",
+                labFormat = labelFormat(suffix = "%")
             ) %>%
             addTiles()
         
@@ -96,16 +108,23 @@ server <- function(input, output, session) {
     output$age_choropleth <- renderLeaflet({
         pal <- colorBin(continuous_pal, 
                         min(heatmap_data$median_age_years):max(heatmap_data$median_age_years))
-        sodem_choropleth <- leaflet() %>%
+        
+        cmap <- leaflet(heatmap_data) %>%
             addPolygons(
-                data = heatmap_data,
                 fillColor = pal(heatmap_data$median_age_years),
                 color = "black",
                 weight = 1,
                 fillOpacity = 0.75,
+                smoothFactor = 0.5,
+                opacity = 1.0,
+                highlightOptions = highlightOptions(
+                    bringToFront = TRUE, 
+                    color = "white",
+                    weight = 2),
+                label = heatmap_data$loc_name,
                 popup = paste(
-                    "<h3>", heatmap_data$loc,"</h3>",
-                    "<br><b>Total Population:</b>", heatmap_data$total_population,
+                    "<h3>", heatmap_data$loc_name,"</h3>",
+                    "<b>Total Population:</b>", heatmap_data$total_population,
                     "<br><b>Median Age (years):</b>", heatmap_data$median_age_years,
                     "<br><b>Black Population (%):</b>", heatmap_data$pct_black
                 )
@@ -118,7 +137,7 @@ server <- function(input, output, session) {
             ) %>%
             addTiles()
         
-        sodem_choropleth
+        cmap
     })
     
     ### --- EDUCATION ----------------------------------------------------------
@@ -195,7 +214,7 @@ server <- function(input, output, session) {
             mutate_if(is.character, str_replace_all, "_", " ") %>%
             mutate_if(is.character, str_to_title)
         
-        inner_join(std, edu, by = c("division_name", "races")) 
+        df <- inner_join(std, edu, by = c("division_name", "races")) ; df
     })
     
     # TODO create percentiles instead of numbers for donut plots
@@ -365,13 +384,20 @@ server <- function(input, output, session) {
     
     # create choropleth data & map
     cohort_grad_data <- reactive({
+        # get cohort pass rates data from education.r
         ch <- cohort_pass_rates %>%
             filter(cohort_year %in% input$cohort_year)
+        
         # TODO CREATE NEW GEO_DATA FOR EDUCATIONAL DATA COMBINING WILLIAMSBURG AND JC COUNTY
+        # NEXT SEMESTER THIS IS ALL YOU!
+        
+        # get geo data from sodem.r
+        # TODO create separate file containing metadata such as geo data, color palettes, etc. ??
         gd <- geo_data %>%
             # remove williamsburg
             filter(loc_name != "williamsburg") %>%
             # rename james city county to williamsburg-james city county
+            # ^j == first occurrence of "j" in regex
             mutate(loc_name = case_when(str_detect(loc_name, "^j") ~ "williamsburg-james_city_county",
                                         TRUE ~ str_replace(loc_name, "_city", ""))) %>%
             mutate(across(loc_name, str_replace_all, "_", " ")) %>%
@@ -384,16 +410,25 @@ server <- function(input, output, session) {
     
     output$cohort_choropleth_map <- renderLeaflet({
         data <- cohort_grad_data()
-        pal <- colorBin(continuous_pal, 70:100)
+        pal <- colorBin(continuous_pal, 
+                        floor(min(data$graduation_rate)):ceiling(max(data$graduation_rate)))
         map <- leaflet(data) %>%
             addPolygons(
-                color = "black",
                 fillColor = ~pal(data$graduation_rate),
-                fillOpacity = 0.75,
+                color = "black",
                 weight = 1,
+                fillOpacity = 0.75,
+                smoothFactor = 0.5,
+                opacity = 1.0,
+                highlightOptions = highlightOptions(
+                    bringToFront = TRUE, 
+                    color = "white",
+                    weight = 2),
+                label = data$loc_name,
                 popup = paste(
-                    "<h1>", data$loc_name,"</h1>",
-                    "<b>", input$grad_race, "Student Population:</b>", 2 * 10
+                    "<h3>", data$loc_name,"</h3>",
+                    "<b>", input$grad_race, "Student Population:</b>", "TODO please get population",
+                    "<br><b>", input$grad_race, "Graduation Rate (%):</b>", data$graduation_rate
                 )
             ) %>%
             addLegend(
@@ -461,7 +496,7 @@ server <- function(input, output, session) {
         b_hm_19 <- data$b_hm_19
         tot_hm_19 <- data$tot_hm_19
         all_hm_data <- data$all_hm_data
-        
+
         # TODO create new tab containing these plots
         # having this encased in a popup is going to go unnoticed by majority of users
         # we'd much rather have this in its own tab
@@ -510,33 +545,38 @@ server <- function(input, output, session) {
             addTiles() %>%
             addPolygons(
                 data = b_hm_19,
-                color = ~ pal(Percent),
-                weight = 0.5,
-                fillOpacity = 0.7,
-                smoothFactor = 0,
+                fillColor = ~ pal(Percent),
+                color = "black",
+                weight = 1,
+                fillOpacity = 0.75,
+                smoothFactor = 0.5,
+                opacity = 1.0,
                 highlightOptions = highlightOptions(
-                    bringToFront = TRUE,
-                    opacity = 1.5,
-                    weight = 3
-                ),
-                label = ~ paste0(NAME, " Black Homeowners: ", Percent, "%"),
-                group = "Black Homeowners",
-                # popup = popupGraph(r)
+                    bringToFront = TRUE, 
+                    color = "white",
+                    weight = 2),
+                label = ~NAME,
+                popup = ~paste("<h3>", NAME, "</h3>",
+                               "<b>Black Homeowners (%):</b>", Percent,
+                               "<br><b>Total Homeowners (%):</b>", tot_hm_19$Percent),
+                group = "Black Homeowners"
             ) %>%
             addPolygons(
                 data = tot_hm_19,
-                color = ~ pal(Percent),
-                weight = 0.5,
-                fillOpacity = 0.7,
-                smoothFactor = 0,
+                fillColor = ~ pal(Percent),
+                color = "black",
+                weight = 1,
+                fillOpacity = 0.75,
+                smoothFactor = 0.5,
+                opacity = 1.0,
                 highlightOptions = highlightOptions(
-                    bringToFront = TRUE,
-                    opacity = 1.5,
-                    weight = 3
-                ),
-                label = ~ paste0(NAME,  " Total Homeowners: ", Percent, "%"),
-                group = "Total Homeowners"
-                # popup = popupGraph(r)
+                    bringToFront = TRUE, 
+                    color = "white",
+                    weight = 2),
+                label = ~NAME,
+                popup = ~paste("<h3>", NAME, "</h3>",
+                               "<b>Black Homeowners (%):</b>", b_hm_19$Percent,
+                               "<br><b>Total Homeowners (%):</b>", Percent)
                 # TODO create separate tab showcasing black vs. total homeownership
             ) %>%
             addLayersControl(
@@ -545,7 +585,7 @@ server <- function(input, output, session) {
             ) %>%
             hideGroup("Black Home Owners") %>%
             addLegend(
-                "topleft",
+                "bottomright",
                 pal = pal,
                 values = ~Percent,
                 title = "Homeowners",
@@ -558,7 +598,7 @@ server <- function(input, output, session) {
     # Employment By Sector
     # Reactive expression to get the selected year from the input dropdown
     var_sectorEmployment <- reactive({
-        input$SectorEmploymentYearDrop
+        as.character(input$SectorEmploymentYearDrop)
     })
     
     # Render the plotly plot
@@ -591,6 +631,8 @@ server <- function(input, output, session) {
         }
         
         # Generate the plot using ggplot2
+        # TODO create fixed y-values for the plot
+        # also please don't align the plot title to center :(
         pov_plot <- ggplot(pov_data, aes(x = Location, y = `Percentage (%)`, fill = Demographic)) +
             geom_bar(stat = "identity", position = position_dodge()) +
             geom_text(aes(label = paste0(round(`Percentage (%)`, digits = 2), "%")),
@@ -617,7 +659,7 @@ server <- function(input, output, session) {
     # poverty rates across localities
     # Define a reactive expression to capture the selected year from the dropdown
     var_povertyCount <- reactive({
-        input$PovertyCountYearDrop
+        as.character(input$PovertyCountYearDrop)
     })
     # Render Plotly plot based on selected year
     output$counties_pov <- renderPlotly({
@@ -683,21 +725,26 @@ server <- function(input, output, session) {
             leaflet() %>%
             addTiles() %>%
             addPolygons(
-                color = ~ pal(Percent),
-                weight = 0.5,
-                fillOpacity = 0.7,
-                smoothFactor = 0,
+                fillColor = ~pal(Percent),
+                color = "black",
+                weight = 1,
+                fillOpacity = 0.75,
+                smoothFactor = 0.5,
+                opacity = 1.0,
                 highlightOptions = highlightOptions(
-                    bringToFront = TRUE,
-                    opacity = 1.5,
-                    weight = 3
-                ),
-                label = ~ paste0(NAME,  " Black Veterans: ", Percent, "%"),
+                    bringToFront = TRUE, 
+                    color = "white",
+                    weight = 2),
+                label = ~NAME,
+                popup = ~paste("<h3>", NAME, "</h3>", 
+                               "<b>Black Veterans (%): </b>", Percent),
                 group = "Veteran Status"
             ) %>%
             addMarkers(
                 data = military_bases,
-                popup = ~ paste0("Base: ", base_name, " Branch: ", branch),
+                label = ~base_name,
+                popup = ~paste("<h3>", base_name, "</h3>",
+                              "<b>Branch: </b>", branch),
                 group = "Military Bases"
             ) %>%
             addLayersControl(
@@ -707,9 +754,9 @@ server <- function(input, output, session) {
             ) %>%
             hideGroup("Military Bases") %>%
             addLegend(
-                "topleft",
+                "bottomright",
                 pal = pal,
-                values = ~ Percent,
+                values = ~Percent,
                 title = "Black Veterans",
                 labFormat = labelFormat(suffix = "%"),
                 opacity = 1
@@ -727,14 +774,24 @@ server <- function(input, output, session) {
             data <- read_rds(data_file)
             colnames(data)[4] <- "Percent"
             colnames(data)[3] <- col_names
-            data_pal <- colorNumeric(palette = "viridis", domain = data$Percent, reverse = TRUE)
+            data_pal <- colorBin(palette = continuous_pal, domain = data$Percent)
             
             map <- data %>%
-                leaflet(options = leafletOptions(minZoom = 5, maxZoom = 15, drag = FALSE)) %>% 
-                addProviderTiles("CartoDB.PositronNoLabels") %>% 
-                addPolygons(color = ~ data_pal(Percent), weight = 0.5, fillOpacity = 0.7, smoothFactor = 0,
-                            highlightOptions = highlightOptions(bringToFront = TRUE, opacity = 1.5, weight = 3),
-                            label = ~paste0(NAME, " - ", col_names, ": ", Percent, "%")) %>% 
+                leaflet() %>% 
+                addTiles() %>% 
+                addPolygons(fillColor = ~ data_pal(Percent), 
+                            color = "black",
+                            weight = 1,
+                            fillOpacity = 0.75,
+                            smoothFactor = 0.5,
+                            opacity = 1.0,
+                            highlightOptions = highlightOptions(
+                                bringToFront = TRUE, 
+                                color = "white",
+                                weight = 2),
+                            label = ~NAME,
+                            popup = ~paste("<h3>", NAME, "</h3>",
+                                           "<b>", col_names, " (%): </b>", Percent)) %>% 
                 addLegend("bottomright",
                           pal = data_pal,
                           values = ~ Percent,
@@ -930,6 +987,7 @@ server <- function(input, output, session) {
     RadioStations(input,output,session)
     headquarter_sentiment_deversity(input,output,session)
     # End of Media/Entertainment Tab -----------------------------------------------
+    
     ### ---Politics/Justice Tab ---------------------
     # Render the Traffic Race plot
     output$trafficRace <- renderPlot({
@@ -1336,6 +1394,10 @@ server <- function(input, output, session) {
     foodbanks(input,output,session)
     food_insecurity(input,output,session)
     # People and Values Tab -----------------------------------------------
+
+    # Feedback button-----------------------------------------------
+    feedback(input,output,session)
+    # End feedback button-----------------------------------------------
 }
 
 return(server)
