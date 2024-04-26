@@ -65,7 +65,7 @@ ui <- page_navbar(
                     padding-bottom: 10px;}"
                 )
             )),
-            tags$div(style = "text-align: right;",
+            tags$div(style = "text-align: right; position: fixed; bottom:1px; right:1px",
                      # This aligns the button to the right
                      actionButton("show_feedback", "Give Feedback", class = "btn-primary"))
         ),
