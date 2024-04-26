@@ -92,7 +92,8 @@ InternetCoverage <- function(input,output,session){
             pal2 <- colorFactor(cols, domain = norfolk$holc_grade)
             
             # Create map details for 2015
-            pal <- colorBin(continuous_pal, joined_zips$AllProviderCount_2015)
+            # TODO fix palette range
+            pal <- colorBin(continuous_pal, 3:6, bins = 4)
             labs <- sprintf(
                 "<strong>%s</strong><br/>Zip: %i<br/>Num. Providers: %i",
                 joined_zips$County,
@@ -176,7 +177,7 @@ InternetCoverage <- function(input,output,session){
             pal2 <- colorFactor(cols, domain = norfolk$holc_grade)
             
             # Create map details for 2020
-            pal <- colorBin(continuous_pal, joined_zips$AllProviderCount_2020)
+            pal <- colorBin(continuous_pal, 6:11, bins = 6)
             labs <- sprintf(
                 "<strong>%s</strong><br/>Zip: %i<br/>Num. Providers: %i<br/>Black Population: %i<br/>Percent Black: %.2f%%",
                 joined_zips$County,
@@ -191,7 +192,7 @@ InternetCoverage <- function(input,output,session){
             internet_coverage_maps <- joined_zips %>% leaflet() %>% 
                 addTiles() %>%
                 addPolygons(
-                    fillColor = ~ pal(joined_zips$AllProviderCount_2015),
+                    fillColor = ~ pal(joined_zips$AllProviderCount_2020),
                     color = "black",
                     weight = 1,
                     fillOpacity = 0.75,
@@ -213,13 +214,14 @@ InternetCoverage <- function(input,output,session){
                 addLegend(
                     pal = pal,
                     values = ~ joined_zips$AllProviderCount_2020,
-                    position = "topleft",
+                    position = "bottomright",
                     title = "Num. Providers",
-                    opacity = 0.75
+                    labFormat = labelFormat(digits = 0)
                 ) 
         }
     })
 }
+
 InternetQualityMap <- function(input,output,session) {
     #Internet quality
     # Define reactive function to retrieve selected quality year
@@ -255,7 +257,7 @@ InternetQualityMap <- function(input,output,session) {
             pal2 <- colorFactor(cols, domain = norfolk$holc_grade)
             
             # Create map details for 2015
-            pal <- colorBin(continuous_pal, joined_zips$All100_3.1)
+            pal <- colorBin(palette = continuous_pal, domain = 0:3, bins = 4)
             labs <- sprintf(
                 "<strong>%s</strong><br/>Zip: %i<br/>Num. Providers: %i",
                 joined_zips$County,
@@ -323,7 +325,7 @@ InternetQualityMap <- function(input,output,session) {
             pal2 <- colorFactor(cols, domain = norfolk$holc_grade)
             
             # Create map details for 2020
-            pal <- colorBin(continuous_pal, joined_zips$All100_3)
+            pal <- colorBin(continuous_pal, 0:5, bins = 6)
             labs <- sprintf(
                 "<strong>%s</strong><br/>Zip: %i<br/>Num. Providers: %i<br/>Black Population: %i<br/>Percent Black: %.2f%%",
                 joined_zips$County,
@@ -498,6 +500,7 @@ RadioStations <- function(input,output, session){
                     weight = 2),
                 # what the fuck is this
                 # label = lapply(labs, htmltools::HTML)
+                # TODO fix popup (look at labs)
                 label = ~city_name # placeholder cause labs is UGLY
             ) %>%
             addLegend(
@@ -600,10 +603,11 @@ headquarter_sentiment_deversity <- function(input,output,session){
     
     # Reactive expression for selecting sentiment year
     sentiment_year <- reactive({
-        as.character(input$select_sent_year)
+        input$select_sent_year
     })
     
     # Output for sentiment by year plot
+    # TODO investigate why this slider won't change output
     output$sentiment_by_year <- renderPlotly({
         sentiment_data <- calculate_ratios(load_data())
         create_sentiment_by_year_plot(sentiment_data, sentiment_year())

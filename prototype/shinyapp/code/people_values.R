@@ -44,15 +44,30 @@ library(reshape2)
 
 #Family Dynamic ---------------------------------------------------------
 generateMap <- function(data, title, labelSuffix = "%") {
-  pal <- colorNumeric(palette = "viridis", domain = data$Percent, reverse = TRUE)
+  pal <- colorBin(palette = continuous_pal, domain = data$Percent)
   data %>% 
     leaflet(options = leafletOptions(minZoom = 5, maxZoom = 15, drag = FALSE)) %>%
-    addProviderTiles("CartoDB.PositronNoLabels") %>%
-    addPolygons(color = ~ pal(Percent), weight = 0.5, fillOpacity = 0.7, smoothFactor = 0,
-                highlightOptions = highlightOptions(bringToFront = TRUE, opacity = 1.5, weight = 3),
-                label = ~ paste0(NAME, " - ", title, ": ", Percent, labelSuffix)) %>%
-    addLegend("topleft",pal = pal,values = ~ Percent,title = title,
-              labFormat = labelFormat(suffix = labelSuffix),opacity = 1)
+    addTiles() %>%
+    addPolygons(
+        fillColor = ~ pal(Percent), 
+        color = "black",
+        weight = 1,
+        fillOpacity = 0.75,
+        smoothFactor = 0.5,
+        opacity = 1.0,
+        highlightOptions = highlightOptions(
+            bringToFront = TRUE, 
+            color = "white",
+            weight = 2),
+        label = ~ paste0(NAME, " - ", title, ": ", Percent, labelSuffix)) %>%
+    addLegend(
+        "bottomright",
+        pal = pal,
+        values = ~ Percent,
+        title = title,
+        labFormat = labelFormat(suffix = labelSuffix),
+        opacity = 1
+    )
 }
 
 family_dynamic <- function(input,output,session){
@@ -154,16 +169,29 @@ religion <- function(input,output,session){
               plot_data[i, "religion"], '</p>', 'Percent Adherence: ', '</p>',
               plot_data[i, "value"])
     })
-    pal2 <- colorNumeric(viridis_pal()(11), plot_data$value)
+    pal2 <- colorBin(continuous_pal, plot_data$value)
     religion <- plot_data %>%
-      leaflet(options = leafletOptions(minZoom = 5, maxZoom = 15, drag = FALSE)) %>% 
-      addProviderTiles("CartoDB.PositronNoLabels") %>%
-      addPolygons(data = plot_data$geometry, color= pal2(plot_data$value),
-                  weight = 0.5,
-                  fillOpacity = 0.7, smoothFactor = 0,
-                  highlightOptions = highlightOptions(bringToFront = TRUE, opacity = 1.5, weight = 3),
-                  label = lapply(labs, htmltools::HTML)) %>%
-      addLegend(pal = pal2, values = ~plot_data$value, title = 'Percent Adherence', opacity = .75)
+      leaflet() %>% 
+      addTiles() %>%
+      addPolygons(
+          data = plot_data$geometry, 
+          color = "black",
+          fillColor = pal2(plot_data$value),
+          weight = 1,
+          fillOpacity = 0.75,
+          smoothFactor = 0.5,
+          opacity = 1.0,
+          highlightOptions = highlightOptions(
+              bringToFront = TRUE, 
+              color = "white",
+              weight = 2),
+          label = lapply(labs, htmltools::HTML)) %>%
+      addLegend(
+          "bottomright",
+          pal = pal2, 
+          values = ~plot_data$value,
+          title = 'Percent Adherence'
+      )
     religion
   })
 }
@@ -249,11 +277,12 @@ foodbanks <- function(input,output,session){
     foodBankLoc <- read.csv("./data/people_values/foodBank/FoodBanks.csv")
     countyOutlines <- read_sf(dsn = "./data/people_values/countyOutlines/countyOutlines.shp")
     labs <- paste0(foodBankLoc$name, "<br></br><a href='", foodBankLoc$url,"'>View</a>")
-    pal <- colorFactor(palette = 'viridis', foodBankLoc$county)
+    pal <- colorFactor(continuous_pal, foodBankLoc$county)
     foodBank.map <- foodBankLoc %>%
-      leaflet(options = leafletOptions(minZoom = 5, maxZoom = 17, drag=FALSE)) %>%
-      addProviderTiles("CartoDB.PositronNoLabels") %>%
-      addCircleMarkers(~lng, ~lat, popup=lapply(labs, htmltools::HTML), radius = 5, fillOpacity = 1.0, weight = 1,  color = ~pal(foodBankLoc$county)) %>%
+      leaflet() %>%
+      addTiles() %>%
+      addCircleMarkers(~lng, ~lat, popup=lapply(labs, htmltools::HTML), radius = 5, 
+                       fillOpacity = 1.0, weight = 1,  color = ~pal(foodBankLoc$county)) %>%
       addPolylines(data = countyOutlines, color = "black", weight = 1.2, smoothFactor = .5,
                    fillOpacity = 0, fillColor = "transparent")
     
@@ -289,16 +318,23 @@ food_insecurity <- function(input,output,session){
   generateFoodAccessMap <- function(data, valueColumn, titleSuffix) {
     value <- round(as.numeric(data[[valueColumn]]), 2)
     county <- word(data$County, 1, -2)
-    pal <- colorNumeric(palette = "magma", domain = as.double(value), reverse = TRUE)
+    pal <- colorBin(continuous_pal, domain = as.double(value))
     
-    foodAccessMap <- leaflet(data, options = leafletOptions(minZoom = 5, maxZoom = 15, drag = FALSE)) %>%
-      addProviderTiles("CartoDB.Positron") %>%
-      addPolygons(color = ~pal(as.double(value)), weight = 0.5, fillOpacity = 0.7, smoothFactor = 0,
-                  highlightOptions = highlightOptions(bringToFront = TRUE, sendToBack = TRUE, opacity = 1.5, weight = 3),
+    foodAccessMap <- leaflet(data) %>%
+      addTiles() %>%
+      addPolygons(fillColor = ~pal(as.double(value)), 
+                  color = "black",
+                  weight = 0.5,
+                  fillOpacity = 0.75,
+                  smoothFactor = 0.5,
+                  opacity = 1.0,
+                  highlightOptions = highlightOptions(
+                      bringToFront = TRUE, 
+                      color = "white",
+                      weight = 1),
                   label = paste0(county, ": ", value, "%")) %>%
-      addPolylines(data = countyOutlines, color = "black", weight = 1.2, smoothFactor = .5,
-                   fillOpacity = 0, fillColor = "transparent") %>%
-      addLegend(position = "topright", pal = pal, values = as.double(value), opacity = .9, title = paste(titleSuffix, "(%)"))
+      addLegend(position = "bottomright", pal = pal, values = as.double(value), 
+                title = paste(titleSuffix, "(%)"))
     foodAccessMap
   }
   # reactive value for input

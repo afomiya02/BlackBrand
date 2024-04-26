@@ -1010,17 +1010,13 @@ ui <- page_navbar(
                             ),
                             card(
                                 card_header("Jail and Total Population Hampton Roads Demographics"),
-                                fluidRow(
-                                    column(
-                                        width = 6,
-                                        highchartOutput("pie_plots1"),
-                                        h4("Jail Population", align = "center")
-                                    ),
-                                    column(
-                                        width = 6,
-                                        highchartOutput("pie_plots2"),
-                                        h4("Total Population", align = "center")
-                                    )
+                                layout_column_wrap(
+                                    width = 1/2,
+                                    heights_equal = "row",
+                                    highchartOutput("pie_plots1"),
+                                    highchartOutput("pie_plots2"),
+                                    h4("Jail Population", align = "center"),
+                                    h4("Total Population", align = "center")
                                 ),
                                 card_footer("Source: Vera Institute of Justice")
                             )
@@ -1075,18 +1071,21 @@ ui <- page_navbar(
                         withSpinner(textOutput("description_famtext"))
                     ),
                     layout_column_wrap(
+                        width = 1,
+                        heights_equal = "row",
+                        selectInput(
+                            "select_family",
+                            "Select Indicator:",
+                            width = "100%",
+                            choices = c(
+                                "Percent of Black Children under 18 in Female Head of Household",
+                                "Percent of Married Black Population 15 years and over",
+                                "Percent of Black Grandparents who are Guardians")
+                        ),
                         card(
-                            card_header(strong("Family Dynamics"), align = "center"),
-                            selectInput(
-                                "select_family",
-                                "Select Indicator:",
-                                width = "100%",
-                                choices = c(
-                                    "Percent of Black Children under 18 in Female Head of Household",
-                                    "Percent of Married Black Population 15 years and over",
-                                    "Percent of Black Grandparents who are Guardians")
-                            ),
-                            withSpinner(leafletOutput("family_maps")),
+                            height = "1000px",
+                            card_header("Family Dynamics Choropleth Maps"),
+                            card_body(leafletOutput("family_maps"), class = "p-0"),
                             card_footer("Data Source: ACS 5 Year Estimates Tables: S0901, S2201, S0701, S1002, S1201, S0802, S2802")
                         )
                     )
@@ -1102,16 +1101,20 @@ ui <- page_navbar(
                         includeMarkdown("markdown/people_values/religion.Rmd"),
                     ),
                     layout_column_wrap(
+                        width = 1,
+                        heights_equal = "row",
+                        selectInput(
+                            "select_rel",
+                            "Select Religion:",
+                            width = "100%",
+                            choices = c('Christianity', 'Judaism', 'Budhism','Hindu', 'Islam')
+                        ),
                         card(
-                            card_header(strong("Religion"), align = "center"),
-                            selectInput(
-                                "select_rel",
-                                "Select Religion:",
-                                width = "100%",
-                                choices = c('Christianity', 'Judaism', 'Budhism','Hindu', 'Islam')
-                            ),
-                            withSpinner(leafletOutput("religion")), 
-                            card_footer("Data Source: 2010 U.S. Religion Census: Religious Congregations & Membership Study")
+                            height = "1000px",
+                            card_header("Percent of Population Practicing Their Religion in 2010"),
+                            card_body(leafletOutput("religion"), class = "p-0"), 
+                            card_footer("Data Source: 2010 U.S. Religion Census: 
+                                        Religious Congregations & Membership Study")
                         )
                     )
                 )
@@ -1151,7 +1154,7 @@ ui <- page_navbar(
                 )
             ),
             nav_panel(
-                title = strong("Financial Banks"),
+                title = strong("Food Banks"),
                 layout_sidebar(
                     sidebar = sidebar(
                         title = "Food Banks",
@@ -1159,20 +1162,18 @@ ui <- page_navbar(
                         width = validateCssUnit("25%"),
                         includeMarkdown("markdown/people_values/food_banks.Rmd"),
                     ),
-                    layout_column_wrap(
-                        card(
-                            card_header(strong("Food Banks"), align = "center"),
-                            tabsetPanel(
-                                tabPanel(
-                                    "Food Bank Locations", 
-                                    withSpinner(leafletOutput("foodBanksLeaflet")),
-                                ),
-                                tabPanel(
-                                    "Food Banks in Localities",
-                                    withSpinner(plotlyOutput("numFoodBanksLocalities")), 
-                                )
-                            ),card_footer("Data Source: Google Maps API places")
-                        )
+                    navset_card_pill(
+                        title = "Food Banks",
+                        wrapper = card_body(),
+                        nav_panel(
+                            title = "Food Bank Locations in Hampton Roads",
+                            leafletOutput("foodBanksLeaflet")
+                        ),
+                        nav_panel(
+                            title = "Number of Food Banks in Each Location",
+                            plotlyOutput("numFoodBanksLocalities")
+                        ),
+                        card_footer("Data Source: Google Maps API places")
                     )
                 )
             ), 
@@ -1184,33 +1185,27 @@ ui <- page_navbar(
                         class = "scrollable-sidebar",
                         width = validateCssUnit("25%"),
                         includeMarkdown("markdown/people_values/food_insecurity.Rmd"),
-                    ),           
-                    layout_column_wrap(
-                        card(
-                            card_header(strong("Food Insecurity"), align = "center"),
-                            tabsetPanel(
-                                tabPanel(
-                                    "Poverty Rates", 
-                                    withSpinner(leafletOutput("povertyRateMap")),
-                                ),
-                                tabPanel(
-                                    "African Population Low Access Markets (Half Mile)",
-                                    withSpinner(leafletOutput("lowAccessAF")), 
-                                ), 
-                                tabPanel(
-                                    "African Population Low Access Markets (One Mile)",
-                                    withSpinner(leafletOutput("lowAccessAF1")), 
-                                )
-                            ),card_footer("Data Source: US Department of Agriculture")
+                    ),  
+                    navset_card_pill(
+                        title = "Food Insecurity",
+                        wrapper = card_body(),
+                        nav_panel(
+                            title = "Poverty Rates",
+                            leafletOutput("povertyRateMap")
+                        ),
+                        nav_panel(
+                            title = "African Population Low Access Markets (Half Mile)",
+                            leafletOutput("lowAccessAF"), 
+                        ),
+                        nav_panel(
+                            title = "African Population Low Access Markets (One Mile)",
+                            leafletOutput("lowAccessAF1"), 
                         )
                     )
                 )
             )
         )
     ),
-    
-    
-    
     nav_spacer(),
     nav_menu(
         title = "Links",
