@@ -61,7 +61,6 @@ ui <- page_navbar(
                     color: white;
                     }
                     .rating-buttons {
-                    margin-left: 50px;
                     padding-bottom: 10px;}"
                 )
             )),
