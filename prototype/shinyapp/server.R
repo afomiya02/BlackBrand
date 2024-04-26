@@ -587,13 +587,24 @@ server <- function(input, output, session) {
     # Employment By Sector
     # Reactive expression to get the selected year from the input dropdown
     var_sectorEmployment <- reactive({
-        as.character(input$SectorEmploymentYearDrop)
+      input$SectorEmploymentYearDrop
     })
     
     # Render the plotly plot
     output$sector_plot <- renderPlotly({
-        # Call the read_and_plot_sectors function with the selected year from the reactive expression
-        read_and_plot_sectors(var_sectorEmployment())
+      # Call the read_and_plot_sectors function with the selected year from the reactive expression
+      read_and_plot_sectors(var_sectorEmployment())
+    })
+    # Uneployment Rate
+    # Reactive expression for selected unemployment rate year
+    var_unemploymentRate <- reactive({
+      input$UnemploymentRateSlider  # Retrieve selected year from slider input
+    })
+    
+    # Render the unemployment plot using plotly
+    output$unemployment_plot <- renderPlotly({
+      year <- var_unemploymentRate()  # Get the selected year
+      generate_unemployment_plot(year)  # Generate the plot for the selected year
     })
     
     #Poverty

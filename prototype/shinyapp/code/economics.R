@@ -87,44 +87,47 @@ read_homeownership_data <- function() {
 # Function to read CSV data, preprocess, and generate plot for a specific year
 # TODO 1.) the colors change between years -- that CANNOT happen
 # TODO 2.) the data isn't normalized
+# Function to read CSV data, preprocess, and generate plot for a specific year
 read_and_plot_sectors <- function(year) {
-    # Construct file path for the CSV file based on the selected year
-    file_path <- paste0("data/economics/labor_market/TableDP03FiveYearEstimates/top2employmentSectors", year, ".csv")
+  # Construct file path for the CSV file based on the selected year
+  file_path <- paste0("data/economics/labor_market/TableDP03FiveYearEstimates/top2employmentSectors", year, ".csv")
+  
+  # Check if the file exists
+  if (file.exists(file_path)) {
+    # Read CSV file
+    sectors_data <- read.csv(file_path)
     
-    # Check if the file exists
-    if (file.exists(file_path)) {
-        # Read CSV file
-        sectors_data <- read.csv(file_path)
-        
-        # Rename columns for better readability
-        colnames(sectors_data) <- c("Name", "Variable", "Number of People Employed in Sector", "Sector")
-        
-        # Data preprocessing: remove "County, Virginia" and "city, Virginia" from the 'Name' column
-        sectors_data <- sectors_data %>%
-            mutate(Name = str_remove(Name, "County, Virginia")) %>%
-            mutate(Name = str_remove(Name, "city, Virginia")) %>%
-            
-            # Create ggplot object
-            ggplot(aes(x = Name, y = `Number of People Employed in Sector`, fill = Sector)) + 
-            geom_col() +  # Plot columns
-            theme_minimal() +  # Minimal theme
-            labs(title = "", y = "Total Number of People Employed", x = "") +  # Set titles for plot
-            theme(axis.text.x = element_text(angle = 40)) +  # Rotate x-axis labels for better readability
-            scale_fill_viridis_d()  # Use Viridis color scale for better visualization
-        
-        # Further customization of plot aesthetics
-        sectors_data <- sectors_data +
-            ggtitle(paste("Top 2 Employment Sectors in", year)) +  # Add plot title
-            xlab("Location") +  # Label for x-axis
-            ylab("Number of People Employed")  # Label for y-axis
-        
-        # Convert ggplot object to plotly object and hide legend for better visualization
-        return(hide_legend(ggplotly(sectors_data, tooltip = c("x", "y", "Sector"))))
-    } 
-    else {
-        # Return NULL if the file does not exist
-        return(NULL)
-    }
+    # Rename columns for better readability
+    colnames(sectors_data) <- c("Name", "Variable", "Number of People Employed in Sector", "Sector")
+    
+    # Data preprocessing: remove "County, Virginia" and "city, Virginia" from the 'Name' column
+    sectors_data <- sectors_data %>%
+      mutate(Name = str_remove(Name, "County, Virginia")) %>%
+      mutate(Name = str_remove(Name, "city, Virginia"))
+    
+    # Create a vector of unique sectors
+    unique_sectors <- unique(sectors_data$Sector)
+    
+    # Create ggplot object
+    plot <- ggplot(sectors_data, aes(x = Name, y = `Number of People Employed in Sector`, fill = Sector)) + 
+      geom_col() +  # Plot columns
+      theme_minimal() +  # Minimal theme
+      labs(title = "", y = "Total Number of People Employed", x = "") +  # Set titles for plot
+      theme(axis.text.x = element_text(angle = 40)) +  # Rotate x-axis labels for better readability
+      scale_fill_manual(values = viridis::viridis_pal()(length(unique_sectors))) +  # Use viridis color palette
+      ggtitle(paste("Top 2 Employment Sectors in", year)) +  # Add plot title
+      xlab("Location") +  # Label for x-axis
+      ylab("Number of People Employed") +  # Label for y-axis
+      coord_cartesian(ylim = c(0, 10000))  # Set custom limits for y-axis
+    
+    # Convert ggplot object to plotly object and hide legend for better visualization
+    plot <- hide_legend(ggplotly(plot, tooltip = c("x", "y", "Sector")))
+    
+    return(plot)
+  } else {
+    # Return NULL if the file does not exist
+    return(NULL)
+  }
 }
 
 # Unemployment Rate
