@@ -399,8 +399,10 @@ server <- function(input, output, session) {
     
     output$cohort_choropleth_map <- renderLeaflet({
         data <- cohort_grad_data()
-        pal <- colorBin(continuous_pal, 
-                        floor(min(data$graduation_rate)):ceiling(max(data$graduation_rate)))
+        # TODO find a way to get graduation rate across ALL years
+        # by using variables instead of numbers
+        # i haven't been able to get this to work
+        pal <- colorBin(continuous_pal, 70:100) # change this if necessary
         map <- leaflet(data) %>%
             addPolygons(
                 fillColor = ~pal(data$graduation_rate),
@@ -424,7 +426,8 @@ server <- function(input, output, session) {
                 "bottomright",
                 pal = pal,
                 values = data$graduation_rate,
-                title = "Graduation Rate (%)"
+                title = "Graduation Rate",
+                labFormat = labelFormat(suffix = "%")
             ) %>%
             addTiles()
         map
@@ -565,14 +568,15 @@ server <- function(input, output, session) {
                 label = ~NAME,
                 popup = ~paste("<h3>", NAME, "</h3>",
                                "<b>Black Homeowners (%):</b>", b_hm_19$Percent,
-                               "<br><b>Total Homeowners (%):</b>", Percent)
+                               "<br><b>Total Homeowners (%):</b>", Percent),
+                group = "Total Homeowners"
                 # TODO create separate tab showcasing black vs. total homeownership
             ) %>%
             addLayersControl(
-                baseGroups = c("Total Homeowners", "Black Homeowners"),
+                baseGroups = c("Black Homeowners", "Total Homeowners"),
                 options = layersControlOptions(collapsed = FALSE)
             ) %>%
-            hideGroup("Black Home Owners") %>%
+            hideGroup("Total Homeowners") %>%
             addLegend(
                 "bottomright",
                 pal = pal,

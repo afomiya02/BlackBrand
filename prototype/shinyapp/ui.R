@@ -313,10 +313,10 @@ ui <- page_navbar(
                         uiOutput("edu_vb3")
                     ),
                     navset_card_pill(
+                        height = validateCssUnit("1000px"),
                         nav_panel(
                             title = "Standardized Testing Results",
                             layout_sidebar(
-                                height = validateCssUnit("1000px"),
                                 sidebar = sidebar(
                                     width = "20%",
                                     selectInput(
@@ -479,12 +479,16 @@ ui <- page_navbar(
                         nav_panel(
                             title = "Unemployment Rate",
                             value = "plot2",
-                            h4(strong("Unemployment Rate in Hampton Roads"), align = "center"),
                             layout_column_wrap(
                                 width = 1,
                                 heights_equal = "row",
-                                fluidRow(
-                                    plotlyOutput("unemployment_plot") 
+                                card(
+                                    height = "1000px",
+                                    card_header("Unemployment Rate in Hampton Roads"),
+                                    card_body(plotlyOutput("unemployment_plot")),
+                                    card_footer("*Note: Red dotted line represents Virgina's 
+                                    unemployment rate. Missing data for the Black population in 
+                                    Mathews and Poquoson. Data Source: ACS 5 Year Estimates Table S2301")
                                 ),
                                 sliderInput(
                                     "UnemploymentRateSlider",
@@ -496,10 +500,8 @@ ui <- page_navbar(
                                     width = "100%",
                                     animate =
                                         animationOptions(interval = 2100)
-                                ),
-                            ),
-                            card_footer("*Note: Red dotted line represents Virgina's unemployment rate. Missing data for the Black population in Mathews and Poquoson
-                                    Data Source: ACS 5 Year Estimates Table S2301")
+                                )
+                            )
                         ),
                         nav_panel(
                             title = "Unemployment Rate Trends",

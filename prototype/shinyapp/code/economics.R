@@ -115,7 +115,7 @@ read_and_plot_sectors <- function(year) {
       labs(title = "", y = "Total Number of People Employed", x = "") +  # Set titles for plot
       theme(axis.text.x = element_text(angle = 40)) +  # Rotate x-axis labels for better readability
       scale_fill_manual(values = viridis::viridis_pal()(length(unique_sectors))) +  # Use viridis color palette
-      ggtitle(paste("Top 2 Employment Sectors in", year)) +  # Add plot title
+      ggtitle(paste("Top 2 Employment Sectors in", year, "per 10k People")) +  # Add plot title
       xlab("Location") +  # Label for x-axis
       ylab("Number of People Employed") +  # Label for y-axis
       coord_cartesian(ylim = c(0, 10000))  # Set custom limits for y-axis
