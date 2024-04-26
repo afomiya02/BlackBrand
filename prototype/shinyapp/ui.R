@@ -1127,27 +1127,30 @@ ui <- page_navbar(
                         width = validateCssUnit("25%"),
                         includeMarkdown("markdown/people_values/financial_lit.Rmd"),
                     ),
-                    layout_column_wrap(
-                        card(
-                            card_header(strong("Financial Literacy Measured Using VA Survey Data"), align = "center"),
-                            tabsetPanel(
-                                tabPanel(
-                                    "Financial Literacy Score",
-                                    h4(strong("Scores by Race"), align = "center"),
-                                    withSpinner(plotOutput("financial_literacy")), 
-                                ),
-                                tabPanel(
-                                    "Credit Score",
-                                    h4(strong("Credit Scores by Race"),align = "center"),
-                                    withSpinner(plotlyOutput("credit_scores"))
-                                ),
-                                tabPanel(
-                                    "Knowledge Gap",
-                                    h4(strong( "Answered Do Not Know to Any Question by Race"), align = "center"),
-                                    withSpinner(plotlyOutput("dont_know", height = "700px")),
-                                )
-                            ),
-                            card_footer("Data Source: OECD/INFE National Survey")
+                    navset_card_pill(
+                        nav_panel(
+                            title = "Financial Literacy Score",
+                            card(
+                                card_header("Financial Literacy Scores by Race"),
+                                card_body(plotOutput("financial_literacy")),
+                                card_footer("Data Source: OECD/INFE National Survey")
+                            )
+                        ),
+                        nav_panel(
+                            title = "Credit Scores",
+                            card(
+                                card_header("Credit Scores Versus Race"),
+                                card_body(plotOutput("credit_scores")),
+                                card_footer("Data Source: OECD/INFE National Survey")
+                            )
+                        ),
+                        nav_panel(
+                            title = "Knowledge Gap",
+                            card(
+                                card_header("Answered Do Not Know to Any Question by Race"),
+                                card_body(plotlyOutput("dont_know")),
+                                card_footer("Data Source: OECD/INFE National Survey")
+                            )
                         )
                     )
                 )

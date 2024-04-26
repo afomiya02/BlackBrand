@@ -225,7 +225,7 @@ financial_lit <- function(input,output,session){
   })
   
   #Credit score
-  output$credit_scores <- renderPlotly({
+  output$credit_scores <- renderPlot({
     # load financial literacy data 
     df <- read.csv("./data/people_values/public2020.csv")
     df <- df[df$ppstaten == "VA",]
@@ -233,6 +233,7 @@ financial_lit <- function(input,output,session){
                 "pprent", "CFPB_score", "atleast_okay", "DOV_FL","K20", "EF1", "ppcm0062")]
     df[df==""] <- NA
     df <- na.omit(df)
+
     
     #credit score
     agg <- count(df, ppfs1482, ppracem, atleast_okay, DOV_FL)
@@ -245,8 +246,10 @@ financial_lit <- function(input,output,session){
       labs(y = "Count") +
       ggtitle("Credit Score Ranking by Race") +
       labs(fill = "Race")
-    credit_scores <- ggplotly(credit_scores) 
     
+    # TODO figure out why this cannot render as plotly object
+    # credit_scores <- ggplotly(credit_scores) 
+    credit_scores
   })
   
   output$dont_know <- renderPlotly({
