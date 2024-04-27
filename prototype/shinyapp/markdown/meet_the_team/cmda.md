@@ -1,0 +1,2 @@
+The ***Computational Modeling and Data Analytics (CMDA)*** program draws on expertise from three primary departments at Virginia Tech with strengths in quantitative science: **Mathematics , Statistics , Computer Science** . By combining elements of these disciplines in innovative, integrated courses that emphasize techniques at the forefront of applied computation, we teach a rich suite of quantitative skills for tackling today's massive data-based problems.
+
