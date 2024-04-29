@@ -7,6 +7,7 @@ library(leaflet)
 library(RColorBrewer)
 library(plotly)
 library(tidyverse)
+library(htmltools)
 
 source("code/sodem.r")
 source("code/education.r")
@@ -210,470 +211,351 @@ ui <- page_navbar(
             navset_card_tab(
                 title = "Meet the Teams",
                 nav_panel(
-                    "VT DSPG",
+                    title = "VT DPSG",
                     layout_sidebar(
                         sidebar = sidebar(
                             width = "25%",
+                            title = "Virginia Tech Data Science for the Public Good",
                             includeMarkdown("markdown/meet_the_team/cmda.md")
                         ),
-                        card(
-                            card_header("VT Data Science for the Public Good"),
-                            card_body(
-                                fluidRow(
-                                    p("", style = "padding-top:10px;"),
-                                    column(
-                                        width = 5,
-                                        card(
-                                            
-                                            card_header("Stakeholder"),
-                                            card_body(
-                                                img(
-                                                    src = "MalloryTuttle.jpg",
-                                                    align = "center",
-                                                    height = "350px",
-                                                    width = "375px"
-                                                ),
-                                                h1(strong("Mallory Tuttle"), align = "center"),
-                                                h1(strong("Associate Director Virginia Tech Hampton Roads Centers"), align = "center"),
-                                                
-                                            )
-                                        ),
-                                        
-                                        br(),
-                                        br(),
-                                        br(),
-                                        card(
-                                            card_header("Graduate Fellow"),
-                                            card_body(
-                                                img(
-                                                    src = "fellow-seth.png",
-                                                    align = "center",
-                                                    height = "350px",
-                                                    width = "375px"
-                                                ),
-                                                h1(strong("Avi Seth"), align = "center"),
-                                                h1(strong("Virginia Tech"), align = "center"),
-                                                h1(strong("Computer Science"), align = "center")
-                                            )
-                                        )
-                                    ),
-                                    column(
-                                        width = 7,
-                                        card(
-                                            card_header("Faculty Advisors"),
-                                            card_body(
-                                                fluidRow(
-                                                    p("", style = "padding-top:10px;"),
-                                                    column(width = 5,
-                                                           img(
-                                                               src = "Dr_Holmes.png",
-                                                               align = "center",
-                                                               height = "250px",
-                                                               width = "275px"
-                                                           ),
-                                                           h1(strong("Dr. Chanita Holmes"), align = "center"),
-                                                           h1(strong("Virginia Tech"), align = "center"),
-                                                           h1(strong("Department of Agriculture and Applied Economics"), align = "center"),
-                                                    ),
-                                                    column(width = 1),
-                                                    column(width = 5,
-                                                           img(
-                                                               src = "Dr_Bradburn.jpg",
-                                                               align = "center",
-                                                               height = "250px",
-                                                               width = "275px"
-                                                           ),
-                                                           h1(strong("Dr. Isabel Bradburn"), align = "center"),
-                                                           h1(strong("Virginia Tech"), align = "center"),
-                                                           h1(strong("Department of Human Development and Family Science"), align = "center"),
-                                                    )
-                                                )
-                                                
-                                            )
-                                        ),
-                                        card(
-                                            card_header("Undergraduate Interns"),
-                                            card_body(
-                                                fluidRow(
-                                                    p("", style = "padding-top:10px;"),
-                                                    column(width = 5,
-                                                           img(
-                                                               src = "BurkholderHeadshot.png",
-                                                               align = "center",
-                                                               height = "250px",
-                                                               width = "275px"
-                                                           ),
-                                                           h1(strong("Matthew Burkholder"), align = "center"),
-                                                           h1(strong("Virginia Tech"), align = "center"),
-                                                           h1(strong("Philosophy, Politics & Economics"), align = "center"),
-                                                           br(),
-                                                           br(),
-                                                           br(),
-                                                           img(
-                                                               src = "Mukora.png",
-                                                               align = "center",
-                                                               height = "250px",
-                                                               width = "275px"
-                                                           ),
-                                                           h1(strong("Victor Mukora"), align = "center"),
-                                                           h1(strong("Virginia Tech"), align = "center"),
-                                                           h1(strong("CMDA"), align = "center"),
-                                                    ),
-                                                    column(width = 1),
-                                                    column(width = 5,
-                                                           img(
-                                                               src = "Christina_Prisbee_Headshot.jpg",
-                                                               align = "center",
-                                                               height = "250px",
-                                                               width = "275px"
-                                                           ),
-                                                           h1(strong("Christina Prisbee"), align = "center"),
-                                                           h1(strong("Virginia Tech"), align = "center"),
-                                                           h1(strong("CMDA"), align = "center"),
-                                                           br(),
-                                                           br(),
-                                                           br(),
-                                                           br(),
-                                                           br(),
-                                                           br(),
-                                                           br(),
-                                                           img(
-                                                               src = "kwabe.png",
-                                                               align = "center",
-                                                               height = "250px",
-                                                               width = "275px"
-                                                           ),
-                                                           h1(strong("Kwabe Boateng"), align = "center"),
-                                                           h1(strong("Virginia Tech"), align = "center"),
-                                                           h1(strong("College of Engineering"), align = "center"),
-                                                    ),
-                                                )
-                                            )
-                                        )
-                                    )
-                                ),
+                        layout_column_wrap(
+                            width = NULL, 
+                            fill = FALSE,
+                            style = css(grid_template_columns = "1fr 1fr 1fr 1fr",
+                                        object.fit = "contain"),
+                            card_image(
+                                file = "www/MalloryTuttle.jpg",
+                                border_radius = "all",
+                                class = css(aspect_ratio = 5/7)
+                            ),
+                            p(
+                                h1("Mallory Tuttle"),
+                                h3("Stakeholder"),
+                                h6("Associate Director: Virginia Tech Hampton Roads Centers")
+                            ),
+                            card_image(
+                                file = "www/fellow-seth.png",
+                                border_radius = "all",
+                                class = css(aspect_ratio = 5/7)
+                            ),
+                            p(
+                                h1("Avi Seth"),
+                                h3("Graduate Fellow"),
+                                h6("Virginia Tech Computer Science")
+                            ),
+                            card_image(
+                                file = "www/Dr_Holmes.png",
+                                border_radius = "all",
+                                class = css(aspect_ratio = 5/7)
+                            ),
+                            p(
+                                h1("Dr. Chanita Holmes"),
+                                h3("Faculty Advisor"),
+                                h6("Virginia Tech Department of Agriculture and Applied Economics")
+                            ),
+                            card_image(
+                                file = "www/Dr_Bradburn.jpg",
+                                border_radius = "all",
+                                class = css(aspect_ratio = 5/7)
+                            ),
+                            p(
+                                h1("Dr. Isabel Bradburn"),
+                                h3("Faculty Advisor"),
+                                h6("Virginia Tech Department of 
+                                   Human Development and Family Science")
+                            ),
+                            card_image(
+                                file = "www/BurkholderHeadshot.png",
+                                border_radius = "all",
+                                class = css(aspect_ratio = 5/7)
+                            ),
+                            p(
+                                h1("Matthew Burkholder"),
+                                h3("Undergraduate Intern"),
+                                h6("Virginia Tech Philosophy, Politics & Economics")
+                            ),
+                            card_image(
+                                file = "www/Mukora_copy.png",
+                                border_radius = "all",
+                                class = css(aspect_ratio = 5/7)
+                            ),
+                            p(
+                                h1("Victor Mukora"),
+                                h3("Undergraduate Intern"),
+                                h6("Virginia Tech Computational Modeling & Data Analytics")
+                            ),
+                            card_image(
+                                file = "www/Christina_Prisbe_Headshot.jpg",
+                                border_radius = "all",
+                                class = css(aspect_ratio = 5/7)
+                            ),
+                            p(
+                                h1("Christina Prisbe"),
+                                h3("Undergraduate Intern"),
+                                h6("Virginia Tech Computational Modeling & Data Analytics")
+                            ),
+                            card_image(
+                                file = "www/kwabe.png",
+                                border_radius = "all",
+                                class = css(aspect_ratio = 5/7)
+                            ),
+                            p(
+                                h1("Kwabe Boateng"),
+                                h3("Undergraduate Intern"),
+                                h6("Virginia Tech Computational Modeling & Data Analytics")
                             )
-                        ),
+                        )
                     )
                 ),
                 nav_panel(
-                    "Fall '21",
+                    "CMDA Fall '21",
                     layout_sidebar(
                         sidebar = sidebar(
                             width = "25%",
+                            title = "Virginia Tech CMDA Capstone Fall 2021",
                             includeMarkdown("markdown/meet_the_team/cmda.md")
                         ),
-                        card(
-                            card_header("CMDA Capstone Fall 2021"),
-                            card_body(
-                                fluidRow(
-                                    p("", style = "padding-top:10px;"),
-                                    style = "margin: 100px;",
-                                    
-                                    column(
-                                        width = 4,
-                                        
-                                        img(
-                                            src = "sana.jpeg",
-                                            align = "center",
-                                            height = "350px",
-                                            width = "375px"
-                                        ),
-                                        h1(strong("Sana Abbas"), align = "right"),
-                                        h1(strong("Virginia Tech"), align = "right"),
-                                        
-                                        br(),
-                                        br(),
-                                        br(),
-                                        
-                                        img(
-                                            src = "caleb.jpeg",
-                                            align = "center",
-                                            height = "350px",
-                                            width = "375px"
-                                        ),
-                                        h1(strong("Caleb Slaughter"), align = "right"),
-                                        h1(strong("Virginia Tech"), align = "right"),
-                                        
-                                    ),
-                                    column(width = 3),
-                                    column(
-                                        width = 4,
-                                        
-                                        img(
-                                            src = 'talib.jpeg',
-                                            align = "center",
-                                            height = "350px",
-                                            width = "375px"
-                                        ),
-                                        h1(strong("Talib Grant"), align = "right"),
-                                        h1(strong("Virginia Tech"), align = "right"),
-                                        
-                                        br(),
-                                        br(),
-                                        br(),
-                                        img(
-                                            src = "eva.jpeg",
-                                            align = "center",
-                                            height = "350px",
-                                            width = "375px"
-                                        ),
-                                        h1(strong("Eva Whaley"), align = "right"),
-                                        h1(strong("Virginia Tech"), align = "right"),
-                                        
-                                    )
-                                )
+                        layout_column_wrap(
+                            width = NULL, 
+                            fill = FALSE,
+                            style = css(grid_template_columns = "1fr 1fr 1fr 1fr",
+                                        object.fit = "contain"),
+                            card_image(
+                                file = "www/sana.jpeg",
+                                border_radius = "all",
+                                class = css(aspect_ratio = 5/7)
+                            ),
+                            p(
+                                h1("Sana Abbas"),
+                                h6("Virginia Tech Computational Modeling & Data Analytics")
+                            ),
+                            card_image(
+                                file = "www/talib.jpeg",
+                                border_radius = "all",
+                                class = css(aspect_ratio = 5/7)
+                            ),
+                            p(
+                                h1("Talib Grant"),
+                                h6("Virginia Tech Computational Modeling & Data Analytics")
+                            ),
+                            card_image(
+                                file = "www/caleb.jpeg",
+                                border_radius = "all",
+                                class = css(aspect_ratio = 5/7)
+                            ),
+                            p(
+                                h1("Caleb Slaughter"),
+                                h6("Virginia Tech Computational Modeling & Data Analytics")
+                            ),
+                            card_image(
+                                file = "www/eva.jpeg",
+                                border_radius = "all",
+                                class = css(aspect_ratio = 5/7)
+                            ),
+                            p(
+                                h1("Eva Whaley"),
+                                h6("Virginia Tech Computational Modeling & Data Analytics")
                             )
-                        ),
+                        )
                     )
                 ),
                 nav_panel(
-                    "Spring '22",
+                    "CMDA Spring '22",
                     layout_sidebar(
                         sidebar = sidebar(
                             width = "25%",
+                            title = "Virginia Tech CMDA Capstone Spring 2022",
                             includeMarkdown("markdown/meet_the_team/cmda.md")
                         ),
-                        card(
-                            card_header("CMDA Capstone Fall 2023"),
-                            card_body(
-                                fluidRow(
-                                    p("", style = "padding-top:10px;"),
-                                    style = "margin: 100px;",
-                                    
-                                    
-                                    
-                                    column(
-                                        width = 4,
-                                        
-                                        h1(strong("Emily Mahr"), align = "center"),
-                                        h1(strong("Virginia Tech CMDA"), align = "center"),
-                                        
-                                        
-                                    ),
-                                    column(width = 4,
-                                           h1(strong("Allison Woods"), align = "center"),
-                                           h1(strong("Virginia Tech CMDA"), align = "center"),
-                                    ),
-                                    column(
-                                        width = 4,
-                                        
-                                        h1(strong("Zhenming Wang"), align = "center"),
-                                        h1(strong("Virginia Tech CMDA"), align = "center"),
-                                        
-                                    )
-                                )
+                        layout_column_wrap(
+                            width = NULL, 
+                            fill = FALSE,
+                            style = css(grid_template_columns = "1fr 1fr 1fr 1fr",
+                                        object.fit = "contain"),
+                            card_image(
+                                file = "www/default.jpg",
+                                border_radius = "all",
+                                class = css(aspect_ratio = 5/7)
+                            ),
+                            p(
+                                h1("Emily Mahr"),
+                                h6("Virginia Tech Computational Modeling & Data Analytics")
+                            ),
+                            card_image(
+                                file = "www/default.jpg",
+                                border_radius = "all",
+                                class = css(aspect_ratio = 5/7)
+                            ),
+                            p(
+                                h1("Allison Woods"),
+                                h6("Virginia Tech Computational Modeling & Data Analytics")
+                            ),
+                            card_image(
+                                file = "www/default.jpg",
+                                border_radius = "all",
+                                class = css(aspect_ratio = 5/7)
+                            ),
+                            p(
+                                h1("Zhenming Wang"),
+                                h6("Virginia Tech Computational Modeling & Data Analytics")
                             )
-                        ),
+                        )
                     )
                 ),
                 nav_panel(
-                    "Fall '22",
+                    "CMDA Fall '22",
                     layout_sidebar(
                         sidebar = sidebar(
                             width = "25%",
+                            title = "Virginia Tech CMDA Capstone Fall 2022",
                             includeMarkdown("markdown/meet_the_team/cmda.md")
                         ),
-                        card(
-                            card_header("CMDA Capstone Spring 2022"),
-                            card_body(
-                                fluidRow(
-                                    p("", style = "padding-top:10px;"),
-                                    style = "margin: 100px;",
-                                    
-                                    
-                                    
-                                    column(
-                                        width = 4,
-                                        
-                                        img(
-                                            src = "Esha.jpg",
-                                            align = "center",
-                                            height = "350px",
-                                            width = "375px"
-                                        ),
-                                        h1(strong("Esha Islam"), align = "right"),
-                                        h1(strong("Virginia Tech"), align = "right"),
-                                        br(),
-                                        br(),
-                                        br(),
-                                        
-                                        img(
-                                            src = "crystal.jpg",
-                                            align = "center",
-                                            height = "350px",
-                                            width = "375px"
-                                        ),
-                                        h1(strong("Crystal Lee"), align = "right"),
-                                        h1(strong("Virginia Tech"), align = "right")
-                                    ),
-                                    column(width = 3),
-                                    column(
-                                        width = 4,
-                                        
-                                        img(
-                                            src = 'sania.jpg',
-                                            align = "center",
-                                            height = "350px",
-                                            width = "375px"
-                                        ),
-                                        h1(strong("Sania Mahmood"), align = "right"),
-                                        h1(strong("Virginia Tech"), align = "right"),
-                                        br(),
-                                        br(),
-                                        br(),
-                                        img(
-                                            src = "abigail.jpg",
-                                            align = "center",
-                                            height = "350px",
-                                            width = "375px"
-                                        ),
-                                        h1(strong("Abigail Simpkins"), align = "right"),
-                                        h1(strong("Virginia Tech"), align = "right")
-                                    )
-                                )
-                            )
-                        ),
+                        layout_column_wrap(
+                            width = NULL, 
+                            fill = FALSE,
+                            style = css(grid_template_columns = "1fr 1fr 1fr 1fr",
+                                        object.fit = "contain"),
+                            card_image(
+                                file = "www/Esha.jpg",
+                                border_radius = "all",
+                                class = css(aspect_ratio = 5/7)
+                            ),
+                            p(
+                                h1("Esha Islam"),
+                                h6("Virginia Tech Computational Modeling & Data Analytics")
+                            ),
+                            card_image(
+                                file = "www/sania.jpg",
+                                border_radius = "all",
+                                class = css(aspect_ratio = 5/7)
+                            ),
+                            p(
+                                h1("Sania Mahmood"),
+                                h6("Virginia Tech Computational Modeling & Data Analytics")
+                            ),
+                            card_image(
+                                file = "www/crystal.jpg",
+                                border_radius = "all",
+                                class = css(aspect_ratio = 5/7)
+                            ),
+                            p(
+                                h1("Crystal Lee"),
+                                h6("Virginia Tech Computational Modeling & Data Analytics")
+                            ),
+                            card_image(
+                                file = "www/abigail.jpg",
+                                border_radius = "all",
+                                class = css(aspect_ratio = 5/7)
+                            ),
+                            p(
+                                h1("Abigail Simpkins"),
+                                h6("Virginia Tech Computational Modeling & Data Analytics")
+                            ),
+                        )
                     )
-                    #
                 ),
-                
                 nav_panel(
-                    "Spring '23",
+                    "CMDA Spring '23",
                     layout_sidebar(
                         sidebar = sidebar(
                             width = "25%",
+                            title = "Virginia Tech CMDA Capstone Spring 2023",
                             includeMarkdown("markdown/meet_the_team/cmda.md")
                         ),
-                        card(
-                            card_header("CMDA Capstone Spring 2023"),
-                            card_body(
-                                fluidRow(
-                                    p("", style = "padding-top:10px;"),
-                                    style = "margin: 100px;",
-                                    
-                                    
-                                    
-                                    column(
-                                        width = 4,
-                                        
-                                        img(
-                                            src = "john.jpg",
-                                            align = "center",
-                                            height = "350px",
-                                            width = "375px"
-                                        ),
-                                        h1(strong("John Malla"), align = "right"),
-                                        h1(strong("Virginia Tech"), align = "right"),
-                                        br(),
-                                        br(),
-                                        br(),
-                                        
-                                        img(
-                                            src = "meghna.jpg",
-                                            align = "center",
-                                            height = "350px",
-                                            width = "375px"
-                                        ),
-                                        h1(strong("Meghna Banerjee"), align = "center"),
-                                        h1(strong("Virginia Tech"), align = "center")
-                                    ),
-                                    column(width = 3),
-                                    column(
-                                        width = 4,
-                                        
-                                        img(
-                                            src = 'hyesoo.jpg',
-                                            align = "center",
-                                            height = "350px",
-                                            width = "375px"
-                                        ),
-                                        h1(strong("Hyesoo Kwon"), align = "right"),
-                                        h1(strong("Virginia Tech"), align = "right"),
-                                        br(),
-                                        br(),
-                                        br(),
-                                        img(
-                                            src = "shashank.jpg",
-                                            align = "center",
-                                            height = "350px",
-                                            width = "375px"
-                                        ),
-                                        h1(strong("Shashank Gupta"), align = "right"),
-                                        h1(strong("Virginia Tech"), align = "right")
-                                    )
-                                )
+                        layout_column_wrap(
+                            width = NULL, 
+                            fill = FALSE,
+                            style = css(grid_template_columns = "1fr 1fr 1fr 1fr",
+                                        object.fit = "contain"),
+                            card_image(
+                                file = "www/john.jpg",
+                                border_radius = "all",
+                                class = css(aspect_ratio = 5/7)
+                            ),
+                            p(
+                                h1("John Malla"),
+                                h6("Virginia Tech Computational Modeling & Data Analytics")
+                            ),
+                            card_image(
+                                file = "www/hyesoo.jpg",
+                                border_radius = "all",
+                                class = css(aspect_ratio = 5/7)
+                            ),
+                            p(
+                                h1("Hyesoo Kwon"),
+                                h6("Virginia Tech Computational Modeling & Data Analytics")
+                            ),
+                            card_image(
+                                file = "www/meghna.jpg",
+                                border_radius = "all",
+                                class = css(aspect_ratio = 5/7)
+                            ),
+                            p(
+                                h1("Meghna Banerjee"),
+                                h6("Virginia Tech Computational Modeling & Data Analytics")
+                            ),
+                            card_image(
+                                file = "www/shashank.jpg",
+                                border_radius = "all",
+                                class = css(aspect_ratio = 5/7)
+                            ),
+                            p(
+                                h1("Shashank Gupta"),
+                                h6("Virginia Tech Computational Modeling & Data Analytics")
                             )
-                        ),
+                        )
                     )
-                    
                 ),
-                
                 nav_panel(
-                    "Spring '24",
+                    "CMDA Spring '24",
                     layout_sidebar(
                         sidebar = sidebar(
                             width = "25%",
+                            title = "Virginia Tech CMDA Capstone Spring 2024",
                             includeMarkdown("markdown/meet_the_team/cmda.md")
                         ),
-                        card(
-                            card_header("CMDA Capstone Spring 2024"),
-                            card_body(
-                                fluidRow(
-                                    p("", style = "padding-top:10px;"),
-                                    style = "margin: 100px;",
-                                    
-                                    column(
-                                        width = 4,
-                                        
-                                        img(
-                                            src = "afomiya.jpeg",
-                                            align = "center",
-                                            height = "350px",
-                                            width = "375px"
-                                        ),
-                                        h1(strong("Afomiya Alemayehu"), align = "center"),
-                                        h1(strong("Virginia Tech"), align = "center"),
-                                        br(),
-                                        br(),
-                                        br(),
-                                        
-                                        img(
-                                            src = "baylor.jpeg",
-                                            align = "center",
-                                            height = "350px",
-                                            width = "375px"
-                                        ),
-                                        h1(strong("Baylor Lin"), align = "center"),
-                                        h1(strong("Virginia Tech"), align = "center")
-                                    ),
-                                    column(width = 3),
-                                    column(
-                                        width = 4,
-                                        
-                                        img(
-                                            src = 'marcos.jpeg',
-                                            align = "center",
-                                            height = "350px",
-                                            width = "375px"
-                                        ),
-                                        h1(strong("Marcos Fassio-Bazzi"), align = "center"),
-                                        h1(strong("Virginia Tech"), align = "center"),
-                                        br(),
-                                        br(),
-                                        br(),
-                                        img(
-                                            #src = "shashank.jpg",
-                                            align = "center",
-                                            height = "350px",
-                                            width = "375px"
-                                        ),
-                                        h1(strong("Phat Nguyen"), align = "center"),
-                                        h1(strong("Virginia Tech"), align = "center")
-                                    )
-                                )
+                        layout_column_wrap(
+                            width = NULL, 
+                            fill = FALSE,
+                            style = css(grid_template_columns = "1fr 1fr 1fr 1fr",
+                                        object.fit = "contain"),
+                            card_image(
+                                file = "www/afomiya.jpg",
+                                border_radius = "all",
+                                class = css(aspect_ratio = 5/7)
+                            ),
+                            p(
+                                h1("Afomiya Alemayehu"),
+                                h6("Virginia Tech Computational Modeling & Data Analytics")
+                            ),
+                            card_image(
+                                file = "www/marcos.jpg",
+                                border_radius = "all",
+                                class = css(aspect_ratio = 5/7)
+                            ),
+                            p(
+                                h1("Marcos Fassio Bazzi"),
+                                h6("Virginia Tech Computational Modeling & Data Analytics")
+                            ),
+                            card_image(
+                                file = "www/baylor.jpg",
+                                border_radius = "all",
+                                class = css(aspect_ratio = 5/7)
+                            ),
+                            p(
+                                h1("Baylor Lin"),
+                                h6("Virginia Tech Computational Modeling & Data Analytics")
+                            ),
+                            card_image(
+                                file = "www/default.jpg",
+                                border_radius = "all",
+                                class = css(aspect_ratio = 5/7)
+                            ),
+                            p(
+                                h1("Phat Nguyen"),
+                                h6("Virginia Tech Computational Modeling & Data Analytics")
                             )
-                        ),
+                        )
                     )
                 )
             )
