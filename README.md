@@ -61,6 +61,7 @@ The current dashboard doesn't have mobile compatibility. This could be worth a t
 # References
 
 * [Mastering Shiny](https://mastering-shiny.org/)
+* [Shiny Docs](https://shiny.posit.co/r/reference/shiny/latest/)
 * [bslib Docs](https://rstudio.github.io/bslib/)
 * [Leaflet Docs](https://rstudio.github.io/leaflet/)
 * [Plotly Docs](https://plotly.com/r/)
