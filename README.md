@@ -46,7 +46,7 @@ The education tab is the only tab within this dashboard that *really* allows you
 
 We ask you to standardize all your plots to Plotly. It's not a hard library to use, and there's even a `ggplotly()` function that mostly does a good job creating Plotly plots from ggplot objects. The majority of plots on the dashboard are still ggplot objects but we'd rather use Plotly for the extra interactivity.
 
-## All Geographic Data Shold Come From `geo_data.rds`
+## All Geographic Data Should Come From `geo_data.rds`
 
 The current dashboard has a bad habit of recycling geographic data. We ask you to use the data from `data/geo_data.rds` to create your Shapefile objects (datasets that are compatible with Leaflet) and Leaflet maps.
 
