@@ -289,7 +289,6 @@ server <- function(input, output, session) {
     })
     
     # reactive that gets all necessary info for lollipop plot
-    # TODO create legend
     st_lollipop <- reactive({
         req(input$edu_races)
         df <- st_data %>%
