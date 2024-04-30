@@ -9,13 +9,13 @@ library(plotly)
 library(tidyverse)
 library(htmltools)
 
-source("code/sodem.r")
-source("code/education.r")
-source("code/economics.r")
-source("code/media.r")
-source("code/politics_justice.r")
-source("code/people_values.r")
-source("code/feedback.r")
+source("code/sodem.R")
+source("code/education.R")
+source("code/economics.R")
+source("code/media.R")
+source("code/politics_justice.R")
+source("code/people_values.R")
+source("code/feedback.R")
 
 ui <- page_navbar(
     title = img(src="logo_WIDE.png"),

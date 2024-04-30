@@ -11,13 +11,13 @@ library(ggrepel)
 library(ggExtra)
 library(htmlwidgets)
 
-source("code/sodem.r")
-source("code/education.r")
-source("code/economics.r")
-source("code/media.r")
-source("code/politics_justice.r")
-source("code/people_values.r")
-source("code/feedback.r")
+source("code/sodem.R")
+source("code/education.R")
+source("code/economics.R")
+source("code/media.R")
+source("code/politics_justice.R")
+source("code/people_values.R")
+source("code/feedback.R")
 
 server <- function(input, output, session) {
     ### --- SOCIODEMOGRAPHICS -------------------------------------------------------------
