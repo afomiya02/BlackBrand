@@ -459,7 +459,7 @@ server <- function(input, output, session) {
             geom_line(data = va_black, size = 1.3, aes(linetype = Location)) +
             geom_line(data = hr_total, size = 1.3, aes(linetype = Location)) +
             geom_line(data = hr_black, size = 1.3, aes(linetype = Location)) +
-            scale_color_manual(name = "Population", values = c("red", "orange")) + # placeholder
+            scale_color_manual(name = "Population", values = c("#A9A9A9", "#8B0000")) + # placeholder
             scale_linetype_manual(name = "Location", values = c("dashed", "solid")) +
             scale_x_continuous(breaks = unique(income_years$Year), 
                                labels = unique(as.integer(income_years$Year))) +
