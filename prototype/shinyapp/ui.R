@@ -1206,18 +1206,18 @@ ui <- page_navbar(
                         )
                     ),
                     # TODO fix this slider -- this shit ain't workin
-                    sliderInput(
-                        inputId = "select_sent_year",
-                        label = "Select Year:",
-                        value = 2022,
-                        min = 2010,
-                        max = 2022,
-                        round = TRUE,
-                        step = 1,
-                        sep = "",
-                        width = "100%",
-                        animate = animationOptions(interval = 2400)
-                    ),
+                    # sliderInput(
+                    #     inputId = "select_sent_year",
+                    #     label = "Select Year:",
+                    #     value = 2022,
+                    #     min = 2010,
+                    #     max = 2022,
+                    #     round = TRUE,
+                    #     step = 1,
+                    #     sep = "",
+                    #     width = "100%",
+                    #     animate = animationOptions(interval = 2400)
+                    # ),
                 )
             ),
             nav_panel(
