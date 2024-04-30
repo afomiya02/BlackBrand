@@ -216,13 +216,11 @@ ui <- page_navbar(
                         sidebar = sidebar(
                             width = "25%",
                             title = "Virginia Tech Data Science for the Public Good",
-                            includeMarkdown("markdown/meet_the_team/cmda.md")
+                            includeMarkdown("markdown/meet_the_team/meet_the_team.md")
                         ),
                         layout_column_wrap(
-                            width = NULL, 
+                            width = 1/4,
                             fill = FALSE,
-                            style = css(grid_template_columns = "1fr 1fr 1fr 1fr",
-                                        object.fit = "contain"),
                             card_image(
                                 file = "www/MalloryTuttle.jpg",
                                 border_radius = "all",
@@ -302,7 +300,7 @@ ui <- page_navbar(
                             p(
                                 h1("Kwabe Boateng"),
                                 h3("Undergraduate Intern"),
-                                h6("Virginia Tech Computational Modeling & Data Analytics")
+                                h6("Virginia State University College of Engineering and Technology")
                             )
                         )
                     )
@@ -313,13 +311,11 @@ ui <- page_navbar(
                         sidebar = sidebar(
                             width = "25%",
                             title = "Virginia Tech CMDA Capstone Fall 2021",
-                            includeMarkdown("markdown/meet_the_team/cmda.md")
+                            includeMarkdown("markdown/meet_the_team/meet_the_team.md")
                         ),
                         layout_column_wrap(
-                            width = NULL, 
+                            width = 1/4, 
                             fill = FALSE,
-                            style = css(grid_template_columns = "1fr 1fr 1fr 1fr",
-                                        object.fit = "contain"),
                             card_image(
                                 file = "www/sana.jpeg",
                                 border_radius = "all",
@@ -365,13 +361,11 @@ ui <- page_navbar(
                         sidebar = sidebar(
                             width = "25%",
                             title = "Virginia Tech CMDA Capstone Spring 2022",
-                            includeMarkdown("markdown/meet_the_team/cmda.md")
+                            includeMarkdown("markdown/meet_the_team/meet_the_team.md")
                         ),
                         layout_column_wrap(
-                            width = NULL, 
+                            width = 1/4, 
                             fill = FALSE,
-                            style = css(grid_template_columns = "1fr 1fr 1fr 1fr",
-                                        object.fit = "contain"),
                             card_image(
                                 file = "www/default.jpg",
                                 border_radius = "all",
@@ -408,13 +402,11 @@ ui <- page_navbar(
                         sidebar = sidebar(
                             width = "25%",
                             title = "Virginia Tech CMDA Capstone Fall 2022",
-                            includeMarkdown("markdown/meet_the_team/cmda.md")
+                            includeMarkdown("markdown/meet_the_team/meet_the_team.md")
                         ),
                         layout_column_wrap(
-                            width = NULL, 
+                            width = 1/4, 
                             fill = FALSE,
-                            style = css(grid_template_columns = "1fr 1fr 1fr 1fr",
-                                        object.fit = "contain"),
                             card_image(
                                 file = "www/Esha.jpg",
                                 border_radius = "all",
@@ -460,13 +452,11 @@ ui <- page_navbar(
                         sidebar = sidebar(
                             width = "25%",
                             title = "Virginia Tech CMDA Capstone Spring 2023",
-                            includeMarkdown("markdown/meet_the_team/cmda.md")
+                            includeMarkdown("markdown/meet_the_team/meet_the_team.md")
                         ),
                         layout_column_wrap(
-                            width = NULL, 
+                            width = 1/4, 
                             fill = FALSE,
-                            style = css(grid_template_columns = "1fr 1fr 1fr 1fr",
-                                        object.fit = "contain"),
                             card_image(
                                 file = "www/john.jpg",
                                 border_radius = "all",
@@ -512,13 +502,11 @@ ui <- page_navbar(
                         sidebar = sidebar(
                             width = "25%",
                             title = "Virginia Tech CMDA Capstone Spring 2024",
-                            includeMarkdown("markdown/meet_the_team/cmda.md")
+                            includeMarkdown("markdown/meet_the_team/meet_the_team.md")
                         ),
                         layout_column_wrap(
-                            width = NULL, 
+                            width = 1/4, 
                             fill = FALSE,
-                            style = css(grid_template_columns = "1fr 1fr 1fr 1fr",
-                                        object.fit = "contain"),
                             card_image(
                                 file = "www/afomiya.jpg",
                                 border_radius = "all",
@@ -547,7 +535,7 @@ ui <- page_navbar(
                                 h6("Virginia Tech Computational Modeling & Data Analytics")
                             ),
                             card_image(
-                                file = "www/default.jpg",
+                                file = "www/phat.png",
                                 border_radius = "all",
                                 class = css(aspect_ratio = 5/7)
                             ),
