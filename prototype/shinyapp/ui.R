@@ -8,6 +8,10 @@ library(RColorBrewer)
 library(plotly)
 library(tidyverse)
 library(htmltools)
+library(highcharter)
+library(sf)
+library(geojsonio)
+library(tigris)
 
 source("code/sodem.R")
 source("code/education.R")
@@ -1408,7 +1412,7 @@ ui <- page_navbar(
                         class = "scrollable-sidebar",
                         width = validateCssUnit("25%"),
                         includeMarkdown("markdown/people_values/family_dynamic.Rmd"),
-                        withSpinner(textOutput("description_famtext"))
+                        textOutput("description_famtext")
                     ),
                     layout_column_wrap(
                         width = 1,
