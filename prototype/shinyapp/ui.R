@@ -22,7 +22,7 @@ source("code/people_values.R")
 source("code/feedback.R")
 
 ui <- page_navbar(
-    title = img(src="logo_WIDE.png"),
+    title = tags$img(src="logo_WIDE.png"),
     selected = "overview",
     theme = bs_theme(preset = "journal"),
     useShinyjs(),
@@ -92,7 +92,7 @@ ui <- page_navbar(
                         card(
                             card_header(class = "bg-red", "American Community Survey"),
                             layout_sidebar(
-                                sidebar = sidebar(img(src = 'acs.png')),
+                                sidebar = sidebar(tags$img(src = 'acs.png')),
                                 includeMarkdown("markdown/data_methodology/data1.md")
                             ),
                         ),
@@ -101,7 +101,7 @@ ui <- page_navbar(
                             layout_sidebar(
                                 fillable = TRUE,
                                 open = FALSE,
-                                sidebar = sidebar(img(src = "doe.png")),
+                                sidebar = sidebar(tags$img(src = "doe.png")),
                                 includeMarkdown("markdown/data_methodology/data5.md")
                             )
                         ),
@@ -110,7 +110,7 @@ ui <- page_navbar(
                             layout_sidebar(
                                 fillable = TRUE,
                                 open = FALSE,
-                                sidebar = sidebar(img(src = 'broadbandnow.png')),
+                                sidebar = sidebar(tags$img(src = 'broadbandnow.png')),
                                 includeMarkdown("markdown/data_methodology/data2.md")
                             )
                         ),
@@ -119,7 +119,7 @@ ui <- page_navbar(
                             layout_sidebar(
                                 fillable = TRUE,
                                 open = FALSE,
-                                sidebar = sidebar(img(src = "zillow.svg")),
+                                sidebar = sidebar(tags$img(src = "zillow.svg")),
                                 includeMarkdown("markdown/data_methodology/data3.md")
                             ),
                         ),
@@ -128,7 +128,7 @@ ui <- page_navbar(
                             layout_sidebar(
                                 fillable = TRUE,
                                 open = FALSE,
-                                sidebar = sidebar(img(src = "kidscount_datacenter.png")),
+                                sidebar = sidebar(tags$img(src = "kidscount_datacenter.png")),
                                 includeMarkdown("markdown/data_methodology/data4.md")
                             )
                         ),
@@ -137,7 +137,7 @@ ui <- page_navbar(
                             layout_sidebar(
                                 fillable = TRUE,
                                 open = FALSE,
-                                sidebar = sidebar(img(src = "oecd.png")),
+                                sidebar = sidebar(tags$img(src = "oecd.png")),
                                 includeMarkdown("markdown/data_methodology/data6.md")
                             )
                         ),
@@ -146,7 +146,7 @@ ui <- page_navbar(
                             layout_sidebar(
                                 fillable = TRUE,
                                 open = FALSE,
-                                sidebar = sidebar(img(src = "googleMapLogo.png")),
+                                sidebar = sidebar(tags$img(src = "googleMapLogo.png")),
                                 includeMarkdown("markdown/data_methodology/data7.md")
                             )
                         ),
@@ -155,7 +155,7 @@ ui <- page_navbar(
                             layout_sidebar(
                                 fillable = TRUE,
                                 open = FALSE,
-                                sidebar = sidebar(img(src = "censusreporter.png")),
+                                sidebar = sidebar(tags$img(src = "censusreporter.png")),
                                 includeMarkdown("markdown/data_methodology/data8.md")
                             )
                         )
@@ -171,7 +171,7 @@ ui <- page_navbar(
                             width = 4,
                             strong("Education: "),
                             includeMarkdown("markdown/data_methodology/methodology1.md"),
-                            img(src = 'education.png', align = "center",
+                            tags$img(src = 'education.png', align = "center",
                                 height = "300px", width = "400px"),
                             p(tags$small("[1] Anna J. Egalitea, A.J. , Kisida B., & Winters, M.A. 
                                          (2015), Economics of Education Review, 45, 44-52.")),
@@ -195,7 +195,7 @@ ui <- page_navbar(
                             strong("Economics: "),
                             includeMarkdown("markdown/data_methodology/methodology5.md"),
                             p(),
-                            img(src = 'economic.png', align = "center", 
+                            tags$img(src = 'economic.png', align = "center", 
                                 height = "300px", width = "400px"),
                             p(),
                             p(),
@@ -225,81 +225,61 @@ ui <- page_navbar(
                         layout_column_wrap(
                             width = 1/4,
                             fill = FALSE,
-                            card_image(
-                                file = "www/MalloryTuttle.jpg",
-                                border_radius = "all",
-                                class = css(aspect_ratio = 5/7)
-                            ),
+                            tags$img(src = "MalloryTuttle.jpg",
+                                     style = css(aspect_ratio = 5/7)),
                             p(
                                 h1("Mallory Tuttle"),
                                 h3("Stakeholder"),
                                 h6("Associate Director: Virginia Tech Hampton Roads Centers")
                             ),
-                            card_image(
-                                file = "www/fellow-seth.png",
-                                border_radius = "all",
-                                class = css(aspect_ratio = 5/7)
-                            ),
+                            tags$img(src = "fellow-seth.png",
+                                     style = css(aspect_ratio = 5/7)),
                             p(
                                 h1("Avi Seth"),
                                 h3("Graduate Fellow"),
                                 h6("Virginia Tech Computer Science")
                             ),
-                            card_image(
-                                file = "www/Dr_Holmes.png",
-                                border_radius = "all",
-                                class = css(aspect_ratio = 5/7)
-                            ),
+                            tags$img(src = "Dr_Holmes.png",
+                                     style = css(aspect_ratio = 5/7)),
                             p(
                                 h1("Dr. Chanita Holmes"),
                                 h3("Faculty Advisor"),
                                 h6("Virginia Tech Department of Agriculture and Applied Economics")
                             ),
-                            card_image(
-                                file = "www/Dr_Bradburn.jpg",
-                                border_radius = "all",
-                                class = css(aspect_ratio = 5/7)
-                            ),
+                            tags$img(src = "Dr_Bradburn.jpg",
+                                     style = css(aspect_ratio = 5/7)),
                             p(
                                 h1("Dr. Isabel Bradburn"),
                                 h3("Faculty Advisor"),
                                 h6("Virginia Tech Department of 
                                    Human Development and Family Science")
                             ),
-                            card_image(
-                                file = "www/BurkholderHeadshot.png",
-                                border_radius = "all",
-                                class = css(aspect_ratio = 5/7)
+                            tags$img(src = "BurkholderHeadshot.png",
+                                     style = css(aspect_ratio = 5/7)
                             ),
                             p(
                                 h1("Matthew Burkholder"),
                                 h3("Undergraduate Intern"),
                                 h6("Virginia Tech Philosophy, Politics & Economics")
                             ),
-                            card_image(
-                                file = "www/Mukora_copy.png",
-                                border_radius = "all",
-                                class = css(aspect_ratio = 5/7)
+                            tags$img(src = "Mukora_copy.png",
+                                     style = css(aspect_ratio = 5/7)
                             ),
                             p(
                                 h1("Victor Mukora"),
                                 h3("Undergraduate Intern"),
                                 h6("Virginia Tech Computational Modeling & Data Analytics")
                             ),
-                            card_image(
-                                file = "www/Christina_Prisbe_Headshot.jpg",
-                                border_radius = "all",
-                                class = css(aspect_ratio = 5/7)
+                            tags$img(src = "Christina_Prisbe_Headshot.jpg",
+                                     style = css(aspect_ratio = 5/7)
                             ),
                             p(
                                 h1("Christina Prisbe"),
                                 h3("Undergraduate Intern"),
                                 h6("Virginia Tech Computational Modeling & Data Analytics")
                             ),
-                            card_image(
-                                file = "www/kwabe.png",
-                                border_radius = "all",
-                                class = css(aspect_ratio = 5/7)
+                            tags$img(src = "kwabe.png",
+                                     style = css(aspect_ratio = 5/7)
                             ),
                             p(
                                 h1("Kwabe Boateng"),
@@ -320,37 +300,29 @@ ui <- page_navbar(
                         layout_column_wrap(
                             width = 1/4, 
                             fill = FALSE,
-                            card_image(
-                                file = "www/sana.jpeg",
-                                border_radius = "all",
-                                class = css(aspect_ratio = 5/7)
+                            tags$img(src = "sana.jpeg",
+                                     style = css(aspect_ratio = 5/7)
                             ),
                             p(
                                 h1("Sana Abbas"),
                                 h6("Virginia Tech Computational Modeling & Data Analytics")
                             ),
-                            card_image(
-                                file = "www/talib.jpeg",
-                                border_radius = "all",
-                                class = css(aspect_ratio = 5/7)
+                            tags$img(src = "talib.jpeg",
+                                     style = css(aspect_ratio = 5/7)
                             ),
                             p(
                                 h1("Talib Grant"),
                                 h6("Virginia Tech Computational Modeling & Data Analytics")
                             ),
-                            card_image(
-                                file = "www/caleb.jpeg",
-                                border_radius = "all",
-                                class = css(aspect_ratio = 5/7)
+                            tags$img(src = "caleb.jpeg",
+                                     style = css(aspect_ratio = 5/7)
                             ),
                             p(
                                 h1("Caleb Slaughter"),
                                 h6("Virginia Tech Computational Modeling & Data Analytics")
                             ),
-                            card_image(
-                                file = "www/eva.jpeg",
-                                border_radius = "all",
-                                class = css(aspect_ratio = 5/7)
+                            tags$img(src = "eva.jpeg",
+                                     style = css(aspect_ratio = 5/7)
                             ),
                             p(
                                 h1("Eva Whaley"),
@@ -370,28 +342,22 @@ ui <- page_navbar(
                         layout_column_wrap(
                             width = 1/4, 
                             fill = FALSE,
-                            card_image(
-                                file = "www/default.jpg",
-                                border_radius = "all",
-                                class = css(aspect_ratio = 5/7)
+                            tags$img(src = "default.jpg",
+                                     style = css(aspect_ratio = 5/7)
                             ),
                             p(
                                 h1("Emily Mahr"),
                                 h6("Virginia Tech Computational Modeling & Data Analytics")
                             ),
-                            card_image(
-                                file = "www/default.jpg",
-                                border_radius = "all",
-                                class = css(aspect_ratio = 5/7)
+                            tags$img(src = "default.jpg",
+                                     style = css(aspect_ratio = 5/7)
                             ),
                             p(
                                 h1("Allison Woods"),
                                 h6("Virginia Tech Computational Modeling & Data Analytics")
                             ),
-                            card_image(
-                                file = "www/default.jpg",
-                                border_radius = "all",
-                                class = css(aspect_ratio = 5/7)
+                            tags$img(src = "default.jpg",
+                                     style = css(aspect_ratio = 5/7)
                             ),
                             p(
                                 h1("Zhenming Wang"),
@@ -411,37 +377,29 @@ ui <- page_navbar(
                         layout_column_wrap(
                             width = 1/4, 
                             fill = FALSE,
-                            card_image(
-                                file = "www/Esha.jpg",
-                                border_radius = "all",
-                                class = css(aspect_ratio = 5/7)
+                            tags$img(src = "Esha.jpg",
+                                     style = css(aspect_ratio = 5/7)
                             ),
                             p(
                                 h1("Esha Islam"),
                                 h6("Virginia Tech Computational Modeling & Data Analytics")
                             ),
-                            card_image(
-                                file = "www/sania.jpg",
-                                border_radius = "all",
-                                class = css(aspect_ratio = 5/7)
+                            tags$img(src = "sania.jpg",
+                                     style = css(aspect_ratio = 5/7)
                             ),
                             p(
                                 h1("Sania Mahmood"),
                                 h6("Virginia Tech Computational Modeling & Data Analytics")
                             ),
-                            card_image(
-                                file = "www/crystal.jpg",
-                                border_radius = "all",
-                                class = css(aspect_ratio = 5/7)
+                            tags$img(src = "crystal.jpg",
+                                     style = css(aspect_ratio = 5/7)
                             ),
                             p(
                                 h1("Crystal Lee"),
                                 h6("Virginia Tech Computational Modeling & Data Analytics")
                             ),
-                            card_image(
-                                file = "www/abigail.jpg",
-                                border_radius = "all",
-                                class = css(aspect_ratio = 5/7)
+                            tags$img(src = "abigail.jpg",
+                                     style = css(aspect_ratio = 5/7)
                             ),
                             p(
                                 h1("Abigail Simpkins"),
@@ -461,37 +419,29 @@ ui <- page_navbar(
                         layout_column_wrap(
                             width = 1/4, 
                             fill = FALSE,
-                            card_image(
-                                file = "www/john.jpg",
-                                border_radius = "all",
-                                class = css(aspect_ratio = 5/7)
+                            tags$img(src = "john.jpg",
+                                     style = css(aspect_ratio = 5/7)
                             ),
                             p(
                                 h1("John Malla"),
                                 h6("Virginia Tech Computational Modeling & Data Analytics")
                             ),
-                            card_image(
-                                file = "www/hyesoo.jpg",
-                                border_radius = "all",
-                                class = css(aspect_ratio = 5/7)
+                            tags$img(src = "hyesoo.jpg",
+                                     style = css(aspect_ratio = 5/7)
                             ),
                             p(
                                 h1("Hyesoo Kwon"),
                                 h6("Virginia Tech Computational Modeling & Data Analytics")
                             ),
-                            card_image(
-                                file = "www/meghna.jpg",
-                                border_radius = "all",
-                                class = css(aspect_ratio = 5/7)
+                            tags$img(src = "meghna.png",
+                                     style = css(aspect_ratio = 5/7)
                             ),
                             p(
                                 h1("Meghna Banerjee"),
                                 h6("Virginia Tech Computational Modeling & Data Analytics")
                             ),
-                            card_image(
-                                file = "www/shashank.jpg",
-                                border_radius = "all",
-                                class = css(aspect_ratio = 5/7)
+                            tags$img(src = "shashank.jpg",
+                                     style = css(aspect_ratio = 5/7)
                             ),
                             p(
                                 h1("Shashank Gupta"),
@@ -511,37 +461,29 @@ ui <- page_navbar(
                         layout_column_wrap(
                             width = 1/4, 
                             fill = FALSE,
-                            card_image(
-                                file = "www/afomiya.jpg",
-                                border_radius = "all",
-                                class = css(aspect_ratio = 5/7)
+                            tags$img(src = "afomiya.jpg",
+                                     style = css(aspect_ratio = 5/7)
                             ),
                             p(
                                 h1("Afomiya Alemayehu"),
                                 h6("Virginia Tech Computational Modeling & Data Analytics")
                             ),
-                            card_image(
-                                file = "www/marcos.jpg",
-                                border_radius = "all",
-                                class = css(aspect_ratio = 5/7)
+                            tags$img(src = "marcos.jpg",
+                                     style = css(aspect_ratio = 5/7)
                             ),
                             p(
                                 h1("Marcos Fassio Bazzi"),
                                 h6("Virginia Tech Computational Modeling & Data Analytics")
                             ),
-                            card_image(
-                                file = "www/baylor.jpg",
-                                border_radius = "all",
-                                class = css(aspect_ratio = 5/7)
+                            tags$img(src = "baylor.jpg",
+                                     style = css(aspect_ratio = 5/7)
                             ),
                             p(
                                 h1("Baylor Lin"),
                                 h6("Virginia Tech Computational Modeling & Data Analytics")
                             ),
-                            card_image(
-                                file = "www/phat.png",
-                                border_radius = "all",
-                                class = css(aspect_ratio = 5/7)
+                            tags$img(src = "phat.png",
+                                     style = css(aspect_ratio = 5/7)
                             ),
                             p(
                                 h1("Phat Nguyen"),
@@ -856,7 +798,7 @@ ui <- page_navbar(
                                 fluidRow(
                                     width = 12,
                                     height = 550,
-                                    img(
+                                    tags$img(
                                         src = "updated_unemployment_plot.gif",
                                         height = "800",
                                         width = "1100"
@@ -931,7 +873,7 @@ ui <- page_navbar(
                                 fluidRow(
                                     width = 12,
                                     height = 550,
-                                    img(
+                                    tags$img(
                                         src = "poverty.gif",
                                         height = "800",
                                         width = "1100"
