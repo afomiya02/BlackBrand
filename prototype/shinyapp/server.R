@@ -423,7 +423,7 @@ server <- function(input, output, session) {
                 label = data$loc_name,
                 popup = paste(
                     "<h3>", data$loc_name,"</h3>",
-                    "<b>", input$grad_race, "Student Population:</b>", "TODO please get population",
+                    # "<b>", input$grad_race, "Student Population:</b>", "TODO please get population",
                     "<br><b>", input$grad_race, "Graduation Rate (%):</b>", data$graduation_rate
                 )
             ) %>%
